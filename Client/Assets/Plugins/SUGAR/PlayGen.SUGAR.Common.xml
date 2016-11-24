@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlayGen.SUGAR.Common</name>
+    </assembly>
+    <members>
+        <member name="T:PlayGen.SUGAR.Common.Shared.ActorType">
+            <summary>
+            Enum for selecting the target type of actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ActorType.Undefined">
+            <summary>
+            Intended for either Users or Groups.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ActorType.User">
+            <summary>
+            Intended for just Users.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ActorType.Group">
+            <summary>
+            Intended for just Groups.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.ComparisonType">
+            <summary>
+            Enum for selecting target comparison between current value and target value.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.Equals">
+            <summary>
+            Current and target are equal in value.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.NotEqual">
+            <summary>
+            Current and target are not equal in value.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.Greater">
+            <summary>
+            Current is greater in value than the target.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.GreaterOrEqual">
+            <summary>
+            Current is greater than or equal to the value of the target.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.Less">
+            <summary>
+            Current is less than the value of the target.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.ComparisonType.LessOrEqual">
+            <summary>
+            Current is less than or equal to the value of the target.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.CriteriaQueryType">
+            <summary>
+            Enum for selecting what values will be used to query if criteria is met.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.CriteriaQueryType.Any">
+            <summary>
+            Check if any singular piece of GameData matches the criteria.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.CriteriaQueryType.Sum">
+            <summary>
+            Check if a sum of all GameData for that key matches the crteria (Long and Float only).
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.CriteriaQueryType.Latest">
+            <summary>
+            Check if the most recent piece of GameData matches the criteria.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.CriteriaScope">
+            <summary>
+            Enum for selecting if GameData is to checked against just the actor in question or other actors relating to them (i.e. group members)
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.CriteriaScope.Actor">
+            <summary>
+            Test the criteria against the specified actor
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.CriteriaScope.RelatedActors">
+            <summary>
+            Test the criteria against the specified actors relations
+            ie. a users friends, or a groups members
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.EvaluationCriteria">
+            <summary>
+            Encapsulates requirements for completing an achievement or skill.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.Key">
+            <summary>
+            The key which will be queried against to check if criteria is met.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.DataType">
+            <summary>
+            GameDataType of the key which is being queried.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.CriteriaQueryType">
+            <summary>
+            Which stored GameData will be queried.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.ComparisonType">
+            <summary>
+            How the target value and the actual value will be compared.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.Scope">
+            <summary>
+            Whether the criteria will be checked against the actor or related actors (i.e. group members, user friends).
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.Value">
+            <summary>
+            The value which will compared against in order to see if the criteria has been met.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.EvaluationType">
+            <summary>
+            Enum for selecting the category of evaluation being stored or looked for.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.EvaluationType.Achievement">
+            <summary>
+            Achievement evaluation type
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.EvaluationType.Skill">
+            <summary>
+            Skill evaluation type
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.GameDataType">
+            <summary>
+            Enum for selecting the type of data being stored or looked for.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.String">
+            <summary>
+            A non-numeric set of characters.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Long">
+            <summary>
+            Numeric value with no decimal places.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Float">
+            <summary>
+            Numeric value with decimal places.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Boolean">
+            <summary>
+            True or false.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType">
+            <summary>
+            Enum for selecting subsection of users for current standings of a leaderboard.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType.Top">
+            <summary>
+            Provides standings based off the global ranking of the leaderboard.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType.Near">
+            <summary>
+            Provides standings in relation to the actorId provided. 
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType.Friends">
+            <summary>
+            Provides only the standings of those who are friends of the actorId provided.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType.GroupMembers">
+            <summary>
+            Provides only the standings of those who are members of the actorId provided.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.LeaderboardType">
+            <summary>
+            Enum for selecting the type and sorting order of the leaderboard being created.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Highest">
+            <summary>
+            Sort by the highest GameData values for a key. Only the highest is taken for each Actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Lowest">
+            <summary>
+            Sort by the lowest GameData values for a key. Only the lowest is taken for each Actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Cumulative">
+            <summary>
+            Sort by the highest sum of GameData values for a key for an actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Count">
+            <summary>
+            Sort by the highest count of a GameData key for an actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Earliest">
+            <summary>
+            Sort by the earliest occurence of a GameData key. Only the earliest 'DateCreation' is taken for each Actor.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.LeaderboardType.Latest">
+            <summary>
+            Sort by the most recent occurence of a GameData key. Only the most recent 'DateModified' is taken for each Actor.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.Reward">
+            <summary>
+            Encapsulates the reward given for completing an achievement or skill.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.Reward.Key">
+            <summary>
+            The key which will be stored in GameData.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.Reward.DataType">
+            <summary>
+            GameDataType of the value for this GameData.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Common.Shared.Reward.Value">
+            <summary>
+            The value of the GameData.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -244,3 +244,7 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 Unity/Library/
+Unity/Temp/
+Unity/test_Data/Mono/etc/mono/1.0/machine.config
+Unity/test_Data/
+*.exe
