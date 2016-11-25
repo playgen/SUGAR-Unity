@@ -12,7 +12,7 @@ namespace SUGAR.Unity
 
         void Start()
         {
-            _achievementClient = SUGARManager.SugarClient.Achievement;
+            _achievementClient = SUGAR.Client.Achievement;
 
 
         }

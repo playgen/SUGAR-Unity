@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Contracts.Shared;
-using SUGAR.Unity;
-
 
 namespace SUGAR.Unity
 {
@@ -11,14 +8,20 @@ namespace SUGAR.Unity
     {
         [SerializeField] private string _baseAddress;
 
-        public static ActorResponse CurrentUser { get; set; }
-
-        public static SUGARClient SugarClient;
+		[SerializeField] private int _gameId;
 
         void Awake()
         {
-            SugarClient = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
-            DontDestroyOnLoad(this);
+			if (SUGAR.Register(this))
+			{
+				DontDestroyOnLoad(this);
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
+			SUGAR.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
+			SUGAR.GameId = _gameId;
         }
     }
 }
