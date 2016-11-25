@@ -3,15 +3,15 @@ using PlayGen.SUGAR.Client;
 
 namespace SUGAR.Unity
 {
-    [RequireComponent(typeof(AccountUnityClient))]
-    public class SUGARUnityManager : MonoBehaviour
-    {
-        [SerializeField] private string _baseAddress;
+	[RequireComponent(typeof(AccountUnityClient))]
+	public class SUGARUnityManager : MonoBehaviour
+	{
+		[SerializeField] private string _baseAddress;
 
 		[SerializeField] private int _gameId;
 
-        void Awake()
-        {
+		void Awake()
+		{
 			if (SUGARManager.Register(this))
 			{
 				DontDestroyOnLoad(this);
@@ -22,6 +22,6 @@ namespace SUGAR.Unity
 			}
 			SUGARManager.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
 			SUGARManager.GameId = _gameId;
-        }
-    }
+		}
+	}
 }

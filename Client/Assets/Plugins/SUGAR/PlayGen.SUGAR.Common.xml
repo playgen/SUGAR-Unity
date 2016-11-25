@@ -107,7 +107,7 @@
         </member>
         <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.DataType">
             <summary>
-            GameDataType of the key which is being queried.
+            SaveDataType of the key which is being queried.
             </summary>
         </member>
         <member name="P:PlayGen.SUGAR.Common.Shared.EvaluationCriteria.CriteriaQueryType">
@@ -143,31 +143,6 @@
         <member name="F:PlayGen.SUGAR.Common.Shared.EvaluationType.Skill">
             <summary>
             Skill evaluation type
-            </summary>
-        </member>
-        <member name="T:PlayGen.SUGAR.Common.Shared.GameDataType">
-            <summary>
-            Enum for selecting the type of data being stored or looked for.
-            </summary>
-        </member>
-        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.String">
-            <summary>
-            A non-numeric set of characters.
-            </summary>
-        </member>
-        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Long">
-            <summary>
-            Numeric value with no decimal places.
-            </summary>
-        </member>
-        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Float">
-            <summary>
-            Numeric value with decimal places.
-            </summary>
-        </member>
-        <member name="F:PlayGen.SUGAR.Common.Shared.GameDataType.Boolean">
-            <summary>
-            True or false.
             </summary>
         </member>
         <member name="T:PlayGen.SUGAR.Common.Shared.LeaderboardFilterType">
@@ -242,12 +217,37 @@
         </member>
         <member name="P:PlayGen.SUGAR.Common.Shared.Reward.DataType">
             <summary>
-            GameDataType of the value for this GameData.
+            SaveDataType of the value for this GameData.
             </summary>
         </member>
         <member name="P:PlayGen.SUGAR.Common.Shared.Reward.Value">
             <summary>
             The value of the GameData.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Common.Shared.SaveDataType">
+            <summary>
+            Enum for selecting the type of data being stored or looked for.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.SaveDataType.String">
+            <summary>
+            A non-numeric set of characters.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.SaveDataType.Long">
+            <summary>
+            Numeric value with no decimal places.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.SaveDataType.Float">
+            <summary>
+            Numeric value with decimal places.
+            </summary>
+        </member>
+        <member name="F:PlayGen.SUGAR.Common.Shared.SaveDataType.Boolean">
+            <summary>
+            True or false.
             </summary>
         </member>
     </members>

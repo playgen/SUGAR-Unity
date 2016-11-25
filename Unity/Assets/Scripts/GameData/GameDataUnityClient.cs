@@ -1,21 +1,27 @@
 ﻿using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
+using UnityEngine;
 
 namespace SUGAR.Unity
 {
 	public class GameDataUnityClient
 	{
-		public void SendGameData(string key, string value, GameDataType dataType)
+		public void SendGameData(string key, string value, SaveDataType dataType)
 		{
-			GameDataRequest data = new GameDataRequest
+			bool success = false;
+			if (SUGARManager.CurrentUser != null)
 			{
-				ActorId = SUGARManager.CurrentUser.Id,
-				GameId = SUGARManager.GameId,
-				Key = key,
-				Value = value,
-				GameDataType = dataType
-			};
-			SUGARManager.Client.GameData.Add(data);
+				SaveDataRequest data = new SaveDataRequest
+				{
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = SUGARManager.GameId,
+					Key = key,
+					Value = value,
+					SaveDataType = dataType
+				};
+				success = SUGARManager.Client.GameData.Add(data) != null;
+			}
+			Debug.Log("GameData Sending Success: " + success);
 		}
 	}
 }
