@@ -8,9 +8,6 @@ namespace SUGAR.Unity
 {
     public class AccountUnityClient : MonoBehaviour
     {
-
-        [SerializeField] private int _gameId;
-
         [SerializeField] private LoginUserInterface _loginUserInterface;
 
         [SerializeField] private bool _allowAutoLogin;
@@ -23,7 +20,7 @@ namespace SUGAR.Unity
 
         void Start()
         {
-            _accountClient = SUGARManager.SugarClient.Account;
+            _accountClient = SUGAR.Client.Account;
 
         #if UNITY_EDITOR
             _options = CommandLineUtility.ParseArgs(new string[] { "-ujim" , "-sSPL", "-a"});
@@ -63,7 +60,7 @@ namespace SUGAR.Unity
                     _loginUserInterface.SetStatus("Success! " + accountResponse.User.Id + ": " + accountResponse.User.Name);
                     _loginUserInterface.Hide();
                 }
-                SUGARManager.CurrentUser = accountResponse.User;
+                SUGAR.CurrentUser = accountResponse.User;
             }
         }
 

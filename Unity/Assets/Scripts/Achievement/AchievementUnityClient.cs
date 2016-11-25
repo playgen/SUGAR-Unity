@@ -12,12 +12,12 @@ namespace SUGAR.Unity
 
         void Start()
         {
-            _achievementClient = SUGARManager.SugarClient.Achievement;
+            _achievementClient = SUGAR.Client.Achievement;
         }
 
         public void GetAchievements()
         {
-            var achievements = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id);
+            var achievements = _achievementClient.GetGameProgress(SUGAR.GameId, SUGAR.CurrentUser.Id);
         }
     }
 }
