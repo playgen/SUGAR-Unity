@@ -30,6 +30,7 @@ namespace SUGAR.Unity
             Debug.Log(_options.UserId + " : " + _options.AuthenticationSource);
         #else
             _options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
+
         #endif
             if (_options.AuthenticationSource == null)
             {
