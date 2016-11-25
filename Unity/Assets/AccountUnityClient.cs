@@ -45,11 +45,11 @@ namespace SUGAR.Unity
             {
                 if (_loginUserInterface != null)
                 {
-
-                    _loginUserInterface.Show();
                     _loginUserInterface.Login += LoginUserInterfaceOnLogin;
+                    _loginUserInterface.Show();
                 }
             }
+
         }
 
         private void LoginUser(string user, string sourceToken, string pass = "")
@@ -63,8 +63,10 @@ namespace SUGAR.Unity
                     _loginUserInterface.SetStatus("Success! " + accountResponse.User.Id + ": " + accountResponse.User.Name);
                     _loginUserInterface.Hide();
                 }
+                SUGARManager.CurrentUser = accountResponse.User;
             }
         }
+
 
         private AccountResponse GetLoginAccountResponse(string username, string password, string source)
         {

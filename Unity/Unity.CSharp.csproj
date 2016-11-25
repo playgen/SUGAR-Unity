@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AccountUnityClient.cs" />
+    <Compile Include="Assets\AchievementUnityClient.cs" />
     <Compile Include="Assets\ILoginUserInterface.cs" />
     <Compile Include="Assets\LoginEventArgs.cs" />
     <Compile Include="Assets\LoginUserInterface.cs" />
