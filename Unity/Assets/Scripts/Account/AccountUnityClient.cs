@@ -20,7 +20,7 @@ namespace SUGAR.Unity
 
         void Start()
         {
-            _accountClient = SUGAR.Client.Account;
+            _accountClient = SUGARManager.Client.Account;
 
         #if UNITY_EDITOR
             _options = CommandLineUtility.ParseArgs(new string[] { "-ujim" , "-sSPL", "-a"});
@@ -60,7 +60,7 @@ namespace SUGAR.Unity
                     _loginUserInterface.SetStatus("Success! " + accountResponse.User.Id + ": " + accountResponse.User.Name);
                     _loginUserInterface.Hide();
                 }
-                SUGAR.CurrentUser = accountResponse.User;
+                SUGARManager.CurrentUser = accountResponse.User;
             }
         }
 

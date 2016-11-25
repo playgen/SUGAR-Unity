@@ -1,27 +1,26 @@
-﻿using UnityEngine;
-using PlayGen.SUGAR.Client;
+﻿using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Contracts.Shared;
 
 namespace SUGAR.Unity
 {
-    [RequireComponent(typeof(AccountUnityClient))]
-    public class SUGARManager : MonoBehaviour
-    {
-        [SerializeField] private string _baseAddress;
+	public static class SUGARManager
+	{
+		internal static SUGARClient Client;
 
-		[SerializeField] private int _gameId;
+		internal static int GameId { get; set; }
 
-        void Awake()
-        {
-			if (SUGAR.Register(this))
-			{
-				DontDestroyOnLoad(this);
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
-			SUGAR.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
-			SUGAR.GameId = _gameId;
-        }
-    }
+		internal static ActorResponse CurrentUser { get; set; }
+
+		private static GameDataUnityClient _gameData = new GameDataUnityClient();
+
+		public static GameDataUnityClient GameData
+		{
+			get { return _gameData; }
+		}
+
+		internal static bool Register(SUGARUnityManager unityManager)
+		{
+			return Client == null;
+		}
+	}
 }
