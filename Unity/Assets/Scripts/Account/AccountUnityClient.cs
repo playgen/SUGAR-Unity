@@ -46,7 +46,6 @@ namespace SUGAR.Unity
                     _loginUserInterface.Show();
                 }
             }
-
         }
 
         private void LoginUser(string user, string sourceToken, string pass = "")

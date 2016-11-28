@@ -20,7 +20,6 @@ namespace SUGAR.Unity
         
         void OnEnable()
         {
-            Debug.Log("OnEnabled");
             InvokeUpdateAchievmentsList();
         }
 
@@ -31,7 +30,6 @@ namespace SUGAR.Unity
 
         public void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievementsEnum)
         {
-            Debug.Log(achievementsEnum.Count());
             int counter = 0;
             var achievements = achievementsEnum.ToList();
             var listRect = _achievementList.GetComponent<RectTransform>().rect;
@@ -43,6 +41,7 @@ namespace SUGAR.Unity
                 itemRectTransform.sizeDelta = new Vector2(listRect.width, listRect.height / _listDisplaySize);
                 itemRectTransform.anchoredPosition = new Vector2(0, (counter * -(listRect.height / _listDisplaySize)));
                 achievementItem.GetComponentInChildren<Text>().text = achievement.Name;
+                Debug.Log(achievement.Progress);
                 if (achievement.Progress != 1.0f)
                 {
                     Destroy(achievementItem.transform.FindChild("Tick").gameObject);
@@ -50,6 +49,7 @@ namespace SUGAR.Unity
                 counter++;
             }
         }
+
 
         private void ClearList()
         {

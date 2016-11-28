@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Client.EvaluationEvents;
-using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,10 +20,11 @@ namespace SUGAR.Unity
 
         void Awake()
         {
-            _achievementClient = SUGAR.Client.Achievement;
+            _achievementClient = SUGARManager.Client.Achievement;
             _achievementClient.EnableNotifications(true);
             _achievementListInterface.GetAchievements += OnGetAchievments;
 
+        
         }
 
         void Update()
@@ -42,11 +42,12 @@ namespace SUGAR.Unity
             Debug.Log(notification.Name);
         }
 
+
         public void GetAchievements()
         {
             try
             {
-                var achievementData = _achievementClient.GetGameProgress(SUGAR.GameId, SUGAR.CurrentUser.Id);
+                var achievementData = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id);
                 _achievementListInterface.SetAchievementData(achievementData);
 
 
