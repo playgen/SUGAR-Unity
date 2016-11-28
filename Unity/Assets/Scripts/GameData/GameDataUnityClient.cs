@@ -1,30 +1,81 @@
-﻿using UnityEngine;
-using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Common.Shared;
+﻿using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
+using UnityEngine;
 
 namespace SUGAR.Unity
 {
-	public class GameDataUnityClient : MonoBehaviour
+	public class GameDataUnityClient
 	{
-		private GameDataClient _gameDataClient;
-
-		void Start()
+		public void Send(string key, string value)
 		{
-			_gameDataClient = SUGAR.Client.GameData;
+			bool success = false;
+			if (SUGARManager.CurrentUser != null)
+			{
+				SaveDataRequest data = new SaveDataRequest
+				{
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = SUGARManager.GameId,
+					Key = key,
+					Value = value,
+					SaveDataType = SaveDataType.String
+				};
+				success = SUGARManager.Client.GameData.Add(data) != null;
+			}
+			Debug.Log("GameData Sending Success: " + success);
 		}
 
-		public void SendGameData(string key, string value, GameDataType dataType)
+		public void Send(string key, long value)
 		{
-			GameDataRequest data = new GameDataRequest
+			bool success = false;
+			if (SUGARManager.CurrentUser != null)
 			{
-				ActorId = SUGAR.CurrentUser.Id,
-				GameId = SUGAR.GameId,
-				Key = key,
-				Value = value,
-				GameDataType = dataType
-			};
-			_gameDataClient.Add(data);
+				SaveDataRequest data = new SaveDataRequest
+				{
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = SUGARManager.GameId,
+					Key = key,
+					Value = value.ToString(),
+					SaveDataType = SaveDataType.Long
+				};
+				success = SUGARManager.Client.GameData.Add(data) != null;
+			}
+			Debug.Log("GameData Sending Success: " + success);
+		}
+
+		public void Send(string key, float value)
+		{
+			bool success = false;
+			if (SUGARManager.CurrentUser != null)
+			{
+				SaveDataRequest data = new SaveDataRequest
+				{
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = SUGARManager.GameId,
+					Key = key,
+					Value = value.ToString(),
+					SaveDataType = SaveDataType.Float
+				};
+				success = SUGARManager.Client.GameData.Add(data) != null;
+			}
+			Debug.Log("GameData Sending Success: " + success);
+		}
+
+		public void Send(string key, bool value)
+		{
+			bool success = false;
+			if (SUGARManager.CurrentUser != null)
+			{
+				SaveDataRequest data = new SaveDataRequest
+				{
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = SUGARManager.GameId,
+					Key = key,
+					Value = value.ToString(),
+					SaveDataType = SaveDataType.Boolean
+				};
+				success = SUGARManager.Client.GameData.Add(data) != null;
+			}
+			Debug.Log("GameData Sending Success: " + success);
 		}
 	}
 }

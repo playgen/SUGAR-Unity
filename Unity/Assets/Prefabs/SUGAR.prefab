@@ -22,7 +22,6 @@ GameObject:
   - 114: {fileID: 114000011669735270}
   - 114: {fileID: 114000013496830746}
   - 114: {fileID: 114000010768160430}
-  - 114: {fileID: 114000011869991310}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -66,17 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseAddress: http://localhost:62312/
---- !u!114 &114000011869991310
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012920798932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7b85d36183a8e54e84ea97986517fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _gameId: 0
 --- !u!114 &114000013496830746
 MonoBehaviour:
   m_ObjectHideFlags: 1
