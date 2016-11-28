@@ -23,8 +23,6 @@ namespace SUGAR.Unity
             _achievementClient = SUGARManager.Client.Achievement;
             _achievementClient.EnableNotifications(true);
             _achievementListInterface.GetAchievements += OnGetAchievments;
-
-        
         }
 
         void Update()

@@ -15,9 +15,16 @@ namespace SUGAR.Unity
         [SerializeField] private GameObject _achievementPrefab;
 
         [SerializeField] private int _listDisplaySize;
+
+        [SerializeField] private Button _closeButton;
         public event EventHandler GetAchievements;
-        
-        
+
+
+        void Awake()
+        {
+            _closeButton.onClick.AddListener(ClosePanel);
+        }
+
         void OnEnable()
         {
             InvokeUpdateAchievmentsList();
@@ -50,6 +57,10 @@ namespace SUGAR.Unity
             }
         }
 
+        private void ClosePanel()
+        {
+            gameObject.SetActive(false);
+        }
 
         private void ClearList()
         {
