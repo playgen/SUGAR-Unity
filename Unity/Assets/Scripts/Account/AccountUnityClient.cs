@@ -69,7 +69,6 @@ namespace SUGAR.Unity
         {
 
             var accountRequest = CreateAccountRequest(username, password, source);
-            Debug.Log(accountRequest.Name + " : " + accountRequest.SourceToken);
             try
             {
                 return _accountClient.Login(accountRequest);

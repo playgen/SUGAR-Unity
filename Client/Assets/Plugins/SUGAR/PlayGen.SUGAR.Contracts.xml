@@ -606,86 +606,6 @@
             An achievement does not need to contain a reward.
             </summary>
         </member>
-        <member name="T:PlayGen.SUGAR.Contracts.Shared.GameDataRequest">
-            <summary>
-            Encapsulates GameData details.
-            </summary>
-            <example>
-            JSON
-            {
-            ActorId : 1,
-            GameId : 1,
-            Key : "Data Key",
-            Value : "10",
-            GameDataType : "Long"
-            }
-            </example>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataRequest.ActorId">
-            <summary>
-            The id of the Actor which this GameData is being ensigned to. Can be left null to ensign to the system/game.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataRequest.GameId">
-            <summary>
-            The id of the Game which this GameData relates to. Can be left null to relate the GameData to the wider system.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataRequest.Key">
-            <summary>
-            The identifier of the data being stored.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataRequest.Value">
-            <summary>
-            The value of the data being stored.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataRequest.GameDataType">
-            <summary>
-            The type of data which is being stored.
-            </summary>
-        </member>
-        <member name="T:PlayGen.SUGAR.Contracts.Shared.GameDataResponse">
-            <summary>
-            Encapsulates GameData details from the server.
-            </summary>
-            <example>
-            JSON
-            {
-            ActorId : 1,
-            GameId : 1,
-            Key : "Data Key",
-            Value : "10",
-            GameDataType : "Long"
-            }
-            </example>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataResponse.ActorId">
-            <summary>
-            The id of the Actor which this GameData relates to.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataResponse.GameId">
-            <summary>
-            The id of the Game which this GameData relates to.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataResponse.Key">
-            <summary>
-            The identifier of the data.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataResponse.Value">
-            <summary>
-            The value of the data.
-            </summary>
-        </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.GameDataResponse.GameDataType">
-            <summary>
-            The type of the value for this data.
-            </summary>
-        </member>
         <member name="T:PlayGen.SUGAR.Contracts.Shared.GameRequest">
             <summary>
             Encapsulates game details.
@@ -736,7 +656,7 @@
             Name : "Leaderboard Name",
             Key : "Key",
             ActorType : "User",
-            GameDataType : "Long",
+            SaveDataType : "Long",
             CriteriaScope : "Actor",
             LeaderboardType : "Highest"
             }
@@ -768,9 +688,9 @@
             The type of actor which this leaderboard is intended for.
             </summary>
         </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardRequest.GameDataType">
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardRequest.SaveDataType">
             <summary>
-            The GameDataType of the GameData being checked against.
+            The SaveDataType of the GameData being checked against.
             </summary>
         </member>
         <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardRequest.CriteriaScope">
@@ -795,7 +715,7 @@
             Name : "Leaderboard Name",
             Key : "Key",
             ActorType : "User",
-            GameDataType : "Long",
+            SaveDataType : "Long",
             CriteriaScope : "Actor",
             LeaderboardType : "Highest"
             }
@@ -826,9 +746,9 @@
             The type of actor which this leaderboard is intended for.
             </summary>
         </member>
-        <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardResponse.GameDataType">
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardResponse.SaveDataType">
             <summary>
-            The GameDataType of the GameData being checked against.
+            The SaveDataType of the GameData being checked against.
             </summary>
         </member>
         <member name="P:PlayGen.SUGAR.Contracts.Shared.LeaderboardResponse.CriteriaScope">
@@ -1253,6 +1173,86 @@
         <member name="P:PlayGen.SUGAR.Contracts.Shared.RoleResponse.ClaimScope">
             <summary>
             The ClaimScope of this role.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest">
+            <summary>
+            Encapsulates ActorData/GameData details.
+            </summary>
+            <example>
+            JSON
+            {
+            ActorId : 1,
+            GameId : 1,
+            Key : "Data Key",
+            Value : "10",
+            SaveDataType : "Long"
+            }
+            </example>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest.ActorId">
+            <summary>
+            The id of the Actor which this ActorData/GameData is being ensigned to. Can be left null to ensign to the system/game.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest.GameId">
+            <summary>
+            The id of the Game which this ActorData/GameData relates to. Can be left null to relate the ActorData/GameData to the wider system.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest.Key">
+            <summary>
+            The identifier of the data being stored.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest.Value">
+            <summary>
+            The value of the data being stored.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataRequest.SaveDataType">
+            <summary>
+            The type of data which is being stored.
+            </summary>
+        </member>
+        <member name="T:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse">
+            <summary>
+            Encapsulates ActorData/GameData details from the server.
+            </summary>
+            <example>
+            JSON
+            {
+            ActorId : 1,
+            GameId : 1,
+            Key : "Data Key",
+            Value : "10",
+            SaveDataType : "Long"
+            }
+            </example>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse.ActorId">
+            <summary>
+            The id of the Actor which this ActorData/GameData relates to.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse.GameId">
+            <summary>
+            The id of the Game which this ActorData/GameData relates to.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse.Key">
+            <summary>
+            The identifier of the data.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse.Value">
+            <summary>
+            The value of the data.
+            </summary>
+        </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.SaveDataResponse.SaveDataType">
+            <summary>
+            The type of the value for this data.
             </summary>
         </member>
     </members>

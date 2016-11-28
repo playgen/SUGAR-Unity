@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Client.EvaluationEvents;
+using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SUGAR.Unity
 {
@@ -10,14 +13,61 @@ namespace SUGAR.Unity
     {
         private AchievementClient _achievementClient;
 
-        void Start()
+        [SerializeField]
+        private AchievementListInterface _achievementListInterface;
+
+        [SerializeField]
+        private Text _errorText;
+
+        void Awake()
         {
             _achievementClient = SUGAR.Client.Achievement;
+            _achievementClient.EnableNotifications(true);
+            _achievementListInterface.GetAchievements += OnGetAchievments;
+
+        }
+
+        void Update()
+        {
+            EvaluationNotification notification;
+            if (_achievementClient.TryGetPendingNotification(out notification))
+            {
+                HandleNotification(notification);
+            }
+        }
+
+        private void HandleNotification(EvaluationNotification notification)
+        {
+            Debug.Log("NOTIFICATION");
+            Debug.Log(notification.Name);
         }
 
         public void GetAchievements()
         {
-            var achievements = _achievementClient.GetGameProgress(SUGAR.GameId, SUGAR.CurrentUser.Id);
+            try
+            {
+                var achievementData = _achievementClient.GetGameProgress(SUGAR.GameId, SUGAR.CurrentUser.Id);
+                _achievementListInterface.SetAchievementData(achievementData);
+
+
+            }
+            catch (Exception ex)
+            {
+                string error = "Failed to get achievements list. " + ex.Message;
+                Debug.LogError(error);
+                if (_errorText != null)
+                {
+                    _errorText.text = error;
+
+                }
+            }
         }
+
+        private void OnGetAchievments(object sender, EventArgs EventArgs)
+        {
+            GetAchievements();
+        }
+
+
     }
 }
