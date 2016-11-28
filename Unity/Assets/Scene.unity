@@ -322,6 +322,12 @@ Prefab:
       propertyPath: _errorText
       value: 
       objectReference: {fileID: 783422838}
+    - target: {fileID: 114000010768160430, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _achievementPopup
+      value: 
+      objectReference: {fileID: 114000013413874684, guid: 30bf371ff31e0bc429751b3218cfa999,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 991ef3e1f70851f458b55f5f7eae55a2, type: 2}
   m_IsPrefabParent: 0
