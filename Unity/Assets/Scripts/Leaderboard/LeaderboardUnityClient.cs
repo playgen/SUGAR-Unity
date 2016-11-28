@@ -28,25 +28,25 @@ namespace SUGAR.Unity
 			_pageNumber = 0;
 			_filter = filter;
 			GetLeaderboardName();
-			_leaderboardInterface.ShowLeaderboard(_name, GetLeaderboard());
+			_leaderboardInterface.ShowLeaderboard(_name, _filter, GetLeaderboard(), _pageNumber);
 		}
 
 		public void UpdatePageNumber(int changeAmount)
 		{
 			_pageNumber += changeAmount;
-			_leaderboardInterface.ShowLeaderboard(_name, GetLeaderboard());
+			_leaderboardInterface.ShowLeaderboard(_name, _filter, GetLeaderboard(), _pageNumber);
 		}
 
-		public void UpdateFilter(LeaderboardFilterType filter)
+		public void UpdateFilter(int filter)
 		{
 			_pageNumber = 0;
-			_filter = filter;
-			_leaderboardInterface.ShowLeaderboard(_name, GetLeaderboard());
+			_filter = (LeaderboardFilterType)filter;
+			_leaderboardInterface.ShowLeaderboard(_name, _filter, GetLeaderboard(), _pageNumber);
 		}
 
-		public string GetLeaderboardName()
+		private void GetLeaderboardName()
 		{
-			return SUGARManager.Client.Leaderboard.Get(_leaderboardToken, SUGARManager.GameId).Name;
+			_name = SUGARManager.Client.Leaderboard.Get(_leaderboardToken, SUGARManager.GameId).Name;
 		}
 
 		private IEnumerable<LeaderboardStandingsResponse> GetLeaderboard()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 
 using UnityEngine;
@@ -23,6 +25,8 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _nextButton;
 		[SerializeField]
+		private Text _pageNumber;
+		[SerializeField]
 		private Button _topButton;
 		[SerializeField]
 		private Button _nearButton;
@@ -33,12 +37,37 @@ namespace SUGAR.Unity
 
 		public void Awake()
 		{
-			//set button on click to fire SUGARManager.Leaderboard. methods where needed
+			_previousButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(-1); });
+			_nextButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(1); });
+			_topButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(0); });
+			_nearButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(1); });
+			_friendsButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(2); });
+			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		public void ShowLeaderboard(string token, IEnumerable<LeaderboardStandingsResponse> standings)
+		public void ShowLeaderboard(string name, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
 		{
-			//set-up leaderboard standing display
+			gameObject.SetActive(true);
+			if (!standings.Any() && pageNumber > 0)
+			{
+				SUGARManager.Leaderboard.UpdatePageNumber(-1);
+				return;
+			}
+			var standingsList = standings.ToList();
+			for (int i = 0; i < _leaderboardPositions.Length; i++)
+			{
+				if (i >= standingsList.Count)
+				{
+					_leaderboardPositions[i].Disbale();
+				} else
+				{
+					_leaderboardPositions[i].SetText(standingsList[i]);
+				}
+			}
+			_leaderboardName.text = name;
+			_leaderboardType.text = filter.ToString();
+			_pageNumber.text = "Page " + (pageNumber + 1);
+			_previousButton.interactable = pageNumber > 0;
 		}
 	}
 }

@@ -191,11 +191,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013496830746, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+    - target: {fileID: 114000012611603444, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
-      propertyPath: _loginUserInterface
+      propertyPath: _leaderboardInterface
       value: 
-      objectReference: {fileID: 847414972}
+      objectReference: {fileID: 2025064409}
     - target: {fileID: 114000010768160430, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
       propertyPath: _achievementListInterface
@@ -206,26 +206,19 @@ Prefab:
       propertyPath: _errorText
       value: 
       objectReference: {fileID: 783422838}
+    - target: {fileID: 114000013496830746, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _loginUserInterface
+      value: 
+      objectReference: {fileID: 847414972}
+    - target: {fileID: 114000011669735270, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _gameId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 991ef3e1f70851f458b55f5f7eae55a2, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &509545393 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000012920798932, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-    type: 2}
-  m_PrefabInternal: {fileID: 509545392}
---- !u!114 &509545394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 509545393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac941c55703031248bbf9b46d241eeaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leaderboardInterface: {fileID: 2025064409}
 --- !u!1 &783422836
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1780235629
 RectTransform:
   m_ObjectHideFlags: 0
@@ -764,6 +757,10 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010303934366, guid: e29d7a7dd4a690245a2e6d8cf00df004, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e29d7a7dd4a690245a2e6d8cf00df004, type: 2}

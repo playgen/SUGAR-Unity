@@ -22,6 +22,7 @@ GameObject:
   - 114: {fileID: 114000011669735270}
   - 114: {fileID: 114000013496830746}
   - 114: {fileID: 114000010768160430}
+  - 114: {fileID: 114000012611603444}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -53,6 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8cb51f618409074b9953a660a800c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _achievementListInterface: {fileID: 0}
+  _errorText: {fileID: 0}
 --- !u!114 &114000011669735270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,6 +69,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseAddress: http://localhost:62312/
   _gameId: 0
+--- !u!114 &114000012611603444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac941c55703031248bbf9b46d241eeaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leaderboardInterface: {fileID: 0}
 --- !u!114 &114000013496830746
 MonoBehaviour:
   m_ObjectHideFlags: 1
