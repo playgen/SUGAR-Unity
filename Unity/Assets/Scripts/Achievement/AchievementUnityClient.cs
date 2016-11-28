@@ -21,7 +21,7 @@ namespace SUGAR.Unity
 
         void Awake()
         {
-            _achievementClient = SUGAR.Client.Achievement;
+            _achievementClient = SUGARManager.Client.Achievement;
             _achievementClient.EnableNotifications(true);
             _achievementListInterface.GetAchievements += OnGetAchievments;
 
@@ -46,7 +46,7 @@ namespace SUGAR.Unity
         {
             try
             {
-                var achievementData = _achievementClient.GetGameProgress(SUGAR.GameId, SUGAR.CurrentUser.Id);
+                var achievementData = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id);
                 _achievementListInterface.SetAchievementData(achievementData);
 
 

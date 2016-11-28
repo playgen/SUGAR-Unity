@@ -5,7 +5,7 @@ namespace SUGAR.Unity
 {
 	public static class SUGARManager
 	{
-		internal static SUGARClient Client;
+		internal static SUGARClient Client { get; set; }
 
 		internal static int GameId { get; set; }
 
@@ -17,6 +17,8 @@ namespace SUGAR.Unity
 		{
 			get { return _gameData; }
 		}
+
+		internal static LeaderboardUnityClient Leaderboard { get; set; }
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
