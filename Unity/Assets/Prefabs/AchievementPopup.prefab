@@ -305,4 +305,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: {fileID: 11457888}
-  _startPosition: {x: 0, y: 0}
+  _startPosition: {x: 100, y: 100}
