@@ -4,6 +4,9 @@ using PlayGen.SUGAR.Client;
 namespace SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
+	[RequireComponent(typeof(AchievementUnityClient))]
+	[RequireComponent(typeof(LeaderboardUnityClient))]
+	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
 		[SerializeField] private string _baseAddress;
@@ -22,8 +25,10 @@ namespace SUGAR.Unity
 			}
 			SUGARManager.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
 			SUGARManager.GameId = _gameId;
+			SUGARManager.Account = GetComponent<AccountUnityClient>();
+			SUGARManager.Achievement = GetComponent<AchievementUnityClient>();
 			SUGARManager.Leaderboard = GetComponent<LeaderboardUnityClient>();
-			SUGARManager.GameLeaderboards = GetComponent<LeaderboardListUnityClient>();
+			SUGARManager.GameLeaderboard = GetComponent<LeaderboardListUnityClient>();
 		}
 	}
 }

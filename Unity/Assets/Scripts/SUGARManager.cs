@@ -11,6 +11,8 @@ namespace SUGAR.Unity
 
 		internal static ActorResponse CurrentUser { get; set; }
 
+		internal static AccountUnityClient Account { get; set; }
+
 		private static GameDataUnityClient _gameData = new GameDataUnityClient();
 
 		public static GameDataUnityClient GameData
@@ -18,9 +20,11 @@ namespace SUGAR.Unity
 			get { return _gameData; }
 		}
 
+		internal static AchievementUnityClient Achievement { get; set; }
+
 		internal static LeaderboardUnityClient Leaderboard { get; set; }
 
-		internal static LeaderboardListUnityClient GameLeaderboards { get; set; }
+		internal static LeaderboardListUnityClient GameLeaderboard { get; set; }
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{

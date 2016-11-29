@@ -9,70 +9,50 @@ namespace SUGAR.Unity
 {
 	public class AchievementListInterface : MonoBehaviour
 	{
-		[SerializeField] private GameObject _achievementList;
+		[SerializeField]
+		private AchievementItemInterface[] _achievementItems;
+		[SerializeField]
+		private Button _previousButton;
+		[SerializeField]
+		private Button _nextButton;
+		[SerializeField]
+		private Text _pageNumber;
+		[SerializeField]
+		private Button _closeButton;
 
-		[SerializeField] private GameObject _achievementPrefab;
-
-		[SerializeField] private int _listDisplaySize;
-
-		[SerializeField] private Button _closeButton;
-		public event EventHandler GetAchievements;
-
-
-		void Awake()
+		public void Awake()
 		{
-			_closeButton.onClick.AddListener(ClosePanel);
+			_previousButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(-1); });
+			_nextButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(1); });
+			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		void OnEnable()
+		public void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievements, int pageNumber)
 		{
-			InvokeUpdateAchievmentsList();
-		}
-
-		void OnDisable()
-		{
-			ClearList();
-		}
-
-		private void InvokeUpdateAchievmentsList()
-		{
-			if (GetAchievements != null) GetAchievements(this, null);
-		}
-
-		public void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievementsEnum)
-		{
-			int counter = 0;
-			var achievements = achievementsEnum.ToList();
-			var listRect = _achievementList.GetComponent<RectTransform>().rect;
-			foreach (var achievement in achievements)
+			if (SUGARManager.CurrentUser == null)
 			{
-				var achievementItem = Instantiate(_achievementPrefab);
-				achievementItem.transform.SetParent(_achievementList.transform, false);
-				var itemRectTransform = achievementItem.GetComponent<RectTransform>();
-				itemRectTransform.sizeDelta = new Vector2(listRect.width, listRect.height / _listDisplaySize);
-				itemRectTransform.anchoredPosition = new Vector2(0, (counter * -(listRect.height / _listDisplaySize)));
-				achievementItem.GetComponentInChildren<Text>().text = achievement.Name;
-				Debug.Log(achievement.Progress);
-				if (Mathf.Approximately(achievement.Progress,1.0f))
+				return;
+			}
+			gameObject.SetActive(true);
+			var achievementList = achievements.Skip(pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
+			if (!achievementList.Any() && pageNumber > 0)
+			{
+				SUGARManager.Achievement.UpdatePageNumber(-1);
+				return;
+			}
+			for (int i = 0; i < _achievementItems.Length; i++)
+			{
+				if (i >= achievementList.Count)
 				{
-					Destroy(achievementItem.transform.FindChild("Tick").gameObject);
+					_achievementItems[i].Disbale();
 				}
-				counter++;
+				else
+				{
+					_achievementItems[i].SetText(achievementList[i].Name, Mathf.Approximately(achievementList[i].Progress, 1.0f));
+				}
 			}
-		}
-
-		private void ClosePanel()
-		{
-			gameObject.SetActive(false);
-		}
-
-		private void ClearList()
-		{
-			//Remove old achievemnts list
-			foreach (Transform child in _achievementList.transform)
-			{
-				Destroy(child.gameObject);
-			}
+			_pageNumber.text = "Page " + (pageNumber + 1);
+			_previousButton.interactable = pageNumber > 0;
 		}
 	}
 }

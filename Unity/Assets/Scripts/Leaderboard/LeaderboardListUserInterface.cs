@@ -31,11 +31,11 @@ public class LeaderboardListUserInterface : MonoBehaviour {
 
 	public void Awake()
 	{
-		_previousButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboards.UpdatePageNumber(-1); });
-		_nextButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboards.UpdatePageNumber(1); });
-		_userButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboards.UpdateFilter(1); });
-		_groupButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboards.UpdateFilter(2); });
-		_combinedButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboards.UpdateFilter(0); });
+		_previousButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdatePageNumber(-1); });
+		_nextButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdatePageNumber(1); });
+		_userButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(1); });
+		_groupButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(2); });
+		_combinedButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(0); });
 		_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 	}
 
@@ -49,7 +49,7 @@ public class LeaderboardListUserInterface : MonoBehaviour {
 		var leaderboardList = leaderboards.Skip(pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
 		if (!leaderboardList.Any() && pageNumber > 0)
 		{
-			SUGARManager.GameLeaderboards.UpdatePageNumber(-1);
+			SUGARManager.GameLeaderboard.UpdatePageNumber(-1);
 			return;
 		}
 		for (int i = 0; i < _leaderboardButtons.Length; i++)

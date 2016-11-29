@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Client.EvaluationEvents;
+using PlayGen.SUGAR.Common.Shared;
+using PlayGen.SUGAR.Contracts.Shared;
+
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace SUGAR.Unity
 {
@@ -10,7 +16,11 @@ namespace SUGAR.Unity
     {
         private AchievementClient _achievementClient;
 
-        [SerializeField]
+		private int _pageNumber;
+
+		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
+
+		[SerializeField]
         private AchievementListInterface _achievementListInterface;
 
         [SerializeField]
@@ -26,7 +36,6 @@ namespace SUGAR.Unity
         {
             _achievementClient = SUGARManager.Client.Achievement;
             _achievementClient.EnableNotifications(true);
-            _achievementListInterface.GetAchievements += OnGetAchievments;
         }
 
         void Update()
@@ -49,30 +58,30 @@ namespace SUGAR.Unity
 
         public void GetAchievements()
         {
-            try
-            {
-                var achievementData = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id);
-                _achievementListInterface.SetAchievementData(achievementData);
+			if (SUGARManager.CurrentUser != null)
+			{
+				try
+				{
+					_progress = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id).ToList();
+					_achievementListInterface.SetAchievementData(_progress, _pageNumber);
+				}
+				catch (Exception ex)
+				{
+					string error = "Failed to get achievements list. " + ex.Message;
+					Debug.LogError(error);
+					if (_errorText != null)
+					{
+						_errorText.text = error;
 
-
-            }
-            catch (Exception ex)
-            {
-                string error = "Failed to get achievements list. " + ex.Message;
-                Debug.LogError(error);
-                if (_errorText != null)
-                {
-                    _errorText.text = error;
-
-                }
-            }
+					}
+				}
+			}
         }
 
-        private void OnGetAchievments(object sender, EventArgs EventArgs)
-        {
-            GetAchievements();
-        }
-
-
+		public void UpdatePageNumber(int changeAmount)
+		{
+			_pageNumber += changeAmount;
+			_achievementListInterface.SetAchievementData(_progress, _pageNumber);
+		}
     }
 }
