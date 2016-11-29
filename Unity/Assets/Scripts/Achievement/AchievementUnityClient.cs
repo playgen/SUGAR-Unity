@@ -18,7 +18,11 @@ namespace SUGAR.Unity
         [SerializeField]
         private Text _errorText;
 
-        [SerializeField] private AchievementPopupInterface _achievementPopup;
+        [SerializeField]
+        private Canvas _popupTarget;
+
+        [SerializeField]
+        private AchievementPopupInterface _achievementPopup;
 
         void Awake()
         {
@@ -40,10 +44,10 @@ namespace SUGAR.Unity
         {
             Debug.Log("NOTIFICATION");
             var popup = GameObject.Instantiate(_achievementPopup);
+            popup.transform.SetParent(_popupTarget.transform);
             popup.SetNotification(notification);
             popup.Animate();
         }
-
 
         public void GetAchievements()
         {

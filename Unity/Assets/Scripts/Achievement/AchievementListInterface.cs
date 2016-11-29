@@ -28,6 +28,7 @@ namespace SUGAR.Unity
         void OnEnable()
         {
             InvokeUpdateAchievmentsList();
+
         }
 
         private void InvokeUpdateAchievmentsList()
