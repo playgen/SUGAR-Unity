@@ -23,6 +23,7 @@ namespace SUGAR.Unity
 			SUGARManager.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
 			SUGARManager.GameId = _gameId;
 			SUGARManager.Leaderboard = GetComponent<LeaderboardUnityClient>();
+			SUGARManager.GameLeaderboards = GetComponent<LeaderboardListUnityClient>();
 		}
 	}
 }

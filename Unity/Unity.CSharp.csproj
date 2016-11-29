@@ -101,6 +101,8 @@
     <Compile Include="Assets\Scripts\Achievement\AchievementPopupInterface.cs" />
     <Compile Include="Assets\Scripts\Achievement\AchievementUnityClient.cs" />
     <Compile Include="Assets\Scripts\GameData\GameDataUnityClient.cs" />
+    <Compile Include="Assets\Scripts\Leaderboard\LeaderboardListUnityClient.cs" />
+    <Compile Include="Assets\Scripts\Leaderboard\LeaderboardListUserInterface.cs" />
     <Compile Include="Assets\Scripts\Leaderboard\LeaderboardPositionInterface.cs" />
     <Compile Include="Assets\Scripts\Leaderboard\LeaderboardUnityClient.cs" />
     <Compile Include="Assets\Scripts\Leaderboard\LeaderboardUserInterface.cs" />

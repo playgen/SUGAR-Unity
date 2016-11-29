@@ -20,6 +20,8 @@ namespace SUGAR.Unity
 
 		internal static LeaderboardUnityClient Leaderboard { get; set; }
 
+		internal static LeaderboardListUnityClient GameLeaderboards { get; set; }
+
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
 			return Client == null;

@@ -17,8 +17,6 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Text _leaderboardType;
 		[SerializeField]
-		private LeaderboardPositionInterface _leaderboardHeader;
-		[SerializeField]
 		private LeaderboardPositionInterface[] _leaderboardPositions;
 		[SerializeField]
 		private Button _previousButton;
@@ -45,8 +43,12 @@ namespace SUGAR.Unity
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		public void ShowLeaderboard(string name, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
+		public void ShowLeaderboard(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
 		{
+			if (SUGARManager.CurrentUser == null)
+			{
+				return;
+			}
 			gameObject.SetActive(true);
 			if (!standings.Any() && pageNumber > 0)
 			{
@@ -64,10 +66,12 @@ namespace SUGAR.Unity
 					_leaderboardPositions[i].SetText(standingsList[i]);
 				}
 			}
-			_leaderboardName.text = name;
+			_leaderboardName.text = leaderboard.Name;
 			_leaderboardType.text = filter.ToString();
 			_pageNumber.text = "Page " + (pageNumber + 1);
 			_previousButton.interactable = pageNumber > 0;
+			_nearButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
+			_friendsButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
 		}
 	}
 }
