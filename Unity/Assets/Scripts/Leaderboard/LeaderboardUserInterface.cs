@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using PlayGen.SUGAR.Common.Shared;
@@ -45,17 +44,17 @@ namespace SUGAR.Unity
 
 		public void ShowLeaderboard(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
 		{
-			if (SUGARManager.CurrentUser == null)
+			if (SUGARManager.CurrentUser == null || standings == null)
 			{
 				return;
 			}
 			gameObject.SetActive(true);
-			if (!standings.Any() && pageNumber > 0)
+			var standingsList = standings.ToList();
+			if (!standingsList.Any() && pageNumber > 0)
 			{
 				SUGARManager.Leaderboard.UpdatePageNumber(-1);
 				return;
 			}
-			var standingsList = standings.ToList();
 			for (int i = 0; i < _leaderboardPositions.Length; i++)
 			{
 				if (i >= standingsList.Count)

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
-using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
-using PlayGen.SUGAR.Unity;
 using UnityEngine;
 
 namespace SUGAR.Unity
@@ -66,7 +62,7 @@ namespace SUGAR.Unity
 					PageLimit = 10,
 					PageOffset = _pageNumber
 				};
-				var standings = SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandings(request);
+				var standings = SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandings(request).ToList();
 				return standings;
 			}
 			return Enumerable.Empty<LeaderboardStandingsResponse>();

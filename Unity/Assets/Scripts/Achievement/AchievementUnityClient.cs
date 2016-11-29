@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Client.EvaluationEvents;
 using UnityEngine;
@@ -43,7 +41,7 @@ namespace SUGAR.Unity
         private void HandleNotification(EvaluationNotification notification)
         {
             Debug.Log("NOTIFICATION");
-            var popup = GameObject.Instantiate(_achievementPopup);
+            var popup = Instantiate(_achievementPopup);
             popup.transform.SetParent(_popupTarget.transform);
             popup.SetNotification(notification);
             popup.Animate();

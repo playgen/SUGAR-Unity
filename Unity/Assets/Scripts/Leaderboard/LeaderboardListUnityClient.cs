@@ -15,7 +15,7 @@ public class LeaderboardListUnityClient : MonoBehaviour {
 
 	private ActorType _actorType;
 
-	private List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
+	private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
 
 	[SerializeField]
 	private LeaderboardListUserInterface _leaderboardListInterface;
