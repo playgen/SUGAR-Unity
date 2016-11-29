@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Client.EvaluationEvents;
-using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,12 +18,13 @@ namespace SUGAR.Unity
         [SerializeField]
         private Text _errorText;
 
+        [SerializeField] private AchievementPopupInterface _achievementPopup;
+
         void Awake()
         {
             _achievementClient = SUGARManager.Client.Achievement;
             _achievementClient.EnableNotifications(true);
             _achievementListInterface.GetAchievements += OnGetAchievments;
-
         }
 
         void Update()
@@ -39,8 +39,11 @@ namespace SUGAR.Unity
         private void HandleNotification(EvaluationNotification notification)
         {
             Debug.Log("NOTIFICATION");
-            Debug.Log(notification.Name);
+            var popup = GameObject.Instantiate(_achievementPopup);
+            popup.SetNotification(notification);
+            popup.Animate();
         }
+
 
         public void GetAchievements()
         {

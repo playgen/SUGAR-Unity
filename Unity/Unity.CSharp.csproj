@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Account\LoginEventArgs.cs" />
     <Compile Include="Assets\Scripts\Account\LoginUserInterface.cs" />
     <Compile Include="Assets\Scripts\Achievement\AchievementListInterface.cs" />
+    <Compile Include="Assets\Scripts\Achievement\AchievementPopupInterface.cs" />
     <Compile Include="Assets\Scripts\Achievement\AchievementUnityClient.cs" />
     <Compile Include="Assets\Scripts\GameData\GameDataUnityClient.cs" />
     <Compile Include="Assets\Scripts\Leaderboard\LeaderboardPositionInterface.cs" />
