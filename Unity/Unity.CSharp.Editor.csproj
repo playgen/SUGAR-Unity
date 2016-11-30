@@ -130,23 +130,27 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>Assets\Plugins\SUGAR\DLLs\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\SUGAR\Plugins\SUGAR\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.SUGAR.Unity">
-      <HintPath>Assets\SUGAR\Plugins\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <HintPath>Assets\SUGAR\Plugins\SUGAR\System.ComponentModel.DataAnnotations.dll</HintPath>
+      <HintPath>Assets\Plugins\SUGAR\DLLs\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PlayGen.SUGAR.Client">
-      <HintPath>Assets\SUGAR\Plugins\SUGAR\PlayGen.SUGAR.Client.dll</HintPath>
+      <HintPath>Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Client.dll</HintPath>
     </Reference>
-    <Reference Include="CommandLine">
-      <HintPath>Assets\SUGAR\Plugins\PlayGen.SUGAR.Unity\CommandLine.dll</HintPath>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>Assets\Plugins\SUGAR\DLLs\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.SUGAR.Unity">
+      <HintPath>Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Unity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.CSharp.Plugins.csproj">
+      <Project>{1AA60596-6964-87F6-2427-6CA85BBAF27D}</Project>
+      <Name>Unity.CSharp.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.CSharp.csproj">
       <Project>{4123F183-8F61-27AE-EA27-294DDE0CC7EB}</Project>
       <Name>Unity.CSharp</Name>
@@ -156,8 +160,8 @@
     <Compile Include="Assets\Editor\BuildSUGARPackage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\SUGAR\Plugins\PlayGen.SUGAR.Unity\CommandLine.xml" />
-    <None Include="Assets\SUGAR\Plugins\SUGAR\PlayGen.SUGAR.Client.xml" />
+    <None Include="Assets\Plugins\SUGAR\DLLs\CommandLine.xml" />
+    <None Include="Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Client.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

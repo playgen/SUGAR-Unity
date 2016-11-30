@@ -14,13 +14,13 @@ namespace SUGAR.Unity
         {
             var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;
             var packageFile = rootDir + "/Build/SUGAR.Unity.unitypackage";
-            var directory = "Assets/SUGAR";
+            var directory = new[] { "Assets/SUGAR", "Assets/Plugins" };
 
             var packageAssetPaths = new List<string>();
 
             foreach (var assetPath in AssetDatabase.GetAllAssetPaths())
             {
-                if (assetPath.StartsWith(directory)
+                if (directory.Any(dir => assetPath.StartsWith(dir))
                     && File.Exists(assetPath))   // is file?
                     
                 {

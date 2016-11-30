@@ -9,9 +9,14 @@ namespace SUGAR.Unity
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
-		[SerializeField] private string _baseAddress;
-
-		[SerializeField] private int _gameId;
+		[SerializeField]
+		private string _baseAddress;
+		[SerializeField]
+		private int _gameId;
+		[SerializeField]
+		private bool _useAchievements = true;
+		[SerializeField]
+		private bool _useLeaderboards = true;
 
 		void Awake()
 		{
@@ -26,9 +31,9 @@ namespace SUGAR.Unity
 			SUGARManager.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
 			SUGARManager.GameId = _gameId;
 			SUGARManager.Account = GetComponent<AccountUnityClient>();
-			SUGARManager.Achievement = GetComponent<AchievementUnityClient>();
-			SUGARManager.Leaderboard = GetComponent<LeaderboardUnityClient>();
-			SUGARManager.GameLeaderboard = GetComponent<LeaderboardListUnityClient>();
+			SUGARManager.Achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
+			SUGARManager.Leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
+			SUGARManager.GameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
 		}
 	}
 }

@@ -247,4 +247,4 @@ Unity/Temp/
 Unity/test_Data/Mono/etc/mono/1.0/machine.config
 Unity/test_Data/
 *.exe
-Unity/Assets/Plugins/SUGAR
+Unity/Assets/Plugins/SUGAR/DLLs

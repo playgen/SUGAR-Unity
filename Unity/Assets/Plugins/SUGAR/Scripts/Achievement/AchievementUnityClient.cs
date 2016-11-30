@@ -12,7 +12,7 @@ using System.Linq;
 namespace SUGAR.Unity
 {
 	[DisallowMultipleComponent]
-	class AchievementUnityClient : MonoBehaviour
+	public class AchievementUnityClient : MonoBehaviour
 	{
 		private AchievementClient _achievementClient;
 
