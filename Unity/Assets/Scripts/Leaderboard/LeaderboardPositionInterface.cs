@@ -1,5 +1,4 @@
 ﻿using PlayGen.SUGAR.Contracts.Shared;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,21 +6,24 @@ namespace SUGAR.Unity
 {
 	public class LeaderboardPositionInterface : MonoBehaviour
 	{
-		public Text Position;
+		[SerializeField]
+		private Text _position;
 
-		public Text PlayerName;
+		[SerializeField]
+		private Text _playerName;
 
-		public Text Score;
+		[SerializeField]
+		private Text _score;
 
-		public void SetText(LeaderboardStandingsResponse res)
+		internal void SetText(LeaderboardStandingsResponse res)
 		{
 			gameObject.SetActive(true);
-			Position.text = res.Ranking.ToString();
-			PlayerName.text = res.ActorName;
-			Score.text = res.Value;
+			_position.text = res.Ranking.ToString();
+			_playerName.text = res.ActorName;
+			_score.text = res.Value;
 		}
 
-		public void Disbale()
+		internal void Disbale()
 		{
 			gameObject.SetActive(false);
 		}

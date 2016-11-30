@@ -5,18 +5,19 @@ namespace SUGAR.Unity
 {
 	public class AchievementItemInterface : MonoBehaviour
 	{
-		public Text AchieveName;
+		[SerializeField]
+		private Text _achieveName;
+		[SerializeField]
+		private Image _tick;
 
-		public Image Tick;
-
-		public void SetText(string achieveName, bool completed)
+		internal void SetText(string achieveName, bool completed)
 		{
 			gameObject.SetActive(true);
-			AchieveName.text = achieveName;
-			Tick.enabled = completed;
+			_achieveName.text = achieveName;
+			_tick.enabled = completed;
 		}
 
-		public void Disbale()
+		internal void Disbale()
 		{
 			gameObject.SetActive(false);
 		}

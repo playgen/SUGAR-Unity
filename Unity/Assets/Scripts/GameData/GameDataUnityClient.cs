@@ -1,4 +1,6 @@
-﻿using PlayGen.SUGAR.Common.Shared;
+﻿using System.Globalization;
+
+using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 
@@ -52,7 +54,7 @@ namespace SUGAR.Unity
 					ActorId = SUGARManager.CurrentUser.Id,
 					GameId = SUGARManager.GameId,
 					Key = key,
-					Value = value.ToString(),
+					Value = value.ToString(CultureInfo.InvariantCulture),
 					SaveDataType = SaveDataType.Float
 				};
 				success = SUGARManager.Client.GameData.Add(data) != null;

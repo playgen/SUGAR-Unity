@@ -32,7 +32,7 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _closeButton;
 
-		public void Awake()
+		private void Awake()
 		{
 			_previousButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(-1); });
 			_nextButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(1); });
@@ -42,7 +42,12 @@ namespace SUGAR.Unity
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		public void ShowLeaderboard(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
+		internal int GetPossiblePositionCount()
+		{
+			return _leaderboardPositions.Length;
+		}
+
+		internal void ShowLeaderboard(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
 		{
 			if (SUGARManager.CurrentUser == null || standings == null)
 			{
@@ -69,6 +74,7 @@ namespace SUGAR.Unity
 			_leaderboardType.text = filter.ToString();
 			_pageNumber.text = "Page " + (pageNumber + 1);
 			_previousButton.interactable = pageNumber > 0;
+			_nextButton.interactable = standingsList.Count > _leaderboardPositions.Length;
 			_nearButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
 			_friendsButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
 		}

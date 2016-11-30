@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace SUGAR.Unity
 {
+	[DisallowMultipleComponent]
 	public class LeaderboardUnityClient : MonoBehaviour
 	{
 		private string _leaderboardToken;
@@ -19,7 +20,12 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private LeaderboardUserInterface _leaderboardInterface;
 
-		public void SetLeaderboard(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
+		public void Display(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
+		{
+			SetLeaderboard(token, filter);
+		}
+
+		internal void SetLeaderboard(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
 		{
 			_leaderboardToken = token;
 			_pageNumber = 0;
@@ -28,13 +34,13 @@ namespace SUGAR.Unity
 			_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, GetLeaderboardStandings(), _pageNumber);
 		}
 
-		public void UpdatePageNumber(int changeAmount)
+		internal void UpdatePageNumber(int changeAmount)
 		{
 			_pageNumber += changeAmount;
 			_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, GetLeaderboardStandings(), _pageNumber);
 		}
 
-		public void UpdateFilter(int filter)
+		internal void UpdateFilter(int filter)
 		{
 			_pageNumber = 0;
 			_filter = (LeaderboardFilterType)filter;
@@ -59,7 +65,7 @@ namespace SUGAR.Unity
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = _filter,
-					PageLimit = 10,
+					PageLimit = _leaderboardInterface.GetPossiblePositionCount() + 1,
 					PageOffset = _pageNumber
 				};
 				var standings = SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandings(request).ToList();

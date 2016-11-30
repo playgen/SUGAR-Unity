@@ -13,7 +13,7 @@ namespace SUGAR.Unity
 
 		internal static AccountUnityClient Account { get; set; }
 
-		private static GameDataUnityClient _gameData = new GameDataUnityClient();
+		private static readonly GameDataUnityClient _gameData = new GameDataUnityClient();
 
 		public static GameDataUnityClient GameData
 		{

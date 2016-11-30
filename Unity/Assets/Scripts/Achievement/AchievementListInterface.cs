@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
@@ -20,14 +19,14 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _closeButton;
 
-		public void Awake()
+		private void Awake()
 		{
 			_previousButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(-1); });
 			_nextButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(1); });
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		public void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievements, int pageNumber)
+		internal void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievements, int pageNumber)
 		{
 			if (SUGARManager.CurrentUser == null)
 			{
@@ -53,6 +52,7 @@ namespace SUGAR.Unity
 			}
 			_pageNumber.text = "Page " + (pageNumber + 1);
 			_previousButton.interactable = pageNumber > 0;
+			_nextButton.interactable = achievementList.Count > pageNumber * _achievementItems.Length;
 		}
 	}
 }
