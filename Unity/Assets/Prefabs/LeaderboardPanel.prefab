@@ -114,7 +114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000010367943386
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,9 +2012,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000010985553720}
-  PlayerName: {fileID: 114000012823193958}
-  Score: {fileID: 114000010027723866}
+  _position: {fileID: 114000010985553720}
+  _playerName: {fileID: 114000012823193958}
+  _score: {fileID: 114000010027723866}
 --- !u!114 &114000011711993004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2059,9 +2059,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000011889206910}
-  PlayerName: {fileID: 114000013775724620}
-  Score: {fileID: 114000010288042568}
+  _position: {fileID: 114000011889206910}
+  _playerName: {fileID: 114000013775724620}
+  _score: {fileID: 114000010288042568}
 --- !u!114 &114000011828146538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2073,9 +2073,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000010062128132}
-  PlayerName: {fileID: 114000013846001876}
-  Score: {fileID: 114000010835948110}
+  _position: {fileID: 114000010062128132}
+  _playerName: {fileID: 114000013846001876}
+  _score: {fileID: 114000010835948110}
 --- !u!114 &114000011889206910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2186,9 +2186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000011128816666}
-  PlayerName: {fileID: 114000013478379928}
-  Score: {fileID: 114000014229976052}
+  _position: {fileID: 114000011128816666}
+  _playerName: {fileID: 114000013478379928}
+  _score: {fileID: 114000014229976052}
 --- !u!114 &114000012122939316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2353,9 +2353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000010342756064}
-  PlayerName: {fileID: 114000011711993004}
-  Score: {fileID: 114000012173122652}
+  _position: {fileID: 114000010342756064}
+  _playerName: {fileID: 114000011711993004}
+  _score: {fileID: 114000012173122652}
 --- !u!114 &114000012383496618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2460,9 +2460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000012272802974}
-  PlayerName: {fileID: 114000010989987600}
-  Score: {fileID: 114000011253758246}
+  _position: {fileID: 114000012272802974}
+  _playerName: {fileID: 114000010989987600}
+  _score: {fileID: 114000011253758246}
 --- !u!114 &114000012687604838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2581,9 +2581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000014066594342}
-  PlayerName: {fileID: 114000011150899448}
-  Score: {fileID: 114000010124412040}
+  _position: {fileID: 114000014066594342}
+  _playerName: {fileID: 114000011150899448}
+  _score: {fileID: 114000010124412040}
 --- !u!114 &114000012932645310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2682,9 +2682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000013196422078}
-  PlayerName: {fileID: 114000011096815682}
-  Score: {fileID: 114000011909557844}
+  _position: {fileID: 114000013196422078}
+  _playerName: {fileID: 114000011096815682}
+  _score: {fileID: 114000011909557844}
 --- !u!114 &114000013144321434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2696,9 +2696,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000013571023602}
-  PlayerName: {fileID: 114000012383496618}
-  Score: {fileID: 114000011248094500}
+  _position: {fileID: 114000013571023602}
+  _playerName: {fileID: 114000012383496618}
+  _score: {fileID: 114000011248094500}
 --- !u!114 &114000013170530298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3041,9 +3041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000010446629670}
-  PlayerName: {fileID: 114000012421391998}
-  Score: {fileID: 114000012707286110}
+  _position: {fileID: 114000010446629670}
+  _playerName: {fileID: 114000012421391998}
+  _score: {fileID: 114000012707286110}
 --- !u!114 &114000013571023602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3340,9 +3340,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25da11aba1dd1e54e81ba9533fddd8ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {fileID: 114000013345529990}
-  PlayerName: {fileID: 114000011994174128}
-  Score: {fileID: 114000010972655446}
+  _position: {fileID: 114000013345529990}
+  _playerName: {fileID: 114000011994174128}
+  _score: {fileID: 114000010972655446}
 --- !u!114 &114000014254748628
 MonoBehaviour:
   m_ObjectHideFlags: 1

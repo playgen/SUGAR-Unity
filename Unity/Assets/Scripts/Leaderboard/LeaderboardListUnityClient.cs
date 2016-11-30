@@ -52,13 +52,22 @@ namespace SUGAR.Unity
 			_leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				var leaderboards = SUGARManager.Client.Leaderboard.Get(SUGARManager.GameId).ToList();
-				foreach (var at in (ActorType[])Enum.GetValues(typeof(ActorType)))
+				SUGARManager.Client.Leaderboard.GetAsync(SUGARManager.GameId,
+				response =>
 				{
-					_leaderboards.Add(leaderboards.Where(lb => lb.ActorType == at).ToList());
-				}
+					var leaderboards = response.ToList();
+					foreach (var at in (ActorType[])Enum.GetValues(typeof(ActorType)))
+					{
+						_leaderboards.Add(leaderboards.Where(lb => lb.ActorType == at).ToList());
+					}
+				},
+				exception =>
+				{
+					string error = "Failed to get leaderboard list. " + exception.Message;
+					Debug.LogError(error);
+				});
 			}
-			else
+			if (_leaderboards.Count == 0)
 			{
 				for (int i = 0; i < Enum.GetValues(typeof(ActorType)).Length; i++)
 				{

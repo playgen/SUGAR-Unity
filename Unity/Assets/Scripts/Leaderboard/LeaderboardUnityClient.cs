@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
@@ -31,31 +32,61 @@ namespace SUGAR.Unity
 			_pageNumber = 0;
 			_filter = filter;
 			GetLeaderboard();
-			_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, GetLeaderboardStandings(), _pageNumber);
+			GetLeaderboardStandings(result =>
+			{
+				var standings = result.ToList();
+				if (standings.Count != 0)
+				{
+					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
+				}
+			});
 		}
 
 		internal void UpdatePageNumber(int changeAmount)
 		{
 			_pageNumber += changeAmount;
-			_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, GetLeaderboardStandings(), _pageNumber);
+			GetLeaderboardStandings(result =>
+			{
+				var standings = result.ToList();
+				if (standings.Count != 0)
+				{
+					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
+				}
+			});
 		}
 
 		internal void UpdateFilter(int filter)
 		{
 			_pageNumber = 0;
 			_filter = (LeaderboardFilterType)filter;
-			_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, GetLeaderboardStandings(), _pageNumber);
+			GetLeaderboardStandings(result =>
+			{
+				var standings = result.ToList();
+				if (standings.Count != 0)
+				{
+					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
+				}
+			});
 		}
 
 		private void GetLeaderboard()
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				_leaderboard = SUGARManager.Client.Leaderboard.Get(_leaderboardToken, SUGARManager.GameId);
+				SUGARManager.Client.Leaderboard.GetAsync(_leaderboardToken, SUGARManager.GameId,
+				response =>
+				{
+					_leaderboard = response;
+				},
+				exception =>
+				{
+					string error = "Failed to get leaderboard. " + exception.Message;
+					Debug.LogError(error);
+				});
 			}
 		}
 
-		private IEnumerable<LeaderboardStandingsResponse> GetLeaderboardStandings()
+		private void GetLeaderboardStandings(Action<IEnumerable<LeaderboardStandingsResponse>> result)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
@@ -68,10 +99,20 @@ namespace SUGAR.Unity
 					PageLimit = _leaderboardInterface.GetPossiblePositionCount() + 1,
 					PageOffset = _pageNumber
 				};
-				var standings = SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandings(request).ToList();
-				return standings;
+
+				SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
+				response =>
+				{
+					result(response.ToList());
+				},
+				exception =>
+				{
+					string error = "Failed to get leaderboard standings. " + exception.Message;
+					Debug.LogError(error);
+					result(Enumerable.Empty<LeaderboardStandingsResponse>());
+				});
 			}
-			return Enumerable.Empty<LeaderboardStandingsResponse>();
+			result(Enumerable.Empty<LeaderboardStandingsResponse>());
 		}
 	}
 }

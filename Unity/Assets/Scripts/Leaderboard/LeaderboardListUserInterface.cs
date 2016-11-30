@@ -47,7 +47,9 @@ namespace SUGAR.Unity
 				return;
 			}
 			gameObject.SetActive(true);
-			var leaderboardList = leaderboards.Skip(pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
+			var leaderboardList = leaderboards.ToList();
+			_nextButton.interactable = leaderboardList.Count > (pageNumber + 1) * _leaderboardButtons.Length;
+			leaderboardList = leaderboardList.Skip(pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
 			if (!leaderboardList.Any() && pageNumber > 0)
 			{
 				SUGARManager.GameLeaderboard.UpdatePageNumber(-1);
@@ -71,7 +73,6 @@ namespace SUGAR.Unity
 			_leaderboardType.text = filter == ActorType.Undefined ? "Combined" : filter.ToString();
 			_pageNumber.text = "Page " + (pageNumber + 1);
 			_previousButton.interactable = pageNumber > 0;
-			_nextButton.interactable = leaderboardList.Count > pageNumber * _leaderboardButtons.Length;
 		}
 	}
 }

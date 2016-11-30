@@ -10,7 +10,26 @@ namespace SUGAR.Unity
 	{
 		public void Send(string key, string value)
 		{
-			bool success = false;
+			Send(key, value, SaveDataType.String);
+		}
+
+		public void Send(string key, long value)
+		{
+			Send(key, value.ToString(), SaveDataType.Long);
+		}
+
+		public void Send(string key, float value)
+		{
+			Send(key, value.ToString(CultureInfo.InvariantCulture), SaveDataType.Float);
+		}
+
+		public void Send(string key, bool value)
+		{
+			Send(key, value.ToString(), SaveDataType.Boolean);
+		}
+
+		private void Send(string key, string value, SaveDataType dataType)
+		{
 			if (SUGARManager.CurrentUser != null)
 			{
 				SaveDataRequest data = new SaveDataRequest
@@ -19,65 +38,19 @@ namespace SUGAR.Unity
 					GameId = SUGARManager.GameId,
 					Key = key,
 					Value = value,
-					SaveDataType = SaveDataType.String
+					SaveDataType = dataType
 				};
-				success = SUGARManager.Client.GameData.Add(data) != null;
-			}
-			Debug.Log("GameData Sending Success: " + success);
-		}
 
-		public void Send(string key, long value)
-		{
-			bool success = false;
-			if (SUGARManager.CurrentUser != null)
-			{
-				SaveDataRequest data = new SaveDataRequest
+				SUGARManager.Client.GameData.AddAsync(data,
+				response =>
 				{
-					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = SUGARManager.GameId,
-					Key = key,
-					Value = value.ToString(),
-					SaveDataType = SaveDataType.Long
-				};
-				success = SUGARManager.Client.GameData.Add(data) != null;
-			}
-			Debug.Log("GameData Sending Success: " + success);
-		}
-
-		public void Send(string key, float value)
-		{
-			bool success = false;
-			if (SUGARManager.CurrentUser != null)
-			{
-				SaveDataRequest data = new SaveDataRequest
+					Debug.Log("GameData Sending Success: True");
+				},
+				exception =>
 				{
-					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = SUGARManager.GameId,
-					Key = key,
-					Value = value.ToString(CultureInfo.InvariantCulture),
-					SaveDataType = SaveDataType.Float
-				};
-				success = SUGARManager.Client.GameData.Add(data) != null;
+					Debug.Log("GameData Sending Success: False. Exception: " + exception);
+				});
 			}
-			Debug.Log("GameData Sending Success: " + success);
-		}
-
-		public void Send(string key, bool value)
-		{
-			bool success = false;
-			if (SUGARManager.CurrentUser != null)
-			{
-				SaveDataRequest data = new SaveDataRequest
-				{
-					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = SUGARManager.GameId,
-					Key = key,
-					Value = value.ToString(),
-					SaveDataType = SaveDataType.Boolean
-				};
-				success = SUGARManager.Client.GameData.Add(data) != null;
-			}
-			Debug.Log("GameData Sending Success: " + success);
 		}
 	}
 }

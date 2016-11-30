@@ -52,7 +52,7 @@ namespace SUGAR.Unity
 			}
 			_pageNumber.text = "Page " + (pageNumber + 1);
 			_previousButton.interactable = pageNumber > 0;
-			_nextButton.interactable = achievementList.Count > pageNumber * _achievementItems.Length;
+			_nextButton.interactable = achievementList.Count > (pageNumber + 1) * _achievementItems.Length;
 		}
 	}
 }

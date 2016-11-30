@@ -1,103 +1,92 @@
 ﻿using System;
-using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.SUGAR.Unity;
 using UnityEngine;
 
 namespace SUGAR.Unity
 {
-    public class AccountUnityClient : MonoBehaviour
-    {
-        [SerializeField] private LoginUserInterface _loginUserInterface;
+	[DisallowMultipleComponent]
+	public class AccountUnityClient : MonoBehaviour
+	{
+		[SerializeField] private LoginUserInterface _loginUserInterface;
 
-        [SerializeField] private bool _allowAutoLogin;
+		[SerializeField] private bool _allowAutoLogin;
 
-        [SerializeField] private string _defaultSourceToken = "SUGAR";
+		[SerializeField] private string _defaultSourceToken = "SUGAR";
 
-        private CommandLineOptions _options;
-        private AccountClient _accountClient;
+		private CommandLineOptions _options;
 
+		private Action<bool> _signInCallback;
 
-        void Start()
-        {
-            _accountClient = SUGARManager.Client.Account;
+		public void SignIn(Action<bool> success)
+		{
+			_signInCallback = success;
+		#if UNITY_EDITOR
+			_options = CommandLineUtility.ParseArgs(new [] { "-ujim" , "-sSPL", "-a"});
+			Debug.Log(_options.UserId + " : " + _options.AuthenticationSource);
+		#else
+			_options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
+		#endif
 
-        #if UNITY_EDITOR
-            _options = CommandLineUtility.ParseArgs(new string[] { "-ujim" , "-sSPL", "-a"});
-            Debug.Log(_options.UserId + " : " + _options.AuthenticationSource);
-        #else
-            _options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
+			if (_options.AuthenticationSource == null)
+			{
+				_options.AuthenticationSource = _defaultSourceToken;
+			}
 
-        #endif
-            if (_options.AuthenticationSource == null)
-            {
-                _options.AuthenticationSource = _defaultSourceToken;
-            }
+			if (_allowAutoLogin && _options.AutoLogin)
+			{
+				LoginUser(_options.UserId, _options.AuthenticationSource, string.Empty);
+			}
+			else
+			{
+				if (_loginUserInterface != null)
+				{
+					_loginUserInterface.Login += LoginUserInterfaceOnLogin;
+					_loginUserInterface.Show();
+				}
+			}
+		}
 
-            if (_allowAutoLogin && _options.AutoLogin)
-            {
-                LoginUser(_options.UserId, _options.AuthenticationSource);
-            }
-            else
-            {
-                if (_loginUserInterface != null)
-                {
-                    _loginUserInterface.Login += LoginUserInterfaceOnLogin;
-                    _loginUserInterface.Show();
-                }
-            }
-        }
+		private void LoginUser(string user, string sourceToken, string pass)
+		{
+			var accountRequest = CreateAccountRequest(user, pass, sourceToken);
+			SUGARManager.Client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
+			response =>
+			{
+				Debug.Log("SUCCESS");
+				if (_loginUserInterface != null)
+				{
+					_loginUserInterface.SetStatus("Success! " + response.User.Id + ": " + response.User.Name);
+					_loginUserInterface.Hide();
+				}
+				SUGARManager.CurrentUser = response.User;
+				_signInCallback(true);
+			},
+			exception =>
+			{
+				Debug.Log(exception);
+				if (_loginUserInterface != null)
+				{
+					_loginUserInterface.SetStatus("Login Error: " + exception.Message);
+				}
+				_signInCallback(false);
+			});
+		}
 
-        private void LoginUser(string user, string sourceToken, string pass = "")
-        {
-            var accountResponse = GetLoginAccountResponse(user, pass, sourceToken);
-            if (accountResponse != null)
-            {
-                Debug.Log("SUCCESS");
-                if (_loginUserInterface != null)
-                {
-                    _loginUserInterface.SetStatus("Success! " + accountResponse.User.Id + ": " + accountResponse.User.Name);
-                    _loginUserInterface.Hide();
-                }
-                SUGARManager.CurrentUser = accountResponse.User;
-            }
-        }
-
-
-        private AccountResponse GetLoginAccountResponse(string username, string password, string source)
-        {
-
-            var accountRequest = CreateAccountRequest(username, password, source);
-            try
-            {
-                return _accountClient.Login(accountRequest);
-            }
-            catch (Exception ex)
-            {
-                if (_loginUserInterface != null)
-                {
-                    _loginUserInterface.SetStatus("Login Error: " + ex.Message);
-                }
-                Debug.Log(ex);
-                return null;
-            }
-        }
-
-        private AccountRequest CreateAccountRequest(string user, string pass, string source, bool autoLogin = false)
-        {
-            return new AccountRequest()
-            {
-                Name = user,
-                Password = pass,
-                SourceToken = source,
-                AutoLogin = autoLogin
-            };
-        }
+		private AccountRequest CreateAccountRequest(string user, string pass, string source)
+		{
+			return new AccountRequest
+			{
+				Name = user,
+				Password = pass,
+				SourceToken = source,
+			};
+		}
 
 
-        private void LoginUserInterfaceOnLogin(object sender, LoginEventArgs loginEventArgs)
-        {
-            LoginUser(loginEventArgs.Username, _defaultSourceToken, loginEventArgs.Password);
-        }
-    }
+		private void LoginUserInterfaceOnLogin(object sender, LoginEventArgs loginEventArgs)
+		{
+			LoginUser(loginEventArgs.Username, _defaultSourceToken, loginEventArgs.Password);
+		}
+	}
 }

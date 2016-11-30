@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\Leaderboard\LeaderboardUserInterface.cs" />
     <Compile Include="Assets\Scripts\SUGARManager.cs" />
     <Compile Include="Assets\Scripts\SUGARUnityManager.cs" />
+    <Compile Include="Assets\Scripts\TestImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\PlayGen.SUGAR.Unity\CommandLine.xml" />

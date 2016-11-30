@@ -62,16 +62,17 @@ namespace SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				try
+				_achievementClient.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
+				response =>
 				{
-					_progress = _achievementClient.GetGameProgress(SUGARManager.GameId, SUGARManager.CurrentUser.Id).ToList();
+					_progress = response.ToList();
 					_achievementListInterface.SetAchievementData(_progress, _pageNumber);
-				}
-				catch (Exception ex)
+				},
+				exception =>
 				{
-					string error = "Failed to get achievements list. " + ex.Message;
+					string error = "Failed to get achievements list. " + exception.Message;
 					Debug.LogError(error);
-				}
+				});
 			}
 		}
 
