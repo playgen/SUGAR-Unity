@@ -1165,6 +1165,11 @@
             The display name of the role.
             </summary>
         </member>
+        <member name="P:PlayGen.SUGAR.Contracts.Shared.RoleResponse.Default">
+            <summary>
+            Is this role a default role for the ClaimScope?
+            </summary>
+        </member>
         <member name="P:PlayGen.SUGAR.Contracts.Shared.RoleResponse.ClaimScope">
             <summary>
             The ClaimScope of this role.
