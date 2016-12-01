@@ -7,6 +7,8 @@ using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using System.Linq;
 
+using UnityEngine.SceneManagement;
+
 namespace SUGAR.Unity
 {
 	[DisallowMultipleComponent]
@@ -20,6 +22,18 @@ namespace SUGAR.Unity
 
 		[SerializeField]
 		private LeaderboardListUserInterface _leaderboardListInterface;
+
+		internal void CreateInterface(Canvas canvas)
+		{
+			bool inScene = _leaderboardListInterface.gameObject.scene == SceneManager.GetActiveScene();
+			if (!inScene)
+			{
+				var newInterface = Instantiate(_leaderboardListInterface, canvas.transform, false);
+				newInterface.name = _leaderboardListInterface.name;
+				_leaderboardListInterface = newInterface;
+			}
+			_leaderboardListInterface.gameObject.SetActive(false);
+		}
 
 		public void DisplayList(ActorType filter = ActorType.User)
 		{

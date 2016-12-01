@@ -4,6 +4,7 @@ using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SUGAR.Unity
 {
@@ -20,6 +21,18 @@ namespace SUGAR.Unity
 
 		[SerializeField]
 		private LeaderboardUserInterface _leaderboardInterface;
+
+		internal void CreateInterface(Canvas canvas)
+		{
+			bool inScene = _leaderboardInterface.gameObject.scene == SceneManager.GetActiveScene();
+			if (!inScene)
+			{
+				var newInterface = Instantiate(_leaderboardInterface, canvas.transform, false);
+				newInterface.name = _leaderboardInterface.name;
+				_leaderboardInterface = newInterface;
+			}
+			_leaderboardInterface.gameObject.SetActive(false);
+		}
 
 		public void Display(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
 		{

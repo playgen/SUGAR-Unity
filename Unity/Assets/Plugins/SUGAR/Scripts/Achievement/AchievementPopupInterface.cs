@@ -19,7 +19,7 @@ namespace SUGAR.Unity
 
 		private void Awake()
 		{
-			_rectTransform = gameObject.GetComponent<RectTransform>();
+			_rectTransform = (RectTransform)transform;
 		}
 
 		private void Start()
@@ -43,6 +43,8 @@ namespace SUGAR.Unity
 
 		internal void Animate()
 		{
+			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 			StartCoroutine(AnimatePopup());
 		}
 
@@ -59,6 +61,7 @@ namespace SUGAR.Unity
 				yield return null;
 			}
 			_rectTransform.anchoredPosition = endpos;
+			gameObject.SetActive(false);
 		}
 	}
 }

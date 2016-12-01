@@ -54,6 +54,7 @@ namespace SUGAR.Unity
 				return;
 			}
 			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 			var standingsList = standings.ToList();
 			if (!standingsList.Any() && pageNumber > 0)
 			{

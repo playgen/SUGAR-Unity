@@ -2,6 +2,7 @@
 using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.SUGAR.Unity;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SUGAR.Unity
 {
@@ -17,6 +18,18 @@ namespace SUGAR.Unity
 		private CommandLineOptions _options;
 
 		private Action<bool> _signInCallback;
+
+		internal void CreateInterface(Canvas canvas)
+		{
+			bool inScene = _loginUserInterface.gameObject.scene == SceneManager.GetActiveScene();
+			if (!inScene)
+			{
+				var newInterface = Instantiate(_loginUserInterface, canvas.transform, false);
+				newInterface.name = _loginUserInterface.name;
+				_loginUserInterface = newInterface;
+			}
+			_loginUserInterface.gameObject.SetActive(false);
+		}
 
 		public void SignIn(Action<bool> success)
 		{
@@ -64,7 +77,7 @@ namespace SUGAR.Unity
 			},
 			exception =>
 			{
-				Debug.Log(exception);
+				Debug.LogError(exception);
 				if (_loginUserInterface != null)
 				{
 					_loginUserInterface.SetStatus("Login Error: " + exception.Message);

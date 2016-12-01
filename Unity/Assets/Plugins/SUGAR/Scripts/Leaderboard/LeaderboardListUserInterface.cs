@@ -47,6 +47,7 @@ namespace SUGAR.Unity
 				return;
 			}
 			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 			var leaderboardList = leaderboards.ToList();
 			_nextButton.interactable = leaderboardList.Count > (pageNumber + 1) * _leaderboardButtons.Length;
 			leaderboardList = leaderboardList.Skip(pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();

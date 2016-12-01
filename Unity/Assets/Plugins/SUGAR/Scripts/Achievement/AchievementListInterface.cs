@@ -33,6 +33,7 @@ namespace SUGAR.Unity
 				return;
 			}
 			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 			var achievementList = achievements.Skip(pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
 			if (!achievementList.Any() && pageNumber > 0)
 			{
