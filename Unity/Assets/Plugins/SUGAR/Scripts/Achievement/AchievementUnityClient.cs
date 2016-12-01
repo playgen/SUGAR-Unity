@@ -49,7 +49,7 @@ namespace SUGAR.Unity
 				_achievementPopup = newPopUp;
 			}
 			_achievementPopup.gameObject.SetActive(false);
-			InvokeRepeating("NotificatonCheck", 0, _notificationCheckRate);
+			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 		}
 
 		private void NotificatonCheck()
@@ -97,8 +97,7 @@ namespace SUGAR.Unity
 		private void HandleNotification(EvaluationNotification notification)
 		{
 			Debug.Log("NOTIFICATION");
-			_achievementPopup.SetNotification(notification);
-			_achievementPopup.Animate();
+			_achievementPopup.Animate(notification);
 		}
 	}
 }
