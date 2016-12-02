@@ -6,7 +6,7 @@ using System.Linq;
 
 using UnityEngine.SceneManagement;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : MonoBehaviour

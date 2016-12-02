@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using PlayGen.SUGAR.Client;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
+	[RequireComponent(typeof(ResponseHandler))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
 		[SerializeField]

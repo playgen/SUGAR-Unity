@@ -6,7 +6,7 @@ using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class LeaderboardUnityClient : MonoBehaviour

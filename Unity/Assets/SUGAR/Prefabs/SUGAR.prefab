@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114000010768160430}
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114000013249777644}
+  - component: {fileID: 114418023665383026}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -197,8 +198,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loginUserInterface: {fileID: 114000014259607728, guid: bb12776c4b045cc45ab0ef3d57d1d79d,
     type: 2}
-  _allowAutoLogin: 1
+  _allowAutoLogin: 0
   _defaultSourceToken: SUGAR
+--- !u!114 &114418023665383026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d99a6681f0a0e4fa26b114e9d408a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _responseMillisecondBudgetPerFrame: 0
 --- !u!114 &114508142550189334
 MonoBehaviour:
   m_ObjectHideFlags: 1

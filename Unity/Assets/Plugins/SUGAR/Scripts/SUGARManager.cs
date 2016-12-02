@@ -3,7 +3,7 @@
 using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Contracts.Shared;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public static class SUGARManager
 	{

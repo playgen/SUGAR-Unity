@@ -4,7 +4,7 @@ using PlayGen.SUGAR.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class AccountUnityClient : MonoBehaviour
