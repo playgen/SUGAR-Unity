@@ -16,7 +16,7 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Animation _animation;
 
-		private List<EvaluationNotification> _achievementQueue = new List<EvaluationNotification>();
+		private readonly List<EvaluationNotification> _achievementQueue = new List<EvaluationNotification>();
 
 		internal void Animate(EvaluationNotification notification)
 		{

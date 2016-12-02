@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using PlayGen.SUGAR.Client;
+﻿using System.Collections.Generic;
 using PlayGen.SUGAR.Client.EvaluationEvents;
 using PlayGen.SUGAR.Contracts.Shared;
-
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
 
 using UnityEngine.SceneManagement;
@@ -16,9 +11,12 @@ namespace SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : MonoBehaviour
 	{
-		private int _pageNumber;
-
 		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
+
+		internal List<EvaluationProgressResponse> Progress
+		{
+			get { return _progress; }
+		}
 
 		[SerializeField]
 		private AchievementListInterface _achievementListInterface;
@@ -52,22 +50,10 @@ namespace SUGAR.Unity
 			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 		}
 
-		private void NotificatonCheck()
-		{
-			/*EvaluationNotification notification;
-			if (SUGARManager.Client.Achievement.TryGetPendingNotification(out notification))
-			{
-				HandleNotification(notification);
-			}*/
-			HandleNotification(new EvaluationNotification
-			{
-				Name = "Testing"
-			});
-		}
-
 		public void DisplayList()
 		{
 			GetAchievements();
+			_achievementListInterface.Display();
 		}
 
 		private void GetAchievements()
@@ -78,7 +64,6 @@ namespace SUGAR.Unity
 				response =>
 				{
 					_progress = response.ToList();
-					_achievementListInterface.SetAchievementData(_progress, _pageNumber);
 				},
 				exception =>
 				{
@@ -88,10 +73,13 @@ namespace SUGAR.Unity
 			}
 		}
 
-		internal void UpdatePageNumber(int changeAmount)
+		private void NotificatonCheck()
 		{
-			_pageNumber += changeAmount;
-			_achievementListInterface.SetAchievementData(_progress, _pageNumber);
+			EvaluationNotification notification;
+			if (SUGARManager.Client.Achievement.TryGetPendingNotification(out notification))
+			{
+				HandleNotification(notification);
+			}
 		}
 
 		private void HandleNotification(EvaluationNotification notification)
