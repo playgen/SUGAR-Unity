@@ -17,7 +17,7 @@ namespace SUGAR.Unity
 
 		internal static AchievementUnityClient achievement { get; set; }
 
-		internal static GameDataUnityClient gameData { get; set; }
+		internal static GameDataUnityClient gameData = new GameDataUnityClient();
 
 		internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
 
