@@ -22,7 +22,9 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _nextButton;
 		[SerializeField]
-		private Text _pageNumber;
+		private Text _pageNumberText;
+		private int _pageNumber;
+		private LeaderboardFilterType _filter;
 		[SerializeField]
 		private Button _topButton;
 		[SerializeField]
@@ -34,30 +36,38 @@ namespace SUGAR.Unity
 
 		private void Awake()
 		{
-			_previousButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(-1); });
-			_nextButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdatePageNumber(1); });
-			_topButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(0); });
-			_nearButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(1); });
-			_friendsButton.onClick.AddListener(delegate { SUGARManager.Leaderboard.UpdateFilter(2); });
+			_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
+			_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
+			_topButton.onClick.AddListener(delegate { UpdateFilter(0); });
+			_nearButton.onClick.AddListener(delegate { UpdateFilter(1); });
+			_friendsButton.onClick.AddListener(delegate { UpdateFilter(2); });
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		internal int GetPossiblePositionCount()
+		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings)
 		{
-			return _leaderboardPositions.Length;
+			_pageNumber = 0;
+			_filter = filter;
+			ShowLeaderboard(standings);
 		}
 
-		internal void ShowLeaderboard(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, int pageNumber)
+		private void ShowLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings)
 		{
 			if (SUGARManager.CurrentUser == null || standings == null)
 			{
 				return;
 			}
 			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 			var standingsList = standings.ToList();
-			if (!standingsList.Any() && pageNumber > 0)
+			if (!standingsList.Any() && _pageNumber > 0)
 			{
-				SUGARManager.Leaderboard.UpdatePageNumber(-1);
+				UpdatePageNumber(-1);
+				return;
+			}
+			if (_pageNumber < 0)
+			{
+				UpdatePageNumber(1);
 				return;
 			}
 			for (int i = 0; i < _leaderboardPositions.Length; i++)
@@ -70,13 +80,46 @@ namespace SUGAR.Unity
 					_leaderboardPositions[i].SetText(standingsList[i]);
 				}
 			}
-			_leaderboardName.text = leaderboard.Name;
-			_leaderboardType.text = filter.ToString();
-			_pageNumber.text = "Page " + (pageNumber + 1);
-			_previousButton.interactable = pageNumber > 0;
+			_leaderboardName.text = SUGARManager.Leaderboard.CurrentLeaderboard.Name;
+			_leaderboardType.text = _filter.ToString();
+			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_previousButton.interactable = _pageNumber > 0;
 			_nextButton.interactable = standingsList.Count > _leaderboardPositions.Length;
-			_nearButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
-			_friendsButton.interactable = SUGARManager.CurrentUser != null && leaderboard.ActorType == ActorType.User;
+			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
+			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
 		}
+
+		private void UpdatePageNumber(int changeAmount)
+		{
+			_pageNumber += changeAmount;
+			SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber, result =>
+			{
+				var standings = result.ToList();
+				if (standings.Count != 0)
+				{
+					ShowLeaderboard(standings);
+				}
+			});
+		}
+
+		private void UpdateFilter(int filter)
+		{
+			_pageNumber = 0;
+			_filter = (LeaderboardFilterType)filter;
+			SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber, result =>
+			{
+				var standings = result.ToList();
+				if (standings.Count != 0)
+				{
+					ShowLeaderboard(standings);
+				}
+			});
+		}
+
+		internal int GetPossiblePositionCount()
+		{
+			return _leaderboardPositions.Length;
+		}
+
 	}
 }

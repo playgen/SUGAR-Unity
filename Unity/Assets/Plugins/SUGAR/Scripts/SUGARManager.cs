@@ -1,4 +1,6 @@
-﻿using PlayGen.SUGAR.Client;
+﻿using System;
+
+using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Contracts.Shared;
 
 namespace SUGAR.Unity
@@ -11,15 +13,75 @@ namespace SUGAR.Unity
 
 		public static ActorResponse CurrentUser { get; internal set; }
 
-		public static AccountUnityClient Account { get; internal set; }
+		internal static AccountUnityClient account { get; set; }
 
-		public static AchievementUnityClient Achievement { get; internal set; }
+		internal static AchievementUnityClient achievement { get; set; }
 
-		public static GameDataUnityClient GameData { get; internal set; }
+		internal static GameDataUnityClient gameData { get; set; }
 
-		public static LeaderboardListUnityClient GameLeaderboard { get; internal set; }
+		internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
 
-		public static LeaderboardUnityClient Leaderboard { get; internal set; }
+		internal static LeaderboardUnityClient leaderboard { get; set; }
+
+		public static AccountUnityClient Account
+		{
+			get
+			{
+				if (account != null)
+				{
+					return account;
+				} 
+				throw new Exception("SUGAR GameObject needs to be active to access Account");
+			}
+		}
+
+		public static AchievementUnityClient Achievement
+		{
+			get
+			{
+				if (achievement != null)
+				{
+					return achievement;
+				}
+				throw new Exception("Achievements are currently disabled in the SUGAR Unity Manager");
+			}
+		}
+
+		public static GameDataUnityClient GameData
+		{
+			get
+			{
+				if (gameData != null)
+				{
+					return gameData;
+				}
+				throw new Exception("SUGAR GameObject needs to be active to access GameData");
+			}
+		}
+
+		public static LeaderboardListUnityClient GameLeaderboard
+		{
+			get
+			{
+				if (gameLeaderboard != null)
+				{
+					return gameLeaderboard;
+				}
+				throw new Exception("Leaderboards are currently disabled in the SUGAR Unity Manager");
+			}
+		}
+
+		public static LeaderboardUnityClient Leaderboard
+		{
+			get
+			{
+				if (leaderboard != null)
+				{
+					return leaderboard;
+				}
+				throw new Exception("Leaderboards are currently disabled in the SUGAR Unity Manager");
+			}
+		}
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{

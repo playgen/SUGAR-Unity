@@ -2785,7 +2785,7 @@ MonoBehaviour:
   - {fileID: 114000014231298928}
   _previousButton: {fileID: 114000010758246850}
   _nextButton: {fileID: 114000010013943934}
-  _pageNumber: {fileID: 114000011008003046}
+  _pageNumberText: {fileID: 114000011008003046}
   _topButton: {fileID: 114000014254748628}
   _nearButton: {fileID: 114000012687604838}
   _friendsButton: {fileID: 114000010306375208}

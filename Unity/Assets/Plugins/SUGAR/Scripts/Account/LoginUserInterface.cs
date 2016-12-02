@@ -27,6 +27,7 @@ namespace SUGAR.Unity
 		public virtual void Show()
 		{
 			gameObject.SetActive(true);
+			transform.SetAsLastSibling();
 		}
 
 		public virtual void Hide()

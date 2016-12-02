@@ -1321,7 +1321,7 @@ MonoBehaviour:
   - {fileID: 114000013628984144}
   _previousButton: {fileID: 114000012685419610}
   _nextButton: {fileID: 114000013483008938}
-  _pageNumber: {fileID: 114000012128800644}
+  _pageNumberText: {fileID: 114000012128800644}
   _closeButton: {fileID: 114000010590860348}
 --- !u!114 &114000011382515084
 MonoBehaviour:

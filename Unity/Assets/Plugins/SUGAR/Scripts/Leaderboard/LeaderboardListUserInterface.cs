@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using System.Linq;
-
 using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
 
 namespace SUGAR.Unity
 {
 	public class LeaderboardListUserInterface : MonoBehaviour
 	{
-
 		[SerializeField]
 		private Button[] _leaderboardButtons;
 		[SerializeField]
@@ -20,7 +16,9 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _nextButton;
 		[SerializeField]
-		private Text _pageNumber;
+		private Text _pageNumberText;
+		private int _pageNumber;
+		private ActorType _actorType;
 		[SerializeField]
 		private Button _userButton;
 		[SerializeField]
@@ -32,27 +30,40 @@ namespace SUGAR.Unity
 
 		private void Awake()
 		{
-			_previousButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdatePageNumber(-1); });
-			_nextButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdatePageNumber(1); });
-			_userButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(1); });
-			_groupButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(2); });
-			_combinedButton.onClick.AddListener(delegate { SUGARManager.GameLeaderboard.UpdateFilter(0); });
+			_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
+			_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
+			_userButton.onClick.AddListener(delegate { UpdateFilter(1); });
+			_groupButton.onClick.AddListener(delegate { UpdateFilter(2); });
+			_combinedButton.onClick.AddListener(delegate { UpdateFilter(0); });
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		internal void ShowLeaderboards(ActorType filter, IEnumerable<LeaderboardResponse> leaderboards, int pageNumber)
+		internal void Display(ActorType filter)
+		{
+			_pageNumber = 0;
+			_actorType = filter;
+			ShowLeaderboards();
+		}
+
+		private void ShowLeaderboards()
 		{
 			if (SUGARManager.CurrentUser == null)
 			{
 				return;
 			}
 			gameObject.SetActive(true);
-			var leaderboardList = leaderboards.ToList();
-			_nextButton.interactable = leaderboardList.Count > (pageNumber + 1) * _leaderboardButtons.Length;
-			leaderboardList = leaderboardList.Skip(pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
-			if (!leaderboardList.Any() && pageNumber > 0)
+			transform.SetAsLastSibling();
+			var leaderboardList = SUGARManager.GameLeaderboard.Leaderboards[(int)_actorType].ToList();
+			_nextButton.interactable = leaderboardList.Count > (_pageNumber + 1) * _leaderboardButtons.Length;
+			leaderboardList = leaderboardList.Skip(_pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
+			if (!leaderboardList.Any() && _pageNumber > 0)
 			{
-				SUGARManager.GameLeaderboard.UpdatePageNumber(-1);
+				UpdatePageNumber(-1);
+				return;
+			}
+			if (_pageNumber < 0)
+			{
+				UpdatePageNumber(1);
 				return;
 			}
 			for (int i = 0; i < _leaderboardButtons.Length; i++)
@@ -66,13 +77,26 @@ namespace SUGAR.Unity
 					_leaderboardButtons[i].onClick.RemoveAllListeners();
 					_leaderboardButtons[i].GetComponentInChildren<Text>().text = leaderboardList[i].Name;
 					var token = leaderboardList[i].Token;
-					_leaderboardButtons[i].onClick.AddListener(delegate { SUGARManager.Leaderboard.SetLeaderboard(token); });
+					_leaderboardButtons[i].onClick.AddListener(delegate { SUGARManager.Leaderboard.Display(token); });
 					_leaderboardButtons[i].gameObject.SetActive(true);
 				}
 			}
-			_leaderboardType.text = filter == ActorType.Undefined ? "Combined" : filter.ToString();
-			_pageNumber.text = "Page " + (pageNumber + 1);
-			_previousButton.interactable = pageNumber > 0;
+			_leaderboardType.text = _actorType == ActorType.Undefined ? "Combined" : _actorType.ToString();
+			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_previousButton.interactable = _pageNumber > 0;
+		}
+
+		private void UpdatePageNumber(int changeAmount)
+		{
+			_pageNumber += changeAmount;
+			ShowLeaderboards();
+		}
+
+		private void UpdateFilter(int filter)
+		{
+			_pageNumber = 0;
+			_actorType = (ActorType)filter;
+			ShowLeaderboards();
 		}
 	}
 }

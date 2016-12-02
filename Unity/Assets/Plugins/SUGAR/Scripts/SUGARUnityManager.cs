@@ -13,12 +13,13 @@ namespace SUGAR.Unity
 		private string _baseAddress;
 		[SerializeField]
 		private int _gameId;
+		private Canvas _canvas;
 		[SerializeField]
 		private bool _useAchievements = true;
 		[SerializeField]
 		private bool _useLeaderboards = true;
 
-		void Awake()
+		private void Awake()
 		{
 			if (SUGARManager.Register(this))
 			{
@@ -28,12 +29,23 @@ namespace SUGAR.Unity
 			{
 				Destroy(gameObject);
 			}
-			SUGARManager.Client = new SUGARClient(_baseAddress); // hTTPhANDLER ?>?!
+			SUGARManager.Client = new SUGARClient(_baseAddress);
 			SUGARManager.GameId = _gameId;
-			SUGARManager.Account = GetComponent<AccountUnityClient>();
-			SUGARManager.Achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-			SUGARManager.Leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
-			SUGARManager.GameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
+			SUGARManager.account = GetComponent<AccountUnityClient>();
+			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
+			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
+			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
+			_canvas = GetComponentInChildren<Canvas>();
+			GetComponent<AccountUnityClient>().CreateInterface(_canvas);
+			if (_useLeaderboards)
+			{
+				GetComponent<LeaderboardListUnityClient>().CreateInterface(_canvas);
+				GetComponent<LeaderboardUnityClient>().CreateInterface(_canvas);
+			}
+			if (_useAchievements)
+			{
+				GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
+			}
 		}
 	}
 }

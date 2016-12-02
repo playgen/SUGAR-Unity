@@ -48,7 +48,7 @@ namespace SUGAR.Unity
 				},
 				exception =>
 				{
-					Debug.Log("GameData Sending Success: False. Exception: " + exception);
+					Debug.LogError("GameData Sending Success: False. Exception: " + exception);
 				});
 			}
 		}

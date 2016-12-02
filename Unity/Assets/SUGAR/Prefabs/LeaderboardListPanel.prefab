@@ -1486,7 +1486,7 @@ MonoBehaviour:
   _leaderboardType: {fileID: 114000012244034512}
   _previousButton: {fileID: 114000011298906396}
   _nextButton: {fileID: 114000010134271410}
-  _pageNumber: {fileID: 114000010864099014}
+  _pageNumberText: {fileID: 114000010864099014}
   _userButton: {fileID: 114000012379300082}
   _groupButton: {fileID: 114000011063311012}
   _combinedButton: {fileID: 114000014245877994}

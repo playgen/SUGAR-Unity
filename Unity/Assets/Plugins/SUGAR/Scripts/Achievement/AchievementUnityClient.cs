@@ -1,72 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-
-using PlayGen.SUGAR.Client;
+﻿using System.Collections.Generic;
 using PlayGen.SUGAR.Client.EvaluationEvents;
 using PlayGen.SUGAR.Contracts.Shared;
-
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
+
+using UnityEngine.SceneManagement;
 
 namespace SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : MonoBehaviour
 	{
-		private AchievementClient _achievementClient;
-
-		private int _pageNumber;
-
 		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
+
+		internal List<EvaluationProgressResponse> Progress
+		{
+			get { return _progress; }
+		}
 
 		[SerializeField]
 		private AchievementListInterface _achievementListInterface;
 
 		[SerializeField]
-		private Canvas _popupTarget;
-
-		[SerializeField]
 		private AchievementPopupInterface _achievementPopup;
 
-		private void Awake()
-		{
-			_achievementClient = SUGARManager.Client.Achievement;
-			_achievementClient.EnableNotifications(true);
-		}
+		[SerializeField]
+		[Range(0f, 10f)]
+		private float _notificationCheckRate = 2.5f;
 
-		private void Update()
+		internal void CreateInterface(Canvas canvas)
 		{
-			EvaluationNotification notification;
-			if (_achievementClient.TryGetPendingNotification(out notification))
+			bool inScene = _achievementListInterface.gameObject.scene == SceneManager.GetActiveScene();
+			if (!inScene)
 			{
-				HandleNotification(notification);
+				var newInterface = Instantiate(_achievementListInterface.gameObject, canvas.transform, false) as GameObject;
+				newInterface.name = _achievementListInterface.name;
+				_achievementListInterface = newInterface.GetComponent<AchievementListInterface>();
 			}
-		}
-
-		private void HandleNotification(EvaluationNotification notification)
-		{
-			Debug.Log("NOTIFICATION");
-			var popup = Instantiate(_achievementPopup);
-			popup.transform.SetParent(_popupTarget.transform);
-			popup.SetNotification(notification);
-			popup.Animate();
+			_achievementListInterface.gameObject.SetActive(false);
+			SUGARManager.Client.Achievement.EnableNotifications(true);
+			bool inScenePopUp = _achievementPopup.gameObject.scene == gameObject.scene;
+			if (!inScenePopUp)
+			{
+				var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false) as GameObject;
+				newPopUp.name = _achievementPopup.name;
+				_achievementPopup = newPopUp.GetComponent<AchievementPopupInterface>();
+			}
+			_achievementPopup.gameObject.SetActive(false);
+			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 		}
 
 		public void DisplayList()
 		{
 			GetAchievements();
+			_achievementListInterface.Display();
 		}
 
 		private void GetAchievements()
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				_achievementClient.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
+				SUGARManager.Client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
 					_progress = response.ToList();
-					_achievementListInterface.SetAchievementData(_progress, _pageNumber);
 				},
 				exception =>
 				{
@@ -76,10 +73,19 @@ namespace SUGAR.Unity
 			}
 		}
 
-		internal void UpdatePageNumber(int changeAmount)
+		private void NotificatonCheck()
 		{
-			_pageNumber += changeAmount;
-			_achievementListInterface.SetAchievementData(_progress, _pageNumber);
+			EvaluationNotification notification;
+			if (SUGARManager.Client.Achievement.TryGetPendingNotification(out notification))
+			{
+				HandleNotification(notification);
+			}
+		}
+
+		private void HandleNotification(EvaluationNotification notification)
+		{
+			Debug.Log("NOTIFICATION");
+			_achievementPopup.Animate(notification);
 		}
 	}
 }

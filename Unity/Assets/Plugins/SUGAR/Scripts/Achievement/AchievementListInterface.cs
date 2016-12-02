@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using PlayGen.SUGAR.Contracts.Shared;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,28 +13,41 @@ namespace SUGAR.Unity
 		[SerializeField]
 		private Button _nextButton;
 		[SerializeField]
-		private Text _pageNumber;
+		private Text _pageNumberText;
+		private int _pageNumber;
 		[SerializeField]
 		private Button _closeButton;
 
 		private void Awake()
 		{
-			_previousButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(-1); });
-			_nextButton.onClick.AddListener(delegate { SUGARManager.Achievement.UpdatePageNumber(1); });
+			_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
+			_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
-		internal void SetAchievementData(IEnumerable<EvaluationProgressResponse> achievements, int pageNumber)
+		internal void Display()
+		{
+			_pageNumber = 0;
+			SetAchievementData();
+		}
+
+		private void SetAchievementData()
 		{
 			if (SUGARManager.CurrentUser == null)
 			{
 				return;
 			}
 			gameObject.SetActive(true);
-			var achievementList = achievements.Skip(pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
-			if (!achievementList.Any() && pageNumber > 0)
+			transform.SetAsLastSibling();
+			var achievementList = SUGARManager.Achievement.Progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
+			if (!achievementList.Any() && _pageNumber > 0)
 			{
-				SUGARManager.Achievement.UpdatePageNumber(-1);
+				UpdatePageNumber(-1);
+				return;
+			}
+			if (_pageNumber < 0)
+			{
+				UpdatePageNumber(1);
 				return;
 			}
 			for (int i = 0; i < _achievementItems.Length; i++)
@@ -50,9 +61,15 @@ namespace SUGAR.Unity
 					_achievementItems[i].SetText(achievementList[i].Name, Mathf.Approximately(achievementList[i].Progress, 1.0f));
 				}
 			}
-			_pageNumber.text = "Page " + (pageNumber + 1);
-			_previousButton.interactable = pageNumber > 0;
-			_nextButton.interactable = achievementList.Count > (pageNumber + 1) * _achievementItems.Length;
+			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_previousButton.interactable = _pageNumber > 0;
+			_nextButton.interactable = SUGARManager.Achievement.Progress.Count > (_pageNumber + 1) * _achievementItems.Length;
+		}
+
+		private void UpdatePageNumber(int changeAmount)
+		{
+			_pageNumber += changeAmount;
+			SetAchievementData();
 		}
 	}
 }

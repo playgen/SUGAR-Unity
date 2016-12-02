@@ -4,76 +4,53 @@ using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class LeaderboardUnityClient : MonoBehaviour
 	{
-		private string _leaderboardToken;
-
 		private LeaderboardResponse _leaderboard;
 
-		private int _pageNumber;
-
-		private LeaderboardFilterType _filter;
+		internal LeaderboardResponse CurrentLeaderboard
+		{
+			get { return _leaderboard; }
+		}
 
 		[SerializeField]
 		private LeaderboardUserInterface _leaderboardInterface;
 
+		internal void CreateInterface(Canvas canvas)
+		{
+			bool inScene = _leaderboardInterface.gameObject.scene == SceneManager.GetActiveScene();
+			if (!inScene)
+			{
+				var newInterface = Instantiate(_leaderboardInterface.gameObject, canvas.transform, false) as GameObject;
+				newInterface.name = _leaderboardInterface.name;
+				_leaderboardInterface = newInterface.GetComponent<LeaderboardUserInterface>();
+			}
+			_leaderboardInterface.gameObject.SetActive(false);
+		}
+
 		public void Display(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
 		{
-			SetLeaderboard(token, filter);
-		}
-
-		internal void SetLeaderboard(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
-		{
-			_leaderboardToken = token;
-			_pageNumber = 0;
-			_filter = filter;
-			GetLeaderboard();
-			GetLeaderboardStandings(result =>
+			GetLeaderboard(token);
+			GetLeaderboardStandings(filter, 0, result =>
 			{
-				var standings = result.ToList();
-				if (standings.Count != 0)
+				if (result != null)
 				{
-					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
+					var standings = result.ToList();
+					_leaderboardInterface.Display(filter, standings);
 				}
 			});
 		}
 
-		internal void UpdatePageNumber(int changeAmount)
-		{
-			_pageNumber += changeAmount;
-			GetLeaderboardStandings(result =>
-			{
-				var standings = result.ToList();
-				if (standings.Count != 0)
-				{
-					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
-				}
-			});
-		}
-
-		internal void UpdateFilter(int filter)
-		{
-			_pageNumber = 0;
-			_filter = (LeaderboardFilterType)filter;
-			GetLeaderboardStandings(result =>
-			{
-				var standings = result.ToList();
-				if (standings.Count != 0)
-				{
-					_leaderboardInterface.ShowLeaderboard(_leaderboard, _filter, standings, _pageNumber);
-				}
-			});
-		}
-
-		private void GetLeaderboard()
+		private void GetLeaderboard(string token)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.Client.Leaderboard.GetAsync(_leaderboardToken, SUGARManager.GameId,
+				SUGARManager.Client.Leaderboard.GetAsync(token, SUGARManager.GameId,
 				response =>
 				{
 					_leaderboard = response;
@@ -86,18 +63,18 @@ namespace SUGAR.Unity
 			}
 		}
 
-		private void GetLeaderboardStandings(Action<IEnumerable<LeaderboardStandingsResponse>> result)
+		internal void GetLeaderboardStandings(LeaderboardFilterType filter, int pageNumber, Action<IEnumerable<LeaderboardStandingsResponse>> result)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{
-					LeaderboardToken = _leaderboardToken,
+					LeaderboardToken = _leaderboard.Token,
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
-					LeaderboardFilterType = _filter,
+					LeaderboardFilterType = filter,
 					PageLimit = _leaderboardInterface.GetPossiblePositionCount() + 1,
-					PageOffset = _pageNumber
+					PageOffset = pageNumber
 				};
 
 				SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,

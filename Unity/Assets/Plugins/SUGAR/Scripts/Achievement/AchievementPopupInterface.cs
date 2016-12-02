@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+
 using PlayGen.SUGAR.Client.EvaluationEvents;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,53 +14,35 @@ namespace SUGAR.Unity
 		private Text _name;
 
 		[SerializeField]
-		[Range(0f, 10f)]
-		private float _animationDuration;
+		private Animation _animation;
 
-		private RectTransform _rectTransform;
+		private readonly List<EvaluationNotification> _achievementQueue = new List<EvaluationNotification>();
 
-		private void Awake()
+		internal void Animate(EvaluationNotification notification)
 		{
-			_rectTransform = gameObject.GetComponent<RectTransform>();
-		}
-
-		private void Start()
-		{
-			SetInitialPosition();
-		}
-
-		private void SetInitialPosition()
-		{
-			_rectTransform.localScale = Vector3.one;
-			_rectTransform.anchorMin = new Vector2(1, 0);
-			_rectTransform.anchorMax = new Vector2(1, 0);
-			_rectTransform.pivot = Vector2.one;
-			_rectTransform.anchoredPosition = Vector2.zero;
-		}
-
-		internal void SetNotification(EvaluationNotification notification)
-		{
-			_name.text = notification.Name;
-		}
-
-		internal void Animate()
-		{
-			StartCoroutine(AnimatePopup());
+			_achievementQueue.Add(notification);
+			if (!_animation.isPlaying)
+			{
+				gameObject.SetActive(true);
+				StartCoroutine(AnimatePopup());
+			}
 		}
 
 		private IEnumerator AnimatePopup()
 		{
-			var deltaTime = 0f;
-			var startPos = _rectTransform.anchoredPosition;
-			var endpos = startPos + new Vector2(0f, _rectTransform.rect.height);
-
-			while (deltaTime <= _animationDuration)
+			while (_achievementQueue.Count > 0)
 			{
-				_rectTransform.anchoredPosition = Vector2.Lerp(startPos, endpos, deltaTime/_animationDuration);
-				deltaTime += Time.deltaTime;
+				_name.text = _achievementQueue[0].Name;
+				transform.SetAsLastSibling();
+				_animation.Play();
+				while (_animation.isPlaying)
+				{
+					yield return null;
+				}
+				_achievementQueue.RemoveAt(0);
 				yield return null;
 			}
-			_rectTransform.anchoredPosition = endpos;
+			gameObject.SetActive(false);
 		}
 	}
 }
