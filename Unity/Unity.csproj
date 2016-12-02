@@ -73,20 +73,11 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandLine">
-      <HintPath>Assets\Plugins\SUGAR\DLLs\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\SUGAR\DLLs\Newtonsoft.Json.dll</HintPath>
@@ -97,11 +88,14 @@
     <Reference Include="PlayGen.SUGAR.Client.Unity">
       <HintPath>Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Client.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="PlayGen.SUGAR.Unity">
-      <HintPath>Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations">
       <HintPath>Assets\Plugins\SUGAR\DLLs\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.SUGAR.Unity">
+      <HintPath>Assets\Plugins\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>Assets\Plugins\PlayGen.SUGAR.Unity\CommandLine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -114,8 +108,7 @@
     <Compile Include="Assets\TestImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\SUGAR\DLLs\CommandLine.xml" />
-    <None Include="Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Client.xml" />
+    <None Include="Assets\Plugins\PlayGen.SUGAR.Unity\CommandLine.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
