@@ -55,12 +55,13 @@ namespace SUGAR.Unity
 		{
 			GetAchievements(success =>
 			{
-				_achievementListInterface.Display();
+				_achievementListInterface.Display(success);
 			});
 		}
 
 		private void GetAchievements(Action<bool> success)
 		{
+			_progress.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.Client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
@@ -75,6 +76,10 @@ namespace SUGAR.Unity
 					Debug.LogError(error);
 					success(false);
 				});
+			}
+			else
+			{
+				success(false);
 			}
 		}
 

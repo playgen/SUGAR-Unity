@@ -204,7 +204,12 @@ Prefab:
     - target: {fileID: 114000013496830746, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
       propertyPath: _allowAutoLogin
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011669735270, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _gameId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000011669735270, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}

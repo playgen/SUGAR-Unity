@@ -40,7 +40,7 @@ namespace SUGAR.Unity
 		{
 			GetLeaderboards(success =>
 				{
-					_leaderboardListInterface.Display(filter);
+					_leaderboardListInterface.Display(filter, success);
 				});
 		}
 
