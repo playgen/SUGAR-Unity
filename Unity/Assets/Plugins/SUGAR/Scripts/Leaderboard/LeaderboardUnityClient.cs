@@ -35,18 +35,20 @@ namespace SUGAR.Unity
 
 		public void Display(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
 		{
-			GetLeaderboard(token);
-			GetLeaderboardStandings(filter, 0, result =>
-			{
-				if (result != null)
+			GetLeaderboard(token, success =>
 				{
-					var standings = result.ToList();
-					_leaderboardInterface.Display(filter, standings);
-				}
-			});
+					GetLeaderboardStandings(filter, 0, result =>
+					{
+						if (result != null)
+						{
+							var standings = result.ToList();
+							_leaderboardInterface.Display(filter, standings);
+						}
+					});
+				});
 		}
 
-		private void GetLeaderboard(string token)
+		private void GetLeaderboard(string token, Action<bool> success)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
@@ -54,11 +56,13 @@ namespace SUGAR.Unity
 				response =>
 				{
 					_leaderboard = response;
+					success(true);
 				},
 				exception =>
 				{
 					string error = "Failed to get leaderboard. " + exception.Message;
 					Debug.LogError(error);
+					success(false);
 				});
 			}
 		}

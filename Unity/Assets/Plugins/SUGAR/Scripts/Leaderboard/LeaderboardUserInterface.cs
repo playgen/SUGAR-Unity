@@ -95,10 +95,7 @@ namespace SUGAR.Unity
 			SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber, result =>
 			{
 				var standings = result.ToList();
-				if (standings.Count != 0)
-				{
-					ShowLeaderboard(standings);
-				}
+				ShowLeaderboard(standings);
 			});
 		}
 
@@ -109,10 +106,7 @@ namespace SUGAR.Unity
 			SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber, result =>
 			{
 				var standings = result.ToList();
-				if (standings.Count != 0)
-				{
-					ShowLeaderboard(standings);
-				}
+				ShowLeaderboard(standings);
 			});
 		}
 

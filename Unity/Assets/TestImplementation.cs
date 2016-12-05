@@ -7,11 +7,19 @@ public class TestImplementation : MonoBehaviour {
 	void Start () {
 		SUGARManager.Account.SignIn(success =>
 		{
-			if (success)
-			{
-				SUGARManager.Achievement.DisplayList();
-				SUGARManager.GameLeaderboard.DisplayList();
-			}
+
 		});
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.L))
+		{
+			SUGARManager.GameLeaderboard.DisplayList();
+		}
+		if (Input.GetKeyDown(KeyCode.A))
+		{
+			SUGARManager.Achievement.DisplayList();
+		}
 	}
 }
