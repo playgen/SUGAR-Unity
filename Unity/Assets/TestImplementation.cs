@@ -17,7 +17,7 @@ public class TestImplementation : MonoBehaviour {
 		{
 			SUGARManager.GameLeaderboard.DisplayList();
 		}
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKeyDown(KeyCode.K))
 		{
 			SUGARManager.Achievement.DisplayList();
 		}
