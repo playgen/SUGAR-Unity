@@ -47,6 +47,7 @@ namespace SUGAR.Unity
             else
             {
                 Destroy(gameObject);
+				return;
             }
 
             SUGARManager.GameId = _gameId;
