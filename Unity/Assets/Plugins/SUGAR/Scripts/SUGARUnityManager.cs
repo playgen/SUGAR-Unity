@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using PlayGen.SUGAR.Client;
+﻿using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Unity.Utilities;
+using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -8,6 +9,7 @@ namespace PlayGen.SUGAR.Unity
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
+	[RequireComponent(typeof(Logging))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
 		[SerializeField]

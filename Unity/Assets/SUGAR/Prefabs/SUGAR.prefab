@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114000013249777644}
   - component: {fileID: 114418023665383026}
+  - component: {fileID: 114970087641296530}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -249,6 +250,20 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114970087641296530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9b212e0f94660742ab5ec74a4b5f185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debug: 1
+  _warning: 1
+  _exception: 1
 --- !u!223 &223783690277772522
 Canvas:
   m_ObjectHideFlags: 1
