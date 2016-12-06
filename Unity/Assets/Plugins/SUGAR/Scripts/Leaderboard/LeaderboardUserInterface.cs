@@ -7,7 +7,7 @@ using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public class LeaderboardUserInterface : MonoBehaviour
 	{

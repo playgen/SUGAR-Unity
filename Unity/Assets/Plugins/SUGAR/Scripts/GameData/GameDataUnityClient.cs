@@ -4,7 +4,7 @@ using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public class GameDataUnityClient
 	{

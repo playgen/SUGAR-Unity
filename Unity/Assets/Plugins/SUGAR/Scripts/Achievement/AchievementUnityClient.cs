@@ -4,10 +4,9 @@ using PlayGen.SUGAR.Client.EvaluationEvents;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using System.Linq;
-
 using UnityEngine.SceneManagement;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : MonoBehaviour
@@ -34,7 +33,7 @@ namespace SUGAR.Unity
 			bool inScene = _achievementListInterface.gameObject.scene == SceneManager.GetActiveScene();
 			if (!inScene)
 			{
-				var newInterface = Instantiate(_achievementListInterface.gameObject, canvas.transform, false) as GameObject;
+				var newInterface = Instantiate(_achievementListInterface.gameObject, canvas.transform, false);
 				newInterface.name = _achievementListInterface.name;
 				_achievementListInterface = newInterface.GetComponent<AchievementListInterface>();
 			}
@@ -43,7 +42,7 @@ namespace SUGAR.Unity
 			bool inScenePopUp = _achievementPopup.gameObject.scene == SceneManager.GetActiveScene();
 			if (!inScenePopUp)
 			{
-				var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false) as GameObject;
+				var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false);
 				newPopUp.name = _achievementPopup.name;
 				_achievementPopup = newPopUp.GetComponent<AchievementPopupInterface>();
 			}

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public class LeaderboardListUserInterface : MonoBehaviour
 	{

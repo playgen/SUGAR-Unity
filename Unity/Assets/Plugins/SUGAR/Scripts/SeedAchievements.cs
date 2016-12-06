@@ -9,7 +9,7 @@ using PlayGen.SUGAR.Contracts.Shared;
 using UnityEditor;
 using UnityEngine;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public static class SeedAchievements
 	{

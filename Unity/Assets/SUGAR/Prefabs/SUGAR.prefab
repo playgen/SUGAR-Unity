@@ -16,13 +16,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 224000013773299334}
-  - 223: {fileID: 223000012450321626}
-  - 114: {fileID: 114000012885612516}
-  - 114: {fileID: 114000011156416006}
-  - 222: {fileID: 222000010192352242}
+  - component: {fileID: 224000013773299334}
+  - component: {fileID: 223000012450321626}
+  - component: {fileID: 114000012885612516}
+  - component: {fileID: 114000011156416006}
+  - component: {fileID: 222000010192352242}
   m_Layer: 5
   m_Name: SUGAR Canvas
   m_TagString: Untagged
@@ -35,15 +35,16 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000010393178106}
-  - 114: {fileID: 114000011669735270}
-  - 114: {fileID: 114000013496830746}
-  - 114: {fileID: 114000010768160430}
-  - 114: {fileID: 114000012611603444}
-  - 114: {fileID: 114000013249777644}
-  - 114: {fileID: 114000012266143498}
+  - component: {fileID: 4000010393178106}
+  - component: {fileID: 114000011669735270}
+  - component: {fileID: 114000013496830746}
+  - component: {fileID: 114000010768160430}
+  - component: {fileID: 114000012611603444}
+  - component: {fileID: 114000013249777644}
+  - component: {fileID: 114000012266143498}
+  - component: {fileID: 114532869368106438}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -56,10 +57,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000013873065536}
-  - 20: {fileID: 20000012022106506}
+  - component: {fileID: 4000013873065536}
+  - component: {fileID: 20000012022106506}
   m_Layer: 0
   m_Name: SUGAR Camera
   m_TagString: Untagged
@@ -76,12 +77,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000013873065536}
   - {fileID: 224000013773299334}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000013873065536
 Transform:
   m_ObjectHideFlags: 1
@@ -91,10 +92,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000010393178106}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20000012022106506
 Camera:
   m_ObjectHideFlags: 1
@@ -252,6 +253,20 @@ MonoBehaviour:
   _allowAutoLogin: 1
   _allowRegister: 0
   _defaultSourceToken: SUGAR
+--- !u!114 &114532869368106438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9b212e0f94660742ab5ec74a4b5f185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debug: 0
+  _warning: 0
+  _exception: 0
 --- !u!222 &222000010192352242
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -286,10 +301,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000010393178106}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}

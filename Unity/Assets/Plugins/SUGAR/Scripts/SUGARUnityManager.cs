@@ -1,16 +1,19 @@
-﻿using System.Collections;
+using System.Collections;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Unity.Utilities;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
+	[RequireComponent(typeof(Logging))]
+
 	public class SUGARUnityManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -57,11 +60,6 @@ namespace SUGAR.Unity
             SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
             _canvas = GetComponentInChildren<Canvas>();
             GetComponent<AccountUnityClient>().CreateInterface(_canvas);
-            if (_useLeaderboards)
-            {
-                GetComponent<LeaderboardListUnityClient>().CreateInterface(_canvas);
-                GetComponent<LeaderboardUnityClient>().CreateInterface(_canvas);
-            }
 
             if (!LoadConfig())
 		    {
@@ -96,7 +94,12 @@ namespace SUGAR.Unity
         public void SetUpClient()
 	    {
             SUGARManager.Client = new SUGARClient(_baseAddress);
-            if (_useAchievements)
+			if (_useLeaderboards)
+			{
+				GetComponent<LeaderboardListUnityClient>().CreateInterface(_canvas);
+				GetComponent<LeaderboardUnityClient>().CreateInterface(_canvas);
+			}
+			if (_useAchievements)
             {
                 GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
             }

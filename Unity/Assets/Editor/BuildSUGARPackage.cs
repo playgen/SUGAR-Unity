@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
     public static class BuildSUGARPackage
     {

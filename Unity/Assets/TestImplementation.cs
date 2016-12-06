@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using SUGAR.Unity;
+using PlayGen.SUGAR.Unity;
 
 public class TestImplementation : MonoBehaviour {
 

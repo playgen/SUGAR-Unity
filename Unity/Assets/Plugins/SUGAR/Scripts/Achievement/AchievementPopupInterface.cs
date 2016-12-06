@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	public class AchievementPopupInterface : MonoBehaviour
 	{

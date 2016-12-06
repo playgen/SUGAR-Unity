@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using PlayGen.SUGAR.Contracts.Shared;
-using PlayGen.SUGAR.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SUGAR.Unity
+namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
 	public class AccountUnityClient : MonoBehaviour
@@ -27,14 +26,13 @@ namespace SUGAR.Unity
 			bool inScene = _loginUserInterface.gameObject.scene == SceneManager.GetActiveScene();
 			if (!inScene)
 			{
-				var newInterface = Instantiate(_loginUserInterface.gameObject, canvas.transform, false) as GameObject;
+				var newInterface = Instantiate(_loginUserInterface.gameObject, canvas.transform, false);
 				newInterface.name = _loginUserInterface.name;
 				_loginUserInterface = newInterface.GetComponent<LoginUserInterface>();
 				_loginUserInterface.RegisterButtonDisplay(_allowRegister);
 			}
 			_loginUserInterface.gameObject.SetActive(false);
 		}
-
 
 	    public void TrySignIn(Action<bool> success)
 	    {
