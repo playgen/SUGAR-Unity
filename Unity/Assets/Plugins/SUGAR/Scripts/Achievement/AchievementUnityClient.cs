@@ -40,14 +40,14 @@ namespace SUGAR.Unity
 			}
 			_achievementListInterface.gameObject.SetActive(false);
 			SUGARManager.Client.Achievement.EnableNotifications(true);
-			bool inScenePopUp = _achievementPopup.gameObject.scene == gameObject.scene;
+			bool inScenePopUp = _achievementPopup.gameObject.scene == SceneManager.GetActiveScene();
 			if (!inScenePopUp)
 			{
 				var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false) as GameObject;
 				newPopUp.name = _achievementPopup.name;
 				_achievementPopup = newPopUp.GetComponent<AchievementPopupInterface>();
 			}
-			_achievementPopup.gameObject.SetActive(false);
+			_achievementPopup.gameObject.SetActive(true);
 			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 		}
 
@@ -90,6 +90,14 @@ namespace SUGAR.Unity
 			{
 				HandleNotification(notification);
 			}
+		}
+
+		public void ForceNotificationTest()
+		{
+			HandleNotification(new EvaluationNotification
+			{
+				Name = "Test Notification"
+			});
 		}
 
 		private void HandleNotification(EvaluationNotification notification)

@@ -21,5 +21,13 @@ public class TestImplementation : MonoBehaviour {
 		{
 			SUGARManager.Achievement.DisplayList();
 		}
+		if (Input.GetKeyDown(KeyCode.A))
+		{
+			SUGARManager.Achievement.ForceNotificationTest();
+		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+		}
 	}
 }

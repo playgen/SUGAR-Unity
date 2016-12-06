@@ -43,6 +43,7 @@ GameObject:
   - 114: {fileID: 114000010768160430}
   - 114: {fileID: 114000012611603444}
   - 114: {fileID: 114000013249777644}
+  - 114: {fileID: 114000012266143498}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -172,9 +173,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseAddress: http://localhost:62312/
+  _gameToken: 
   _gameId: 1
   _useAchievements: 1
   _useLeaderboards: 1
+--- !u!114 &114000012266143498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1788a1fe38c4302428c9cefe66f33bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _responseMillisecondBudgetPerFrame: 10
 --- !u!114 &114000012611603444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +250,7 @@ MonoBehaviour:
   _loginUserInterface: {fileID: 114000014259607728, guid: bb12776c4b045cc45ab0ef3d57d1d79d,
     type: 2}
   _allowAutoLogin: 1
+  _allowRegister: 0
   _defaultSourceToken: SUGAR
 --- !u!222 &222000010192352242
 CanvasRenderer:

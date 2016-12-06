@@ -94,12 +94,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations">
       <HintPath>Assets\Plugins\SUGAR\DLLs\System.ComponentModel.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="CommandLine">
-      <HintPath>Assets\Plugins\PlayGen.SUGAR.Unity\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.SUGAR.Unity">
-      <HintPath>Assets\Plugins\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\SUGAR\Scripts\Account\AccountUnityClient.cs" />
@@ -122,7 +116,6 @@
     <Compile Include="Assets\Plugins\SUGAR\Scripts\SeedAchievements.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\PlayGen.SUGAR.Unity\CommandLine.xml" />
     <None Include="Assets\Plugins\SUGAR\DLLs\CommandLine.xml" />
     <None Include="Assets\Plugins\SUGAR\DLLs\PlayGen.SUGAR.Client.xml" />
   </ItemGroup>

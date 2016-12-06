@@ -23,7 +23,6 @@ namespace SUGAR.Unity
 			_achievementQueue.Add(notification);
 			if (!_animation.isPlaying)
 			{
-				gameObject.SetActive(true);
 				StartCoroutine(AnimatePopup());
 			}
 		}
@@ -42,7 +41,6 @@ namespace SUGAR.Unity
 				_achievementQueue.RemoveAt(0);
 				yield return null;
 			}
-			gameObject.SetActive(false);
 		}
 	}
 }
