@@ -14,7 +14,7 @@ namespace PlayGen.SUGAR.Unity
         {
             var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;
             var packageFile = rootDir + "/Build/SUGAR.Unity.unitypackage";
-            var directory = new[] { "Assets/SUGAR", "Assets/Plugins" };
+            var directory = new[] { "Assets/SUGAR", "Assets/Plugins", "Assets/StreamingAssets" };
 
             var packageAssetPaths = new List<string>();
 
