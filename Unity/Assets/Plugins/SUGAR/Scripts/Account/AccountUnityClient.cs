@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using PlayGen.SUGAR.Contracts.Shared;
+
+using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +15,23 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField] private LoginUserInterface _loginUserInterface;
 
 		[SerializeField] private bool _allowAutoLogin;
+
+		public bool AllowAutoLogin
+		{
+			get { return _allowAutoLogin; }
+		}
+
+		#if UNITY_EDITOR
+		private string _autoLoginSourceToken;
+
+		private bool _autoLoginSourcePassRequired;
+
+		private string _autoLoginUsername;
+
+		private string _autoLoginPassword;
+
+		private bool _autoLoginAuto;
+		#endif
 
 		[SerializeField] private bool _allowRegister;
 
@@ -34,46 +54,60 @@ namespace PlayGen.SUGAR.Unity
 			_loginUserInterface.gameObject.SetActive(false);
 		}
 
-	    public void TrySignIn(Action<bool> success)
-	    {
-            _signInCallback = success;
-
-            if (SUGARManager.Client != null)
-	        {
-	            SignIn();
-	        }
-	        else
-	        {
-	            StartCoroutine(CheckConfigLoad());
-	        }
-	    }
-
-	    private IEnumerator CheckConfigLoad()
-	    {
-	        while (SUGARManager.Client == null)
-	        {
-	            yield return new WaitForFixedUpdate();
-	        }
-            SignIn();
-	    }
-
-	    public void SignIn()
+		public void TrySignIn(Action<bool> success)
 		{
-		#if UNITY_EDITOR
-			_options = CommandLineUtility.ParseArgs(new [] { "-ujim" , "-sSPL", "-a"});
-			Debug.Log(_options.UserId + " : " + _options.AuthenticationSource);
-		#else
-			_options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
-		#endif
+			_signInCallback = success;
 
-			if (_options.AuthenticationSource == null)
+			if (SUGARManager.Client != null)
+			{
+				SignIn();
+			}
+			else
+			{
+				StartCoroutine(CheckConfigLoad());
+			}
+		}
+
+		private IEnumerator CheckConfigLoad()
+		{
+			while (SUGARManager.Client == null)
+			{
+				yield return new WaitForFixedUpdate();
+			}
+			SignIn();
+		}
+
+		public void SignIn()
+		{
+			if (_allowAutoLogin)
+			{
+				#if UNITY_EDITOR
+				_autoLoginSourcePassRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
+				_autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
+				_autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
+				_autoLoginPassword = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
+				_autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
+				if (_autoLoginSourcePassRequired)
+				{
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "" });
+				}
+				else
+				{
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "" });
+				}
+				Debug.Log(_options.UserId + " : " + _options.AuthenticationSource + " : " + _options.Password);
+				#else
+				_options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
+				#endif
+			}
+			if (_options != null && _options.AuthenticationSource == null)
 			{
 				_options.AuthenticationSource = _defaultSourceToken;
 			}
 
-			if (_allowAutoLogin && _options.AutoLogin)
+			if (_options != null && _allowAutoLogin && _options.AutoLogin)
 			{
-				LoginUser(_options.UserId, _options.AuthenticationSource, string.Empty);
+				LoginUser(_options.UserId, _options.AuthenticationSource, _options.Password ?? string.Empty);
 			}
 			else
 			{
@@ -100,6 +134,8 @@ namespace PlayGen.SUGAR.Unity
 				}
 				SUGARManager.CurrentUser = response.User;
 				_signInCallback(true);
+				_loginUserInterface.Login -= LoginUserInterfaceOnLogin;
+				_loginUserInterface.Register -= LoginUserInterfaceOnRegister;
 			},
 			exception =>
 			{

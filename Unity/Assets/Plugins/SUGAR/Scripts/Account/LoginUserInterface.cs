@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
@@ -27,7 +28,10 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_loginButton.onClick.AddListener(InvokeLogin);
 			_registerButton.onClick.AddListener(InvokeRegister);
-			_closeButton.onClick.AddListener(Hide);
+			if (_closeButton)
+			{
+				_closeButton.onClick.AddListener(Hide);
+			}
 		}
 
 		internal void Show()
@@ -39,6 +43,9 @@ namespace PlayGen.SUGAR.Unity
 		internal void Hide()
 		{
 			gameObject.SetActive(false);
+			_name.text = "";
+			_password.text = "";
+			_statusText.text = "";
 		}
 
 		internal void RegisterButtonDisplay(bool display)
@@ -61,6 +68,38 @@ namespace PlayGen.SUGAR.Unity
 		{
 			var args = new LoginEventArgs(_name.text, _password.text);
 			Register(this, args);
+		}
+
+		void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift) && EventSystem.current.currentSelectedGameObject != null)
+			{
+				var next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+
+				if (next == null)
+					return;
+
+				var inputfield = next.GetComponent<InputField>();
+				if (inputfield != null)
+				{
+					inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
+				}
+				EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
+			}
+			else if (Input.GetKeyDown(KeyCode.Tab) && EventSystem.current.currentSelectedGameObject != null)
+			{
+				var next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+
+				if (next == null)
+					return;
+
+				var inputfield = next.GetComponent<InputField>();
+				if (inputfield != null)
+				{
+					inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
+				}
+				EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
+			}
 		}
 	}
 }

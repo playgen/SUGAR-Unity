@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 223000012450321626}
   - component: {fileID: 114000012885612516}
   - component: {fileID: 114000011156416006}
-  - component: {fileID: 222000010192352242}
   m_Layer: 5
   m_Name: SUGAR Canvas
   m_TagString: Untagged
@@ -145,7 +144,7 @@ MonoBehaviour:
     type: 2}
   _achievementPopup: {fileID: 114000013413874684, guid: 30bf371ff31e0bc429751b3218cfa999,
     type: 2}
-  _notificationCheckRate: 2.5
+  _notificationCheckRate: 0.1
 --- !u!114 &114000011156416006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -267,12 +266,6 @@ MonoBehaviour:
   _debug: 0
   _warning: 0
   _exception: 0
---- !u!222 &222000010192352242
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011383437524}
 --- !u!223 &223000012450321626
 Canvas:
   m_ObjectHideFlags: 1

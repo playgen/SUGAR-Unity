@@ -23,5 +23,8 @@ namespace PlayGen.SUGAR.Unity
 
         [Option('u', "uid", Required = true, HelpText = "Specify the id of the user.")]
         public string UserId { get; set; }
-    }
+
+		[Option('p', "pass", Required = false, HelpText = "Specify the password for the user.")]
+		public string Password { get; set; }
+	}
 }
