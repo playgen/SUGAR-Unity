@@ -49,12 +49,12 @@ namespace PlayGen.SUGAR.Unity
 				var newInterface = Instantiate(_loginUserInterface.gameObject, canvas.transform, false);
 				newInterface.name = _loginUserInterface.name;
 				_loginUserInterface = newInterface.GetComponent<LoginUserInterface>();
-				_loginUserInterface.RegisterButtonDisplay(_allowRegister);
 			}
+			_loginUserInterface.RegisterButtonDisplay(_allowRegister);
 			_loginUserInterface.gameObject.SetActive(false);
 		}
 
-		public void TrySignIn(Action<bool> success)
+		public void DisplayPanel(Action<bool> success)
 		{
 			_signInCallback = success;
 
@@ -68,6 +68,16 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		public void HidePanel()
+		{
+			if (_loginUserInterface != null)
+			{
+				_loginUserInterface.Hide();
+				_loginUserInterface.Login -= LoginUserInterfaceOnLogin;
+				_loginUserInterface.Register -= LoginUserInterfaceOnRegister;
+			}
+		}
+
 		private IEnumerator CheckConfigLoad()
 		{
 			while (SUGARManager.Client == null)
@@ -77,7 +87,7 @@ namespace PlayGen.SUGAR.Unity
 			SignIn();
 		}
 
-		public void SignIn()
+		private void SignIn()
 		{
 			if (_allowAutoLogin)
 			{
@@ -130,12 +140,10 @@ namespace PlayGen.SUGAR.Unity
 				if (_loginUserInterface != null)
 				{
 					_loginUserInterface.SetStatus("Success! " + response.User.Id + ": " + response.User.Name);
-					_loginUserInterface.Hide();
 				}
 				SUGARManager.CurrentUser = response.User;
 				_signInCallback(true);
-				_loginUserInterface.Login -= LoginUserInterfaceOnLogin;
-				_loginUserInterface.Register -= LoginUserInterfaceOnRegister;
+				HidePanel();
 			},
 			exception =>
 			{

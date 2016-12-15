@@ -27,7 +27,10 @@ namespace PlayGen.SUGAR.Unity
 		private void Awake()
 		{
 			_loginButton.onClick.AddListener(InvokeLogin);
-			_registerButton.onClick.AddListener(InvokeRegister);
+			if (_registerButton)
+			{
+				_registerButton.onClick.AddListener(InvokeRegister);
+			}
 			if (_closeButton)
 			{
 				_closeButton.onClick.AddListener(Hide);
@@ -50,7 +53,10 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void RegisterButtonDisplay(bool display)
 		{
-			_registerButton.gameObject.SetActive(display);
+			if (_registerButton)
+			{
+				_registerButton.gameObject.SetActive(display);
+			}
 		}
 
 		internal void SetStatus(string text)
@@ -99,6 +105,10 @@ namespace PlayGen.SUGAR.Unity
 					inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
 				}
 				EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
+			}
+			if (Input.GetKeyDown(KeyCode.Return))
+			{
+				InvokeLogin();
 			}
 		}
 	}
