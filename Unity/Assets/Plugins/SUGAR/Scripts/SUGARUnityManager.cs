@@ -3,7 +3,6 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Unity.Utilities;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -12,7 +11,6 @@ namespace PlayGen.SUGAR.Unity
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
-	[RequireComponent(typeof(Logging))]
 
 	public class SUGARUnityManager : MonoBehaviour
 	{
@@ -43,78 +41,78 @@ namespace PlayGen.SUGAR.Unity
 
 		private void Awake()
 		{
-            if (SUGARManager.Register(this))
-            {
-                DontDestroyOnLoad(this);
-            }
-            else
-            {
-                Destroy(gameObject);
+			if (SUGARManager.Register(this))
+			{
+				DontDestroyOnLoad(this);
+			}
+			else
+			{
+				Destroy(gameObject);
 				return;
-            }
+			}
 
-            SUGARManager.GameId = _gameId;
-            SUGARManager.account = GetComponent<AccountUnityClient>();
-            SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-            SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
-            SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
-            _canvas = GetComponentInChildren<Canvas>();
-            GetComponent<AccountUnityClient>().CreateInterface(_canvas);
+			SUGARManager.GameId = _gameId;
+			SUGARManager.account = GetComponent<AccountUnityClient>();
+			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
+			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
+			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
+			_canvas = GetComponentInChildren<Canvas>();
+			GetComponent<AccountUnityClient>().CreateInterface(_canvas);
 
-            if (!LoadConfig())
-		    {
-                SetUpClient();
-		    }
+			if (!LoadConfig())
+			{
+				SetUpClient();
+			}
 		}
 
-        public bool LoadConfig()
-        {
-            var path = ConfigPath;
-            if (File.Exists(ConfigPath))
-            {
-                StartCoroutine(LoadOnlineConfig(path));
-                return true;
-            }
-            return false;
-        }
+		public bool LoadConfig()
+		{
+			var path = ConfigPath;
+			if (File.Exists(ConfigPath))
+			{
+				StartCoroutine(LoadOnlineConfig(path));
+				return true;
+			}
+			return false;
+		}
 
-        private IEnumerator LoadOnlineConfig(string path)
-        {
-            path = "file:///" + path;
-            var www = new WWW(path);
-            yield return www;
+		private IEnumerator LoadOnlineConfig(string path)
+		{
+			path = "file:///" + path;
+			var www = new WWW(path);
+			yield return www;
 
-            SUGARManager.config = JsonConvert.DeserializeObject<Config>(www.text);
-            Debug.Log(SUGARManager.config.BaseUri);
+			SUGARManager.config = JsonConvert.DeserializeObject<Config>(www.text);
+			Debug.Log(SUGARManager.config.BaseUri);
 
-            _baseAddress = SUGARManager.config.BaseUri;
-            SetUpClient();
-        }
+			_baseAddress = SUGARManager.config.BaseUri;
+			SetUpClient();
+		}
 
-        public void SetUpClient()
-	    {
-            SUGARManager.Client = new SUGARClient(_baseAddress);
+		public void SetUpClient()
+		{
+			SUGARManager.Client = new SUGARClient(_baseAddress);
 			if (_useLeaderboards)
 			{
 				GetComponent<LeaderboardListUnityClient>().CreateInterface(_canvas);
 				GetComponent<LeaderboardUnityClient>().CreateInterface(_canvas);
 			}
 			if (_useAchievements)
-            {
-                GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
-            }
-        }
+			{
+				GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
+			}
+		}
 
-        private string ConfigPath
-        {
-            get
-            {
-                string path = Application.streamingAssetsPath + "/config.json";
-                #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                //path = "file:///" + path;
-                #endif
-                return path;
-            }
-        }
-    }
+		private string ConfigPath
+		{
+			get
+			{
+				string path = Application.streamingAssetsPath + "/SUGAR.config.json";
+				#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+				//path = "file:///" + path;
+				#endif
+				return path;
+			}
+		}
+	}
 }

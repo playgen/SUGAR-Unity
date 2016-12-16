@@ -18,7 +18,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static GameDataUnityClient gameData = new GameDataUnityClient();
 
-	    internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
+        internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
 
 		internal static LeaderboardUnityClient leaderboard { get; set; }
 
@@ -84,7 +84,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal static bool Register(SUGARUnityManager unityManager)
+        internal static bool Register(SUGARUnityManager unityManager)
 		{
 			return Client == null;
 		}

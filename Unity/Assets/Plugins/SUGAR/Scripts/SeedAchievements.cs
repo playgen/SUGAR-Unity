@@ -84,7 +84,7 @@ namespace PlayGen.SUGAR.Unity
 						Key = "",
 						ComparisonType = ComparisonType.,
 						CriteriaQueryType = CriteriaQueryType.,
-						DataType = SaveDataType.,
+						DataType = EvaluationDataType.,
 						Scope = CriteriaScope.,
 						Value = ""
 					}
@@ -104,7 +104,7 @@ namespace PlayGen.SUGAR.Unity
 				Name = "",
 				Key = "",
 				ActorType = ActorType.,
-				SaveDataType = SaveDataType.,
+				EvaluationDataType = EvaluationDataType.,
 				CriteriaScope = CriteriaScope.,
 				LeaderboardType = LeaderboardType.
 			});*/
