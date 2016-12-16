@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114000013249777644}
   - component: {fileID: 114000012266143498}
-  - component: {fileID: 114532869368106438}
   m_Layer: 0
   m_Name: SUGAR
   m_TagString: Untagged
@@ -144,7 +143,7 @@ MonoBehaviour:
     type: 2}
   _achievementPopup: {fileID: 114000013413874684, guid: 30bf371ff31e0bc429751b3218cfa999,
     type: 2}
-  _notificationCheckRate: 0.1
+  _notificationCheckRate: 2.5
 --- !u!114 &114000011156416006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,9 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57bb6379ebe1f894d91f8e286feae45c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseAddress: http://localhost:62312/
+  _baseAddress: 
   _gameToken: 
-  _gameId: 1
+  _gameId: 0
   _useAchievements: 1
   _useLeaderboards: 1
 --- !u!114 &114000012266143498
@@ -188,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1788a1fe38c4302428c9cefe66f33bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _responseMillisecondBudgetPerFrame: 10
+  _responseMillisecondBudgetPerFrame: 0
 --- !u!114 &114000012611603444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -249,23 +248,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loginUserInterface: {fileID: 114000014259607728, guid: bb12776c4b045cc45ab0ef3d57d1d79d,
     type: 2}
-  _allowAutoLogin: 1
+  _allowAutoLogin: 0
   _allowRegister: 0
   _defaultSourceToken: SUGAR
---- !u!114 &114532869368106438
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012920798932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b212e0f94660742ab5ec74a4b5f185, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _debug: 0
-  _warning: 0
-  _exception: 0
 --- !u!223 &223000012450321626
 Canvas:
   m_ObjectHideFlags: 1
