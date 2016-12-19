@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
 
+using UnityEngine.UI;
+
 namespace PlayGen.SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
@@ -51,6 +53,7 @@ namespace PlayGen.SUGAR.Unity
 				return;
 			}
 
+			SUGARManager.Unity = this;
 			SUGARManager.GameId = _gameId;
 			SUGARManager.account = GetComponent<AccountUnityClient>();
 			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
@@ -112,6 +115,46 @@ namespace PlayGen.SUGAR.Unity
 				//path = "file:///" + path;
 				#endif
 				return path;
+			}
+		}
+
+		internal void ButtonBestFit(GameObject interfaceObj)
+		{
+			LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)interfaceObj.transform);
+
+			var buttonObj = interfaceObj.GetComponentsInChildren<Button>();
+			int smallestFontSize = 0;
+			foreach (var button in buttonObj)
+			{
+				var textObj = button.GetComponentsInChildren<Text>();
+				foreach (var text in textObj)
+				{
+					text.resizeTextForBestFit = true;
+					text.resizeTextMinSize = 1;
+					text.resizeTextMaxSize = 100;
+					text.cachedTextGenerator.Invalidate();
+					text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
+					text.resizeTextForBestFit = false;
+					var newSize = text.cachedTextGenerator.fontSizeUsedForBestFit;
+					var newSizeRescale = text.rectTransform.rect.size.x / text.cachedTextGenerator.rectExtents.size.x;
+					if (text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y < newSizeRescale)
+					{
+						newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
+					}
+					newSize = Mathf.FloorToInt(newSize * newSizeRescale);
+					if (newSize < smallestFontSize || smallestFontSize == 0)
+					{
+						smallestFontSize = newSize;
+					}
+				}
+			}
+			foreach (var button in buttonObj)
+			{
+				var textObj = button.GetComponentsInChildren<Text>();
+				foreach (var text in textObj)
+				{
+					text.fontSize = smallestFontSize;
+				}
 			}
 		}
 	}

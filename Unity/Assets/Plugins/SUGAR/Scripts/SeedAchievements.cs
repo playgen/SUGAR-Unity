@@ -13,12 +13,12 @@ namespace PlayGen.SUGAR.Unity
 {
 	public static class SeedAchievements
 	{
-		[MenuItem("Tools/Seed Achievements")]
+		[MenuItem("Tools/SUGAR/Seed Game")]
 		public static void SeedAchivements()
 		{
 			AdminLogIn window = ScriptableObject.CreateInstance<AdminLogIn>();
-			window.position = new Rect(Screen.width / 2, Screen.height / 2, 250, 90);
-			window.ShowPopup();
+			window.title = "Seed Game";
+			window.Show();
 		}
 
         public static void LogInUser(string username, string password)
@@ -138,14 +138,10 @@ namespace PlayGen.SUGAR.Unity
 		void OnGUI()
 		{
 			username = EditorGUILayout.TextField("Username", username, EditorStyles.textField);
-			password = EditorGUILayout.TextField("Password", password, EditorStyles.textField);
+			password = EditorGUILayout.PasswordField("Password", password);
 			if (GUILayout.Button("Sign-in"))
 			{
 				SeedAchievements.LogInUser(username, password);
-			}
-			if (GUILayout.Button("Close"))
-			{
-				Close();
 			}
 		}
 	}

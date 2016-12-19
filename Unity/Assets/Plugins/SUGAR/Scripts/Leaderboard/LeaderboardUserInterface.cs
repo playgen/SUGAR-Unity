@@ -46,6 +46,11 @@ namespace PlayGen.SUGAR.Unity
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
+		private void OnEnable()
+		{
+			SUGARManager.Unity.ButtonBestFit(gameObject);
+		}
+
 		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
 		{
 			_pageNumber = 0;

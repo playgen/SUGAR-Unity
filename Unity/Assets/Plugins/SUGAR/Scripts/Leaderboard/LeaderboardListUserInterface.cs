@@ -40,6 +40,11 @@ namespace PlayGen.SUGAR.Unity
 			_closeButton.onClick.AddListener(delegate { gameObject.SetActive(false); });
 		}
 
+		private void OnEnable()
+		{
+			SUGARManager.Unity.ButtonBestFit(gameObject);
+		}
+
 		internal void Display(ActorType filter, bool loadingSuccess)
 		{
 			_pageNumber = 0;

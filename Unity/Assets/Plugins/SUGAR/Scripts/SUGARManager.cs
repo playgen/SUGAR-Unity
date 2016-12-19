@@ -6,6 +6,8 @@ namespace PlayGen.SUGAR.Unity
 {
 	public static class SUGARManager
 	{
+		internal static SUGARUnityManager Unity { get; set; }
+
 		internal static SUGARClient Client { get; set; }
 
 		public static int GameId { get; internal set; }

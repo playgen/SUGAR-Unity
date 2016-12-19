@@ -37,6 +37,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		private void OnEnable()
+		{
+			SUGARManager.Unity.ButtonBestFit(gameObject);
+		}
+
 		internal void Show()
 		{
 			gameObject.SetActive(true);

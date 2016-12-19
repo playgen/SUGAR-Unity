@@ -7,12 +7,12 @@ namespace PlayGen.SUGAR.Unity
 {
 	public static class SetEditorAutoLogin
 	{
-		[MenuItem("Tools/Set Auto Log-in Values")]
+		[MenuItem("Tools/SUGAR/Set Auto Log-in Values")]
 		public static void SeedAchivements()
 		{
 			AutoLogIn window = ScriptableObject.CreateInstance<AutoLogIn>();
-			window.position = new Rect(Screen.width / 2, Screen.height / 2, 250, 250);
-			window.ShowPopup();
+			window.title = "Set Auto Log-in Values";
+			window.Show();
 		}
 	}
 
@@ -38,7 +38,7 @@ namespace PlayGen.SUGAR.Unity
 			username = EditorGUILayout.TextField("Username", username, EditorStyles.textField);
 			passRequired = EditorGUILayout.Toggle("Password Required", passRequired, EditorStyles.toggle);
 			if (passRequired) {
-				password = EditorGUILayout.TextField("Password", password, EditorStyles.textField);
+				password = EditorGUILayout.PasswordField("Password", password, EditorStyles.textField);
 			}
 			source = EditorGUILayout.TextField("Account Source", source, EditorStyles.textField);
 			auto = EditorGUILayout.Toggle("Auto Log-in", auto, EditorStyles.toggle);
@@ -49,10 +49,6 @@ namespace PlayGen.SUGAR.Unity
 				EditorPrefs.SetString("AutoLoginUsername", username);
 				EditorPrefs.SetString("AutoLoginPassword", password);
 				EditorPrefs.SetString("AutoLoginSourceToken", source);
-				Close();
-			}
-			if (GUILayout.Button("Close"))
-			{
 				Close();
 			}
 		}
