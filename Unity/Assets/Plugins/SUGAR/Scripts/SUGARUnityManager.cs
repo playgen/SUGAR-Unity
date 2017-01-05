@@ -1,9 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
 
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
@@ -40,6 +42,9 @@ namespace PlayGen.SUGAR.Unity
 		private bool _useAchievements = true;
 		[SerializeField]
 		private bool _useLeaderboards = true;
+		[SerializeField]
+		private GameObject _uiBlocker;
+		private List<GameObject> _blockQueue = new List<GameObject>();
 
 		private void Awake()
 		{
@@ -104,6 +109,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
 			}
+			bool blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene();
+			if (!blockerInScene)
+			{
+				var newBlocker = Instantiate(_uiBlocker, _canvas.transform, false);
+				newBlocker.name = _uiBlocker.name;
+				_uiBlocker = newBlocker;
+			}
+			_uiBlocker.gameObject.SetActive(false);
 		}
 
 		private string ConfigPath
@@ -116,6 +129,38 @@ namespace PlayGen.SUGAR.Unity
 				#endif
 				return path;
 			}
+		}
+
+		internal void EnableObject(GameObject activeObject)
+		{
+			_uiBlocker.GetComponent<Button>().onClick.RemoveAllListeners();
+			var objectToDisable = activeObject;
+			_uiBlocker.GetComponent<Button>().onClick.AddListener(delegate { DisableObject(objectToDisable); });
+			foreach (Transform child in _uiBlocker.transform)
+			{
+				child.SetParent(_canvas.transform, false);
+				_blockQueue.Add(child.gameObject);
+			}
+			activeObject.SetActive(true);
+			activeObject.transform.SetParent(_uiBlocker.transform, false);
+			_uiBlocker.transform.SetAsLastSibling();
+			_uiBlocker.SetActive(true);
+		}
+
+		internal void DisableObject(GameObject activeObject)
+		{
+			foreach (Transform child in _uiBlocker.transform)
+			{
+				child.SetParent(_canvas.transform, false);
+			}
+			activeObject.SetActive(false);
+			if (_blockQueue.Count > 0)
+			{
+				EnableObject(_blockQueue[_blockQueue.Count - 1]);
+				_blockQueue.RemoveAt(_blockQueue.Count - 1);
+				return;
+			}
+			_uiBlocker.SetActive(false);
 		}
 
 		internal void ButtonBestFit(GameObject interfaceObj)

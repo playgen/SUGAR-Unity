@@ -68,7 +68,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public void HidePanel()
+		public void Hide()
 		{
 			if (_loginUserInterface != null)
 			{
@@ -128,6 +128,7 @@ namespace PlayGen.SUGAR.Unity
 					_loginUserInterface.Show();
 				}
 			}
+			_allowAutoLogin = false;
 		}
 
 		private void LoginUser(string user, string sourceToken, string pass)
@@ -143,7 +144,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 				SUGARManager.CurrentUser = response.User;
 				_signInCallback(true);
-				HidePanel();
+				Hide();
 			},
 			exception =>
 			{

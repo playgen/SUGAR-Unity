@@ -44,13 +44,12 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void Show()
 		{
-			gameObject.SetActive(true);
-			transform.SetAsLastSibling();
+			SUGARManager.Unity.EnableObject(gameObject);
 		}
 
 		internal void Hide()
 		{
-			gameObject.SetActive(false);
+			SUGARManager.Unity.DisableObject(gameObject);
 			_name.text = "";
 			_password.text = "";
 			_statusText.text = "";

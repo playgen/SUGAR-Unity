@@ -58,6 +58,11 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		public void Hide()
+		{
+			SUGARManager.Unity.DisableObject(_achievementListInterface.gameObject);
+		}
+
 		private void GetAchievements(Action<bool> success)
 		{
 			_progress.Clear();
