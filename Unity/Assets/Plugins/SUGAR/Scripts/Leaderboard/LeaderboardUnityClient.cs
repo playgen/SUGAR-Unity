@@ -23,19 +23,24 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			bool inScene = _leaderboardInterface.gameObject.scene == SceneManager.GetActiveScene();
-			if (!inScene)
+			if (_leaderboardInterface)
 			{
-				var newInterface = Instantiate(_leaderboardInterface.gameObject, canvas.transform, false);
-				newInterface.name = _leaderboardInterface.name;
-				_leaderboardInterface = newInterface.GetComponent<LeaderboardUserInterface>();
+				bool inScene = _leaderboardInterface.gameObject.scene == SceneManager.GetActiveScene();
+				if (!inScene)
+				{
+					var newInterface = Instantiate(_leaderboardInterface.gameObject, canvas.transform, false);
+					newInterface.name = _leaderboardInterface.name;
+					_leaderboardInterface = newInterface.GetComponent<LeaderboardUserInterface>();
+				}
+				_leaderboardInterface.gameObject.SetActive(false);
 			}
-			_leaderboardInterface.gameObject.SetActive(false);
 		}
 
 		public void Display(string token, LeaderboardFilterType filter = LeaderboardFilterType.Top)
 		{
-			GetLeaderboard(token, success =>
+			if (_leaderboardInterface)
+			{
+				GetLeaderboard(token, success =>
 				{
 					if (success)
 					{
@@ -50,6 +55,7 @@ namespace PlayGen.SUGAR.Unity
 						_leaderboardInterface.Display(filter, Enumerable.Empty<LeaderboardStandingsResponse>(), false);
 					}
 				});
+			}
 		}
 
 		public void Hide()
