@@ -78,7 +78,7 @@ namespace PlayGen.SUGAR.Unity
 
 		public void Hide()
 		{
-			if (_loginUserInterface)
+			if (_loginUserInterface && _loginUserInterface.gameObject.activeSelf)
 			{
 				_loginUserInterface.Hide();
 				_loginUserInterface.Login -= LoginUserInterfaceOnLogin;

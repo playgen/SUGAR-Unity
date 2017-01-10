@@ -69,7 +69,10 @@ namespace PlayGen.SUGAR.Unity
 
 		public void Hide()
 		{
-			SUGARManager.Unity.DisableObject(_achievementListInterface.gameObject);
+			if (_achievementListInterface.gameObject.activeSelf)
+			{
+				SUGARManager.Unity.DisableObject(_achievementListInterface.gameObject);
+			}
 		}
 
 		private void GetAchievements(Action<bool> success)

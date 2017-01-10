@@ -52,7 +52,10 @@ namespace PlayGen.SUGAR.Unity
 
 		public void Hide()
 		{
-			SUGARManager.Unity.DisableObject(_leaderboardListInterface.gameObject);
+			if (_leaderboardListInterface.gameObject.activeSelf)
+			{
+				SUGARManager.Unity.DisableObject(_leaderboardListInterface.gameObject);
+			}
 		}
 
 		private void GetLeaderboards(Action<bool> success)

@@ -56,7 +56,6 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
 		{
-			
 			_pageNumber = 0;
 			_filter = filter;
 			ShowLeaderboard(standings, loadingSuccess);
