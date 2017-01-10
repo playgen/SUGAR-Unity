@@ -143,8 +143,11 @@ namespace PlayGen.SUGAR.Unity
 				_uiBlocker.GetComponent<Button>().onClick.AddListener(delegate { DisableObject(objectToDisable); });
 				foreach (Transform child in _uiBlocker.transform)
 				{
-					child.SetParent(_canvas.transform, false);
-					_blockQueue.Add(child.gameObject);
+					if (activeObject != child.gameObject)
+					{
+						child.SetParent(_canvas.transform, false);
+						_blockQueue.Add(child.gameObject);
+					}
 				}
 				activeObject.transform.SetParent(_uiBlocker.transform, false);
 				_uiBlocker.transform.SetAsLastSibling();
@@ -162,6 +165,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					child.SetParent(_canvas.transform, false);
 				}
+				activeObject.SetActive(false);
 				if (_blockQueue.Count > 0)
 				{
 					EnableObject(_blockQueue[_blockQueue.Count - 1]);
@@ -169,6 +173,7 @@ namespace PlayGen.SUGAR.Unity
 					return;
 				}
 				_uiBlocker.SetActive(false);
+				return;
 			}
 			activeObject.SetActive(false);
 		}
