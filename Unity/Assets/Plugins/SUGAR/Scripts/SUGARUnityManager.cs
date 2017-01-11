@@ -24,6 +24,14 @@ namespace PlayGen.SUGAR.Unity
 		private string _gameToken;
 		[SerializeField]
 		private int _gameId;
+		[SerializeField]
+		private bool _useAchievements = true;
+		[SerializeField]
+		private bool _useLeaderboards = true;
+		[SerializeField]
+		private GameObject _uiBlocker;
+		private Canvas _canvas;
+		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
 		internal string baseAddress
 		{
@@ -37,14 +45,6 @@ namespace PlayGen.SUGAR.Unity
 		{
 			set { _gameId = value; }
 		}
-		private Canvas _canvas;
-		[SerializeField]
-		private bool _useAchievements = true;
-		[SerializeField]
-		private bool _useLeaderboards = true;
-		[SerializeField]
-		private GameObject _uiBlocker;
-		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
 		public bool AnyActiveUI
 		{

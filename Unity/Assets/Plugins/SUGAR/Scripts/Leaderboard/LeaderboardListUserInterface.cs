@@ -39,13 +39,13 @@ namespace PlayGen.SUGAR.Unity
 			_userButton.onClick.AddListener(delegate { UpdateFilter(1); });
 			_groupButton.onClick.AddListener(delegate { UpdateFilter(2); });
 			_combinedButton.onClick.AddListener(delegate { UpdateFilter(0); });
-			_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
+			_closeButton.onClick.AddListener(delegate { SUGARManager.Unity.DisableObject(gameObject); });
 			_signinButton.onClick.AddListener(AttemptSignIn);
 		}
 
 		private void OnEnable()
 		{
-			SUGARManager.unity.ButtonBestFit(gameObject);
+			SUGARManager.Unity.ButtonBestFit(gameObject);
 		}
 
 		internal void Display(ActorType filter, bool loadingSuccess)
@@ -60,7 +60,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.Achievement.Hide();
-			SUGARManager.unity.EnableObject(gameObject);
+			SUGARManager.Unity.EnableObject(gameObject);
 			_errorText.text = string.Empty;
 			_signinButton.gameObject.SetActive(false);
 			_userButton.interactable = true;

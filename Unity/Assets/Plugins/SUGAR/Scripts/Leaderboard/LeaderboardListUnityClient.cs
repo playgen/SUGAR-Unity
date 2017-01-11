@@ -14,15 +14,15 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : MonoBehaviour
 	{
+		[SerializeField]
+		private LeaderboardListUserInterface _leaderboardListInterface;
+
 		private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
 
 		internal List<List<LeaderboardResponse>> Leaderboards
 		{
 			get { return _leaderboards; }
 		}
-
-		[SerializeField]
-		private LeaderboardListUserInterface _leaderboardListInterface;
 
 		public bool IsActive
 		{
@@ -57,9 +57,9 @@ namespace PlayGen.SUGAR.Unity
 
 		public void Hide()
 		{
-			if (_leaderboardListInterface.gameObject.activeSelf)
+			if (IsActive)
 			{
-				SUGARManager.unity.DisableObject(_leaderboardListInterface.gameObject);
+				SUGARManager.Unity.DisableObject(_leaderboardListInterface.gameObject);
 			}
 		}
 

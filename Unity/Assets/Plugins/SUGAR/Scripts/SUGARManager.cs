@@ -10,21 +10,21 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static SUGARClient Client { get; set; }
 
-		public static int GameId { get; internal set; }
+		internal static AccountUnityClient account { get; set; }
 
-		public static ActorResponse CurrentUser { get; internal set; }
-
-	    internal static AccountUnityClient account { get; set; }
-
-	    internal static AchievementUnityClient achievement { get; set; }
+		internal static AchievementUnityClient achievement { get; set; }
 
 		internal static GameDataUnityClient gameData = new GameDataUnityClient();
 
-        internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
+		internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
 
 		internal static LeaderboardUnityClient leaderboard { get; set; }
 
-        internal static Config config { get; set; }
+		internal static Config config { get; set; }
+
+		public static int GameId { get; internal set; }
+
+		public static ActorResponse CurrentUser { get; internal set; }
 
 		public static AccountUnityClient Account
 		{

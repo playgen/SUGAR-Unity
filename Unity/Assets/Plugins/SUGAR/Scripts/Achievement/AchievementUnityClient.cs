@@ -11,20 +11,8 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : MonoBehaviour
 	{
-		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
-
-		internal List<EvaluationProgressResponse> Progress
-		{
-			get { return _progress; }
-		}
-
 		[SerializeField]
 		private AchievementListInterface _achievementListInterface;
-
-		public bool IsActive
-		{
-			get { return _achievementListInterface && _achievementListInterface.gameObject.activeInHierarchy; }
-		}
 
 		[SerializeField]
 		private AchievementPopupInterface _achievementPopup;
@@ -32,6 +20,18 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		[Range(0f, 10f)]
 		private float _notificationCheckRate = 2.5f;
+
+		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
+
+		internal List<EvaluationProgressResponse> Progress
+		{
+			get { return _progress; }
+		}
+
+		public bool IsActive
+		{
+			get { return _achievementListInterface && _achievementListInterface.gameObject.activeInHierarchy; }
+		}
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -74,10 +74,18 @@ namespace PlayGen.SUGAR.Unity
 
 		public void Hide()
 		{
-			if (_achievementListInterface.gameObject.activeSelf)
+			if (IsActive)
 			{
-				SUGARManager.unity.DisableObject(_achievementListInterface.gameObject);
+				SUGARManager.Unity.DisableObject(_achievementListInterface.gameObject);
 			}
+		}
+
+		public void ForceNotificationTest()
+		{
+			HandleNotification(new EvaluationNotification
+			{
+				Name = "Test Notification"
+			});
 		}
 
 		private void GetAchievements(Action<bool> success)
@@ -111,14 +119,6 @@ namespace PlayGen.SUGAR.Unity
 			{
 				HandleNotification(notification);
 			}
-		}
-
-		public void ForceNotificationTest()
-		{
-			HandleNotification(new EvaluationNotification
-			{
-				Name = "Test Notification"
-			});
 		}
 
 		private void HandleNotification(EvaluationNotification notification)

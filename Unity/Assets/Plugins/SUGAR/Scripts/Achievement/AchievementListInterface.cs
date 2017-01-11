@@ -14,7 +14,6 @@ namespace PlayGen.SUGAR.Unity
 		private Button _nextButton;
 		[SerializeField]
 		private Text _pageNumberText;
-		private int _pageNumber;
 		[SerializeField]
 		private Text _errorText;
 		[SerializeField]
@@ -22,32 +21,34 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private Button _signinButton;
 
+		private int _pageNumber;
+
 		private void Awake()
 		{
 			_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
 			_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
-			_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
+			_closeButton.onClick.AddListener(delegate { SUGARManager.Unity.DisableObject(gameObject); });
 			_signinButton.onClick.AddListener(AttemptSignIn);
 		}
 
 		private void OnEnable()
 		{
-			SUGARManager.unity.ButtonBestFit(gameObject);
+			SUGARManager.Unity.ButtonBestFit(gameObject);
 		}
 
 		internal void Display(bool loadingSuccess)
 		{
 			
 			_pageNumber = 0;
-			SetAchievementData(loadingSuccess);
+			ShowAchievements(loadingSuccess);
 		}
 
-		private void SetAchievementData(bool loadingSuccess)
+		private void ShowAchievements(bool loadingSuccess)
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
-			SUGARManager.unity.EnableObject(gameObject);
+			SUGARManager.Unity.EnableObject(gameObject);
 			_errorText.text = string.Empty;
 			_signinButton.gameObject.SetActive(false);
 			var achievementList = SUGARManager.Achievement.Progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
@@ -110,7 +111,7 @@ namespace PlayGen.SUGAR.Unity
 		private void UpdatePageNumber(int changeAmount)
 		{
 			_pageNumber += changeAmount;
-			SetAchievementData(true);
+			ShowAchievements(true);
 		}
 	}
 }
