@@ -1,10 +1,8 @@
 #if UNITY_EDITOR
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEditor;
 using UnityEngine;
@@ -17,55 +15,55 @@ namespace PlayGen.SUGAR.Unity
 		public static void SeedAchivements()
 		{
 			AdminLogIn window = ScriptableObject.CreateInstance<AdminLogIn>();
-			window.title = "Seed Game";
+			window.titleContent.text = "Seed Game";
 			window.Show();
 		}
 
-        public static void LogInUser(string username, string password)
-        {
-            var unityManager = GameObject.FindObjectsOfType(typeof(SUGARUnityManager)).FirstOrDefault() as SUGARUnityManager;
-            if (unityManager == null)
-            {
-                return;
-            }
-            SUGARManager.Client = new SUGARClient(unityManager.baseAddress);
-            var response = LoginAdmin(username, password);
-            if (response != null)
-            {
-                Debug.Log("Admin Login SUCCESS");
-                var game = SUGARManager.Client.Game.Get(unityManager.gameToken).FirstOrDefault();
-                if (game != null)
-                {
-                    Debug.Log("Game Found");
-                    unityManager.gameId = game.Id;
-                    SUGARManager.GameId = game.Id;
-                }
-                else
-                {
-                    Debug.Log("Creating Game");
-                    var gameResponse = SUGARManager.Client.Game.Create(new GameRequest()
-                    {
-                        Name = unityManager.gameToken
-                    });
-                    if (gameResponse != null)
-                    {
-                        unityManager.gameId = gameResponse.Id;
-                        SUGARManager.GameId = gameResponse.Id;
-                    }
-                    else
-                    {
-                        Debug.LogError("Unable to create game");
-                        return;
-                    }
+		public static void LogInUser(string username, string password)
+		{
+			var unityManager = GameObject.FindObjectsOfType(typeof(SUGARUnityManager)).FirstOrDefault() as SUGARUnityManager;
+			if (unityManager == null)
+			{
+				return;
+			}
+			SUGARManager.Client = new SUGARClient(unityManager.baseAddress);
+			var response = LoginAdmin(username, password);
+			if (response != null)
+			{
+				Debug.Log("Admin Login SUCCESS");
+				var game = SUGARManager.Client.Game.Get(unityManager.gameToken).FirstOrDefault();
+				if (game != null)
+				{
+					Debug.Log("Game Found");
+					unityManager.gameId = game.Id;
+					SUGARManager.GameId = game.Id;
+				}
+				else
+				{
+					Debug.Log("Creating Game");
+					var gameResponse = SUGARManager.Client.Game.Create(new GameRequest()
+					{
+						Name = unityManager.gameToken
+					});
+					if (gameResponse != null)
+					{
+						unityManager.gameId = gameResponse.Id;
+						SUGARManager.GameId = gameResponse.Id;
+					}
+					else
+					{
+						Debug.LogError("Unable to create game");
+						return;
+					}
 
-                }
-                CreateAchievements();
-                CreateLeaderboards();
-                SUGARManager.Client.Session.Logout();
-            }
-        }
+				}
+				CreateAchievements();
+				CreateLeaderboards();
+				SUGARManager.Client.Session.Logout();
+			}
+		}
 
-        private static void CreateAchievements()
+		private static void CreateAchievements()
 		{
 			var achievementClient = SUGARManager.Client.Achievement;
 			var gameId = SUGARManager.GameId;
