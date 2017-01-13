@@ -36,6 +36,10 @@ namespace PlayGen.SUGAR.Unity
 		private string _autoLoginPassword;
 
 		private bool _autoLoginAuto;
+
+		private string _autoLoginCustomArgs;
+
+
 		#endif
 
 		[SerializeField] private bool _allowRegister;
@@ -105,13 +109,14 @@ namespace PlayGen.SUGAR.Unity
 				_autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
 				_autoLoginPassword = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
 				_autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
+				_autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
 				if (_autoLoginSourcePassRequired)
 				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "" });
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "", "-c" + _autoLoginCustomArgs });
 				}
 				else
 				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "" });
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, _autoLoginAuto ? "-a" : "", "-c" + _autoLoginCustomArgs });
 				}
 				Debug.Log(_options.UserId + " : " + _options.AuthenticationSource + " : " + _options.Password);
 				#else

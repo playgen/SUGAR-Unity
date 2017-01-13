@@ -1,14 +1,24 @@
-﻿using CommandLine;
+﻿using System.Collections.Generic;
+using CommandLine;
 
 namespace PlayGen.SUGAR.Unity
 {
-    public static class CommandLineUtility 
+    public static class CommandLineUtility
     {
+	    public static Dictionary<string, string> CustomArgs;
+
         public static CommandLineOptions ParseArgs(string[] args)
         {
             var parser = new Parser();
             var options = new CommandLineOptions();
             parser.ParseArguments(args, options);
+	        var customArgs = options.Custom;
+			CustomArgs = new Dictionary<string, string>();
+	        foreach (var arg in customArgs)
+	        {
+		        var keyValue = arg.Split('=');
+				CustomArgs.Add(keyValue[0],keyValue[1]);
+	        }
             return options;
         }
     }
@@ -26,5 +36,8 @@ namespace PlayGen.SUGAR.Unity
 
 		[Option('p', "pass", Required = false, HelpText = "Specify the password for the user.")]
 		public string Password { get; set; }
+
+		[OptionArray('c', "custom", Required = false, HelpText = "Customs args list, dictionary pattern, separated by space. Eg: -c key=value key=value etc.")]
+		public string[] Custom { get; set; }
 	}
 }
