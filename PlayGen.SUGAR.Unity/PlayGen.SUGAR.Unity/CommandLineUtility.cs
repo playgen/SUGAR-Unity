@@ -3,36 +3,39 @@ using CommandLine;
 
 namespace PlayGen.SUGAR.Unity
 {
-    public static class CommandLineUtility
-    {
-	    public static Dictionary<string, string> CustomArgs;
+	public static class CommandLineUtility
+	{
+		public static Dictionary<string, string> CustomArgs;
 
-        public static CommandLineOptions ParseArgs(string[] args)
-        {
-            var parser = new Parser();
-            var options = new CommandLineOptions();
-            parser.ParseArguments(args, options);
-	        var customArgs = options.Custom;
+		public static CommandLineOptions ParseArgs(string[] args)
+		{
+			var parser = new Parser();
+			var options = new CommandLineOptions();
+			parser.ParseArguments(args, options);
+			var customArgs = options.Custom;
 			CustomArgs = new Dictionary<string, string>();
-	        foreach (var arg in customArgs)
-	        {
-		        var keyValue = arg.Split('=');
+			foreach (var arg in customArgs)
+			{
+				var keyValue = arg.Split('=');
 				CustomArgs.Add(keyValue[0],keyValue[1]);
-	        }
-            return options;
-        }
-    }
+			}
+			return options;
+		}
+	}
 
-    public class CommandLineOptions
-    {
-        [Option('a', "autologin", DefaultValue = false, Required = true, HelpText = "Sets flag to log in the user automatically.")]
-        public bool AutoLogin { get; set; }
+	public class CommandLineOptions
+	{
+		[Option('a', "autologin", DefaultValue = false, Required = true, HelpText = "Sets flag to log in the user automatically.")]
+		public bool AutoLogin { get; set; }
 
-        [Option('s', "source", Required = true, HelpText = "Specify an authentication source.")]
-        public string AuthenticationSource { get; set; }
+		[Option('s', "source", Required = true, HelpText = "Specify an authentication source.")]
+		public string AuthenticationSource { get; set; }
 
-        [Option('u', "uid", Required = true, HelpText = "Specify the id of the user.")]
-        public string UserId { get; set; }
+		[Option('g', "group", Required = false, HelpText = "Specify the id of the group.")]
+		public string GroupId { get; set; }
+
+		[Option('u', "uid", Required = true, HelpText = "Specify the id of the user.")]
+		public string UserId { get; set; }
 
 		[Option('p', "pass", Required = false, HelpText = "Specify the password for the user.")]
 		public string Password { get; set; }

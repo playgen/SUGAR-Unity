@@ -18,6 +18,7 @@ namespace PlayGen.SUGAR.Unity
 	{
 		private string _username;
 		private string _password;
+		private string _group;
 		private string _source;
 		private bool _auto;
 		private bool _passRequired;
@@ -29,6 +30,7 @@ namespace PlayGen.SUGAR.Unity
 			_auto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
 			_username = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
 			_password = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
+			_group = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
 			_source = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
 			_customArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
 		}
@@ -40,6 +42,7 @@ namespace PlayGen.SUGAR.Unity
 			if (_passRequired) {
 				_password = EditorGUILayout.PasswordField("Password", _password, EditorStyles.textField);
 			}
+			_source = EditorGUILayout.TextField("Group Id", _group, EditorStyles.textField);
 			_source = EditorGUILayout.TextField("Account Source", _source, EditorStyles.textField);
 			_auto = EditorGUILayout.Toggle("Auto Log-in", _auto, EditorStyles.toggle);
 			_customArgs = EditorGUILayout.TextField("Custom Args. key=value key=value etc.", _customArgs, EditorStyles.textField);
@@ -49,6 +52,7 @@ namespace PlayGen.SUGAR.Unity
 				EditorPrefs.SetBool("AutoLoginAuto", _auto);
 				EditorPrefs.SetString("AutoLoginUsername", _username);
 				EditorPrefs.SetString("AutoLoginPassword", _password);
+				EditorPrefs.SetString("AutoLoginGroup", _group);
 				EditorPrefs.SetString("AutoLoginSourceToken", _source);
 				EditorPrefs.SetString("AutoLoginCustomArgs", _customArgs);
 				Close();

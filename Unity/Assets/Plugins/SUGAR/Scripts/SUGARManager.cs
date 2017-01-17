@@ -26,6 +26,8 @@ namespace PlayGen.SUGAR.Unity
 
 		public static ActorResponse CurrentUser { get; internal set; }
 
+		public static string GroupId { get; set; }
+
 		public static AccountUnityClient Account
 		{
 			get
@@ -97,6 +99,7 @@ namespace PlayGen.SUGAR.Unity
 				throw new Exception("No SUGARUnityManager found.");
 			}
 		}
+
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
