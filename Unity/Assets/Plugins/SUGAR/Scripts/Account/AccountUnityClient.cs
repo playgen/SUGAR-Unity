@@ -120,11 +120,11 @@ namespace PlayGen.SUGAR.Unity
 				_autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
 				if (_autoLoginSourcePassRequired)
 				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, "-g" + _autoLoginGroup, _autoLoginAuto ? "-a" : "", "-c" + _autoLoginCustomArgs });
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, _autoLoginGroup != string.Empty ? "-g" + _autoLoginGroup : string.Empty, _autoLoginAuto ? "-a" : string.Empty, _autoLoginCustomArgs != string.Empty ? "-c" + _autoLoginCustomArgs : string.Empty });
 				}
 				else
 				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, "-g" + _autoLoginGroup, _autoLoginAuto ? "-a" : "", "-c" + _autoLoginCustomArgs });
+					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, _autoLoginGroup != string.Empty ? "-g" + _autoLoginGroup : string.Empty, _autoLoginAuto ? "-a" : string.Empty, _autoLoginCustomArgs != string.Empty ? "-c" + _autoLoginCustomArgs : string.Empty });
 				}
 				#else
 				_options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());

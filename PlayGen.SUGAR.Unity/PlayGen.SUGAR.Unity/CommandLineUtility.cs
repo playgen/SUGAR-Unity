@@ -14,10 +14,13 @@ namespace PlayGen.SUGAR.Unity
 			parser.ParseArguments(args, options);
 			var customArgs = options.Custom;
 			CustomArgs = new Dictionary<string, string>();
-			foreach (var arg in customArgs)
+			if (customArgs != null)
 			{
-				var keyValue = arg.Split('=');
-				CustomArgs.Add(keyValue[0],keyValue[1]);
+				foreach (var arg in customArgs)
+				{
+					var keyValue = arg.Split('=');
+					CustomArgs.Add(keyValue[0], keyValue[1]);
+				}
 			}
 			return options;
 		}
