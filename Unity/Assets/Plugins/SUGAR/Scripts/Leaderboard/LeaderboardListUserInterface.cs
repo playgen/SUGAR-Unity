@@ -40,7 +40,10 @@ namespace PlayGen.SUGAR.Unity
 			_groupButton.onClick.AddListener(delegate { UpdateFilter(2); });
 			_combinedButton.onClick.AddListener(delegate { UpdateFilter(0); });
 			_closeButton.onClick.AddListener(delegate { SUGARManager.Unity.DisableObject(gameObject); });
-			_signinButton.onClick.AddListener(AttemptSignIn);
+			if (_signinButton)
+			{
+				_signinButton.onClick.AddListener(AttemptSignIn);
+			}
 		}
 
 		private void OnEnable()
@@ -62,7 +65,10 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.Achievement.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
 			_errorText.text = string.Empty;
-			_signinButton.gameObject.SetActive(false);
+			if (_signinButton)
+			{
+				_signinButton.gameObject.SetActive(false);
+			}
 			_userButton.interactable = true;
 			_groupButton.interactable = true;
 			_combinedButton.interactable = true;
@@ -102,7 +108,7 @@ namespace PlayGen.SUGAR.Unity
 				if (SUGARManager.CurrentUser == null)
 				{
 					_errorText.text = "Error: No user currently signed in.";
-					if (SUGARManager.Account.HasInterface)
+					if (SUGARManager.Account.HasInterface && _signinButton)
 					{
 						_signinButton.gameObject.SetActive(true);
 					}
