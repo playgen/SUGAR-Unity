@@ -69,7 +69,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_signInCallback = success;
 
-			if (SUGARManager.Client != null)
+			if (SUGARManager.Client != null && ((Application.isEditor && options != null) || !Application.isEditor))
 			{
 				SignIn();
 			}
