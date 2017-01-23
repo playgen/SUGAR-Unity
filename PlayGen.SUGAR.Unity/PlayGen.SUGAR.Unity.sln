@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity", "PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj", "{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity.Editor", "PlayGen.SUGAR.Unity.Editor\PlayGen.SUGAR.Unity.Editor.csproj", "{4605FA53-6D48-4182-A3D5-2613505BEDE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,11 +5,11 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22452270}
-  - 222: {fileID: 22274486}
-  - 114: {fileID: 11457888}
+  - component: {fileID: 22452270}
+  - component: {fileID: 22274486}
+  - component: {fileID: 11457888}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -22,13 +22,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22433906}
-  - 222: {fileID: 22254810}
-  - 114: {fileID: 11468562}
-  - 114: {fileID: 114000013413874684}
-  - 111: {fileID: 111000010099566568}
+  - component: {fileID: 22433906}
+  - component: {fileID: 22254810}
+  - component: {fileID: 11468562}
+  - component: {fileID: 114000013413874684}
+  - component: {fileID: 111000010099566568}
   m_Layer: 5
   m_Name: AchievementPopup
   m_TagString: Untagged
@@ -117,12 +117,12 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 22452270}
   - {fileID: 224000012914979380}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 1}
   m_AnchorMax: {x: 0.65, y: 1.1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -137,10 +137,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 22433906}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.75, y: 1}
   m_AnchoredPosition: {x: 0.5, y: 0}
@@ -162,11 +162,11 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 224000012914979380}
-  - 222: {fileID: 222000013823241726}
-  - 114: {fileID: 114000014015519848}
+  - component: {fileID: 224000012914979380}
+  - component: {fileID: 222000013823241726}
+  - component: {fileID: 114000014015519848}
   m_Layer: 5
   m_Name: Tick
   m_TagString: Untagged
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 197258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 153a46f2bbfc40d409cc32f21c3875bd, type: 3}
+  m_Script: {fileID: 2090218939, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _name: {fileID: 11457888}
@@ -244,10 +244,10 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 22433906}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.85, y: 0.1}
   m_AnchorMax: {x: 0.95, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}

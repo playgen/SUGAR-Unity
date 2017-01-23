@@ -1,10 +1,45 @@
-﻿#if UNITY_EDITOR
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-namespace PlayGen.SUGAR.Unity
+
+namespace PlayGen.SUGAR.Unity.Editor
 {
+	[InitializeOnLoad]
 	public static class SetEditorAutoLogin
 	{
+		private static bool _accountSet;
+
+		static SetEditorAutoLogin()
+		{
+			EditorApplication.update += Update;
+		}
+
+		static void Update()
+		{
+			if (SUGARManager.Client != null && !_accountSet)
+			{
+				SUGARManager.Account.autoLoginSourcePassRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
+				SUGARManager.Account.autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
+				SUGARManager.Account.autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
+				SUGARManager.Account.autoLoginGroup = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
+				SUGARManager.Account.autoLoginPassword = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
+				SUGARManager.Account.autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
+				SUGARManager.Account.autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
+				if (SUGARManager.Account.autoLoginSourcePassRequired)
+				{
+					SUGARManager.Account.options = CommandLineUtility.ParseArgs(new[] { "-u" + SUGARManager.Account.autoLoginUsername, "-p" + SUGARManager.Account.autoLoginPassword, "-s" + SUGARManager.Account.autoLoginSourceToken, SUGARManager.Account.autoLoginGroup != string.Empty ? "-g" + SUGARManager.Account.autoLoginGroup : string.Empty, SUGARManager.Account.autoLoginAuto ? "-a" : string.Empty, SUGARManager.Account.autoLoginCustomArgs != string.Empty ? "-c" + SUGARManager.Account.autoLoginCustomArgs : string.Empty });
+				}
+				else
+				{
+					SUGARManager.Account.options = CommandLineUtility.ParseArgs(new[] { "-u" + SUGARManager.Account.autoLoginUsername, "-s" + SUGARManager.Account.autoLoginSourceToken, SUGARManager.Account.autoLoginGroup != string.Empty ? "-g" + SUGARManager.Account.autoLoginGroup : string.Empty, SUGARManager.Account.autoLoginAuto ? "-a" : string.Empty, SUGARManager.Account.autoLoginCustomArgs != string.Empty ? "-c" + SUGARManager.Account.autoLoginCustomArgs : string.Empty });
+				}
+				_accountSet = true;
+			}
+			else if (SUGARManager.Client == null && _accountSet)
+			{
+				_accountSet = false;
+			}
+		}
+
 		[MenuItem("Tools/SUGAR/Set Auto Log-in Values")]
 		public static void SeedAchivements()
 		{
@@ -39,7 +74,8 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_username = EditorGUILayout.TextField("Username", _username, EditorStyles.textField);
 			_passRequired = EditorGUILayout.Toggle("Password Required", _passRequired, EditorStyles.toggle);
-			if (_passRequired) {
+			if (_passRequired)
+			{
 				_password = EditorGUILayout.PasswordField("Password", _password, EditorStyles.textField);
 			}
 			_group = EditorGUILayout.TextField("Group Id", _group, EditorStyles.textField);
@@ -60,4 +96,3 @@ namespace PlayGen.SUGAR.Unity
 		}
 	}
 }
-#endif

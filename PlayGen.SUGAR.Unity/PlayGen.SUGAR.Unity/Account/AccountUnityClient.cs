@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using PlayGen.SUGAR.Contracts.Shared;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +21,7 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private string _defaultSourceToken = "SUGAR";
 
-		private CommandLineOptions _options;
+		internal CommandLineOptions options;
 
 		private Action<bool> _signInCallback;
 
@@ -38,23 +35,19 @@ namespace PlayGen.SUGAR.Unity
 			get { return _loginUserInterface && _loginUserInterface.gameObject.activeInHierarchy; }
 		}
 
-		#if UNITY_EDITOR
-		private string _autoLoginSourceToken;
+		internal string autoLoginSourceToken;
 
-		private bool _autoLoginSourcePassRequired;
+		internal bool autoLoginSourcePassRequired;
 
-		private string _autoLoginUsername;
+		internal string autoLoginUsername;
 
-		private string _autoLoginPassword;
+		internal string autoLoginPassword;
 
-		private string _autoLoginGroup;
+		internal string autoLoginGroup;
 
-		private bool _autoLoginAuto;
+		internal bool autoLoginAuto;
 
-		private string _autoLoginCustomArgs;
-
-
-		#endif
+		internal string autoLoginCustomArgs;
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -99,7 +92,7 @@ namespace PlayGen.SUGAR.Unity
 		private IEnumerator CheckConfigLoad()
 		{
 			WaitForFixedUpdate wait = new WaitForFixedUpdate();
-			while (SUGARManager.Client == null)
+			while (SUGARManager.Client == null || (Application.isEditor && options == null))
 			{
 				yield return wait;
 			}
@@ -108,35 +101,20 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SignIn()
 		{
-			if (_allowAutoLogin)
+			if (!Application.isEditor)
 			{
-				#if UNITY_EDITOR
-				_autoLoginSourcePassRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
-				_autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
-				_autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
-				_autoLoginGroup = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
-				_autoLoginPassword = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
-				_autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
-				_autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
-				if (_autoLoginSourcePassRequired)
+				if (_allowAutoLogin)
 				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-p" + _autoLoginPassword, "-s" + _autoLoginSourceToken, _autoLoginGroup != string.Empty ? "-g" + _autoLoginGroup : string.Empty, _autoLoginAuto ? "-a" : string.Empty, _autoLoginCustomArgs != string.Empty ? "-c" + _autoLoginCustomArgs : string.Empty });
+					options = CommandLineUtility.ParseArgs(Environment.GetCommandLineArgs());
 				}
-				else
-				{
-					_options = CommandLineUtility.ParseArgs(new[] { "-u" + _autoLoginUsername, "-s" + _autoLoginSourceToken, _autoLoginGroup != string.Empty ? "-g" + _autoLoginGroup : string.Empty, _autoLoginAuto ? "-a" : string.Empty, _autoLoginCustomArgs != string.Empty ? "-c" + _autoLoginCustomArgs : string.Empty });
-				}
-				#else
-				_options = CommandLineUtility.ParseArgs(System.Environment.GetCommandLineArgs());
-				#endif
 			}
-			if (_options != null && _options.AuthenticationSource == null)
+			if (options != null && options.AuthenticationSource == null)
 			{
-				_options.AuthenticationSource = _defaultSourceToken;
+				options.AuthenticationSource = _defaultSourceToken;
 			}
-			if (_options != null && _allowAutoLogin && _options.AutoLogin)
+			if (options != null && _allowAutoLogin && options.AutoLogin)
 			{
-				LoginUser(_options.UserId, _options.AuthenticationSource, _options.Password ?? string.Empty);
+				LoginUser(options.UserId, options.AuthenticationSource, options.Password ?? string.Empty);
 			}
 			else
 			{
@@ -148,7 +126,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 			}
 			_allowAutoLogin = false;
-			if (_options != null) SUGARManager.GroupId = _options.GroupId;
+			if (options != null) SUGARManager.GroupId = options.GroupId;
 		}
 
 		private void LoginUser(string user, string sourceToken, string pass)

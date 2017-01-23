@@ -138,9 +138,10 @@ namespace PlayGen.SUGAR.Unity
 			get
 			{
 				string path = Application.streamingAssetsPath + "/SUGAR.config.json";
-				#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-				//path = "file:///" + path;
-				#endif
+				if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+				{
+					//path = "file:///" + path;
+				}
 				return path;
 			}
 		}

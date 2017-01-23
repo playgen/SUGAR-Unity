@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System;
 using System.Linq;
 
@@ -7,7 +6,7 @@ using PlayGen.SUGAR.Contracts.Shared;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayGen.SUGAR.Unity
+namespace PlayGen.SUGAR.Unity.Editor
 {
 	public static class SeedAchievements
 	{
@@ -144,4 +143,3 @@ namespace PlayGen.SUGAR.Unity
 		}
 	}
 }
-#endif
