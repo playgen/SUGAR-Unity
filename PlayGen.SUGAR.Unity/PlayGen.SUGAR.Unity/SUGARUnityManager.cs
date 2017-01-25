@@ -30,6 +30,14 @@ namespace PlayGen.SUGAR.Unity
 		private bool _useLeaderboards = true;
 		[SerializeField]
 		private GameObject _uiBlocker;
+		[SerializeField]
+		private GameObject _uiSpinner;
+		[SerializeField]
+		private float _spinSpeed = 1;
+		[SerializeField]
+		private bool _spinClockwise = true;
+		private bool _spin;
+		
 		private Canvas _canvas;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
@@ -84,6 +92,14 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		private void Update()
+		{
+			if (_spin)
+			{
+				_uiSpinner.transform.Rotate(0, 0, (_spinClockwise ? -1 : 1) * _spinSpeed);
+			}
+		}
+
 		private bool LoadConfig()
 		{
 			var path = ConfigPath;
@@ -130,6 +146,17 @@ namespace PlayGen.SUGAR.Unity
 					_uiBlocker = newBlocker;
 				}
 				_uiBlocker.gameObject.SetActive(false);
+			}
+			if (_uiSpinner)
+			{
+				bool spinnerInScene = _uiSpinner.scene == SceneManager.GetActiveScene();
+				if (!spinnerInScene)
+				{
+					var newSpinner = Instantiate(_uiSpinner, _canvas.transform, false);
+					newSpinner.name = _uiSpinner.name;
+					_uiSpinner = newSpinner;
+				}
+				_uiSpinner.gameObject.SetActive(false);
 			}
 		}
 
@@ -188,6 +215,33 @@ namespace PlayGen.SUGAR.Unity
 				return;
 			}
 			activeObject.SetActive(false);
+		}
+
+		public void SetSpinner(bool clockwise, float speed)
+		{
+			_spinClockwise = clockwise;
+			_spinSpeed = speed;
+		}
+
+		public void StartSpinner()
+		{
+			if (_uiSpinner)
+			{
+				_uiSpinner.SetActive(true);
+				_uiSpinner.transform.localEulerAngles = Vector2.zero;
+				_spin = true;
+				_uiSpinner.transform.SetAsLastSibling();
+			}
+		}
+
+		public void StopSpinner()
+		{
+			if (_uiSpinner)
+			{
+				_uiSpinner.SetActive(false);
+				_spin = false;
+				_uiSpinner.transform.SetAsLastSibling();
+			}
 		}
 
 		internal void ButtonBestFit(GameObject interfaceObj)

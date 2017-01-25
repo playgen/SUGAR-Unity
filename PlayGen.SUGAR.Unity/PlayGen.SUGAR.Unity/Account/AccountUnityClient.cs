@@ -131,6 +131,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void LoginUser(string user, string sourceToken, string pass)
 		{
+			SUGARManager.Unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, sourceToken);
 			SUGARManager.Client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
 			response =>
@@ -148,10 +149,12 @@ namespace PlayGen.SUGAR.Unity
 				}
 				_signInCallback(false);
 			});
+			SUGARManager.Unity.StopSpinner();
 		}
 
 		private void RegisterUser(string user, string sourceToken, string pass)
 		{
+			SUGARManager.Unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, sourceToken);
 			SUGARManager.Client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
 			response =>
@@ -168,6 +171,7 @@ namespace PlayGen.SUGAR.Unity
 					_loginUserInterface.SetStatus("Registration Error: " + exception.Message);
 				}
 			});
+			SUGARManager.Unity.StopSpinner();
 		}
 
 		private AccountRequest CreateAccountRequest(string user, string pass, string source)

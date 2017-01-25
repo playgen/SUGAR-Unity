@@ -43,6 +43,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				else
 				{
 					Debug.Log("Creating Game");
+					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding " + unityManager.gameToken, 0);
 					var gameResponse = SUGARManager.Client.Game.Create(new GameRequest()
 					{
 						Name = unityManager.gameToken
@@ -57,11 +58,15 @@ namespace PlayGen.SUGAR.Unity.Editor
 						Debug.LogError("Unable to create game");
 						return;
 					}
-
+					EditorUtility.ClearProgressBar();
 				}
 				var gameSeed = JsonConvert.DeserializeObject<GameSeed>(textAsset.text);
+				EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding achievements", 0);
 				CreateAchievements(gameSeed.Achievements);
+				EditorUtility.ClearProgressBar();
+				EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding leaderboards", 0);
 				CreateLeaderboards(gameSeed.Leaderboards);
+				EditorUtility.ClearProgressBar();
 				SUGARManager.Client.Session.Logout();
 			}
 		}
