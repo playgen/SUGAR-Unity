@@ -1,0 +1,39 @@
+{
+	"Achievements": [
+		{
+			"Name": "",
+			"Description": "",
+			"ActorType": "",
+			"Token": "",
+			"EvaluationCriterias": [
+				{
+					"EvaluationDataKey": "",
+					"ComparisonType": "",
+					"CriteriaQueryType": "",
+					"EvaluationDataType": "",
+					"Scope": "",
+					"Value": ""
+				}
+			],
+			"Rewards": [
+				{
+					"EvaluationDataKey": "",
+					"EvaluationDataCategory": "",
+					"EvaluationDataType": "",
+					"Value": ""
+				}
+			]
+		}
+	],
+	"Leaderboards": [
+		{
+			"Token": "",
+			"Name": "",
+			"Key": "",
+			"ActorType": "",
+			"EvaluationDataType": "",
+			"CriteriaScope": "",
+			"LeaderboardType": ""
+		}
+	]
+}

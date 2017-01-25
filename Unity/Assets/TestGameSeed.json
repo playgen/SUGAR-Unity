@@ -1,0 +1,31 @@
+{
+	"Achievements": [
+					{
+						"Name": "Test Achievement",
+						"Description": "Test Achievement",
+						"ActorType": "User",
+						"Token": "test_achievement",
+						"EvaluationCriterias": [
+							{
+								"EvaluationDataKey": "test_key",
+								"ComparisonType": "Equals",
+								"CriteriaQueryType": "Any",
+								"EvaluationDataType": "String",
+								"Scope": "Actor",
+								"Value": "yep"
+							}
+						]
+					}
+	],
+	"Leaderboards": [
+					{
+						"Token": "test_leaderboard",
+						"Name": "Test Leaderboard",
+						"Key": "Test Leaderboard",
+						"ActorType": "User",
+						"EvaluationDataType": "String",
+						"CriteriaScope": "Actor",
+						"LeaderboardType": "Latest"
+					}
+	]
+}

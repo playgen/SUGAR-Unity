@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEditor;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace PlayGen.SUGAR.Unity.Editor
 {
@@ -18,7 +21,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			window.Show();
 		}
 
-		public static void LogInUser(string username, string password)
+		public static void LogInUser(string username, string password, TextAsset textAsset)
 		{
 			var unityManager = GameObject.FindObjectsOfType(typeof(SUGARUnityManager)).FirstOrDefault() as SUGARUnityManager;
 			if (unityManager == null)
@@ -56,55 +59,39 @@ namespace PlayGen.SUGAR.Unity.Editor
 					}
 
 				}
-				CreateAchievements();
-				CreateLeaderboards();
+				var gameSeed = JsonConvert.DeserializeObject<GameSeed>(textAsset.text);
+				CreateAchievements(gameSeed.Achievements);
+				CreateLeaderboards(gameSeed.Leaderboards);
 				SUGARManager.Client.Session.Logout();
 			}
 		}
 
-		private static void CreateAchievements()
+		private static void CreateAchievements(EvaluationCreateRequest[] achievements)
 		{
 			var achievementClient = SUGARManager.Client.Achievement;
 			var gameId = SUGARManager.GameId;
 
-			/*achievementClient.Create(new EvaluationCreateRequest
+			foreach (var achieve in achievements)
 			{
-				Name = "",
-				Description = "",
-				ActorType = ActorType.,
-				GameId = gameId,
-				Token = "",
-				EvaluationCriterias = new List<EvaluationCriteriaCreateRequest>
+				achieve.GameId = gameId;
+				foreach (var criteria in achieve.EvaluationCriterias)
 				{
-				new EvaluationCriteriaCreateRequest
-					{
-						Key = "",
-						ComparisonType = ComparisonType.,
-						CriteriaQueryType = CriteriaQueryType.,
-						DataType = EvaluationDataType.,
-						Scope = CriteriaScope.,
-						Value = ""
-					}
+					criteria.EvaluationDataCategory = EvaluationDataCategory.GameData;
 				}
-			});*/
+				achievementClient.Create(achieve);
+			}
 		}
 
-		private static void CreateLeaderboards()
+		private static void CreateLeaderboards(LeaderboardRequest[] leaderboards)
 		{
 			var leaderboardClient = SUGARManager.Client.Leaderboard;
 			var gameId = SUGARManager.GameId;
 
-			/*leaderboardClient.Create(new LeaderboardRequest
+			foreach (var leader in leaderboards)
 			{
-				Token = "",
-				GameId = gameId,
-				Name = "",
-				Key = "",
-				ActorType = ActorType.,
-				EvaluationDataType = EvaluationDataType.,
-				CriteriaScope = CriteriaScope.,
-				LeaderboardType = LeaderboardType.
-			});*/
+				leader.GameId = gameId;
+				leaderboardClient.Create(leader);
+			}
 		}
 
 		private static AccountResponse LoginAdmin(string username, string password)
@@ -131,15 +118,26 @@ namespace PlayGen.SUGAR.Unity.Editor
 	{
 		string username;
 		string password;
+		TextAsset textAsset;
 
 		void OnGUI()
 		{
 			username = EditorGUILayout.TextField("Username", username, EditorStyles.textField);
 			password = EditorGUILayout.PasswordField("Password", password);
-			if (GUILayout.Button("Sign-in"))
+			textAsset = (TextAsset)EditorGUILayout.ObjectField("Game Seed File", textAsset, typeof(TextAsset), false);
+			if (textAsset)
 			{
-				SeedAchievements.LogInUser(username, password);
+				if (GUILayout.Button("Sign-in"))
+				{
+					SeedAchievements.LogInUser(username, password, textAsset);
+				}
 			}
 		}
+	}
+
+	internal class GameSeed
+	{
+		public EvaluationCreateRequest[] Achievements;
+		public LeaderboardRequest[] Leaderboards;
 	}
 }
