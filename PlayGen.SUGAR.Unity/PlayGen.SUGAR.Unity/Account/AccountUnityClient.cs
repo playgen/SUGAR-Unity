@@ -86,8 +86,8 @@ namespace PlayGen.SUGAR.Unity
 				_loginUserInterface.Hide();
 				_loginUserInterface.Login -= LoginUserInterfaceOnLogin;
 				_loginUserInterface.Register -= LoginUserInterfaceOnRegister;
-			}
-		}
+            }
+        }
 
 		private IEnumerator CheckConfigLoad()
 		{
@@ -139,7 +139,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.CurrentUser = response.User;
 				_signInCallback(true);
 				Hide();
-			},
+                SUGARManager.Unity.StopSpinner();
+            },
 			exception =>
 			{
 				Debug.LogError(exception);
@@ -148,8 +149,8 @@ namespace PlayGen.SUGAR.Unity
 					_loginUserInterface.SetStatus("Login Error: " + exception.Message);
 				}
 				_signInCallback(false);
-			});
-			SUGARManager.Unity.StopSpinner();
+                SUGARManager.Unity.StopSpinner();
+            });
 		}
 
 		private void RegisterUser(string user, string sourceToken, string pass)
