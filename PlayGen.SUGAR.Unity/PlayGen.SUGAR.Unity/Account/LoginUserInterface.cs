@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -52,6 +53,9 @@ namespace PlayGen.SUGAR.Unity
 		internal void Show()
 		{
 			SUGARManager.Unity.EnableObject(gameObject);
+
+
+			gameObject.transform.Find("Username/InputField").gameObject.GetComponent<InputField>().ActivateInputField();
 		}
 
 		internal void Hide()
