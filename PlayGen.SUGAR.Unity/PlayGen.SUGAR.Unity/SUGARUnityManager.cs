@@ -92,7 +92,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			if (_spin)
 			{
@@ -258,6 +258,7 @@ namespace PlayGen.SUGAR.Unity
 					text.resizeTextForBestFit = true;
 					text.resizeTextMinSize = 1;
 					text.resizeTextMaxSize = 100;
+					text.fontSize = 100;
 					text.cachedTextGenerator.Invalidate();
 					text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
 					text.resizeTextForBestFit = false;

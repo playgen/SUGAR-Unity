@@ -55,7 +55,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.Unity.EnableObject(gameObject);
 
 
-			gameObject.transform.Find("Username/InputField").gameObject.GetComponent<InputField>().ActivateInputField();
+			_name.ActivateInputField();
 		}
 
 		internal void Hide()
