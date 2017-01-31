@@ -21,9 +21,21 @@ namespace PlayGen.SUGAR.Unity.Editor
 				SUGARManager.Account.autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
 				SUGARManager.Account.autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
 				SUGARManager.Account.autoLoginGroup = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
-				SUGARManager.Account.autoLoginPassword = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
-				SUGARManager.Account.autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
+				SUGARManager.Account.autoLoginPassword = EditorPrefs.HasKey("AutoLoginPassword") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
+				SUGARManager.Account.autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginSourceToken") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
 				SUGARManager.Account.autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
+				if (!EditorPrefs.HasKey("AutoLoginUsername") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginUsername")))
+				{
+					Debug.LogError("Auto Log-in Tool Error: Username not provided");
+				}
+				if (!EditorPrefs.HasKey("AutoLoginSourceToken") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginSourceToken")))
+				{
+					Debug.LogError("Auto Log-in Tool Error: Source token not provided");
+				}
+				if (SUGARManager.Account.autoLoginSourcePassRequired && (!EditorPrefs.HasKey("AutoLoginPassword") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginPassword"))))
+				{
+					Debug.LogError("Auto Log-in Tool Error: Password not provided. If no password is needed, 'password required' setting needs to be set to false");
+				}
 				if (SUGARManager.Account.autoLoginSourcePassRequired)
 				{
 					SUGARManager.Account.options = CommandLineUtility.ParseArgs(new[] { "-u" + SUGARManager.Account.autoLoginUsername, "-p" + SUGARManager.Account.autoLoginPassword, "-s" + SUGARManager.Account.autoLoginSourceToken, SUGARManager.Account.autoLoginGroup != string.Empty ? "-g" + SUGARManager.Account.autoLoginGroup : string.Empty, SUGARManager.Account.autoLoginAuto ? "-a" : string.Empty, SUGARManager.Account.autoLoginCustomArgs != string.Empty ? "-c" + SUGARManager.Account.autoLoginCustomArgs : string.Empty });
