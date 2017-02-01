@@ -31,6 +31,10 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private GameObject _uiBlocker;
 		[SerializeField]
+		private bool _useBlocker = true;
+		[SerializeField]
+		private bool _blockerClickClose = true;
+		[SerializeField]
 		private GameObject _uiSpinner;
 		[SerializeField]
 		private float _spinSpeed = 1;
@@ -39,6 +43,7 @@ namespace PlayGen.SUGAR.Unity
 		private bool _spin;
 		
 		private Canvas _canvas;
+		private GameObject _currentBlock;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
 		internal string baseAddress
@@ -173,36 +178,41 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		public void SetBlocker(bool use, bool block)
+		{
+			_useBlocker = use;
+			_blockerClickClose = block;
+		}
+
 		internal void EnableObject(GameObject activeObject)
 		{
-			if (_uiBlocker)
+			if (_uiBlocker && _useBlocker)
 			{
 				_uiBlocker.GetComponent<Button>().onClick.RemoveAllListeners();
 				var objectToDisable = activeObject;
-				_uiBlocker.GetComponent<Button>().onClick.AddListener(delegate { DisableObject(objectToDisable); });
-				foreach (Transform child in _uiBlocker.transform)
+				if (_blockerClickClose)
 				{
-					if (activeObject != child.gameObject)
-					{
-						child.SetParent(_canvas.transform, false);
-						_blockQueue.Add(child.gameObject);
-					}
+					_uiBlocker.GetComponent<Button>().onClick.AddListener(delegate { DisableObject(objectToDisable); });
 				}
-				activeObject.transform.SetParent(_uiBlocker.transform, false);
+				if (_currentBlock != null && activeObject != _currentBlock)
+				{
+					_blockQueue.Add(_currentBlock);
+				}
+				_currentBlock = activeObject;
 				_uiBlocker.transform.SetAsLastSibling();
 				_uiBlocker.SetActive(true);
 			}
-			activeObject.SetActive(true);
 			activeObject.transform.SetAsLastSibling();
+			activeObject.SetActive(true);
 		}
 
 		internal void DisableObject(GameObject activeObject)
 		{
 			if (_uiBlocker)
 			{
-				foreach (Transform child in _uiBlocker.transform)
+				if (activeObject == _currentBlock)
 				{
-					child.SetParent(_canvas.transform, false);
+					_currentBlock = null;
 				}
 				activeObject.SetActive(false);
 				if (_blockQueue.Count > 0)

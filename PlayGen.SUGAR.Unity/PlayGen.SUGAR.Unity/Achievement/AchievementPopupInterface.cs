@@ -32,7 +32,6 @@ namespace PlayGen.SUGAR.Unity
 			while (_achievementQueue.Count > 0)
 			{
 				_name.text = _achievementQueue[0].Name;
-				transform.SetAsLastSibling();
 				_animation.Play();
 				while (_animation.isPlaying)
 				{
