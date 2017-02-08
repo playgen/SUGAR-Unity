@@ -107,19 +107,24 @@ MonoBehaviour:
   m_Script: {fileID: -2015201922, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseAddress: http://localhost:62312/
+  _baseAddress: 
   _gameToken: 
   _gameId: 0
   _useAchievements: 1
   _useLeaderboards: 1
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
+  _useBlocker: 1
+  _blockerClickClose: 1
+  _uiSpinner: {fileID: 1728504751892352, guid: 225fde9262ab3a441a877acceec873ec, type: 2}
+  _spinSpeed: 600
+  _spinClockwise: 0
 --- !u!114 &114000012266143498
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012920798932}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -1561396617, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
@@ -196,7 +201,7 @@ Canvas:
   m_GameObject: {fileID: 1000011383437524}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

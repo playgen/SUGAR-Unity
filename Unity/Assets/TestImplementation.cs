@@ -13,17 +13,28 @@ public class TestImplementation : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.L))
+		if (Input.GetKey(KeyCode.T))
 		{
-			SUGARManager.GameLeaderboard.DisplayList();
-		}
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			SUGARManager.Achievement.DisplayList();
-		}
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			SUGARManager.Achievement.ForceNotificationTest();
+			if (Input.GetKeyDown(KeyCode.L))
+			{
+				SUGARManager.GameLeaderboard.DisplayList();
+			}
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				SUGARManager.Achievement.DisplayList();
+			}
+			if (Input.GetKeyDown(KeyCode.A))
+			{
+				SUGARManager.Achievement.ForceNotificationTest();
+			}
+			if (Input.GetKeyDown(KeyCode.S))
+			{
+				SUGARManager.Unity.StartSpinner();
+			}
+			if (Input.GetKeyDown(KeyCode.H))
+			{
+				SUGARManager.Unity.StopSpinner();
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{

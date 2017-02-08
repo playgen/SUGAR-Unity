@@ -17,6 +17,7 @@ namespace PlayGen.SUGAR.Unity
 			var directory = new[]
 			{
 				"Assets/Editor/SUGAR",
+				"Assets/StreamingAssets",
 				"Assets/SUGAR"
 			};
 

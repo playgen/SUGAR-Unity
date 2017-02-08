@@ -50,6 +50,15 @@ namespace PlayGen.SUGAR.Unity
 		{
 			get { return _baseAddress; }
 		}
+
+		private string ConfigPath
+		{
+			get
+			{
+				return Application.streamingAssetsPath + "/SUGAR.config.json";
+			}
+		}
+
 		internal string gameToken
 		{
 			get { return _gameToken; }
@@ -97,18 +106,18 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		private void FixedUpdate()
+		private void Update()
 		{
 			if (_spin)
 			{
-				_uiSpinner.transform.Rotate(0, 0, (_spinClockwise ? -1 : 1) * _spinSpeed);
+				_uiSpinner.transform.Rotate(0, 0, (_spinClockwise ? -1 : 1) * _spinSpeed * Time.smoothDeltaTime);
 			}
 		}
 
 		private bool LoadConfig()
 		{
 			var path = ConfigPath;
-			if (File.Exists(ConfigPath))
+			if (File.Exists(path))
 			{
 				StartCoroutine(LoadOnlineConfig(path));
 				return true;
@@ -162,19 +171,6 @@ namespace PlayGen.SUGAR.Unity
 					_uiSpinner = newSpinner;
 				}
 				_uiSpinner.gameObject.SetActive(false);
-			}
-		}
-
-		private string ConfigPath
-		{
-			get
-			{
-				string path = Application.streamingAssetsPath + "/SUGAR.config.json";
-				if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
-				{
-					//path = "file:///" + path;
-				}
-				return path;
 			}
 		}
 
@@ -237,10 +233,9 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_uiSpinner)
 			{
-				_uiSpinner.SetActive(true);
+				EnableObject(_uiSpinner);
 				_uiSpinner.transform.localEulerAngles = Vector2.zero;
 				_spin = true;
-				_uiSpinner.transform.SetAsLastSibling();
 			}
 		}
 
@@ -248,9 +243,8 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_uiSpinner)
 			{
-				_uiSpinner.SetActive(false);
+				DisableObject(_uiSpinner);
 				_spin = false;
-				_uiSpinner.transform.SetAsLastSibling();
 			}
 		}
 
