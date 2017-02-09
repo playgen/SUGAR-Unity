@@ -102,7 +102,7 @@ namespace PlayGen.SUGAR.Unity
 			_leaderboardType.text = _filter.ToString();
 			_pageNumberText.text = "Page " + (_pageNumber + 1);
 			_previousButton.interactable = _pageNumber > 0;
-			_nextButton.interactable = standingsList.Count > _leaderboardPositions.Length;
+			_nextButton.interactable = SUGARManager.Leaderboard.NextPage;
 			if (SUGARManager.Leaderboard.CurrentLeaderboard == null)
 			{
 				loadingSuccess = false;

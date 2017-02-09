@@ -16,9 +16,16 @@ namespace PlayGen.SUGAR.Unity
 
 		private LeaderboardResponse _leaderboard;
 
+		private bool _nextPage;
+
 		internal LeaderboardResponse CurrentLeaderboard
 		{
 			get { return _leaderboard; }
+		}
+
+		internal bool NextPage
+		{
+			get { return _nextPage; }
 		}
 
 		public bool IsActive
@@ -105,14 +112,28 @@ namespace PlayGen.SUGAR.Unity
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = filter,
-					PageLimit = _leaderboardInterface.GetPossiblePositionCount() + 1,
+					PageLimit = _leaderboardInterface.GetPossiblePositionCount(),
 					PageOffset = pageNumber
 				};
 
 				SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
 				response =>
 				{
-					result(response.ToList());
+
+					request.PageOffset += 1;
+					SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
+					nextresponse =>
+					{
+						_nextPage = nextresponse.ToList().Any();
+						result(response.ToList());
+					},
+					nextexception =>
+					{
+						string error = "Failed to get leaderboard standings. " + nextexception.Message;
+						Debug.LogError(error);
+						_nextPage = false;
+						result(response.ToList());
+					});
 				},
 				exception =>
 				{
