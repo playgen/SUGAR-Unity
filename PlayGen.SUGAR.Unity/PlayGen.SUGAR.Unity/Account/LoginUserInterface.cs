@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
+using PlayGen.Unity.Utilities.BestFit;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -39,50 +42,16 @@ namespace PlayGen.SUGAR.Unity
 
 		private void OnEnable()
 		{
-			SUGARManager.Unity.ButtonBestFit(gameObject);
+			DoBestFit();
+			BestFit.ResolutionChange += DoBestFit;
 		}
 
 		private void OnDisable()
 		{
+			BestFit.ResolutionChange -= DoBestFit;
 			_name.text = "";
 			_password.text = "";
 			_statusText.text = "";
-		}
-
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift) && EventSystem.current.currentSelectedGameObject != null)
-			{
-				var next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
-
-				if (next == null)
-					return;
-
-				var inputfield = next.GetComponent<InputField>();
-				if (inputfield != null)
-				{
-					inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
-				}
-				EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
-			}
-			else if (Input.GetKeyDown(KeyCode.Tab) && EventSystem.current.currentSelectedGameObject != null)
-			{
-				var next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-				if (next == null)
-					return;
-
-				var inputfield = next.GetComponent<InputField>();
-				if (inputfield != null)
-				{
-					inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
-				}
-				EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
-			}
-			if (Input.GetKeyDown(KeyCode.Return))
-			{
-				InvokeLogin();
-			}
 		}
 
 		internal void Show()
@@ -119,6 +88,11 @@ namespace PlayGen.SUGAR.Unity
 		{
 			var args = new LoginEventArgs(_name.text, _password.text);
 			if (Register != null) Register(this, args);
+		}
+
+		internal void DoBestFit()
+		{
+			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
 		}
 	}
 }

@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using PlayGen.Unity.Utilities.BestFit;
+
 namespace PlayGen.SUGAR.Unity
 {
 	public class AchievementListInterface : MonoBehaviour
@@ -36,7 +38,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void OnEnable()
 		{
-			SUGARManager.Unity.ButtonBestFit(gameObject);
+			DoBestFit();
+			BestFit.ResolutionChange += DoBestFit;
+		}
+
+		private void OnDisable()
+		{
+			BestFit.ResolutionChange -= DoBestFit;
 		}
 
 		internal void Display(bool loadingSuccess)
@@ -117,6 +125,11 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_pageNumber += changeAmount;
 			ShowAchievements(true);
+		}
+
+		internal void DoBestFit()
+		{
+			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
 		}
 	}
 }

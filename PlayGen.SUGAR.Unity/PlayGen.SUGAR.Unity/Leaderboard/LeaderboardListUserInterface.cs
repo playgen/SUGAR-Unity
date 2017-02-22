@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 
+using PlayGen.Unity.Utilities.BestFit;
+
 namespace PlayGen.SUGAR.Unity
 {
 	public class LeaderboardListUserInterface : MonoBehaviour
@@ -48,7 +50,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void OnEnable()
 		{
-			SUGARManager.Unity.ButtonBestFit(gameObject);
+			DoBestFit();
+			BestFit.ResolutionChange += DoBestFit;
+		}
+
+		private void OnDisable()
+		{
+			BestFit.ResolutionChange -= DoBestFit;
 		}
 
 		internal void Display(ActorType filter, bool loadingSuccess)
@@ -149,6 +157,11 @@ namespace PlayGen.SUGAR.Unity
 			_pageNumber = 0;
 			_actorType = (ActorType)filter;
 			ShowLeaderboards(true);
+		}
+
+		internal void DoBestFit()
+		{
+			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
+using PlayGen.Unity.Utilities.Loading;
 
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -34,14 +35,8 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private bool _blockerClickClose = true;
 		[SerializeField]
-		private GameObject _uiSpinner;
-		[SerializeField]
-		private float _spinSpeed = 1;
-		[SerializeField]
-		private bool _spinClockwise = true;
-		private bool _spin;
+		private LoadingSpinner _uiSpinner;
 		
-		private Canvas _canvas;
 		private GameObject _currentBlock;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
@@ -79,20 +74,10 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
 			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
 			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
-			_canvas = GetComponentInChildren<Canvas>();
-			GetComponent<AccountUnityClient>().CreateInterface(_canvas);
 
 			if (!LoadConfig())
 			{
 				SetUpClient();
-			}
-		}
-
-		private void Update()
-		{
-			if (_spin)
-			{
-				_uiSpinner.transform.Rotate(0, 0, (_spinClockwise ? -1 : 1) * _spinSpeed * Time.smoothDeltaTime);
 			}
 		}
 
@@ -123,21 +108,23 @@ namespace PlayGen.SUGAR.Unity
 		private void SetUpClient()
 		{
 			SUGARManager.Client = new SUGARClient(_baseAddress);
+			var canvas = GetComponentInChildren<Canvas>();
+			GetComponent<AccountUnityClient>().CreateInterface(canvas);
 			if (_useLeaderboards)
 			{
-				GetComponent<LeaderboardListUnityClient>().CreateInterface(_canvas);
-				GetComponent<LeaderboardUnityClient>().CreateInterface(_canvas);
+				GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
+				GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
 			}
 			if (_useAchievements)
 			{
-				GetComponent<AchievementUnityClient>().CreateInterface(_canvas);
+				GetComponent<AchievementUnityClient>().CreateInterface(canvas);
 			}
 			if (_uiBlocker)
 			{
 				bool blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene();
 				if (!blockerInScene)
 				{
-					var newBlocker = Instantiate(_uiBlocker, _canvas.transform, false);
+					var newBlocker = Instantiate(_uiBlocker, canvas.transform, false);
 					newBlocker.name = _uiBlocker.name;
 					_uiBlocker = newBlocker;
 				}
@@ -145,14 +132,15 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_uiSpinner)
 			{
-				bool spinnerInScene = _uiSpinner.scene == SceneManager.GetActiveScene();
+				bool spinnerInScene = _uiSpinner.gameObject.scene == SceneManager.GetActiveScene();
 				if (!spinnerInScene)
 				{
-					var newSpinner = Instantiate(_uiSpinner, _canvas.transform, false);
+					var newSpinner = Instantiate(_uiSpinner, canvas.transform, false);
 					newSpinner.name = _uiSpinner.name;
 					_uiSpinner = newSpinner;
 				}
-				_uiSpinner.gameObject.SetActive(false);
+				_uiSpinner.gameObject.SetActive(true);
+				Loading.Stop();
 			}
 		}
 
@@ -205,70 +193,20 @@ namespace PlayGen.SUGAR.Unity
 			activeObject.SetActive(false);
 		}
 
-		public void SetSpinner(bool clockwise, float speed)
+		public void SetSpinner(bool clockwise, int speed)
 		{
-			_spinClockwise = clockwise;
-			_spinSpeed = speed;
+			Loading.Set(speed, clockwise);
 		}
 
-		public void StartSpinner()
+		public void StartSpinner(string text = "")
 		{
-			if (_uiSpinner)
-			{
-				EnableObject(_uiSpinner);
-				_uiSpinner.transform.localEulerAngles = Vector2.zero;
-				_spin = true;
-			}
+			Loading.Start(text);
+			Loading.LoadingSpinner.transform.SetAsLastSibling();
 		}
 
-		public void StopSpinner()
+		public void StopSpinner(string text = "", float stopDelay = 0f)
 		{
-			if (_uiSpinner)
-			{
-				DisableObject(_uiSpinner);
-				_spin = false;
-			}
-		}
-
-		internal void ButtonBestFit(GameObject interfaceObj)
-		{
-			LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)interfaceObj.transform);
-
-			var buttonObj = interfaceObj.GetComponentsInChildren<Button>();
-			int smallestFontSize = 0;
-			foreach (var button in buttonObj)
-			{
-				var textObj = button.GetComponentsInChildren<Text>();
-				foreach (var text in textObj)
-				{
-					text.resizeTextForBestFit = true;
-					text.resizeTextMinSize = 1;
-					text.resizeTextMaxSize = 100;
-					text.fontSize = 100;
-					text.cachedTextGenerator.Invalidate();
-					text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
-					text.resizeTextForBestFit = false;
-					var newSize = text.cachedTextGenerator.fontSizeUsedForBestFit;
-					var newSizeRescale = text.rectTransform.rect.size.x / text.cachedTextGenerator.rectExtents.size.x;
-					if (text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y < newSizeRescale)
-					{
-						newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
-					}
-					newSize = Mathf.FloorToInt(newSize * newSizeRescale);
-					if (newSize < smallestFontSize || smallestFontSize == 0)
-					{
-						smallestFontSize = newSize;
-					}
-				}
-			}
-			foreach (var button in buttonObj)
-			{
-				var textObj = button.GetComponentsInChildren<Text>();
-				foreach (var text in textObj)
-				{
-					text.fontSize = smallestFontSize;
-				}
-			}
+			Loading.Stop(text, stopDelay);
 		}
 	}
 }

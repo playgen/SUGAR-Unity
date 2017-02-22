@@ -115,9 +115,8 @@ MonoBehaviour:
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
   _useBlocker: 1
   _blockerClickClose: 1
-  _uiSpinner: {fileID: 1728504751892352, guid: 225fde9262ab3a441a877acceec873ec, type: 2}
-  _spinSpeed: 600
-  _spinClockwise: 0
+  _uiSpinner: {fileID: 114066451447811422, guid: 225fde9262ab3a441a877acceec873ec,
+    type: 2}
 --- !u!114 &114000012266143498
 MonoBehaviour:
   m_ObjectHideFlags: 1

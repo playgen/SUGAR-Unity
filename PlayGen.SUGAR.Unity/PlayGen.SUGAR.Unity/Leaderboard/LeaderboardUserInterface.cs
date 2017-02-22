@@ -4,6 +4,8 @@ using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 
+using PlayGen.Unity.Utilities.BestFit;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,7 +56,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void OnEnable()
 		{
-			SUGARManager.Unity.ButtonBestFit(gameObject);
+			DoBestFit();
+			BestFit.ResolutionChange += DoBestFit;
+		}
+
+		private void OnDisable()
+		{
+			BestFit.ResolutionChange -= DoBestFit;
 		}
 
 		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
@@ -174,5 +182,9 @@ namespace PlayGen.SUGAR.Unity
 			return _leaderboardPositions.Length;
 		}
 
+		internal void DoBestFit()
+		{
+			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
+		}
 	}
 }

@@ -71,7 +71,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224000013654411998}
-  - component: {fileID: 222000013066435514}
   m_Layer: 5
   m_Name: Password
   m_TagString: Untagged
@@ -87,7 +86,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224000010134839012}
-  - component: {fileID: 222000013936721334}
   m_Layer: 5
   m_Name: Username
   m_TagString: Untagged
@@ -210,6 +208,7 @@ GameObject:
   - component: {fileID: 222000011296475054}
   - component: {fileID: 114000013660795512}
   - component: {fileID: 114000014259607728}
+  - component: {fileID: 114990310936905492}
   m_Layer: 5
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -699,9 +698,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 114000013650594668}
+    m_SelectOnDown: {fileID: 114000013650594668}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -861,9 +860,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 114000012099599384}
+    m_SelectOnDown: {fileID: 114000012099599384}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1011,6 +1010,19 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &114990310936905492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012764916846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1251820456, guid: 8e200a361d9866b438289245a5ad398d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _returnButton: {fileID: 114000010025172124}
+  _escapeButton: {fileID: 114000011763907676}
 --- !u!222 &222000010040566640
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1083,24 +1095,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010673788008}
---- !u!222 &222000013066435514
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011069149700}
 --- !u!222 &222000013513438030
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012597306440}
---- !u!222 &222000013936721334
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011378477618}
 --- !u!222 &222000014005181380
 CanvasRenderer:
   m_ObjectHideFlags: 1

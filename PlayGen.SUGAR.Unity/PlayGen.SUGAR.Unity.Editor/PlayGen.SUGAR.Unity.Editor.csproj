@@ -37,6 +37,15 @@
     <Reference Include="PlayGen.SUGAR.Client">
       <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
     </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Editor.FontReplace">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.FontReplace.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Editor.Shortcuts">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Shortcuts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

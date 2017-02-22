@@ -34,11 +34,26 @@
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net35\CommandLine.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\lib\PlayGen Utilities\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\lib\SUGAR\Client\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PlayGen.SUGAR.Client">
       <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.BestFit">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.FormKeyboardControls">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Loading">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Localization">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
