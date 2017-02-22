@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\AccountUnityClient.cs" />
-    <Compile Include="Account\ILoginUserInterface.cs" />
     <Compile Include="Account\LoginEventArgs.cs" />
     <Compile Include="Account\LoginUserInterface.cs" />
     <Compile Include="Achievement\AchievementItemInterface.cs" />

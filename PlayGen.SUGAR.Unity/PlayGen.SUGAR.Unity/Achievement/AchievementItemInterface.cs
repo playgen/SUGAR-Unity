@@ -17,7 +17,7 @@ namespace PlayGen.SUGAR.Unity
 			_tick.enabled = completed;
 		}
 
-		internal void Disbale()
+		internal void Disable()
 		{
 			gameObject.SetActive(false);
 		}

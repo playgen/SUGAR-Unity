@@ -15,7 +15,6 @@ namespace PlayGen.SUGAR.Unity
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
-
 	public class SUGARUnityManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -46,38 +45,21 @@ namespace PlayGen.SUGAR.Unity
 		private GameObject _currentBlock;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
-		internal string baseAddress
-		{
-			get { return _baseAddress; }
-		}
+		internal string baseAddress => _baseAddress;
 
-		private string ConfigPath
-		{
-			get
-			{
-				return Application.streamingAssetsPath + "/SUGAR.config.json";
-			}
-		}
+		private string ConfigPath => Application.streamingAssetsPath + "/SUGAR.config.json";
 
-		internal string gameToken
-		{
-			get { return _gameToken; }
-		}
+		internal string gameToken => _gameToken;
+
 		internal int gameId
 		{
 			set { _gameId = value; }
 		}
 
-		public bool AnyActiveUI
-		{
-			get
-			{
-				return (SUGARManager.account && SUGARManager.account.IsActive) ||
-						(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
-						(SUGARManager.gameLeaderboard && SUGARManager.gameLeaderboard.IsActive) ||
-						(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive);
-			}
-		}
+		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
+									(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
+									(SUGARManager.gameLeaderboard && SUGARManager.gameLeaderboard.IsActive) ||
+									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive);
 
 		private void Awake()
 		{

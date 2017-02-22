@@ -92,7 +92,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (i >= standingsList.Count)
 				{
-					_leaderboardPositions[i].Disbale();
+					_leaderboardPositions[i].Disable();
 				} else
 				{
 					_leaderboardPositions[i].SetText(standingsList[i]);

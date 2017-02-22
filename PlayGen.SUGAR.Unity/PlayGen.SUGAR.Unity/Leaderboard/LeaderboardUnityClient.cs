@@ -18,20 +18,11 @@ namespace PlayGen.SUGAR.Unity
 
 		private bool _nextPage;
 
-		internal LeaderboardResponse CurrentLeaderboard
-		{
-			get { return _leaderboard; }
-		}
+		internal LeaderboardResponse CurrentLeaderboard => _leaderboard;
 
-		internal bool NextPage
-		{
-			get { return _nextPage; }
-		}
+		internal bool NextPage => _nextPage;
 
-		public bool IsActive
-		{
-			get { return _leaderboardInterface && _leaderboardInterface.gameObject.activeInHierarchy; }
-		}
+		public bool IsActive => _leaderboardInterface && _leaderboardInterface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{

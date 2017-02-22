@@ -23,7 +23,7 @@ namespace PlayGen.SUGAR.Unity
 			_score.text = res.Value;
 		}
 
-		internal void Disbale()
+		internal void Disable()
 		{
 			gameObject.SetActive(false);
 		}

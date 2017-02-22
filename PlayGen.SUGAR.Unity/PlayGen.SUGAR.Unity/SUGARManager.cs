@@ -100,7 +100,6 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
 			return Client == null;

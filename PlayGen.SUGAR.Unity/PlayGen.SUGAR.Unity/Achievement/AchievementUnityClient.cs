@@ -23,15 +23,9 @@ namespace PlayGen.SUGAR.Unity
 
 		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
 
-		internal List<EvaluationProgressResponse> Progress
-		{
-			get { return _progress; }
-		}
+		internal List<EvaluationProgressResponse> Progress => _progress;
 
-		public bool IsActive
-		{
-			get { return _achievementListInterface && _achievementListInterface.gameObject.activeInHierarchy; }
-		}
+		public bool IsActive => _achievementListInterface && _achievementListInterface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -123,7 +117,6 @@ namespace PlayGen.SUGAR.Unity
 
 		private void HandleNotification(EvaluationNotification notification)
 		{
-			Debug.Log("NOTIFICATION");
 			if (_achievementPopup)
 			{
 				_achievementPopup.Animate(notification);

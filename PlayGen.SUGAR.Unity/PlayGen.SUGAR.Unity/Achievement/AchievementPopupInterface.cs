@@ -5,7 +5,6 @@ using PlayGen.SUGAR.Client.EvaluationEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace PlayGen.SUGAR.Unity
 {
 	public class AchievementPopupInterface : MonoBehaviour

@@ -41,7 +41,6 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void Display(bool loadingSuccess)
 		{
-			
 			_pageNumber = 0;
 			ShowAchievements(loadingSuccess);
 		}
@@ -72,7 +71,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (i >= achievementList.Count)
 				{
-					_achievementItems[i].Disbale();
+					_achievementItems[i].Disable();
 				}
 				else
 				{

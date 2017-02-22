@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,9 +20,9 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private Text _statusText;
 
-		public event EventHandler<LoginEventArgs> Login;
+		internal event EventHandler<LoginEventArgs> Login;
 
-		public event EventHandler<LoginEventArgs> Register;
+		internal event EventHandler<LoginEventArgs> Register;
 
 		private void Awake()
 		{
@@ -50,45 +49,7 @@ namespace PlayGen.SUGAR.Unity
 			_statusText.text = "";
 		}
 
-		internal void Show()
-		{
-			SUGARManager.Unity.EnableObject(gameObject);
-
-
-			_name.ActivateInputField();
-		}
-
-		internal void Hide()
-		{
-			SUGARManager.Unity.DisableObject(gameObject);
-		}
-
-		internal void RegisterButtonDisplay(bool display)
-		{
-			if (_registerButton)
-			{
-				_registerButton.gameObject.SetActive(display);
-			}
-		}
-
-		internal void SetStatus(string text)
-		{
-			_statusText.text = text;
-		}
-
-		private void InvokeLogin()
-		{
-			var args = new LoginEventArgs(_name.text, _password.text);
-			Login(this, args);
-		}
-
-		private void InvokeRegister()
-		{
-			var args = new LoginEventArgs(_name.text, _password.text);
-			Register(this, args);
-		}
-
-		void Update()
+		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift) && EventSystem.current.currentSelectedGameObject != null)
 			{
@@ -122,6 +83,42 @@ namespace PlayGen.SUGAR.Unity
 			{
 				InvokeLogin();
 			}
+		}
+
+		internal void Show()
+		{
+			SUGARManager.Unity.EnableObject(gameObject);
+			_name.ActivateInputField();
+		}
+
+		internal void Hide()
+		{
+			SUGARManager.Unity.DisableObject(gameObject);
+		}
+
+		internal void RegisterButtonDisplay(bool display)
+		{
+			if (_registerButton)
+			{
+				_registerButton.gameObject.SetActive(display);
+			}
+		}
+
+		internal void SetStatus(string text)
+		{
+			_statusText.text = text;
+		}
+
+		private void InvokeLogin()
+		{
+			var args = new LoginEventArgs(_name.text, _password.text);
+			if (Login != null) Login(this, args);
+		}
+
+		private void InvokeRegister()
+		{
+			var args = new LoginEventArgs(_name.text, _password.text);
+			if (Register != null) Register(this, args);
 		}
 	}
 }

@@ -19,15 +19,9 @@ namespace PlayGen.SUGAR.Unity
 
 		private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
 
-		internal List<List<LeaderboardResponse>> Leaderboards
-		{
-			get { return _leaderboards; }
-		}
+		internal List<List<LeaderboardResponse>> Leaderboards => _leaderboards;
 
-		public bool IsActive
-		{
-			get { return _leaderboardListInterface && _leaderboardListInterface.gameObject.activeInHierarchy; }
-		}
+		public bool IsActive => _leaderboardListInterface && _leaderboardListInterface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{
