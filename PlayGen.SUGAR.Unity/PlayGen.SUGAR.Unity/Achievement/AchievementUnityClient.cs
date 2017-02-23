@@ -12,33 +12,38 @@ namespace PlayGen.SUGAR.Unity
 	public class AchievementUnityClient : MonoBehaviour
 	{
 		[SerializeField]
-		private AchievementListInterface _achievementListInterface;
+		private BaseAchievementListInterface _achievementInterface;
 
 		[SerializeField]
-		private AchievementPopupInterface _achievementPopup;
+		private BaseAchievementPopupInterface _achievementPopup;
 
 		[SerializeField]
 		[Range(0f, 10f)]
 		private float _notificationCheckRate = 2.5f;
 
+		[SerializeField]
+		private BaseAchievementItemInterface _achievementItemPrefab;
+
+		internal BaseAchievementItemInterface AchievementItemPrefab => _achievementItemPrefab;
+
 		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
 
 		internal List<EvaluationProgressResponse> Progress => _progress;
 
-		public bool IsActive => _achievementListInterface && _achievementListInterface.gameObject.activeInHierarchy;
+		public bool IsActive => _achievementInterface && _achievementInterface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (_achievementListInterface)
+			if (_achievementInterface)
 			{
-				bool inScene = _achievementListInterface.gameObject.scene == SceneManager.GetActiveScene();
+				bool inScene = _achievementInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
-					var newInterface = Instantiate(_achievementListInterface.gameObject, canvas.transform, false);
-					newInterface.name = _achievementListInterface.name;
-					_achievementListInterface = newInterface.GetComponent<AchievementListInterface>();
+					var newInterface = Instantiate(_achievementInterface.gameObject, canvas.transform, false);
+					newInterface.name = _achievementInterface.name;
+					_achievementInterface = newInterface.GetComponent<BaseAchievementListInterface>();
 				}
-				_achievementListInterface.gameObject.SetActive(false);
+				_achievementInterface.gameObject.SetActive(false);
 				SUGARManager.Client.Achievement.EnableNotifications(true);
 			}
 			if (_achievementPopup)
@@ -48,7 +53,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false);
 					newPopUp.name = _achievementPopup.name;
-					_achievementPopup = newPopUp.GetComponent<AchievementPopupInterface>();
+					_achievementPopup = newPopUp.GetComponent<BaseAchievementPopupInterface>();
 				}
 				_achievementPopup.gameObject.SetActive(true);
 				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
@@ -57,11 +62,11 @@ namespace PlayGen.SUGAR.Unity
 
 		public void DisplayList()
 		{
-			if (_achievementListInterface)
+			if (_achievementInterface)
 			{
 				GetAchievements(success =>
 				{
-					_achievementListInterface.Display(success);
+					_achievementInterface.Display(success);
 				});
 			}
 		}
@@ -70,7 +75,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.Unity.DisableObject(_achievementListInterface.gameObject);
+				SUGARManager.Unity.DisableObject(_achievementInterface.gameObject);
 			}
 		}
 
@@ -119,7 +124,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_achievementPopup)
 			{
-				_achievementPopup.Animate(notification);
+				_achievementPopup.Notification(notification);
 			}
 		}
 	}

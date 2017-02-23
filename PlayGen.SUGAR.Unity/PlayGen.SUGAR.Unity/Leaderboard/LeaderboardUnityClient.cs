@@ -12,15 +12,19 @@ namespace PlayGen.SUGAR.Unity
 	public class LeaderboardUnityClient : MonoBehaviour
 	{
 		[SerializeField]
-		private LeaderboardUserInterface _leaderboardInterface;
+		private BaseLeaderboardUserInterface _leaderboardInterface;
+
+		[SerializeField]
+		private BaseLeaderboardPositionInterface _leaderboardPositionPrefab;
+
+		[SerializeField]
+		internal int PositionCount;
+
+		internal BaseLeaderboardPositionInterface LeaderboardPositionPrefab => _leaderboardPositionPrefab;
 
 		private LeaderboardResponse _leaderboard;
 
-		private bool _nextPage;
-
 		internal LeaderboardResponse CurrentLeaderboard => _leaderboard;
-
-		internal bool NextPage => _nextPage;
 
 		public bool IsActive => _leaderboardInterface && _leaderboardInterface.gameObject.activeInHierarchy;
 
@@ -33,7 +37,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					var newInterface = Instantiate(_leaderboardInterface.gameObject, canvas.transform, false);
 					newInterface.name = _leaderboardInterface.name;
-					_leaderboardInterface = newInterface.GetComponent<LeaderboardUserInterface>();
+					_leaderboardInterface = newInterface.GetComponent<BaseLeaderboardUserInterface>();
 				}
 				_leaderboardInterface.gameObject.SetActive(false);
 			}
@@ -103,28 +107,14 @@ namespace PlayGen.SUGAR.Unity
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = filter,
-					PageLimit = _leaderboardInterface.GetPossiblePositionCount(),
+					PageLimit = PositionCount,
 					PageOffset = pageNumber
 				};
 
 				SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
 				response =>
 				{
-
-					request.PageOffset += 1;
-					SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
-					nextresponse =>
-					{
-						_nextPage = nextresponse.ToList().Any();
-						result(response.ToList());
-					},
-					nextexception =>
-					{
-						string error = "Failed to get leaderboard standings. " + nextexception.Message;
-						Debug.LogError(error);
-						_nextPage = false;
-						result(response.ToList());
-					});
+					result(response.ToList());
 				},
 				exception =>
 				{

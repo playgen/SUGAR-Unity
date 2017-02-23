@@ -1,25 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using PlayGen.SUGAR.Unity;
 
-namespace PlayGen.SUGAR.Unity
+public class AchievementItemInterface : BaseAchievementItemInterface
 {
-	public class AchievementItemInterface : MonoBehaviour
+	internal override void Enable()
 	{
-		[SerializeField]
-		private Text _achieveName;
-		[SerializeField]
-		private Image _tick;
+		base.Enable();
+	}
 
-		internal void SetText(string achieveName, bool completed)
-		{
-			gameObject.SetActive(true);
-			_achieveName.text = achieveName;
-			_tick.enabled = completed;
-		}
+	internal void SetText(string achieveName, bool completed)
+	{
+		base.Enable();
+		_achieveName.text = achieveName;
+		_achieveImage.enabled = completed;
+	}
 
-		internal void Disable()
-		{
-			gameObject.SetActive(false);
-		}
+	internal override void Disable()
+	{
+		base.Disable();
 	}
 }

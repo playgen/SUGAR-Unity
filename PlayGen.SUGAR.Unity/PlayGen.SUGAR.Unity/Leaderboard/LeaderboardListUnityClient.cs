@@ -15,7 +15,7 @@ namespace PlayGen.SUGAR.Unity
 	public class LeaderboardListUnityClient : MonoBehaviour
 	{
 		[SerializeField]
-		private LeaderboardListUserInterface _leaderboardListInterface;
+		private BaseLeaderboardListUserInterface _leaderboardListInterface;
 
 		private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
 
@@ -32,7 +32,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					var newInterface = Instantiate(_leaderboardListInterface.gameObject, canvas.transform, false);
 					newInterface.name = _leaderboardListInterface.name;
-					_leaderboardListInterface = newInterface.GetComponent<LeaderboardListUserInterface>();
+					_leaderboardListInterface = newInterface.GetComponent<BaseLeaderboardListUserInterface>();
 				}
 				_leaderboardListInterface.gameObject.SetActive(false);
 			}

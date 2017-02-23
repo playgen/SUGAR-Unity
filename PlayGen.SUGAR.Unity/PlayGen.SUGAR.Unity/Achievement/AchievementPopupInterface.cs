@@ -1,44 +1,35 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using PlayGen.SUGAR.Client.EvaluationEvents;
+using PlayGen.SUGAR.Unity;
+
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace PlayGen.SUGAR.Unity
+public class AchievementPopupInterface : BaseAchievementPopupInterface
 {
-	public class AchievementPopupInterface : MonoBehaviour
+	[SerializeField]
+	private Animation _animation;
+
+	internal override void Display(EvaluationNotification notification)
 	{
-		[SerializeField]
-		private Text _name;
-
-		[SerializeField]
-		private Animation _animation;
-
-		private readonly List<EvaluationNotification> _achievementQueue = new List<EvaluationNotification>();
-
-		internal void Animate(EvaluationNotification notification)
+		if (!_animation.isPlaying)
 		{
-			_achievementQueue.Add(notification);
-			if (!_animation.isPlaying)
-			{
-				StartCoroutine(AnimatePopup());
-			}
+			StartCoroutine(AnimatePopup());
 		}
+	}
 
-		private IEnumerator AnimatePopup()
+	private IEnumerator AnimatePopup()
+	{
+		while (_achievementQueue.Count > 0)
 		{
-			while (_achievementQueue.Count > 0)
+			_name.text = _achievementQueue[0].Name;
+			_animation.Play();
+			while (_animation.isPlaying)
 			{
-				_name.text = _achievementQueue[0].Name;
-				_animation.Play();
-				while (_animation.isPlaying)
-				{
-					yield return null;
-				}
-				_achievementQueue.RemoveAt(0);
 				yield return null;
 			}
+			_achievementQueue.RemoveAt(0);
+			yield return null;
 		}
 	}
 }
