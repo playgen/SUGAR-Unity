@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Localization;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -40,11 +41,13 @@ namespace PlayGen.SUGAR.Unity
 		{
 			DoBestFit();
 			BestFit.ResolutionChange += DoBestFit;
+			Localization.LanguageChange += OnLanguageChange;
 		}
 
 		private void OnDisable()
 		{
 			BestFit.ResolutionChange -= DoBestFit;
+			Localization.LanguageChange -= OnLanguageChange;
 		}
 
 		internal void Display(bool loadingSuccess)
@@ -86,14 +89,14 @@ namespace PlayGen.SUGAR.Unity
 					_achievementItems[i].SetText(achievementList[i].Name, Mathf.Approximately(achievementList[i].Progress, 1.0f));
 				}
 			}
-			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 			_previousButton.interactable = _pageNumber > 0;
 			_nextButton.interactable = SUGARManager.Achievement.Progress.Count > (_pageNumber + 1) * _achievementItems.Length;
 			if (!loadingSuccess)
 			{
 				if (SUGARManager.CurrentUser == null)
 				{
-					_errorText.text = "Error: No user currently signed in.";
+					_errorText.text = Localization.Get("NO_USER_ERROR");
 					if (SUGARManager.Account.HasInterface && _signinButton)
 					{
 						_signinButton.gameObject.SetActive(true);
@@ -101,12 +104,12 @@ namespace PlayGen.SUGAR.Unity
 				}
 				else
 				{
-					_errorText.text = "Error: Unable to gather current achievement progress.";
+					_errorText.text = Localization.Get("ACHIEVEMENT_LOAD_ERROR");
 				}
 			}
 			else if (achievementList.Count == 0)
 			{
-				_errorText.text = "No achievements are currently available for this game.";
+				_errorText.text = Localization.Get("NO_ACHIEVEMENT_ERROR");
 			}
 			_achievementItems.Select(t => t.gameObject).BestFit();
 		}
@@ -128,10 +131,15 @@ namespace PlayGen.SUGAR.Unity
 			ShowAchievements(true);
 		}
 
-		internal void DoBestFit()
+		private void DoBestFit()
 		{
 			_achievementItems.Select(t => t.gameObject).BestFit();
 			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
+		}
+
+		private void OnLanguageChange()
+		{
+			UpdatePageNumber(0);
 		}
 	}
 }

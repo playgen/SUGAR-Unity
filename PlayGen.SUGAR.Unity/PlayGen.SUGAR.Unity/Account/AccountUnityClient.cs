@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.Unity.Utilities.Localization;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -140,7 +142,7 @@ namespace PlayGen.SUGAR.Unity
 				Debug.LogError(exception);
 				if (HasInterface)
 				{
-					_loginUserInterface.SetStatus("Login Error: " + exception.Message);
+					_loginUserInterface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
 				}
 				_signInCallback(false);
                 SUGARManager.Unity.StopSpinner();
@@ -163,7 +165,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (HasInterface)
 				{
-					_loginUserInterface.SetStatus("Registration Error: " + exception.Message);
+					_loginUserInterface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception.Message));
 				}
 			});
 			SUGARManager.Unity.StopSpinner();

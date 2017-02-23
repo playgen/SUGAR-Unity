@@ -4,6 +4,7 @@ using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 
 using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Localization;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -52,11 +53,13 @@ namespace PlayGen.SUGAR.Unity
 		{
 			DoBestFit();
 			BestFit.ResolutionChange += DoBestFit;
+			Localization.LanguageChange += OnLanguageChange;
 		}
 
 		private void OnDisable()
 		{
 			BestFit.ResolutionChange -= DoBestFit;
+			Localization.LanguageChange -= OnLanguageChange;
 		}
 
 		internal void Display(ActorType filter, bool loadingSuccess)
@@ -108,14 +111,14 @@ namespace PlayGen.SUGAR.Unity
 					_leaderboardButtons[i].gameObject.SetActive(true);
 				}
 			}
-			_leaderboardType.text = _actorType == ActorType.Undefined ? "Combined" : _actorType.ToString();
-			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_leaderboardType.text = _actorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(_actorType.ToString());
+			_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 			_previousButton.interactable = _pageNumber > 0;
 			if (!loadingSuccess)
 			{
 				if (SUGARManager.CurrentUser == null)
 				{
-					_errorText.text = "Error: No user currently signed in.";
+					_errorText.text = Localization.Get("NO_USER_ERROR");
 					if (SUGARManager.Account.HasInterface && _signinButton)
 					{
 						_signinButton.gameObject.SetActive(true);
@@ -123,7 +126,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 				else
 				{
-					_errorText.text = "Error: Unable to gather leaderboards for this game.";
+					_errorText.text = Localization.Get("LEADERBOARD_LIST_LOAD_ERROR");
 				}
 				_userButton.interactable = false;
 				_groupButton.interactable = false;
@@ -131,7 +134,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else if (leaderboardList.Count == 0)
 			{
-				_errorText.text = "No leaderboards are currently available for this game for this filter.";
+				_errorText.text = Localization.Get("NO_LEADERBOARD_LIST_ERROR");
 			}
 			DoBestFit();
 		}
@@ -160,9 +163,14 @@ namespace PlayGen.SUGAR.Unity
 			ShowLeaderboards(true);
 		}
 
-		internal void DoBestFit()
+		private void DoBestFit()
 		{
 			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
+		}
+
+		private void OnLanguageChange()
+		{
+			UpdatePageNumber(0);
 		}
 	}
 }

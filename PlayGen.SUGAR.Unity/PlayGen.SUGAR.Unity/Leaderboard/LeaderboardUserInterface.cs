@@ -8,6 +8,7 @@ using PlayGen.Unity.Utilities.BestFit;
 
 using UnityEngine;
 using UnityEngine.UI;
+using PlayGen.Unity.Utilities.Localization;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -58,11 +59,13 @@ namespace PlayGen.SUGAR.Unity
 		{
 			DoBestFit();
 			BestFit.ResolutionChange += DoBestFit;
+			Localization.LanguageChange += OnLanguageChange;
 		}
 
 		private void OnDisable()
 		{
 			BestFit.ResolutionChange -= DoBestFit;
+			Localization.LanguageChange -= OnLanguageChange;
 		}
 
 		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
@@ -107,8 +110,8 @@ namespace PlayGen.SUGAR.Unity
 				}
 			}
 			_leaderboardName.text = SUGARManager.Leaderboard.CurrentLeaderboard != null ? SUGARManager.Leaderboard.CurrentLeaderboard.Name : string.Empty;
-			_leaderboardType.text = _filter.ToString();
-			_pageNumberText.text = "Page " + (_pageNumber + 1);
+			_leaderboardType.text = Localization.Get(_filter.ToString());
+			_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 			_previousButton.interactable = _pageNumber > 0;
 			_nextButton.interactable = SUGARManager.Leaderboard.NextPage;
 			if (SUGARManager.Leaderboard.CurrentLeaderboard == null)
@@ -124,7 +127,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (SUGARManager.CurrentUser == null)
 				{
-					_errorText.text = "Error: No user currently signed in.";
+					_errorText.text = Localization.Get("NO_USER_ERROR");
 					if (SUGARManager.Account.HasInterface && _signinButton)
 					{
 						_signinButton.gameObject.SetActive(true);
@@ -132,7 +135,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 				else
 				{
-					_errorText.text = "Error: Unable to gather standings for this leaderboard.";
+					_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
 				}
 				_topButton.interactable = false;
 				_nearButton.interactable = false;
@@ -140,7 +143,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else if (standingsList.Count == 0)
 			{
-				_errorText.text = "No standings are currently available for this leaderboard for this filter.";
+				_errorText.text = Localization.Get("NO_LEADERBOARD_ERROR");
 			}
 			_leaderboardPositions.Select(t => t.gameObject).BestFit();
 		}
@@ -182,10 +185,15 @@ namespace PlayGen.SUGAR.Unity
 			return _leaderboardPositions.Length;
 		}
 
-		internal void DoBestFit()
+		private void DoBestFit()
 		{
 			_leaderboardPositions.Select(t => t.gameObject).BestFit();
 			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
+		}
+
+		private void OnLanguageChange()
+		{
+			UpdatePageNumber(0);
 		}
 	}
 }
