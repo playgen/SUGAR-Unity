@@ -142,7 +142,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_errorText.text = "No standings are currently available for this leaderboard for this filter.";
 			}
-
+			_leaderboardPositions.Select(t => t.gameObject).BestFit();
 		}
 
 		private void AttemptSignIn()
@@ -184,7 +184,8 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void DoBestFit()
 		{
-			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
+			_leaderboardPositions.Select(t => t.gameObject).BestFit();
+			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
 		}
 	}
 }

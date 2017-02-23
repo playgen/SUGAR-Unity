@@ -108,6 +108,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_errorText.text = "No achievements are currently available for this game.";
 			}
+			_achievementItems.Select(t => t.gameObject).BestFit();
 		}
 
 		private void AttemptSignIn()
@@ -129,7 +130,8 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void DoBestFit()
 		{
-			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
+			_achievementItems.Select(t => t.gameObject).BestFit();
+			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
 		}
 	}
 }

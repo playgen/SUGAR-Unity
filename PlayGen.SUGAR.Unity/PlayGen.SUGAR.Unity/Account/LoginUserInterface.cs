@@ -92,7 +92,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void DoBestFit()
 		{
-			GetComponentsInChildren<Button>().Select(t => t.gameObject).BestFit();
+			GetComponentsInChildren<Button>(true).Select(t => t.gameObject).Where(t => t.activeSelf).BestFit();
 		}
 	}
 }
