@@ -15,16 +15,11 @@ namespace PlayGen.SUGAR.Unity
 		private BaseLeaderboardUserInterface _leaderboardInterface;
 
 		[SerializeField]
-		private BaseLeaderboardPositionInterface _leaderboardPositionPrefab;
-
-		[SerializeField]
-		internal int PositionCount;
-
-		internal BaseLeaderboardPositionInterface LeaderboardPositionPrefab => _leaderboardPositionPrefab;
+		internal int positionCount;
 
 		private LeaderboardResponse _leaderboard;
 
-		internal LeaderboardResponse CurrentLeaderboard => _leaderboard;
+		internal LeaderboardResponse currentLeaderboard => _leaderboard;
 
 		public bool IsActive => _leaderboardInterface && _leaderboardInterface.gameObject.activeInHierarchy;
 
@@ -69,7 +64,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.Unity.DisableObject(_leaderboardInterface.gameObject);
+				SUGARManager.unity.DisableObject(_leaderboardInterface.gameObject);
 			}
 		}
 
@@ -78,7 +73,7 @@ namespace PlayGen.SUGAR.Unity
 			_leaderboard = null;
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.Client.Leaderboard.GetAsync(token, SUGARManager.GameId,
+				SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
 				response =>
 				{
 					_leaderboard = response;
@@ -107,11 +102,11 @@ namespace PlayGen.SUGAR.Unity
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = filter,
-					PageLimit = PositionCount,
+					PageLimit = positionCount,
 					PageOffset = pageNumber
 				};
 
-				SUGARManager.Client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
+				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
 				response =>
 				{
 					result(response.ToList());

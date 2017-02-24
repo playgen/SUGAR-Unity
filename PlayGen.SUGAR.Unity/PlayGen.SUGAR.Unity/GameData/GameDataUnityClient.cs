@@ -14,7 +14,7 @@ namespace PlayGen.SUGAR.Unity
         {
 			if (SUGARManager.CurrentUser != null)
 			{
-				var response = SUGARManager.Client.GameData.GetHighest(SUGARManager.CurrentUser.Id, SUGARManager.GameId, keys, dataType);
+				var response = SUGARManager.client.GameData.GetHighest(SUGARManager.CurrentUser.Id, SUGARManager.GameId, keys, dataType);
 				return response;
 			}
 			return Enumerable.Empty<EvaluationDataResponse>();
@@ -54,7 +54,7 @@ namespace PlayGen.SUGAR.Unity
 					EvaluationDataType = dataType
 				};
 
-				SUGARManager.Client.GameData.AddAsync(data,
+				SUGARManager.client.GameData.AddAsync(data,
 				response =>
 				{
 					Debug.Log("GameData Sending Success: True");

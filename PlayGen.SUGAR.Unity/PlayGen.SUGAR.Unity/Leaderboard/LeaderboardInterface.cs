@@ -25,7 +25,7 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 	protected override void Awake()
 	{
 		base.Awake();
-		SUGARManager.Leaderboard.PositionCount = _leaderboardPositions.Length;
+		SUGARManager.Leaderboard.positionCount = _leaderboardPositions.Length;
 		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
 		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
 	}
@@ -83,26 +83,26 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 				_leaderboardPositions[i].SetText(standingsList[i]);
 			}
 		}
-		_leaderboardName.text = SUGARManager.Leaderboard.CurrentLeaderboard != null ? SUGARManager.Leaderboard.CurrentLeaderboard.Name : string.Empty;
+		_leaderboardName.text = SUGARManager.Leaderboard.currentLeaderboard != null ? SUGARManager.Leaderboard.currentLeaderboard.Name : string.Empty;
 		_leaderboardType.text = Localization.Get(_filter.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
 		NextPage();
-		if (SUGARManager.Leaderboard.CurrentLeaderboard == null)
+		if (SUGARManager.Leaderboard.currentLeaderboard == null)
 		{
 			loadingSuccess = false;
 		}
 		else
 		{
-			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
-			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
+			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.currentLeaderboard.ActorType == ActorType.User;
+			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.currentLeaderboard.ActorType == ActorType.User;
 		}
 		if (!loadingSuccess)
 		{
 			if (SUGARManager.CurrentUser == null)
 			{
 				_errorText.text = Localization.Get("NO_USER_ERROR");
-				if (SUGARManager.Account.HasInterface && _signinButton)
+				if (SUGARManager.Account.hasInterface && _signinButton)
 				{
 					_signinButton.gameObject.SetActive(true);
 				}

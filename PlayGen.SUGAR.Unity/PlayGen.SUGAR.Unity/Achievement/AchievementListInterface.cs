@@ -58,7 +58,7 @@ public class AchievementListInterface : BaseAchievementListInterface
 		{
 			_signinButton.gameObject.SetActive(false);
 		}
-		var achievementList = SUGARManager.Achievement.Progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
+		var achievementList = SUGARManager.Achievement.progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
 		if (!achievementList.Any() && _pageNumber > 0)
 		{
 			UpdatePageNumber(-1);
@@ -82,13 +82,13 @@ public class AchievementListInterface : BaseAchievementListInterface
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		_nextButton.interactable = SUGARManager.Achievement.Progress.Count > (_pageNumber + 1) * _achievementItems.Length;
+		_nextButton.interactable = SUGARManager.Achievement.progress.Count > (_pageNumber + 1) * _achievementItems.Length;
 		if (!loadingSuccess)
 		{
 			if (SUGARManager.CurrentUser == null)
 			{
 				_errorText.text = Localization.Get("NO_USER_ERROR");
-				if (SUGARManager.Account.HasInterface && _signinButton)
+				if (SUGARManager.Account.hasInterface && _signinButton)
 				{
 					_signinButton.gameObject.SetActive(true);
 				}

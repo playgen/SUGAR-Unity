@@ -22,7 +22,7 @@ namespace PlayGen.SUGAR.Unity
             {
                 _stopwatch.Start();
 
-                _tryExecuteNextResponse = SUGARManager.Client.TryExecuteResponse();
+                _tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
 
                 _stopwatch.Stop();
             }

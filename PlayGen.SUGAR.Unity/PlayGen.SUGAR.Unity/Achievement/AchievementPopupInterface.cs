@@ -10,7 +10,7 @@ public class AchievementPopupInterface : BaseAchievementPopupInterface
 	[SerializeField]
 	private Animation _animation;
 
-	internal override void Display(EvaluationNotification notification)
+	protected override void Display(EvaluationNotification notification)
 	{
 		if (!_animation.isPlaying)
 		{

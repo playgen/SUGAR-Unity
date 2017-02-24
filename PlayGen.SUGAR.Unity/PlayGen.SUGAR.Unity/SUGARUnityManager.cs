@@ -107,7 +107,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SetUpClient()
 		{
-			SUGARManager.Client = new SUGARClient(_baseAddress);
+			SUGARManager.client = new SUGARClient(_baseAddress);
 			var canvas = GetComponentInChildren<Canvas>();
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
 			if (_useLeaderboards)

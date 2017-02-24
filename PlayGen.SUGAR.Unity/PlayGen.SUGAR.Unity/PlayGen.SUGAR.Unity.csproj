@@ -81,7 +81,6 @@
     <Compile Include="Account\AccountUnityClient.cs" />
     <Compile Include="Account\AccountInterface .cs" />
     <Compile Include="Account\BaseAccountInterface.cs" />
-    <Compile Include="Achievement\BaseAchievementItemInterface.cs" />
     <Compile Include="Achievement\AchievementItemInterface.cs" />
     <Compile Include="Achievement\BaseAchievementListInterface.cs" />
     <Compile Include="Achievement\AchievementListInterface.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="Leaderboard\LeaderboardListUnityClient.cs" />
     <Compile Include="Leaderboard\LeaderboardListInterface.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardListInterface.cs" />
-    <Compile Include="Leaderboard\BaseLeaderboardPositionInterface.cs" />
     <Compile Include="Leaderboard\LeaderboardPositionInterface.cs" />
     <Compile Include="Leaderboard\LeaderboardUnityClient.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardInterface.cs" />

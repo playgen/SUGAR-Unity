@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 
 namespace PlayGen.SUGAR.Unity
@@ -37,7 +36,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_closeButton)
 			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.Unity.DisableObject(gameObject); });
+				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 			}
 			if (_signinButton)
 			{
@@ -63,7 +62,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void AttemptSignIn()
 		{
-			SUGARManager.Account.DisplayPanel(success =>
+			SUGARManager.account.DisplayPanel(success =>
 			{
 				if (success)
 				{

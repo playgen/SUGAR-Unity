@@ -45,7 +45,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_closeButton)
 			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.Unity.DisableObject(gameObject); });
+				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 			}
 			if (_signinButton)
 			{
@@ -66,7 +66,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void AttemptSignIn()
 		{
-			SUGARManager.Account.DisplayPanel(success =>
+			SUGARManager.account.DisplayPanel(success =>
 			{
 				if (success)
 				{
@@ -80,7 +80,7 @@ namespace PlayGen.SUGAR.Unity
 		private void UpdateFilter(int filter)
 		{
 			_filter = (LeaderboardFilterType)filter;
-			SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, 0, result =>
+			SUGARManager.leaderboard.GetLeaderboardStandings(_filter, 0, result =>
 			{
 				var standings = result.ToList();
 				ShowLeaderboard(standings, true);

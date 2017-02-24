@@ -8,7 +8,7 @@ namespace PlayGen.SUGAR.Unity
 	{
 		internal static SUGARUnityManager unity { get; set; }
 
-		internal static SUGARClient Client { get; set; }
+		internal static SUGARClient client { get; set; }
 
 		internal static AccountUnityClient account { get; set; }
 
@@ -26,7 +26,7 @@ namespace PlayGen.SUGAR.Unity
 
 		public static ActorResponse CurrentUser { get; internal set; }
 
-		public static string GroupId { get; set; }
+		public static string GroupId { get; internal set; }
 
 		public static AccountUnityClient Account
 		{
@@ -102,7 +102,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
-			return Client == null;
+			return client == null;
 		}
 	}
 }

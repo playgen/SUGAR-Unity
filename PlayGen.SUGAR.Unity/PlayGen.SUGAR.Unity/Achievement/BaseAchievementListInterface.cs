@@ -32,7 +32,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void AttemptSignIn()
 		{
-			SUGARManager.Account.DisplayPanel(success =>
+			SUGARManager.account.DisplayPanel(success =>
 			{
 				if (success)
 				{

@@ -19,7 +19,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
 
-		internal List<List<LeaderboardResponse>> Leaderboards => _leaderboards;
+		internal List<List<LeaderboardResponse>> leaderboards => _leaderboards;
 
 		public bool IsActive => _leaderboardListInterface && _leaderboardListInterface.gameObject.activeInHierarchy;
 
@@ -53,7 +53,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.Unity.DisableObject(_leaderboardListInterface.gameObject);
+				SUGARManager.unity.DisableObject(_leaderboardListInterface.gameObject);
 			}
 		}
 
@@ -62,14 +62,14 @@ namespace PlayGen.SUGAR.Unity
 			_leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.Client.Leaderboard.GetAsync(SUGARManager.GameId,
+				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
 				response =>
 				{
-					var leaderboards = response.ToList();
+					var result = response.ToList();
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;
-						_leaderboards.Add(leaderboards.Where(lb => lb.ActorType == at).ToList());
+						_leaderboards.Add(result.Where(lb => lb.ActorType == at).ToList());
 					}
 					success(true);
 				},

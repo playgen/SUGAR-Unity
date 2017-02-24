@@ -58,7 +58,7 @@ public class LeaderboardListUserInterface : BaseLeaderboardListUserInterface
 		_userButton.interactable = true;
 		_groupButton.interactable = true;
 		_combinedButton.interactable = true;
-		var leaderboardList = SUGARManager.GameLeaderboard.Leaderboards[(int)_actorType].ToList();
+		var leaderboardList = SUGARManager.GameLeaderboard.leaderboards[(int)_actorType].ToList();
 		_nextButton.interactable = leaderboardList.Count > (_pageNumber + 1) * _leaderboardButtons.Length;
 		leaderboardList = leaderboardList.Skip(_pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
 		if (!leaderboardList.Any() && _pageNumber > 0)
@@ -94,7 +94,7 @@ public class LeaderboardListUserInterface : BaseLeaderboardListUserInterface
 			if (SUGARManager.CurrentUser == null)
 			{
 				_errorText.text = Localization.Get("NO_USER_ERROR");
-				if (SUGARManager.Account.HasInterface && _signinButton)
+				if (SUGARManager.Account.hasInterface && _signinButton)
 				{
 					_signinButton.gameObject.SetActive(true);
 				}

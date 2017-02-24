@@ -21,14 +21,7 @@ namespace PlayGen.SUGAR.Unity
 		[Range(0f, 10f)]
 		private float _notificationCheckRate = 2.5f;
 
-		[SerializeField]
-		private BaseAchievementItemInterface _achievementItemPrefab;
-
-		internal BaseAchievementItemInterface AchievementItemPrefab => _achievementItemPrefab;
-
-		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
-
-		internal List<EvaluationProgressResponse> Progress => _progress;
+		internal List<EvaluationProgressResponse> progress { get; private set; } = new List<EvaluationProgressResponse>();
 
 		public bool IsActive => _achievementInterface && _achievementInterface.gameObject.activeInHierarchy;
 
@@ -44,7 +37,7 @@ namespace PlayGen.SUGAR.Unity
 					_achievementInterface = newInterface.GetComponent<BaseAchievementListInterface>();
 				}
 				_achievementInterface.gameObject.SetActive(false);
-				SUGARManager.Client.Achievement.EnableNotifications(true);
+				SUGARManager.client.Achievement.EnableNotifications(true);
 			}
 			if (_achievementPopup)
 			{
@@ -75,7 +68,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.Unity.DisableObject(_achievementInterface.gameObject);
+				SUGARManager.unity.DisableObject(_achievementInterface.gameObject);
 			}
 		}
 
@@ -89,13 +82,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetAchievements(Action<bool> success)
 		{
-			_progress.Clear();
+			progress.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.Client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
+				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_progress = response.ToList();
+					progress = response.ToList();
 					success(true);
 				},
 				exception =>
@@ -114,7 +107,7 @@ namespace PlayGen.SUGAR.Unity
 		private void NotificatonCheck()
 		{
 			EvaluationNotification notification;
-			if (SUGARManager.Client.Achievement.TryGetPendingNotification(out notification))
+			if (SUGARManager.client.Achievement.TryGetPendingNotification(out notification))
 			{
 				HandleNotification(notification);
 			}

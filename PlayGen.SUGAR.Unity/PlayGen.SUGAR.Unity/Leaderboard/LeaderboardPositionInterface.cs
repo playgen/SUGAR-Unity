@@ -1,23 +1,30 @@
 ﻿using PlayGen.SUGAR.Contracts.Shared;
-using PlayGen.SUGAR.Unity;
 
-public class LeaderboardPositionInterface : BaseLeaderboardPositionInterface
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LeaderboardPositionInterface : MonoBehaviour
 {
-	internal override void Enable()
-	{
-		base.Enable();
-	}
+	[SerializeField]
+	private Text _position;
+
+	[SerializeField]
+	private Text _playerName;
+
+	[SerializeField]
+	private Text _score;
+
 
 	internal void SetText(LeaderboardStandingsResponse res)
 	{
-		base.Enable();
+		gameObject.SetActive(true);
 		_position.text = res.Ranking.ToString();
 		_playerName.text = res.ActorName;
 		_score.text = res.Value;
 	}
 
-	internal override void Disable()
+	internal void Disable()
 	{
-		base.Disable();
+		gameObject.SetActive(false);
 	}
 }

@@ -27,7 +27,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal CommandLineOptions options;
 
-		internal bool HasInterface => _accountInterface;
+		internal bool hasInterface => _accountInterface;
 
 		internal string autoLoginSourceToken;
 
@@ -47,7 +47,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (HasInterface)
+			if (hasInterface)
 			{
 				bool inScene = _accountInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
@@ -65,7 +65,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_signInCallback = success;
 
-			if (SUGARManager.Client != null && ((Application.isEditor && options != null) || !Application.isEditor))
+			if (SUGARManager.client != null && ((Application.isEditor && options != null) || !Application.isEditor))
 			{
 				SignIn();
 			}
@@ -86,7 +86,7 @@ namespace PlayGen.SUGAR.Unity
 		private IEnumerator CheckConfigLoad()
 		{
 			WaitForFixedUpdate wait = new WaitForFixedUpdate();
-			while (SUGARManager.Client == null || (Application.isEditor && options == null))
+			while (SUGARManager.client == null || (Application.isEditor && options == null))
 			{
 				yield return wait;
 			}
@@ -112,7 +112,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				if (HasInterface)
+				if (hasInterface)
 				{
 					_accountInterface.Show();
 				}
@@ -127,48 +127,49 @@ namespace PlayGen.SUGAR.Unity
 			{
 				sourceToken = _defaultSourceToken;
 			}
-			SUGARManager.Unity.StartSpinner();
+			SUGARManager.unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, sourceToken);
-			SUGARManager.Client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
+			SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
 				SUGARManager.CurrentUser = response.User;
 				_signInCallback(true);
-				SUGARManager.Unity.StopSpinner();
+				SUGARManager.unity.StopSpinner();
 				Hide();
             },
 			exception =>
 			{
 				Debug.LogError(exception);
-				if (HasInterface)
+				if (hasInterface)
 				{
 					_accountInterface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
 				}
 				_signInCallback(false);
-                SUGARManager.Unity.StopSpinner();
+                SUGARManager.unity.StopSpinner();
             });
 		}
 
 		internal void RegisterUser(string user, string pass)
 		{
-			SUGARManager.Unity.StartSpinner();
+			SUGARManager.unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken);
-			SUGARManager.Client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
+			SUGARManager.client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
-				if (HasInterface)
+				if (hasInterface)
 				{
 					LoginUser(response.User.Name, pass);
 				}
+				SUGARManager.unity.StopSpinner();
 			},
 			exception =>
 			{
-				if (HasInterface)
+				if (hasInterface)
 				{
 					_accountInterface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception.Message));
 				}
+				SUGARManager.unity.StopSpinner();
 			});
-			SUGARManager.Unity.StopSpinner();
 		}
 
 		private AccountRequest CreateAccountRequest(string user, string pass, string source)
