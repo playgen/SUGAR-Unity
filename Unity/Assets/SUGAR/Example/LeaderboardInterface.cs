@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayGen.Unity.Utilities.Localization;
 
-public class LeaderboardUserInterface : BaseLeaderboardUserInterface
+public class LeaderboardInterface : BaseLeaderboardInterface
 {
 	[SerializeField]
 	private LeaderboardPositionInterface[] _leaderboardPositions;
@@ -25,7 +25,7 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 	protected override void Awake()
 	{
 		base.Awake();
-		SUGARManager.Leaderboard.positionCount = _leaderboardPositions.Length;
+		SUGARManager.Leaderboard.SetPositionCount(_leaderboardPositions.Length - 1);
 		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
 		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
 	}
@@ -48,19 +48,8 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 		_pageNumber = 0;
 	}
 
-	protected override void ShowLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess)
+	protected override void DrawLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess)
 	{
-		SUGARManager.Account.Hide();
-		SUGARManager.Achievement.Hide();
-		SUGARManager.Unity.EnableObject(gameObject);
-		_errorText.text = string.Empty;
-		if (_signinButton)
-		{
-			_signinButton.gameObject.SetActive(false);
-		}
-		_topButton.interactable = true;
-		_nearButton.interactable = true;
-		_friendsButton.interactable = true;
 		var standingsList = standings.ToList();
 		if (!standingsList.Any() && _pageNumber > 0)
 		{
@@ -83,41 +72,22 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 				_leaderboardPositions[i].SetText(standingsList[i]);
 			}
 		}
-		_leaderboardName.text = SUGARManager.Leaderboard.currentLeaderboard != null ? SUGARManager.Leaderboard.currentLeaderboard.Name : string.Empty;
+		_leaderboardName.text = _currentLeaderboard != null ? _currentLeaderboard.Name : string.Empty;
 		_leaderboardType.text = Localization.Get(_filter.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		NextPage();
-		if (SUGARManager.Leaderboard.currentLeaderboard == null)
+		GetStandings(_filter, _pageNumber + 1, result =>
+		{
+			_nextButton.interactable = result.ToList().Count > 0;
+		});
+		if (_currentLeaderboard == null)
 		{
 			loadingSuccess = false;
 		}
 		else
 		{
-			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.currentLeaderboard.ActorType == ActorType.User;
-			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.currentLeaderboard.ActorType == ActorType.User;
-		}
-		if (!loadingSuccess)
-		{
-			if (SUGARManager.CurrentUser == null)
-			{
-				_errorText.text = Localization.Get("NO_USER_ERROR");
-				if (SUGARManager.Account.hasInterface && _signinButton)
-				{
-					_signinButton.gameObject.SetActive(true);
-				}
-			}
-			else
-			{
-				_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
-			}
-			_topButton.interactable = false;
-			_nearButton.interactable = false;
-			_friendsButton.interactable = false;
-		}
-		else if (standingsList.Count == 0)
-		{
-			_errorText.text = Localization.Get("NO_LEADERBOARD_ERROR");
+			_nearButton.interactable = SUGARManager.CurrentUser != null && _currentLeaderboard.ActorType == ActorType.User;
+			_friendsButton.interactable = SUGARManager.CurrentUser != null && _currentLeaderboard.ActorType == ActorType.User;
 		}
 		_leaderboardPositions.Select(t => t.gameObject).BestFit();
 	}
@@ -130,30 +100,10 @@ public class LeaderboardUserInterface : BaseLeaderboardUserInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		GetStandings();
-	}
-
-	private void UpdateFilter(int filter)
-	{
-		_pageNumber = 0;
-		_filter = (LeaderboardFilterType)filter;
-		GetStandings();
-	}
-
-	private void GetStandings()
-	{
-		SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber, result =>
+		GetStandings(_filter, _pageNumber, result =>
 		{
 			var standings = result.ToList();
 			ShowLeaderboard(standings, true);
-		});
-	}
-
-	private void NextPage()
-	{
-		SUGARManager.Leaderboard.GetLeaderboardStandings(_filter, _pageNumber + 1, result =>
-		{
-			_nextButton.interactable = result.ToList().Count > 0;
 		});
 	}
 

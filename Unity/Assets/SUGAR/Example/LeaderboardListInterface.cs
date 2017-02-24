@@ -6,12 +6,10 @@ using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.BestFit;
 using PlayGen.Unity.Utilities.Localization;
 
-public class LeaderboardListUserInterface : BaseLeaderboardListUserInterface
+public class LeaderboardListInterface : BaseLeaderboardListInterface
 {
 	[SerializeField]
 	private Button[] _leaderboardButtons;
-	[SerializeField]
-	private Text _leaderboardType;
 	[SerializeField]
 	private Button _previousButton;
 	[SerializeField]
@@ -45,20 +43,9 @@ public class LeaderboardListUserInterface : BaseLeaderboardListUserInterface
 		_pageNumber = 0;
 	}
 
-	protected override void ShowLeaderboards(bool loadingSuccess)
+	protected override void DrawLeaderboards(bool loadingSuccess)
 	{
-		SUGARManager.Account.Hide();
-		SUGARManager.Achievement.Hide();
-		SUGARManager.Unity.EnableObject(gameObject);
-		_errorText.text = string.Empty;
-		if (_signinButton)
-		{
-			_signinButton.gameObject.SetActive(false);
-		}
-		_userButton.interactable = true;
-		_groupButton.interactable = true;
-		_combinedButton.interactable = true;
-		var leaderboardList = SUGARManager.GameLeaderboard.leaderboards[(int)_actorType].ToList();
+		var leaderboardList = _leaderboards[(int)_actorType].ToList();
 		_nextButton.interactable = leaderboardList.Count > (_pageNumber + 1) * _leaderboardButtons.Length;
 		leaderboardList = leaderboardList.Skip(_pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
 		if (!leaderboardList.Any() && _pageNumber > 0)
@@ -89,28 +76,6 @@ public class LeaderboardListUserInterface : BaseLeaderboardListUserInterface
 		_leaderboardType.text = _actorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(_actorType.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		if (!loadingSuccess)
-		{
-			if (SUGARManager.CurrentUser == null)
-			{
-				_errorText.text = Localization.Get("NO_USER_ERROR");
-				if (SUGARManager.Account.hasInterface && _signinButton)
-				{
-					_signinButton.gameObject.SetActive(true);
-				}
-			}
-			else
-			{
-				_errorText.text = Localization.Get("LEADERBOARD_LIST_LOAD_ERROR");
-			}
-			_userButton.interactable = false;
-			_groupButton.interactable = false;
-			_combinedButton.interactable = false;
-		}
-		else if (leaderboardList.Count == 0)
-		{
-			_errorText.text = Localization.Get("NO_LEADERBOARD_LIST_ERROR");
-		}
 		DoBestFit();
 	}
 

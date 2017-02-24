@@ -24,12 +24,12 @@ public class AccountInterface : BaseAccountInterface
 
 	protected override void PostShow()
 	{
-		
+
 	}
 
 	protected override void PostHide()
 	{
-		
+
 	}
 
 	private void DoBestFit()

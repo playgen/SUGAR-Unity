@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseLeaderboardUserInterface : MonoBehaviour
+	public abstract class BaseLeaderboardInterface : MonoBehaviour
 	{
 		[SerializeField]
 		protected Text _leaderboardName;
@@ -28,6 +30,8 @@ namespace PlayGen.SUGAR.Unity
 		protected Button _closeButton;
 		[SerializeField]
 		protected Button _signinButton;
+
+		protected LeaderboardResponse _currentLeaderboard;
 
 		protected virtual void Awake()
 		{
@@ -53,8 +57,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal void Display(LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
+		internal void Display(LeaderboardResponse leaderboard, LeaderboardFilterType filter, IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess = true)
 		{
+			_currentLeaderboard = leaderboard;
 			PreDisplay();
 			_filter = filter;
 			ShowLeaderboard(standings, loadingSuccess);
@@ -62,7 +67,85 @@ namespace PlayGen.SUGAR.Unity
 
 		protected abstract void PreDisplay();
 
-		protected abstract void ShowLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess);
+		protected void ShowLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess)
+		{
+			PreDraw();
+			DrawLeaderboard(standings, loadingSuccess);
+			PostDraw(standings, loadingSuccess);
+		}
+
+		private void PreDraw()
+		{
+			SUGARManager.Account.Hide();
+			SUGARManager.Achievement.Hide();
+			SUGARManager.Unity.EnableObject(gameObject);
+			if (_errorText)
+			{
+				_errorText.text = string.Empty;
+			}
+			if (_signinButton)
+			{
+				_signinButton.gameObject.SetActive(false);
+			}
+			if (_topButton)
+			{
+				_topButton.interactable = true;
+			}
+			if (_nearButton)
+			{
+				_nearButton.interactable = true;
+			}
+			if (_friendsButton)
+			{
+				_friendsButton.interactable = true;
+			}
+		}
+
+		protected abstract void DrawLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess);
+
+		private void PostDraw(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess)
+		{
+			if (!loadingSuccess)
+			{
+				if (SUGARManager.CurrentUser == null)
+				{
+					if (_errorText)
+					{
+						_errorText.text = Localization.Get("NO_USER_ERROR");
+					}
+					if (SUGARManager.Account.HasInterface && _signinButton)
+					{
+						_signinButton.gameObject.SetActive(true);
+					}
+				}
+				else
+				{
+					if (_errorText)
+					{
+						_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
+					}
+				}
+				if (_topButton)
+				{
+					_topButton.interactable = false;
+				}
+				if (_nearButton)
+				{
+					_nearButton.interactable = false;
+				}
+				if (_friendsButton)
+				{
+					_friendsButton.interactable = false;
+				}
+			}
+			else if (!standings.Any())
+			{
+				if (_errorText)
+				{
+					_errorText.text = Localization.Get("NO_LEADERBOARD_ERROR");
+				}
+			}
+		}
 
 		private void AttemptSignIn()
 		{
@@ -80,10 +163,18 @@ namespace PlayGen.SUGAR.Unity
 		private void UpdateFilter(int filter)
 		{
 			_filter = (LeaderboardFilterType)filter;
-			SUGARManager.leaderboard.GetLeaderboardStandings(_filter, 0, result =>
+			GetStandings(_filter, 0, result =>
 			{
 				var standings = result.ToList();
-				ShowLeaderboard(standings, true);
+				Display(_currentLeaderboard, _filter, standings);
+			});
+		}
+
+		protected void GetStandings(LeaderboardFilterType filter, int pageNumber, Action<IEnumerable<LeaderboardStandingsResponse>> result)
+		{
+			SUGARManager.Leaderboard.GetLeaderboardStandings(_currentLeaderboard, filter, pageNumber, response =>
+			{
+				result(response.ToList());
 			});
 		}
 	}

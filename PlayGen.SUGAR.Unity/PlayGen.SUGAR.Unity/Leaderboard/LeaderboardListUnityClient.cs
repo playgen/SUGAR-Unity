@@ -15,11 +15,7 @@ namespace PlayGen.SUGAR.Unity
 	public class LeaderboardListUnityClient : MonoBehaviour
 	{
 		[SerializeField]
-		private BaseLeaderboardListUserInterface _leaderboardListInterface;
-
-		private readonly List<List<LeaderboardResponse>> _leaderboards = new List<List<LeaderboardResponse>>();
-
-		internal List<List<LeaderboardResponse>> leaderboards => _leaderboards;
+		private BaseLeaderboardListInterface _leaderboardListInterface;
 
 		public bool IsActive => _leaderboardListInterface && _leaderboardListInterface.gameObject.activeInHierarchy;
 
@@ -32,7 +28,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					var newInterface = Instantiate(_leaderboardListInterface.gameObject, canvas.transform, false);
 					newInterface.name = _leaderboardListInterface.name;
-					_leaderboardListInterface = newInterface.GetComponent<BaseLeaderboardListUserInterface>();
+					_leaderboardListInterface = newInterface.GetComponent<BaseLeaderboardListInterface>();
 				}
 				_leaderboardListInterface.gameObject.SetActive(false);
 			}
@@ -42,9 +38,9 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_leaderboardListInterface)
 			{
-				GetLeaderboards(success =>
+				GetLeaderboards((result, success) =>
 				{
-					_leaderboardListInterface.Display(filter, success);
+					_leaderboardListInterface.Display(result, filter, success);
 				});
 			}
 		}
@@ -57,9 +53,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		private void GetLeaderboards(Action<bool> success)
+		private void GetLeaderboards(Action<List<List<LeaderboardResponse>>, bool> success)
 		{
-			_leaderboards.Clear();
+			var leaderboards = new List<List<LeaderboardResponse>>();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
@@ -69,9 +65,9 @@ namespace PlayGen.SUGAR.Unity
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;
-						_leaderboards.Add(result.Where(lb => lb.ActorType == at).ToList());
+						leaderboards.Add(result.Where(lb => lb.ActorType == at).ToList());
 					}
-					success(true);
+					success(leaderboards, true);
 				},
 				exception =>
 				{
@@ -79,18 +75,18 @@ namespace PlayGen.SUGAR.Unity
 					Debug.LogError(error);
 					for (int i = 0; i < Enum.GetValues(typeof(ActorType)).Length; i++)
 					{
-						_leaderboards.Add(new List<LeaderboardResponse>());
+						leaderboards.Add(new List<LeaderboardResponse>());
 					}
-					success(false);
+					success(leaderboards, false);
 				});
 			}
 			else
 			{
 				for (int i = 0; i < Enum.GetValues(typeof(ActorType)).Length; i++)
 				{
-					_leaderboards.Add(new List<LeaderboardResponse>());
+					leaderboards.Add(new List<LeaderboardResponse>());
 				}
-				success(false);
+				success(leaderboards, false);
 			}
 		}
 	}

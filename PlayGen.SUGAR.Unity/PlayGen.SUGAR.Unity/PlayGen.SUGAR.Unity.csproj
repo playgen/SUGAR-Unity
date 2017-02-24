@@ -79,24 +79,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\AccountUnityClient.cs" />
-    <Compile Include="Account\AccountInterface .cs" />
     <Compile Include="Account\BaseAccountInterface.cs" />
-    <Compile Include="Achievement\AchievementItemInterface.cs" />
     <Compile Include="Achievement\BaseAchievementListInterface.cs" />
-    <Compile Include="Achievement\AchievementListInterface.cs" />
     <Compile Include="Achievement\BaseAchievementPopupInterface.cs" />
-    <Compile Include="Achievement\AchievementPopupInterface.cs" />
     <Compile Include="Achievement\AchievementUnityClient.cs" />
     <Compile Include="CommandLineUtility.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="GameData\GameDataUnityClient.cs" />
     <Compile Include="Leaderboard\LeaderboardListUnityClient.cs" />
-    <Compile Include="Leaderboard\LeaderboardListInterface.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardListInterface.cs" />
-    <Compile Include="Leaderboard\LeaderboardPositionInterface.cs" />
     <Compile Include="Leaderboard\LeaderboardUnityClient.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardInterface.cs" />
-    <Compile Include="Leaderboard\LeaderboardInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseHandler.cs" />
     <Compile Include="SUGARManager.cs" />

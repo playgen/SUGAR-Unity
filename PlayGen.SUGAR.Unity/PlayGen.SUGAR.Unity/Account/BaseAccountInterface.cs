@@ -24,7 +24,8 @@ namespace PlayGen.SUGAR.Unity
 			{
 				Debug.LogError("You must provide input fields for username and password.");
 			}
-			else {
+			else
+			{
 				if (_loginButton)
 				{
 					_loginButton.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text); });

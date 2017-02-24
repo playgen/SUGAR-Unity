@@ -27,7 +27,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal CommandLineOptions options;
 
-		internal bool hasInterface => _accountInterface;
+		public bool HasInterface => _accountInterface;
 
 		internal string autoLoginSourceToken;
 
@@ -47,7 +47,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (hasInterface)
+			if (HasInterface)
 			{
 				bool inScene = _accountInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
@@ -112,7 +112,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				if (hasInterface)
+				if (HasInterface)
 				{
 					_accountInterface.Show();
 				}
@@ -140,7 +140,7 @@ namespace PlayGen.SUGAR.Unity
 			exception =>
 			{
 				Debug.LogError(exception);
-				if (hasInterface)
+				if (HasInterface)
 				{
 					_accountInterface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
 				}
@@ -156,7 +156,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
-				if (hasInterface)
+				if (HasInterface)
 				{
 					LoginUser(response.User.Name, pass);
 				}
@@ -164,7 +164,7 @@ namespace PlayGen.SUGAR.Unity
 			},
 			exception =>
 			{
-				if (hasInterface)
+				if (HasInterface)
 				{
 					_accountInterface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception.Message));
 				}

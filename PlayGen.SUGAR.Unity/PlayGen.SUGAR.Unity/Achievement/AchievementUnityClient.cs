@@ -21,7 +21,7 @@ namespace PlayGen.SUGAR.Unity
 		[Range(0f, 10f)]
 		private float _notificationCheckRate = 2.5f;
 
-		internal List<EvaluationProgressResponse> progress { get; private set; } = new List<EvaluationProgressResponse>();
+		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();
 
 		public bool IsActive => _achievementInterface && _achievementInterface.gameObject.activeInHierarchy;
 
@@ -82,13 +82,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetAchievements(Action<bool> success)
 		{
-			progress.Clear();
+			Progress.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					progress = response.ToList();
+					Progress = response.ToList();
 					success(true);
 				},
 				exception =>
