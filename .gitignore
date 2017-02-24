@@ -74,7 +74,6 @@ Unity/Library/
 Unity/Temp/
 *.exe
 
-**/bin/*.dll
 **/bin/*.pdb
 **/bin/*.pdb.meta
 **/bin/*.mdb
