@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,18 +41,21 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_leaderboardInterface)
 			{
+				SUGARManager.unity.StartSpinner();
 				GetLeaderboard(token, (leaderboard, success) =>
 				{
 					if (success)
 					{
 						GetLeaderboardStandings(leaderboard, filter, 0, result =>
 						{
+							SUGARManager.unity.StopSpinner();
 							var standings = result.ToList();
 							_leaderboardInterface.Display(leaderboard, filter, standings);
 						});
 					}
 					else
 					{
+						SUGARManager.unity.StopSpinner();
 						_leaderboardInterface.Display(leaderboard, filter, Enumerable.Empty<LeaderboardStandingsResponse>(), false);
 					}
 				});

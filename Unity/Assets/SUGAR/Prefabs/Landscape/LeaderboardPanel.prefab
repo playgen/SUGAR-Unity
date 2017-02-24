@@ -2874,7 +2874,6 @@ MonoBehaviour:
   _closeButton: {fileID: 114000010619105530}
   _signinButton: {fileID: 114404773218332670}
   _leaderboardPositions:
-  - {fileID: 114000013534193824}
   - {fileID: 114000011828146538}
   - {fileID: 114000012116299056}
   - {fileID: 114000011799223698}

@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
@@ -68,13 +71,6 @@ namespace PlayGen.SUGAR.Unity
 				return;
 			}
 
-			SUGARManager.unity = this;
-			SUGARManager.GameId = _gameId;
-			SUGARManager.account = GetComponent<AccountUnityClient>();
-			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
-			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
-
 			if (!LoadConfig())
 			{
 				SetUpClient();
@@ -108,6 +104,28 @@ namespace PlayGen.SUGAR.Unity
 		private void SetUpClient()
 		{
 			SUGARManager.client = new SUGARClient(_baseAddress);
+			if (string.IsNullOrEmpty(gameToken))
+			{
+				gameObject.SetActive(false);
+				throw new Exception("A game token must be provided in the SUGAR Unity Manager");
+			}
+			var game = SUGARManager.client.Game.Get(gameToken).FirstOrDefault();
+			if (game != null)
+			{
+				gameObject.SetActive(false);
+				throw new Exception("Game token does not exist");
+			}
+			if (_gameId != game.Id)
+			{
+				gameObject.SetActive(false);
+				throw new Exception("Game ID provided does not match game ID for provided token");
+			}
+			SUGARManager.unity = this;
+			SUGARManager.GameId = _gameId;
+			SUGARManager.account = GetComponent<AccountUnityClient>();
+			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
+			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
+			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
 			var canvas = GetComponentInChildren<Canvas>();
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
 			if (_useLeaderboards)

@@ -172,8 +172,10 @@ namespace PlayGen.SUGAR.Unity
 
 		protected void GetStandings(LeaderboardFilterType filter, int pageNumber, Action<IEnumerable<LeaderboardStandingsResponse>> result)
 		{
+			SUGARManager.unity.StartSpinner();
 			SUGARManager.Leaderboard.GetLeaderboardStandings(_currentLeaderboard, filter, pageNumber, response =>
 			{
+				SUGARManager.unity.StopSpinner();
 				result(response.ToList());
 			});
 		}

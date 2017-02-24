@@ -15,7 +15,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 
 		static void Update()
 		{
-			if (SUGARManager.client != null && !_accountSet)
+			if (SUGARManager.client != null && SUGARManager.account != null && !_accountSet)
 			{
 				SUGARManager.account.autoLoginSourcePassRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
 				SUGARManager.account.autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
@@ -53,7 +53,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 		}
 
 		[MenuItem("Tools/SUGAR/Set Auto Log-in Values")]
-		public static void SeedAchivements()
+		public static void SetAutoLogIn()
 		{
 			AutoLogIn window = ScriptableObject.CreateInstance<AutoLogIn>();
 			window.titleContent.text = "Set Auto Log-in Values";

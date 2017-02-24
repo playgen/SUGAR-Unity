@@ -16,6 +16,10 @@ namespace PlayGen.SUGAR.Unity
 
 		protected virtual void Awake()
 		{
+			if (_closeButton)
+			{
+				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
+			}
 			if (_signinButton)
 			{
 				_signinButton.onClick.AddListener(AttemptSignIn);

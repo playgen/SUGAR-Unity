@@ -4,6 +4,7 @@ using PlayGen.SUGAR.Client.EvaluationEvents;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 using System.Linq;
+
 using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
@@ -57,8 +58,10 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_achievementInterface)
 			{
+				SUGARManager.unity.StartSpinner();
 				GetAchievements(success =>
 				{
+					SUGARManager.unity.StopSpinner();
 					_achievementInterface.Display(success);
 				});
 			}

@@ -29,6 +29,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 			{
 				return;
 			}
+			if (string.IsNullOrEmpty(unityManager.gameToken))
+			{
+				Debug.LogError("A game token must be provided in the SUGAR Unity Manager");
+				return;
+			}
 			SUGARManager.client = new SUGARClient(unityManager.baseAddress);
 			var response = LoginAdmin(username, password);
 			if (response != null)

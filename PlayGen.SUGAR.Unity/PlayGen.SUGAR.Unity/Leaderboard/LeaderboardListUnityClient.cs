@@ -36,10 +36,13 @@ namespace PlayGen.SUGAR.Unity
 
 		public void DisplayList(ActorType filter = ActorType.User)
 		{
+			
 			if (_leaderboardListInterface)
 			{
+				SUGARManager.unity.StartSpinner();
 				GetLeaderboards((result, success) =>
 				{
+					SUGARManager.unity.StopSpinner();
 					_leaderboardListInterface.Display(result, filter, success);
 				});
 			}

@@ -25,7 +25,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	protected override void Awake()
 	{
 		base.Awake();
-		SUGARManager.Leaderboard.SetPositionCount(_leaderboardPositions.Length - 1);
+		SUGARManager.Leaderboard.SetPositionCount(_leaderboardPositions.Length);
 		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
 		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
 	}
@@ -76,6 +76,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		_leaderboardType.text = Localization.Get(_filter.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
+		_nextButton.interactable = false;
 		GetStandings(_filter, _pageNumber + 1, result =>
 		{
 			_nextButton.interactable = result.ToList().Count > 0;
