@@ -16,6 +16,8 @@ namespace PlayGen.SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
+	[RequireComponent(typeof(FriendUnityClient))]
+	[RequireComponent(typeof(GroupUnityClient))]
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
@@ -29,6 +31,10 @@ namespace PlayGen.SUGAR.Unity
 		private int _gameId;
 		[SerializeField]
 		private bool _useAchievements = true;
+		[SerializeField]
+		private bool _useFriends = true;
+		[SerializeField]
+		private bool _useGroups = true;
 		[SerializeField]
 		private bool _useLeaderboards = true;
 		[SerializeField]
@@ -54,8 +60,12 @@ namespace PlayGen.SUGAR.Unity
 			set { _gameId = value; }
 		}
 
+		private bool _validCheck;
+
 		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
 									(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
+									(SUGARManager.friend && SUGARManager.friend.IsActive) ||
+									(SUGARManager.group && SUGARManager.group.IsActive) ||
 									(SUGARManager.gameLeaderboard && SUGARManager.gameLeaderboard.IsActive) ||
 									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive);
 
@@ -70,6 +80,15 @@ namespace PlayGen.SUGAR.Unity
 				Destroy(gameObject);
 				return;
 			}
+
+			SUGARManager.unity = this;
+			SUGARManager.GameId = _gameId;
+			SUGARManager.account = GetComponent<AccountUnityClient>();
+			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
+			SUGARManager.friend = _useFriends ? GetComponent<FriendUnityClient>() : null;
+			SUGARManager.group = _useGroups ? GetComponent<GroupUnityClient>() : null;
+			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
+			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
 
 			if (!LoadConfig())
 			{
@@ -106,26 +125,9 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.client = new SUGARClient(_baseAddress);
 			if (string.IsNullOrEmpty(gameToken))
 			{
-				gameObject.SetActive(false);
+				ResetManager();
 				throw new Exception("A game token must be provided in the SUGAR Unity Manager");
 			}
-			var game = SUGARManager.client.Game.Get(gameToken).FirstOrDefault();
-			if (game != null)
-			{
-				gameObject.SetActive(false);
-				throw new Exception("Game token does not exist");
-			}
-			if (_gameId != game.Id)
-			{
-				gameObject.SetActive(false);
-				throw new Exception("Game ID provided does not match game ID for provided token");
-			}
-			SUGARManager.unity = this;
-			SUGARManager.GameId = _gameId;
-			SUGARManager.account = GetComponent<AccountUnityClient>();
-			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
-			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
 			var canvas = GetComponentInChildren<Canvas>();
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
 			if (_useLeaderboards)
@@ -136,6 +138,14 @@ namespace PlayGen.SUGAR.Unity
 			if (_useAchievements)
 			{
 				GetComponent<AchievementUnityClient>().CreateInterface(canvas);
+			}
+			if (_useFriends)
+			{
+				GetComponent<FriendUnityClient>().CreateInterface(canvas);
+			}
+			if (_useGroups)
+			{
+				GetComponent<GroupUnityClient>().CreateInterface(canvas);
 			}
 			if (_uiBlocker)
 			{
@@ -160,6 +170,43 @@ namespace PlayGen.SUGAR.Unity
 				_uiSpinner.gameObject.SetActive(true);
 				Loading.Stop();
 			}
+		}
+
+		internal bool GameValidityCheck()
+		{
+			if (!_validCheck)
+			{
+				_validCheck = true;
+				var game = SUGARManager.client.Game.Get(gameToken).FirstOrDefault();
+				if (game == null)
+				{
+					ResetManager();
+					Debug.LogError("Game token does not exist");
+					return false;
+				}
+				if (_gameId != game.Id)
+				{
+					ResetManager();
+					Debug.LogError("Game ID provided does not match game ID for provided token");
+					return false;
+				}
+				return true;
+			}
+			return gameObject.activeSelf;
+		}
+
+		private void ResetManager()
+		{
+			gameObject.SetActive(false);
+			SUGARManager.unity = null;
+			SUGARManager.client = null;
+			SUGARManager.GameId = 0;
+			SUGARManager.account = null;
+			SUGARManager.achievement = null;
+			SUGARManager.friend = null;
+			SUGARManager.group = null;
+			SUGARManager.leaderboard = null;
+			SUGARManager.gameLeaderboard = null;
 		}
 
 		public void SetBlocker(bool use, bool block)

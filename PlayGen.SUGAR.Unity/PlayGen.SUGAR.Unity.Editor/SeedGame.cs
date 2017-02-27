@@ -14,7 +14,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 {
 	public static class SeedGame
 	{
-		[MenuItem("Tools/SUGAR/Seed Game")]
+		[MenuItem("SUGAR/Seed Game")]
 		public static void SeedAchivements()
 		{
 			AdminLogIn window = ScriptableObject.CreateInstance<AdminLogIn>();

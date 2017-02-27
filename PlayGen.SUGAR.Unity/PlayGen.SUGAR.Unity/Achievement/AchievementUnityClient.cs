@@ -110,7 +110,7 @@ namespace PlayGen.SUGAR.Unity
 		private void NotificatonCheck()
 		{
 			EvaluationNotification notification;
-			if (SUGARManager.client.Achievement.TryGetPendingNotification(out notification))
+			if (SUGARManager.client != null && SUGARManager.client.Achievement.TryGetPendingNotification(out notification))
 			{
 				HandleNotification(notification);
 			}

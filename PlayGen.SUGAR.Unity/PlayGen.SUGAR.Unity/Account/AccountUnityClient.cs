@@ -132,9 +132,12 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
-				SUGARManager.CurrentUser = response.User;
-				_signInCallback(true);
 				SUGARManager.unity.StopSpinner();
+				if (SUGARManager.unity.GameValidityCheck())
+				{
+					SUGARManager.CurrentUser = response.User;
+					_signInCallback(true);
+				}
 				Hide();
             },
 			exception =>

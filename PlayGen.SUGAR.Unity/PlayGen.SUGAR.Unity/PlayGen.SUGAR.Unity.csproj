@@ -85,12 +85,17 @@
     <Compile Include="Achievement\AchievementUnityClient.cs" />
     <Compile Include="CommandLineUtility.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Friend\BaseFriendInterface.cs" />
+    <Compile Include="Friend\FriendUnityClient.cs" />
     <Compile Include="GameData\GameDataUnityClient.cs" />
+    <Compile Include="Group\BaseGroupInterface.cs" />
+    <Compile Include="Group\GroupUnityClient.cs" />
     <Compile Include="Leaderboard\LeaderboardListUnityClient.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardListInterface.cs" />
     <Compile Include="Leaderboard\LeaderboardUnityClient.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\ResourceUnityClient.cs" />
     <Compile Include="ResponseHandler.cs" />
     <Compile Include="SUGARManager.cs" />
     <Compile Include="SUGARUnityManager.cs" />
@@ -98,6 +103,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

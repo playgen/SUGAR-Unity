@@ -41,6 +41,8 @@ GameObject:
   - component: {fileID: 114000011669735270}
   - component: {fileID: 114000013496830746}
   - component: {fileID: 114000010768160430}
+  - component: {fileID: 114182432910476000}
+  - component: {fileID: 114796202535955300}
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114000013249777644}
   - component: {fileID: 114000012266143498}
@@ -112,6 +114,8 @@ MonoBehaviour:
   _gameToken: 
   _gameId: 0
   _useAchievements: 1
+  _useFriends: 1
+  _useGroups: 1
   _useLeaderboards: 1
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
   _useBlocker: 1
@@ -194,6 +198,30 @@ MonoBehaviour:
   _allowAutoLogin: 0
   _allowRegister: 0
   _defaultSourceToken: SUGAR
+--- !u!114 &114182432910476000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1027997405, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _friendInterface: {fileID: 0}
+--- !u!114 &114796202535955300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 814241702, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groupInterface: {fileID: 0}
 --- !u!114 &114938960575845522
 MonoBehaviour:
   m_ObjectHideFlags: 1
