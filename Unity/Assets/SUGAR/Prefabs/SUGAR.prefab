@@ -209,7 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 1027997405, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _friendInterface: {fileID: 0}
+  _friendInterface: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
+    type: 2}
 --- !u!114 &114796202535955300
 MonoBehaviour:
   m_ObjectHideFlags: 1

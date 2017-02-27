@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using PlayGen.SUGAR.Contracts.Shared;
 
@@ -19,7 +20,7 @@ namespace PlayGen.SUGAR.Unity
 		public List<ActorResponse> Groups { get; private set; } = new List<ActorResponse>();
 		public List<ActorResponse> PendingSent { get; private set; } = new List<ActorResponse>();
 		public List<ActorResponse> PendingReceived { get; private set; } = new List<ActorResponse>();
-		public List<ActorResponse> SearchResults { get; private set; } = new List<ActorResponse>();
+		public List<GroupResponse> SearchResults { get; private set; } = new List<GroupResponse>();
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -51,7 +52,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			Groups.Clear();
-			/*if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -72,14 +73,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}*/
+			}
 		}
 
 		private void GetPendingSent(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingSent.Clear();
-			/*if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -100,14 +101,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}*/
+			}
 		}
 
 		private void GetPendingReceived(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingReceived.Clear();
-			/*if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetMemberRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -128,14 +129,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}*/
+			}
 		}
 
 		private void GetSearchResults(string searchString, Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
 			SearchResults.Clear();
-			/*if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Group.GetAsync(searchString,
 				response =>
@@ -156,7 +157,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}*/
+			}
 		}
 
 		public void Hide()

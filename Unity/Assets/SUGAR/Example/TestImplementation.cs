@@ -35,6 +35,14 @@ public class TestImplementation : MonoBehaviour {
 			{
 				SUGARManager.Unity.StopSpinner();
 			}
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				SUGARManager.Friend.Display();
+			}
+			if (Input.GetKeyDown(KeyCode.G))
+			{
+				SUGARManager.Group.Display();
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{

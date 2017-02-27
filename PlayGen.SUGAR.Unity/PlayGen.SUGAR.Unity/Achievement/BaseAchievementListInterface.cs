@@ -46,6 +46,8 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.Account.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
+			SUGARManager.Friend.Hide();
+			SUGARManager.Group.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
 			if (_errorText)
 			{

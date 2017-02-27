@@ -85,6 +85,7 @@
     <Compile Include="Achievement\AchievementUnityClient.cs" />
     <Compile Include="CommandLineUtility.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="ActorResponseAllowableActions.cs" />
     <Compile Include="Friend\BaseFriendInterface.cs" />
     <Compile Include="Friend\FriendUnityClient.cs" />
     <Compile Include="GameData\GameDataUnityClient.cs" />

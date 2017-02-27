@@ -108,7 +108,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (options != null && _allowAutoLogin && options.AutoLogin)
 			{
-				LoginUser(options.UserId, options.AuthenticationSource, options.Password ?? string.Empty);
+				LoginUser(options.UserId, options.Password ?? string.Empty, options.AuthenticationSource);
 			}
 			else
 			{
