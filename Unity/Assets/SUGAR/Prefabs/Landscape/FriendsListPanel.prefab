@@ -1492,6 +1492,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224322107444173022}
+  - component: {fileID: 114794668655527426}
   m_Layer: 5
   m_Name: Search
   m_TagString: Untagged
@@ -2195,11 +2196,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 114683460983490472}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4322,10 +4323,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 114142618020280804}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -4905,6 +4906,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114794668655527426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964570364407344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1251820456, guid: 8e200a361d9866b438289245a5ad398d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _returnButton: {fileID: 114683460983490472}
+  _escapeButton: {fileID: 0}
 --- !u!114 &114795103931545088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6434,7 +6448,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -4, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224176600902200150
 RectTransform:

@@ -8,9 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
-
 public class FriendsListInterface : BaseFriendInterface {
 	[SerializeField]
 	private ActorItemInterface[] _actorItems;
@@ -56,6 +53,7 @@ public class FriendsListInterface : BaseFriendInterface {
 
 	private void OnEnable()
 	{
+		_searchInput.text = string.Empty;
 		DoBestFit();
 		BestFit.ResolutionChange += DoBestFit;
 		Localization.LanguageChange += OnLanguageChange;
@@ -119,7 +117,7 @@ public class FriendsListInterface : BaseFriendInterface {
 			}
 			else
 			{
-				_actorItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], _listType == 1 || _listType == 2);
+				_actorItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], _listType == 1 || _listType == 2, _listType == 2);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);

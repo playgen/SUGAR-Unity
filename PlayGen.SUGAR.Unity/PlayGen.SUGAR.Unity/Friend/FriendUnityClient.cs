@@ -42,17 +42,28 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_friendInterface)
 			{
-				GetFriends(success =>
+				RefreshLists(success =>
 				{
-					GetPendingReceived(success2 =>
+					_friendInterface.Display(success);
+				});
+			}
+		}
+
+		private void RefreshLists(Action<bool> success)
+		{
+			GetFriends(result =>
+			{
+				GetPendingReceived(result2 =>
+				{
+					GetPendingSent(result3 =>
 					{
-						GetPendingSent(success3 =>
+						GetSearchResults(_lastSearch, result4 =>
 						{
-							_friendInterface.Display(success && success2 && success3);
+							success(result && result2 && result3 && result4);
 						});
 					});
 				});
-			}
+			});
 		}
 
 		public void AddFriend(int id, bool reload = true)
@@ -175,8 +186,13 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetSearchResults(string searchString, Action<bool> success)
 		{
 			_lastSearch = searchString;
-			SUGARManager.unity.StartSpinner();
 			SearchResults.Clear();
+			if (string.IsNullOrEmpty(searchString))
+			{
+				success(true);
+				return;
+			}
+			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.User.GetAsync(searchString,
@@ -228,7 +244,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
 				response =>
 				{
-					GetSearchResults(_lastSearch, success);
+					RefreshLists(success);
 					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
@@ -265,27 +281,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.UpdateFriendRequestAsync(relationship,
 				() =>
 				{
-					if (accept)
-					{
-						GetFriends(success);
-						SUGARManager.unity.StopSpinner();
-					}
-					else
-					{
-						GetPendingReceived(result =>
-						{
-							if (result)
-							{
-								GetPendingSent(success);
-								SUGARManager.unity.StopSpinner();
-							}
-							else
-							{
-								success(false);
-								SUGARManager.unity.StopSpinner();
-							}
-						});
-					}
+					RefreshLists(success);
+					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
 				{
@@ -316,7 +313,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.UpdateFriendAsync(relationship,
 				() =>
 				{
-					GetFriends(success);
+					RefreshLists(success);
 					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
