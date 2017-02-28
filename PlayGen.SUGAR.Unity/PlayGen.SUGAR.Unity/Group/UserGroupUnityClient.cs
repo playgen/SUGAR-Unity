@@ -10,111 +10,107 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
-	public class FriendUnityClient : MonoBehaviour
+	public class UserGroupUnityClient : MonoBehaviour
 	{
 		[SerializeField]
-		private BaseFriendInterface _friendInterface;
+		private BaseUserGroupInterface _userGroupInterface;
 
-		public bool IsActive => _friendInterface && _friendInterface.gameObject.activeInHierarchy;
+		public bool IsActive => _userGroupInterface && _userGroupInterface.gameObject.activeInHierarchy;
 
-		public List<ActorResponseAllowableActions> Friends { get; private set; } = new List<ActorResponseAllowableActions>();
+		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
 		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
-		public List<ActorResponseAllowableActions> PendingReceived { get; private set; } = new List<ActorResponseAllowableActions>();
 		private string _lastSearch;
 		public List<ActorResponseAllowableActions> SearchResults { get; private set; } = new List<ActorResponseAllowableActions>();
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (_friendInterface)
+			if (_userGroupInterface)
 			{
-				bool inScene = _friendInterface.gameObject.scene == SceneManager.GetActiveScene();
+				bool inScene = _userGroupInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
-					var newInterface = Instantiate(_friendInterface.gameObject, canvas.transform, false);
-					newInterface.name = _friendInterface.name;
-					_friendInterface = newInterface.GetComponent<BaseFriendInterface>();
+					var newInterface = Instantiate(_userGroupInterface.gameObject, canvas.transform, false);
+					newInterface.name = _userGroupInterface.name;
+					_userGroupInterface = newInterface.GetComponent<BaseUserGroupInterface>();
 				}
-				_friendInterface.gameObject.SetActive(false);
+				_userGroupInterface.gameObject.SetActive(false);
 			}
 		}
 
 		public void Display()
 		{
-			if (_friendInterface)
+			if (_userGroupInterface)
 			{
 				RefreshLists(success =>
 				{
-					_friendInterface.Display(success);
+					_userGroupInterface.Display(success);
 				});
 			}
 		}
 
 		private void RefreshLists(Action<bool> success)
 		{
-			GetFriends(result =>
+			GetGroups(result =>
 			{
-				GetPendingReceived(result2 =>
+				GetPendingSent(result2 =>
 				{
-					GetPendingSent(result3 =>
+					GetSearchResults(_lastSearch, result3 =>
 					{
-						GetSearchResults(_lastSearch, result4 =>
-						{
-							success(result && result2 && result3 && result4);
-						});
+						success(result && result2 && result3);
 					});
 				});
 			});
 		}
 
-		public void AddFriend(int id, bool reload = true)
+		public void AddGroup(int id, bool reload = true)
 		{
 			Add(id, result =>
 			{
 				if (reload)
 				{
-					_friendInterface.Reload(result);
+					_userGroupInterface.Reload(result);
 				}
 			});
 		}
 
-		public void ManageFriendRequest(int id, bool accept, bool reverse = false, bool reload = true)
+		public void ManageGroupRequest(int id, bool accept, bool reload = true)
 		{
-			UpdateRequest(id, accept, reverse, result =>
+			UpdateRequest(id, accept, result =>
 			{
 				if (reload)
 				{
-					_friendInterface.Reload(result);
+					_userGroupInterface.Reload(result);
 				}
 			});
 		}
 
-		public void RemoveFriend(int id, bool reload = true)
+		public void RemoveGroup(int id, bool reload = true)
 		{
 			Remove(id, result =>
 			{
 				if (reload)
 				{
-					_friendInterface.Reload(result);
+					_userGroupInterface.Reload(result);
 				}
 			});
 		}
 
-		internal void GetFriends(Action<bool> success)
+		internal void GetGroups(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			Friends.Clear();
+			Groups.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.UserFriend.GetFriendsAsync(SUGARManager.CurrentUser.Id,
+				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					Friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					Groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get friends list. " + exception.Message;
+					string error = "Failed to get groups list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -133,38 +129,10 @@ namespace PlayGen.SUGAR.Unity
 			PendingSent.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.UserFriend.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
+				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
 					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
-					SUGARManager.unity.StopSpinner();
-					success(true);
-				},
-				exception =>
-				{
-					string error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
-					SUGARManager.unity.StopSpinner();
-					success(false);
-				});
-			}
-			else
-			{
-				SUGARManager.unity.StopSpinner();
-				success(false);
-			}
-		}
-
-		internal void GetPendingReceived(Action<bool> success)
-		{
-			SUGARManager.unity.StartSpinner();
-			PendingReceived.Clear();
-			if (SUGARManager.CurrentUser != null)
-			{
-				SUGARManager.client.UserFriend.GetFriendRequestsAsync(SUGARManager.CurrentUser.Id,
-				response =>
-				{
-					PendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -195,7 +163,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.User.GetAsync(searchString,
+				SUGARManager.client.Group.GetAsync(searchString,
 				response =>
 				{
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
@@ -203,7 +171,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						if (r.Id != SUGARManager.CurrentUser.Id)
 						{
-							if (Friends.Any(p => p.Actor.Id == r.Id) || PendingReceived.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
+							if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
 							{
 								SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
 							}
@@ -241,7 +209,7 @@ namespace PlayGen.SUGAR.Unity
 					RequestorId = SUGARManager.CurrentUser.Id,
 					AcceptorId = id
 				};
-				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
+				SUGARManager.client.GroupMember.CreateMemberRequestAsync(relationship,
 				response =>
 				{
 					RefreshLists(success);
@@ -249,7 +217,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to create friend request. " + exception.Message;
+					string error = "Failed to create group request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -262,23 +230,18 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal void UpdateRequest(int id, bool accept, bool reverse, Action<bool> success)
+		internal void UpdateRequest(int id, bool accept, Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.CurrentUser != null)
 			{
 				var relationship = new RelationshipStatusUpdate
 				{
-					RequestorId = id,
-					AcceptorId = SUGARManager.CurrentUser.Id,
+					RequestorId = SUGARManager.CurrentUser.Id,
+					AcceptorId = id,
 					Accepted = accept
 				};
-				if (reverse)
-				{
-					relationship.RequestorId = SUGARManager.CurrentUser.Id;
-					relationship.AcceptorId = id;
-				}
-				SUGARManager.client.UserFriend.UpdateFriendRequestAsync(relationship,
+				SUGARManager.client.GroupMember.UpdateMemberRequestAsync(relationship,
 				() =>
 				{
 					RefreshLists(success);
@@ -286,7 +249,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update friend request. " + exception.Message;
+					string error = "Failed to update group request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -310,7 +273,7 @@ namespace PlayGen.SUGAR.Unity
 					AcceptorId = SUGARManager.CurrentUser.Id,
 					Accepted = false
 				};
-				SUGARManager.client.UserFriend.UpdateFriendAsync(relationship,
+				SUGARManager.client.GroupMember.UpdateMemberAsync(relationship,
 				() =>
 				{
 					RefreshLists(success);
@@ -318,7 +281,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update friend status. " + exception.Message;
+					string error = "Failed to update group status. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -335,7 +298,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.unity.DisableObject(_friendInterface.gameObject);
+				SUGARManager.unity.DisableObject(_userGroupInterface.gameObject);
 			}
 		}
 	}

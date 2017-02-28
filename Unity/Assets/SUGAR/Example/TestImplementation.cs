@@ -37,11 +37,11 @@ public class TestImplementation : MonoBehaviour {
 			}
 			if (Input.GetKeyDown(KeyCode.F))
 			{
-				SUGARManager.Friend.Display();
+				SUGARManager.UserFriend.Display();
 			}
 			if (Input.GetKeyDown(KeyCode.G))
 			{
-				SUGARManager.Group.Display();
+				SUGARManager.UserGroup.Display();
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.Escape))

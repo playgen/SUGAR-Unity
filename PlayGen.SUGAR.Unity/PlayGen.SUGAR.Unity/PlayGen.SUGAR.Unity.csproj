@@ -86,11 +86,13 @@
     <Compile Include="CommandLineUtility.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ActorResponseAllowableActions.cs" />
-    <Compile Include="Friend\BaseFriendInterface.cs" />
-    <Compile Include="Friend\FriendUnityClient.cs" />
+    <Compile Include="Friend\BaseUserFriendInterface.cs" />
+    <Compile Include="Friend\UserFriendUnityClient.cs" />
     <Compile Include="GameData\GameDataUnityClient.cs" />
-    <Compile Include="Group\BaseGroupInterface.cs" />
-    <Compile Include="Group\GroupUnityClient.cs" />
+    <Compile Include="Group\BaseGroupMemberInterface.cs" />
+    <Compile Include="Group\BaseUserGroupInterface.cs" />
+    <Compile Include="Group\GroupMemberUnityClient.cs" />
+    <Compile Include="Group\UserGroupUnityClient.cs" />
     <Compile Include="Leaderboard\LeaderboardListUnityClient.cs" />
     <Compile Include="Leaderboard\BaseLeaderboardListInterface.cs" />
     <Compile Include="Leaderboard\LeaderboardUnityClient.cs" />

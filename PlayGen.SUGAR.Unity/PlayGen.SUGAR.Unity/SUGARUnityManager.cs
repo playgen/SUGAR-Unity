@@ -16,8 +16,9 @@ namespace PlayGen.SUGAR.Unity
 {
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
-	[RequireComponent(typeof(FriendUnityClient))]
-	[RequireComponent(typeof(GroupUnityClient))]
+	[RequireComponent(typeof(UserFriendUnityClient))]
+	[RequireComponent(typeof(UserGroupUnityClient))]
+	[RequireComponent(typeof(GroupMemberUnityClient))]
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
@@ -64,8 +65,9 @@ namespace PlayGen.SUGAR.Unity
 
 		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
 									(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
-									(SUGARManager.friend && SUGARManager.friend.IsActive) ||
-									(SUGARManager.group && SUGARManager.group.IsActive) ||
+									(SUGARManager.userFriend && SUGARManager.userFriend.IsActive) ||
+									(SUGARManager.userGroup && SUGARManager.userGroup.IsActive) ||
+									(SUGARManager.groupMember && SUGARManager.groupMember.IsActive) ||
 									(SUGARManager.gameLeaderboard && SUGARManager.gameLeaderboard.IsActive) ||
 									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive);
 
@@ -85,8 +87,9 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.GameId = _gameId;
 			SUGARManager.account = GetComponent<AccountUnityClient>();
 			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-			SUGARManager.friend = _useFriends ? GetComponent<FriendUnityClient>() : null;
-			SUGARManager.group = _useGroups ? GetComponent<GroupUnityClient>() : null;
+			SUGARManager.userFriend = _useFriends ? GetComponent<UserFriendUnityClient>() : null;
+			SUGARManager.userGroup = _useGroups ? GetComponent<UserGroupUnityClient>() : null;
+			SUGARManager.groupMember = _useGroups ? GetComponent<GroupMemberUnityClient>() : null;
 			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
 			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
 
@@ -141,11 +144,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_useFriends)
 			{
-				GetComponent<FriendUnityClient>().CreateInterface(canvas);
+				GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
 			}
 			if (_useGroups)
 			{
-				GetComponent<GroupUnityClient>().CreateInterface(canvas);
+				GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
 			}
 			if (_uiBlocker)
 			{
@@ -203,10 +206,11 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.GameId = 0;
 			SUGARManager.account = null;
 			SUGARManager.achievement = null;
-			SUGARManager.friend = null;
-			SUGARManager.group = null;
 			SUGARManager.leaderboard = null;
 			SUGARManager.gameLeaderboard = null;
+			SUGARManager.userFriend = null;
+			SUGARManager.userGroup = null;
+			SUGARManager.groupMember = null;
 		}
 
 		public void SetBlocker(bool use, bool block)

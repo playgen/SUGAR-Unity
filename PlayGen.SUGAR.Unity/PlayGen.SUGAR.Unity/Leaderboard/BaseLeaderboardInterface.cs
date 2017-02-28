@@ -78,8 +78,9 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.Achievement.Hide();
-			SUGARManager.Friend.Hide();
-			SUGARManager.Group.Hide();
+			SUGARManager.UserFriend.Hide();
+			SUGARManager.GroupMember.Hide();
+			SUGARManager.UserGroup.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
 			if (_errorText)
 			{

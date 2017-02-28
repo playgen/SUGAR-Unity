@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseFriendInterface : MonoBehaviour
+	public abstract class BaseGroupMemberInterface : MonoBehaviour
 	{
+		[SerializeField]
+		protected Text _groupName;
 		[SerializeField]
 		protected Text _errorText;
 		[SerializeField]
@@ -29,20 +31,20 @@ namespace PlayGen.SUGAR.Unity
 		internal void Display(bool loadingSuccess = true)
 		{
 			PreDisplay();
-			ShowFriendsList(loadingSuccess);
+			ShowGroupMemberList(loadingSuccess);
 		}
 
 		internal void Reload(bool loadingSuccess = true)
 		{
-			ShowFriendsList(loadingSuccess);
+			ShowGroupMemberList(loadingSuccess);
 		}
 
 		protected abstract void PreDisplay();
 
-		protected void ShowFriendsList(bool loadingSuccess)
+		protected void ShowGroupMemberList(bool loadingSuccess)
 		{
 			PreDraw();
-			DrawFriendsList(loadingSuccess);
+			DrawMemberList(loadingSuccess);
 			PostDraw(loadingSuccess);
 		}
 
@@ -50,6 +52,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.Achievement.Hide();
+			SUGARManager.UserFriend.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
@@ -61,9 +64,13 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_signinButton.gameObject.SetActive(false);
 			}
+			if (_groupName)
+			{
+				_groupName.text = SUGARManager.groupMember.CurrentGroup.Name;
+			}
 		}
 
-		protected abstract void DrawFriendsList(bool loadingSuccess);
+		protected abstract void DrawMemberList(bool loadingSuccess);
 
 		private void PostDraw(bool loadingSuccess)
 		{
@@ -84,7 +91,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					if (_errorText)
 					{
-						_errorText.text = Localization.Get("FRIENDS_LOAD_ERROR");
+						_errorText.text = Localization.Get("GROUP_MEMBERS_LOAD_ERROR");
 					}
 				}
 			}
@@ -102,37 +109,5 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		protected abstract void OnSignIn();
-
-		protected void GetFriends()
-		{
-			SUGARManager.friend.GetFriends(success =>
-			{
-				ShowFriendsList(success);
-			});
-		}
-
-		protected void GetPendingSent()
-		{
-			SUGARManager.friend.GetPendingSent(success =>
-			{
-				ShowFriendsList(success);
-			});
-		}
-
-		protected void GetPendingReceived()
-		{
-			SUGARManager.friend.GetPendingReceived(success =>
-			{
-				ShowFriendsList(success);
-			});
-		}
-
-		protected void GetSearchResults(string search)
-		{
-			SUGARManager.friend.GetSearchResults(search, success =>
-			{
-				ShowFriendsList(success);
-			});
-		}
 	}
 }

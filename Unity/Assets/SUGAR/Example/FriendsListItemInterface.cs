@@ -1,10 +1,8 @@
 ﻿using PlayGen.SUGAR.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ActorItemInterface : MonoBehaviour {
+public class FriendsListItemInterface : MonoBehaviour {
 
 	[SerializeField]
 	private Text _actorName;
@@ -24,11 +22,11 @@ public class ActorItemInterface : MonoBehaviour {
 		{
 			if (pending)
 			{
-				_addButton.onClick.AddListener(delegate { SUGARManager.Friend.ManageFriendRequest(actor.Actor.Id, true); });
+				_addButton.onClick.AddListener(delegate { SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, true); });
 			}
 			else
 			{
-				_addButton.onClick.AddListener(delegate { SUGARManager.Friend.AddFriend(actor.Actor.Id); });
+				_addButton.onClick.AddListener(delegate { SUGARManager.UserFriend.AddFriend(actor.Actor.Id); });
 			}
 		} 
 		_removeButton.gameObject.SetActive(actor.CanRemove);
@@ -36,11 +34,11 @@ public class ActorItemInterface : MonoBehaviour {
 		{
 			if (pending)
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.Friend.ManageFriendRequest(actor.Actor.Id, false, own); });
+				_removeButton.onClick.AddListener(delegate { SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, false, own); });
 			}
 			else
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.Friend.RemoveFriend(actor.Actor.Id); });
+				_removeButton.onClick.AddListener(delegate { SUGARManager.UserFriend.RemoveFriend(actor.Actor.Id); });
 			}
 		}
 	}

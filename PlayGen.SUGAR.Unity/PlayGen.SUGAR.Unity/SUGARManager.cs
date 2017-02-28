@@ -14,17 +14,19 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static AchievementUnityClient achievement { get; set; }
 
-		internal static FriendUnityClient friend { get; set; }
+		internal static GroupMemberUnityClient groupMember { get; set; }
 
 		internal static GameDataUnityClient gameData = new GameDataUnityClient();
 
 		internal static LeaderboardListUnityClient gameLeaderboard { get; set; }
 
-		internal static GroupUnityClient group { get; set; }
+		internal static UserGroupUnityClient userGroup { get; set; }
 
 		internal static LeaderboardUnityClient leaderboard { get; set; }
 
 		internal static ResourceUnityClient resource = new ResourceUnityClient();
+
+		internal static UserFriendUnityClient userFriend { get; set; }
 
 		internal static Config config { get; set; }
 
@@ -58,13 +60,13 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public static FriendUnityClient Friend
+		public static UserFriendUnityClient UserFriend
 		{
 			get
 			{
-				if (friend != null)
+				if (userFriend != null)
 				{
-					return friend;
+					return userFriend;
 				}
 				throw new Exception("Friends are currently disabled in the SUGAR Unity Manager");
 			}
@@ -82,13 +84,13 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public static GroupUnityClient Group
+		public static GroupMemberUnityClient GroupMember
 		{
 			get
 			{
-				if (group != null)
+				if (groupMember != null)
 				{
-					return group;
+					return groupMember;
 				}
 				throw new Exception("Groups are currently disabled in the SUGAR Unity Manager");
 			}
@@ -127,6 +129,18 @@ namespace PlayGen.SUGAR.Unity
 					return resource;
 				}
 				throw new Exception("SUGAR GameObject needs to be active to access Resources");
+			}
+		}
+
+		public static UserGroupUnityClient UserGroup
+		{
+			get
+			{
+				if (userGroup != null)
+				{
+					return userGroup;
+				}
+				throw new Exception("Groups are currently disabled in the SUGAR Unity Manager");
 			}
 		}
 

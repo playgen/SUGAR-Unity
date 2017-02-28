@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseAchievementListInterface : MonoBehaviour
+	public abstract class BaseUserFriendInterface : MonoBehaviour
 	{
 		[SerializeField]
 		protected Text _errorText;
@@ -29,24 +29,29 @@ namespace PlayGen.SUGAR.Unity
 		internal void Display(bool loadingSuccess = true)
 		{
 			PreDisplay();
-			ShowAchievements(loadingSuccess);
+			ShowFriendsList(loadingSuccess);
+		}
+
+		internal void Reload(bool loadingSuccess = true)
+		{
+			ShowFriendsList(loadingSuccess);
 		}
 
 		protected abstract void PreDisplay();
 
-		protected void ShowAchievements(bool loadingSuccess)
+		protected void ShowFriendsList(bool loadingSuccess)
 		{
 			PreDraw();
-			DrawAchievements(loadingSuccess);
+			DrawFriendsList(loadingSuccess);
 			PostDraw(loadingSuccess);
 		}
 
 		private void PreDraw()
 		{
 			SUGARManager.Account.Hide();
+			SUGARManager.Achievement.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
-			SUGARManager.UserFriend.Hide();
 			SUGARManager.GroupMember.Hide();
 			SUGARManager.UserGroup.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
@@ -60,7 +65,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		protected abstract void DrawAchievements(bool loadingSuccess);
+		protected abstract void DrawFriendsList(bool loadingSuccess);
 
 		private void PostDraw(bool loadingSuccess)
 		{
@@ -81,15 +86,8 @@ namespace PlayGen.SUGAR.Unity
 				{
 					if (_errorText)
 					{
-						_errorText.text = Localization.Get("ACHIEVEMENT_LOAD_ERROR");
+						_errorText.text = Localization.Get("FRIENDS_LOAD_ERROR");
 					}
-				}
-			}
-			else if (SUGARManager.Achievement.Progress.Count == 0)
-			{
-				if (_errorText)
-				{
-					_errorText.text = Localization.Get("NO_ACHIEVEMENT_ERROR");
 				}
 			}
 		}
@@ -106,5 +104,37 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		protected abstract void OnSignIn();
+
+		protected void GetFriends()
+		{
+			SUGARManager.userFriend.GetFriends(success =>
+			{
+				ShowFriendsList(success);
+			});
+		}
+
+		protected void GetPendingSent()
+		{
+			SUGARManager.userFriend.GetPendingSent(success =>
+			{
+				ShowFriendsList(success);
+			});
+		}
+
+		protected void GetPendingReceived()
+		{
+			SUGARManager.userFriend.GetPendingReceived(success =>
+			{
+				ShowFriendsList(success);
+			});
+		}
+
+		protected void GetSearchResults(string search)
+		{
+			SUGARManager.userFriend.GetSearchResults(search, success =>
+			{
+				ShowFriendsList(success);
+			});
+		}
 	}
 }

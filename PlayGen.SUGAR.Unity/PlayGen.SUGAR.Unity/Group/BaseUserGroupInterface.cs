@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseAchievementListInterface : MonoBehaviour
+	public abstract class BaseUserGroupInterface : MonoBehaviour
 	{
 		[SerializeField]
 		protected Text _errorText;
@@ -29,26 +29,30 @@ namespace PlayGen.SUGAR.Unity
 		internal void Display(bool loadingSuccess = true)
 		{
 			PreDisplay();
-			ShowAchievements(loadingSuccess);
+			ShowGroupList(loadingSuccess);
+		}
+
+		internal void Reload(bool loadingSuccess = true)
+		{
+			ShowGroupList(loadingSuccess);
 		}
 
 		protected abstract void PreDisplay();
 
-		protected void ShowAchievements(bool loadingSuccess)
+		protected void ShowGroupList(bool loadingSuccess)
 		{
 			PreDraw();
-			DrawAchievements(loadingSuccess);
+			DrawGroupList(loadingSuccess);
 			PostDraw(loadingSuccess);
 		}
 
 		private void PreDraw()
 		{
 			SUGARManager.Account.Hide();
+			SUGARManager.Achievement.Hide();
+			SUGARManager.UserFriend.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
-			SUGARManager.UserFriend.Hide();
-			SUGARManager.GroupMember.Hide();
-			SUGARManager.UserGroup.Hide();
 			SUGARManager.Unity.EnableObject(gameObject);
 			if (_errorText)
 			{
@@ -60,7 +64,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		protected abstract void DrawAchievements(bool loadingSuccess);
+		protected abstract void DrawGroupList(bool loadingSuccess);
 
 		private void PostDraw(bool loadingSuccess)
 		{
@@ -81,15 +85,8 @@ namespace PlayGen.SUGAR.Unity
 				{
 					if (_errorText)
 					{
-						_errorText.text = Localization.Get("ACHIEVEMENT_LOAD_ERROR");
+						_errorText.text = Localization.Get("GROUPS_LOAD_ERROR");
 					}
-				}
-			}
-			else if (SUGARManager.Achievement.Progress.Count == 0)
-			{
-				if (_errorText)
-				{
-					_errorText.text = Localization.Get("NO_ACHIEVEMENT_ERROR");
 				}
 			}
 		}
@@ -106,5 +103,29 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		protected abstract void OnSignIn();
+
+		protected void GetGroups()
+		{
+			SUGARManager.userGroup.GetGroups(success =>
+			{
+				ShowGroupList(success);
+			});
+		}
+
+		protected void GetPendingSent()
+		{
+			SUGARManager.userGroup.GetPendingSent(success =>
+			{
+				ShowGroupList(success);
+			});
+		}
+
+		protected void GetSearchResults(string search)
+		{
+			SUGARManager.userGroup.GetSearchResults(search, success =>
+			{
+				ShowGroupList(success);
+			});
+		}
 	}
 }

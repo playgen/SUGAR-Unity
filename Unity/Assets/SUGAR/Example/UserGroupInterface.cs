@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using PlayGen.SUGAR.Unity;
+using System.Collections.Generic;
+using System.Linq;
 
-using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.BestFit;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
-public class FriendsListInterface : BaseUserFriendInterface {
+public class UserGroupInterface : BaseUserGroupInterface
+{
 	[SerializeField]
-	private FriendsListItemInterface[] _friendItems;
+	private GroupListItemInterface[] _groupItems;
 	[SerializeField]
 	protected Text _listTypeText;
 	private int _listType;
 	[SerializeField]
-	protected Button _friendsButton;
-	[SerializeField]
-	protected Button _requestButton;
+	protected Button _groupsButton;
 	[SerializeField]
 	protected Button _sentButton;
 	[SerializeField]
@@ -39,12 +38,10 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	protected override void Awake()
 	{
 		base.Awake();
-		_friendsButton.onClick.AddListener(delegate { SetListType(0); });
-		_requestButton.onClick.AddListener(delegate { SetListType(1); });
-		_sentButton.onClick.AddListener(delegate { SetListType(2); });
-		_searchButton.onClick.AddListener(delegate { SetListType(3); });
-		_friendsButton.onClick.AddListener(GetFriends);
-		_requestButton.onClick.AddListener(GetPendingReceived);
+		_groupsButton.onClick.AddListener(delegate { SetListType(0); });
+		_sentButton.onClick.AddListener(delegate { SetListType(1); });
+		_searchButton.onClick.AddListener(delegate { SetListType(2); });
+		_groupsButton.onClick.AddListener(GetGroups);
 		_sentButton.onClick.AddListener(GetPendingSent);
 		_searchTextButton.onClick.AddListener(delegate { GetSearchResults(_searchInput.text); });
 		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
@@ -71,7 +68,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		_listType = 0;
 	}
 
-	protected override void DrawFriendsList(bool loadingSuccess)
+	protected override void DrawGroupList(bool loadingSuccess)
 	{
 		var actorList = new List<ActorResponseAllowableActions>();
 		_searchArea.SetActive(false);
@@ -79,24 +76,20 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		{
 			case 0:
 				actorList = SUGARManager.UserFriend.Friends;
-				_listTypeText.text = Localization.Get("FRIENDS_LIST");
+				_listTypeText.text = Localization.Get("GROUP_LIST");
 				break;
 			case 1:
-				actorList = SUGARManager.UserFriend.PendingReceived;
-				_listTypeText.text = Localization.Get("FRIENDS_PENDING_REQUESTS");
+				actorList = SUGARManager.UserFriend.PendingSent;
+				_listTypeText.text = Localization.Get("GROUPS_PENDING_SENT");
 				break;
 			case 2:
-				actorList = SUGARManager.UserFriend.PendingSent;
-				_listTypeText.text = Localization.Get("FRIENDS_PENDING_SENT");
-				break;
-			case 3:
 				actorList = SUGARManager.UserFriend.SearchResults;
 				_listTypeText.text = Localization.Get("SEARCH");
 				_searchArea.SetActive(true);
-				_friendItems[0].gameObject.SetActive(false);
+				_groupItems[0].gameObject.SetActive(false);
 				break;
 		}
-		var length = _listType == 3 ? _friendItems.Length - 1 : _friendItems.Length;
+		var length = _listType == 2 ? _groupItems.Length - 1 : _groupItems.Length;
 		_nextButton.interactable = actorList.Count > (_pageNumber + 1) * length;
 		actorList = actorList.Skip(_pageNumber * length).Take(length).ToList();
 		if (!actorList.Any() && _pageNumber > 0)
@@ -109,15 +102,15 @@ public class FriendsListInterface : BaseUserFriendInterface {
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = _listType == 3 ? 1 : 0; i < _friendItems.Length; i++)
+		for (int i = _listType == 2 ? 1 : 0; i < _groupItems.Length; i++)
 		{
-			if (i - (_listType == 3 ? 1 : 0) >= actorList.Count)
+			if (i - (_listType == 2 ? 1 : 0) >= actorList.Count)
 			{
-				_friendItems[i].gameObject.SetActive(false);
+				_groupItems[i].gameObject.SetActive(false);
 			}
 			else
 			{
-				_friendItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], _listType == 1 || _listType == 2, _listType == 2);
+				_groupItems[i].SetText(actorList[i - (_listType == 2 ? 1 : 0)], _listType == 1);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
@@ -140,13 +133,13 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	private void SetListType(int type)
 	{
 		_listType = type;
-		ShowFriendsList(true);
+		ShowGroupList(true);
 	}
 
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		ShowFriendsList(true);
+		ShowGroupList(true);
 	}
 
 	private void DoBestFit()
