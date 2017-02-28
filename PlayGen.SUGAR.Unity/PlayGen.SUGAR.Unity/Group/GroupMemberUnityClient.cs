@@ -52,29 +52,10 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (reload)
 				{
-					_groupMemberInterface.Reload(result);
-				}
-			});
-		}
-
-		public void ManageFriendRequest(int id, bool accept, bool reverse = false, bool reload = true)
-		{
-			SUGARManager.userFriend.UpdateRequest(id, accept, reverse, result =>
-			{
-				if (reload)
-				{
-					_groupMemberInterface.Reload(result);
-				}
-			});
-		}
-
-		public void RemoveFriend(int id, bool reload = true)
-		{
-			SUGARManager.userFriend.Remove(id, result =>
-			{
-				if (reload)
-				{
-					_groupMemberInterface.Reload(result);
+					GetMembers(success =>
+					{
+						_groupMemberInterface.Reload(success && result);
+					});
 				}
 			});
 		}
@@ -95,16 +76,13 @@ namespace PlayGen.SUGAR.Unity
 						{
 							foreach (var r in results)
 							{
-								if (r.Id != SUGARManager.CurrentUser.Id)
+								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
 								{
-									if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id))
-									{
-										Members.Add(new ActorResponseAllowableActions(r, false, false));
-									}
-									else
-									{
-										Members.Add(new ActorResponseAllowableActions(r, true, false));
-									}
+									Members.Add(new ActorResponseAllowableActions(r, false, false));
+								}
+								else
+								{
+									Members.Add(new ActorResponseAllowableActions(r, true, false));
 								}
 							}
 						}

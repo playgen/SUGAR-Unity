@@ -5642,7 +5642,7 @@ MonoBehaviour:
   _errorText: {fileID: 114418123267433772}
   _closeButton: {fileID: 114458596951629850}
   _signinButton: {fileID: 114883812409605416}
-  _actorItems:
+  _friendItems:
   - {fileID: 114190199572981306}
   - {fileID: 114145171891888066}
   - {fileID: 114998137138477018}

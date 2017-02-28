@@ -75,15 +75,15 @@ public class UserGroupInterface : BaseUserGroupInterface
 		switch (_listType)
 		{
 			case 0:
-				actorList = SUGARManager.UserFriend.Friends;
+				actorList = SUGARManager.UserGroup.Groups;
 				_listTypeText.text = Localization.Get("GROUP_LIST");
 				break;
 			case 1:
-				actorList = SUGARManager.UserFriend.PendingSent;
-				_listTypeText.text = Localization.Get("GROUPS_PENDING_SENT");
+				actorList = SUGARManager.UserGroup.PendingSent;
+				_listTypeText.text = Localization.Get("PENDING_SENT");
 				break;
 			case 2:
-				actorList = SUGARManager.UserFriend.SearchResults;
+				actorList = SUGARManager.UserGroup.SearchResults;
 				_listTypeText.text = Localization.Get("SEARCH");
 				_searchArea.SetActive(true);
 				_groupItems[0].gameObject.SetActive(false);
@@ -110,7 +110,7 @@ public class UserGroupInterface : BaseUserGroupInterface
 			}
 			else
 			{
-				_groupItems[i].SetText(actorList[i - (_listType == 2 ? 1 : 0)], _listType == 1);
+				_groupItems[i].SetText(actorList[i - (_listType == 2 ? 1 : 0)], _listType == 1, _listType == 0);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);

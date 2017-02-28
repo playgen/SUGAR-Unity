@@ -6,12 +6,13 @@
 {"Key":"FRIENDS_LIST","en-gb":"Friends List","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"FRIENDS_LOAD_ERROR","en-gb":"Error: Unable to gather list of users.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"FRIENDS_PENDING_REQUESTS","en-gb":"Friends Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
-{"Key":"FRIENDS_PENDING_SENT","en-gb":"Sent Friends Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
+{"Key":"FRIENDS_PENDING_SENT","en-gb":"Sent Friend Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUP","en-gb":"Group","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUP_LIST","en-gb":"Group List","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUPS","en-gb":"Groups","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
+{"Key":"GROUPS_LOAD_ERROR","en-gb":"Error: Unable to gather list of groups.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUPS_PENDING_REQUESTS","en-gb":"Group Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
-{"Key":"GROUPS_PENDING_SENT","en-gb":"Sent Group Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
+{"Key":"PENDING_SENT","en-gb":"Sent Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"LEADERBOARD_LIST_LOAD_ERROR","en-gb":"Error: Unable to gather leaderboards for this game.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"LEADERBOARD_LOAD_ERROR","en-gb":"Error: Unable to gather standings for this leaderboard.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"LEADERBOARDS","en-gb":"Leaderboards","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
@@ -35,4 +36,5 @@
 {"Key":"TOP","en-gb":"Top","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"USER","en-gb":"User","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"USERNAME","en-gb":"Username:","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
-{"Key":"VALUE","en-gb":"Score","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"}]
+{"Key":"VALUE","en-gb":"Score","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
+{"Key":"GROUPS_LOAD_ERROR","en-gb":"Error: Unable to gather list of group members.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"}]

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114000010768160430}
   - component: {fileID: 114182432910476000}
   - component: {fileID: 114796202535955300}
+  - component: {fileID: 114597521308858716}
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114000013249777644}
   - component: {fileID: 114000012266143498}
@@ -195,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _accountInterface: {fileID: 114000014259607728, guid: bb12776c4b045cc45ab0ef3d57d1d79d,
     type: 2}
-  _allowAutoLogin: 0
+  _allowAutoLogin: 1
   _allowRegister: 0
   _defaultSourceToken: SUGAR
 --- !u!114 &114182432910476000
@@ -206,10 +207,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012920798932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1027997405, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
+  m_Script: {fileID: -1907648989, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _friendInterface: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
+  _userFriendInterface: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
+    type: 2}
+--- !u!114 &114597521308858716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1776674429, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groupMemberInterface: {fileID: 114821472770664860, guid: 5cfb24d32dc83384484706106f0caec4,
     type: 2}
 --- !u!114 &114796202535955300
 MonoBehaviour:
@@ -219,10 +233,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012920798932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 814241702, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
+  m_Script: {fileID: 1429074576, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groupInterface: {fileID: 0}
+  _userGroupInterface: {fileID: 114104722844422242, guid: 8488cb6b2115d4d49965736a2a957c97,
+    type: 2}
 --- !u!114 &114938960575845522
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -47,7 +47,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 
 	protected override void DrawMemberList(bool loadingSuccess)
 	{
-		var actorList = new List<ActorResponseAllowableActions>();
+		var actorList = SUGARManager.GroupMember.Members;
 		_nextButton.interactable = actorList.Count > (_pageNumber + 1) * _memberItems.Length;
 		actorList = actorList.Skip(_pageNumber * _memberItems.Length).Take(_memberItems.Length).ToList();
 		if (!actorList.Any() && _pageNumber > 0)

@@ -149,6 +149,7 @@ namespace PlayGen.SUGAR.Unity
 			if (_useGroups)
 			{
 				GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
+				GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
 			}
 			if (_uiBlocker)
 			{

@@ -169,16 +169,13 @@ namespace PlayGen.SUGAR.Unity
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
-						if (r.Id != SUGARManager.CurrentUser.Id)
+						if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
 						{
-							if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
-							{
-								SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
-							}
-							else
-							{
-								SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
-							}
+							SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
+						}
+						else
+						{
+							SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
 						}
 					}
 					SUGARManager.unity.StopSpinner();
@@ -269,8 +266,8 @@ namespace PlayGen.SUGAR.Unity
 			{
 				var relationship = new RelationshipStatusUpdate
 				{
-					RequestorId = id,
-					AcceptorId = SUGARManager.CurrentUser.Id,
+					RequestorId = SUGARManager.CurrentUser.Id,
+					AcceptorId = id,
 					Accepted = false
 				};
 				SUGARManager.client.GroupMember.UpdateMemberAsync(relationship,

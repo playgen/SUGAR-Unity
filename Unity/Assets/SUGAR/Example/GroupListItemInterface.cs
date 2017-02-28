@@ -12,7 +12,7 @@ public class GroupListItemInterface : MonoBehaviour
 	[SerializeField]
 	private Button _removeButton;
 
-	internal void SetText(ActorResponseAllowableActions actor, bool pending)
+	internal void SetText(ActorResponseAllowableActions actor, bool pending, bool member)
 	{
 		gameObject.SetActive(true);
 		_actorName.text = actor.Actor.Name;
@@ -35,6 +35,8 @@ public class GroupListItemInterface : MonoBehaviour
 				_removeButton.onClick.AddListener(delegate { SUGARManager.UserGroup.RemoveGroup(actor.Actor.Id); });
 			}
 		}
+		GetComponent<Button>().onClick.RemoveAllListeners();
+		GetComponent<Button>().onClick.AddListener(delegate { SUGARManager.GroupMember.Display(actor.Actor); });
 	}
 
 	internal void Disable()
