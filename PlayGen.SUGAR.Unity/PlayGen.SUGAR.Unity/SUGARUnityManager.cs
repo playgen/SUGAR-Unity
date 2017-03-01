@@ -14,6 +14,13 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
+	[Serializable]
+	public class CustomInterface
+	{
+		public string Name;
+		public GameObject GameObject;
+	}
+
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
 	[RequireComponent(typeof(UserFriendUnityClient))]
@@ -49,7 +56,10 @@ namespace PlayGen.SUGAR.Unity
 		private bool _blockerClickClose = true;
 		[SerializeField]
 		private LoadingSpinner _uiSpinner;
-		
+		[SerializeField]
+		private List<CustomInterface> _customInterfaceList;
+		public Dictionary<string, GameObject> CustomInterfaces;
+
 		private GameObject _currentBlock;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
@@ -84,6 +94,23 @@ namespace PlayGen.SUGAR.Unity
 			{
 				Destroy(gameObject);
 				return;
+			}
+
+			CustomInterfaces = new Dictionary<string, GameObject>();
+			foreach (var ci in _customInterfaceList)
+			{
+				if (CustomInterfaces.ContainsKey(ci.Name))
+				{
+					Debug.LogError("Custom Interface names must be unique. Name " + ci.Name + " is reused.");
+				}
+				else
+				{
+					CustomInterfaces.Add(ci.Name, ci.GameObject);
+				}
+				if (ci.GameObject.scene == SceneManager.GetActiveScene())
+				{
+					ci.GameObject.SetActive(false);
+				}
 			}
 
 			SUGARManager.unity = this;
@@ -154,6 +181,18 @@ namespace PlayGen.SUGAR.Unity
 			{
 				GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
 				GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
+			}
+			var customKeys = CustomInterfaces.Keys.ToList();
+			foreach (var key in customKeys)
+			{
+				bool inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene();
+				if (!inScene)
+				{
+					var newInterface = Instantiate(CustomInterfaces[key], canvas.transform, false);
+					newInterface.name = CustomInterfaces[key].name;
+					CustomInterfaces[key] = newInterface;
+				}
+				CustomInterfaces[key].SetActive(false);
 			}
 			if (_uiBlocker)
 			{
