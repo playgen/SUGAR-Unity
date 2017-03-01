@@ -228,7 +228,7 @@ namespace PlayGen.SUGAR.Unity
 			_blockerClickClose = block;
 		}
 
-		internal void EnableObject(GameObject activeObject)
+		public void EnableObject(GameObject activeObject)
 		{
 			if (_uiBlocker && _useBlocker)
 			{
@@ -250,7 +250,7 @@ namespace PlayGen.SUGAR.Unity
 			activeObject.SetActive(true);
 		}
 
-		internal void DisableObject(GameObject activeObject)
+		public void DisableObject(GameObject activeObject)
 		{
 			if (_uiBlocker)
 			{
