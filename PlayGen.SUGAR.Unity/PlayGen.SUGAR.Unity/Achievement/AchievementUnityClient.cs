@@ -19,7 +19,7 @@ namespace PlayGen.SUGAR.Unity
 		private BaseAchievementPopupInterface _achievementPopup;
 
 		[SerializeField]
-		[Range(0f, 10f)]
+		[Range(1f, 10f)]
 		private float _notificationCheckRate = 2.5f;
 
 		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();

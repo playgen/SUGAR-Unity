@@ -18,7 +18,6 @@ namespace PlayGen.SUGAR.Unity
 				return response;
 			}
 			return Enumerable.Empty<EvaluationDataResponse>();
-
 		}
 
         public void Send(string key, string value)

@@ -24,7 +24,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static LeaderboardUnityClient leaderboard { get; set; }
 
-		internal static ResourceUnityClient resource = new ResourceUnityClient();
+		internal static ResourceUnityClient resource { get; set; }
 
 		internal static UserFriendUnityClient userFriend { get; set; }
 
@@ -128,7 +128,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return resource;
 				}
-				throw new Exception("SUGAR GameObject needs to be active to access Resources");
+				throw new Exception("Resources are currently disabled in the SUGAR Unity Manager");
 			}
 		}
 

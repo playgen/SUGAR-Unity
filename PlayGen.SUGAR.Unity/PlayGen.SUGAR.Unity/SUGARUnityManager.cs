@@ -21,6 +21,7 @@ namespace PlayGen.SUGAR.Unity
 	[RequireComponent(typeof(GroupMemberUnityClient))]
 	[RequireComponent(typeof(LeaderboardUnityClient))]
 	[RequireComponent(typeof(LeaderboardListUnityClient))]
+	[RequireComponent(typeof(ResourceUnityClient))]
 	[RequireComponent(typeof(ResponseHandler))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
@@ -38,6 +39,8 @@ namespace PlayGen.SUGAR.Unity
 		private bool _useGroups = true;
 		[SerializeField]
 		private bool _useLeaderboards = true;
+		[SerializeField]
+		private bool _useResources = true;
 		[SerializeField]
 		private GameObject _uiBlocker;
 		[SerializeField]
@@ -92,6 +95,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.groupMember = _useGroups ? GetComponent<GroupMemberUnityClient>() : null;
 			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
 			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
+			SUGARManager.resource = _useResources ? GetComponent<ResourceUnityClient>() : null;
 
 			if (!LoadConfig())
 			{
@@ -193,6 +197,10 @@ namespace PlayGen.SUGAR.Unity
 					ResetManager();
 					Debug.LogError("Game ID provided does not match game ID for provided token");
 					return false;
+				}
+				if (_useResources)
+				{
+					SUGARManager.Resource.StartCheck();
 				}
 				return true;
 			}
