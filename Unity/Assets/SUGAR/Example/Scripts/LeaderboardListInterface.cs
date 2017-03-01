@@ -43,9 +43,9 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 		_pageNumber = 0;
 	}
 
-	protected override void DrawLeaderboards(bool loadingSuccess)
+	protected override void Draw(bool loadingSuccess)
 	{
-		var leaderboardList = _leaderboards[(int)_actorType].ToList();
+		var leaderboardList = SUGARManager.GameLeaderboard.Leaderboards[SUGARManager.GameLeaderboard.CurrentActorType].ToList();
 		_nextButton.interactable = leaderboardList.Count > (_pageNumber + 1) * _leaderboardButtons.Length;
 		leaderboardList = leaderboardList.Skip(_pageNumber * _leaderboardButtons.Length).Take(_leaderboardButtons.Length).ToList();
 		if (!leaderboardList.Any() && _pageNumber > 0)
@@ -69,11 +69,11 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 				_leaderboardButtons[i].onClick.RemoveAllListeners();
 				_leaderboardButtons[i].GetComponentInChildren<Text>().text = leaderboardList[i].Name;
 				var token = leaderboardList[i].Token;
-				_leaderboardButtons[i].onClick.AddListener(delegate { SUGARManager.Leaderboard.Display(token); });
+				_leaderboardButtons[i].onClick.AddListener(delegate { SUGARManager.Leaderboard.Display(token, SUGARManager.Leaderboard.CurrentFilter); });
 				_leaderboardButtons[i].gameObject.SetActive(true);
 			}
 		}
-		_leaderboardType.text = _actorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(_actorType.ToString());
+		_leaderboardType.text = SUGARManager.GameLeaderboard.CurrentActorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(SUGARManager.GameLeaderboard.CurrentActorType.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
 		DoBestFit();
@@ -87,7 +87,7 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		ShowLeaderboards(true);
+		Show(true);
 	}
 
 	private void DoBestFit()

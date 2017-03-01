@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leaderboardListInterface: {fileID: 114000012229610962, guid: be736ad3ec565d9488b29626d58f6d30,
     type: 2}
+  CurrentActorType: 1
 --- !u!114 &114000012885612516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,6 +186,7 @@ MonoBehaviour:
   _leaderboardInterface: {fileID: 114000013210295108, guid: e29d7a7dd4a690245a2e6d8cf00df004,
     type: 2}
   _positionCount: 10
+  CurrentFilter: 0
 --- !u!114 &114000013496830746
 MonoBehaviour:
   m_ObjectHideFlags: 1

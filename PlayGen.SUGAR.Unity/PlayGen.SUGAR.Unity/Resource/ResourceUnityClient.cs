@@ -27,10 +27,10 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void StartCheck()
 		{
-			InvokeRepeating("Update", 0, _resourceCheckRate);
+			InvokeRepeating("UpdateResources", 0, _resourceCheckRate);
 		}
 
-		private void Update()
+		private void UpdateResources()
 		{
 			Get(result =>
 			{
@@ -119,7 +119,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Resource.TransferAsync(request,
 				response =>
 				{
-					Update();
+					UpdateResources();
 					success(true);
 				},
 				exception =>

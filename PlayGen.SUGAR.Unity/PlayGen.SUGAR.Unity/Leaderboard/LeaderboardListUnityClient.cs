@@ -19,6 +19,10 @@ namespace PlayGen.SUGAR.Unity
 
 		public bool IsActive => _leaderboardListInterface && _leaderboardListInterface.gameObject.activeInHierarchy;
 
+		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards = new Dictionary<ActorType, List<LeaderboardResponse>>();
+
+		public ActorType CurrentActorType = ActorType.User;
+
 		internal void CreateInterface(Canvas canvas)
 		{
 			if (_leaderboardListInterface)
@@ -36,14 +40,14 @@ namespace PlayGen.SUGAR.Unity
 
 		public void DisplayList(ActorType filter = ActorType.User)
 		{
-			
 			if (_leaderboardListInterface)
 			{
+				CurrentActorType = filter;
 				SUGARManager.unity.StartSpinner();
-				GetLeaderboards((result, success) =>
+				GetLeaderboards(success =>
 				{
 					SUGARManager.unity.StopSpinner();
-					_leaderboardListInterface.Display(result, filter, success);
+					_leaderboardListInterface.Display(success);
 				});
 			}
 		}
@@ -56,9 +60,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		private void GetLeaderboards(Action<List<List<LeaderboardResponse>>, bool> success)
+		private void GetLeaderboards(Action<bool> success)
 		{
-			var leaderboards = new List<List<LeaderboardResponse>>();
+			Leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
@@ -68,28 +72,28 @@ namespace PlayGen.SUGAR.Unity
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;
-						leaderboards.Add(result.Where(lb => lb.ActorType == at).ToList());
+						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
 					}
-					success(leaderboards, true);
+					success(true);
 				},
 				exception =>
 				{
 					string error = "Failed to get leaderboard list. " + exception.Message;
 					Debug.LogError(error);
-					for (int i = 0; i < Enum.GetValues(typeof(ActorType)).Length; i++)
+					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
-						leaderboards.Add(new List<LeaderboardResponse>());
+						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 					}
-					success(leaderboards, false);
+					success(false);
 				});
 			}
 			else
 			{
-				for (int i = 0; i < Enum.GetValues(typeof(ActorType)).Length; i++)
+				foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 				{
-					leaderboards.Add(new List<LeaderboardResponse>());
+					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 				}
-				success(leaderboards, false);
+				success(false);
 			}
 		}
 	}

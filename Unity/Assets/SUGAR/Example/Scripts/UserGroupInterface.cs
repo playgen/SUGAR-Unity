@@ -68,7 +68,7 @@ public class UserGroupInterface : BaseUserGroupInterface
 		_listType = 0;
 	}
 
-	protected override void DrawGroupList(bool loadingSuccess)
+	protected override void Draw(bool loadingSuccess)
 	{
 		var actorList = new List<ActorResponseAllowableActions>();
 		_searchArea.SetActive(false);
@@ -119,7 +119,7 @@ public class UserGroupInterface : BaseUserGroupInterface
 		{
 			if (_errorText)
 			{
-				_errorText.text = Localization.Get("NO_RESULTS_ERROR");
+				_errorText.text = NoResultsErrorText();
 			}
 		}
 		DoBestFit();
@@ -133,13 +133,13 @@ public class UserGroupInterface : BaseUserGroupInterface
 	private void SetListType(int type)
 	{
 		_listType = type;
-		ShowGroupList(true);
+		Show(true);
 	}
 
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		ShowGroupList(true);
+		Show(true);
 	}
 
 	private void DoBestFit()

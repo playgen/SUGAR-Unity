@@ -16,7 +16,7 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		protected Button _closeButton;
 		[SerializeField]
-		protected Text _statusText;
+		protected Text _errorText;
 
 		protected virtual void Awake()
 		{
@@ -37,35 +37,20 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_closeButton)
 			{
-				_closeButton.onClick.AddListener(Hide);
+				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 			}
 		}
 
-		protected virtual void OnDisable()
+		internal void Display()
 		{
-			_name.text = "";
-			_password.text = "";
-			if (_statusText)
+			_name.text = string.Empty;
+			_password.text = string.Empty;
+			if (_errorText)
 			{
-				_statusText.text = "";
+				_errorText.text = string.Empty;
 			}
+			SUGARManager.Unity.EnableObject(gameObject);
 		}
-
-		internal void Show()
-		{
-			SUGARManager.unity.EnableObject(gameObject);
-			PostShow();
-		}
-
-		protected abstract void PostShow();
-
-		internal void Hide()
-		{
-			SUGARManager.unity.DisableObject(gameObject);
-			PostHide();
-		}
-
-		protected abstract void PostHide();
 
 		internal void RegisterButtonDisplay(bool display)
 		{
@@ -77,9 +62,9 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void SetStatus(string text)
 		{
-			if (_statusText)
+			if (_errorText)
 			{
-				_statusText.text = text;
+				_errorText.text = text;
 			}
 		}
 	}

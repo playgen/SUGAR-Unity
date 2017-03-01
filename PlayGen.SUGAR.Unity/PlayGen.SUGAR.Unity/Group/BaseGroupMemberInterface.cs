@@ -5,109 +5,52 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseGroupMemberInterface : MonoBehaviour
+	public abstract class BaseGroupMemberInterface : BaseInterface
 	{
 		[SerializeField]
 		protected Text _groupName;
-		[SerializeField]
-		protected Text _errorText;
-		[SerializeField]
-		protected Button _closeButton;
-		[SerializeField]
-		protected Button _signinButton;
-
-		protected virtual void Awake()
-		{
-			if (_closeButton)
-			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
-			}
-			if (_signinButton)
-			{
-				_signinButton.onClick.AddListener(AttemptSignIn);
-			}
-		}
-
-		internal void Display(bool loadingSuccess = true)
-		{
-			PreDisplay();
-			ShowGroupMemberList(loadingSuccess);
-		}
 
 		internal void Reload(bool loadingSuccess = true)
 		{
-			ShowGroupMemberList(loadingSuccess);
+			Show(loadingSuccess);
 		}
 
-		protected abstract void PreDisplay();
-
-		protected void ShowGroupMemberList(bool loadingSuccess)
-		{
-			PreDraw();
-			DrawMemberList(loadingSuccess);
-			PostDraw(loadingSuccess);
-		}
-
-		private void PreDraw()
+		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.Achievement.Hide();
 			SUGARManager.UserFriend.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
-			SUGARManager.Unity.EnableObject(gameObject);
-			if (_errorText)
-			{
-				_errorText.text = string.Empty;
-			}
-			if (_signinButton)
-			{
-				_signinButton.gameObject.SetActive(false);
-			}
 			if (_groupName)
 			{
 				_groupName.text = SUGARManager.groupMember.CurrentGroup.Name;
 			}
 		}
 
-		protected abstract void DrawMemberList(bool loadingSuccess);
-
-		private void PostDraw(bool loadingSuccess)
+		protected override void ErrorDraw(bool loadingSuccess)
 		{
-			if (!loadingSuccess)
+			base.ErrorDraw(loadingSuccess);
+			if (loadingSuccess)
 			{
-				if (SUGARManager.CurrentUser == null)
+				if (SUGARManager.groupMember.Members.Count == 0)
 				{
 					if (_errorText)
 					{
-						_errorText.text = Localization.Get("NO_USER_ERROR");
-					}
-					if (SUGARManager.Account.HasInterface && _signinButton)
-					{
-						_signinButton.gameObject.SetActive(true);
-					}
-				}
-				else
-				{
-					if (_errorText)
-					{
-						_errorText.text = Localization.Get("GROUP_MEMBERS_LOAD_ERROR");
+						_errorText.text = NoResultsErrorText();
 					}
 				}
 			}
 		}
 
-		private void AttemptSignIn()
+		protected override string LoadErrorText()
 		{
-			SUGARManager.account.DisplayPanel(success =>
-			{
-				if (success)
-				{
-					OnSignIn();
-				}
-			});
+			return Localization.Get("GROUPS_LOAD_ERROR");
 		}
 
-		protected abstract void OnSignIn();
+		protected override string NoResultsErrorText()
+		{
+			return Localization.Get("NO_RESULTS_ERROR");
+		}
 	}
 }

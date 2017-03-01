@@ -5,48 +5,14 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public abstract class BaseUserFriendInterface : MonoBehaviour
+	public abstract class BaseUserFriendInterface : BaseInterface
 	{
-		[SerializeField]
-		protected Text _errorText;
-		[SerializeField]
-		protected Button _closeButton;
-		[SerializeField]
-		protected Button _signinButton;
-
-		protected virtual void Awake()
-		{
-			if (_closeButton)
-			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
-			}
-			if (_signinButton)
-			{
-				_signinButton.onClick.AddListener(AttemptSignIn);
-			}
-		}
-
-		internal void Display(bool loadingSuccess = true)
-		{
-			PreDisplay();
-			ShowFriendsList(loadingSuccess);
-		}
-
 		internal void Reload(bool loadingSuccess = true)
 		{
-			ShowFriendsList(loadingSuccess);
+			Show(loadingSuccess);
 		}
 
-		protected abstract void PreDisplay();
-
-		protected void ShowFriendsList(bool loadingSuccess)
-		{
-			PreDraw();
-			DrawFriendsList(loadingSuccess);
-			PostDraw(loadingSuccess);
-		}
-
-		private void PreDraw()
+		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
 			SUGARManager.Achievement.Hide();
@@ -54,87 +20,36 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.Leaderboard.Hide();
 			SUGARManager.GroupMember.Hide();
 			SUGARManager.UserGroup.Hide();
-			SUGARManager.Unity.EnableObject(gameObject);
-			if (_errorText)
-			{
-				_errorText.text = string.Empty;
-			}
-			if (_signinButton)
-			{
-				_signinButton.gameObject.SetActive(false);
-			}
 		}
 
-		protected abstract void DrawFriendsList(bool loadingSuccess);
-
-		private void PostDraw(bool loadingSuccess)
+		protected override string LoadErrorText()
 		{
-			if (!loadingSuccess)
-			{
-				if (SUGARManager.CurrentUser == null)
-				{
-					if (_errorText)
-					{
-						_errorText.text = Localization.Get("NO_USER_ERROR");
-					}
-					if (SUGARManager.Account.HasInterface && _signinButton)
-					{
-						_signinButton.gameObject.SetActive(true);
-					}
-				}
-				else
-				{
-					if (_errorText)
-					{
-						_errorText.text = Localization.Get("FRIENDS_LOAD_ERROR");
-					}
-				}
-			}
+			return Localization.Get("FRIENDS_LOAD_ERROR");
 		}
 
-		private void AttemptSignIn()
+		protected override string NoResultsErrorText()
 		{
-			SUGARManager.account.DisplayPanel(success =>
-			{
-				if (success)
-				{
-					OnSignIn();
-				}
-			});
+			return Localization.Get("NO_RESULTS_ERROR");
 		}
-
-		protected abstract void OnSignIn();
 
 		protected void GetFriends()
 		{
-			SUGARManager.userFriend.GetFriends(success =>
-			{
-				ShowFriendsList(success);
-			});
+			SUGARManager.userFriend.GetFriends(Show);
 		}
 
 		protected void GetPendingSent()
 		{
-			SUGARManager.userFriend.GetPendingSent(success =>
-			{
-				ShowFriendsList(success);
-			});
+			SUGARManager.userFriend.GetPendingSent(Show);
 		}
 
 		protected void GetPendingReceived()
 		{
-			SUGARManager.userFriend.GetPendingReceived(success =>
-			{
-				ShowFriendsList(success);
-			});
+			SUGARManager.userFriend.GetPendingReceived(Show);
 		}
 
 		protected void GetSearchResults(string search)
 		{
-			SUGARManager.userFriend.GetSearchResults(search, success =>
-			{
-				ShowFriendsList(success);
-			});
+			SUGARManager.userFriend.GetSearchResults(search, Show);
 		}
 	}
 }

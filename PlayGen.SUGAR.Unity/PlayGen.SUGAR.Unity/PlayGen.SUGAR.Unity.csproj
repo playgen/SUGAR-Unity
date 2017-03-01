@@ -83,6 +83,8 @@
     <Compile Include="Achievement\BaseAchievementListInterface.cs" />
     <Compile Include="Achievement\BaseAchievementPopupInterface.cs" />
     <Compile Include="Achievement\AchievementUnityClient.cs" />
+    <Compile Include="BaseInterface.cs" />
+    <Compile Include="BaseUnityClient.cs" />
     <Compile Include="CommandLineUtility.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ActorResponseAllowableActions.cs" />

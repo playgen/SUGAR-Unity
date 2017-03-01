@@ -79,7 +79,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				_accountInterface.Hide();
+				SUGARManager.unity.DisableObject(_accountInterface.gameObject);
             }
         }
 
@@ -114,7 +114,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (HasInterface)
 				{
-					_accountInterface.Show();
+					_accountInterface.Display();
 				}
 			}
 			_allowAutoLogin = false;

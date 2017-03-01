@@ -16,20 +16,9 @@ public class AccountInterface : BaseAccountInterface
 		BestFit.ResolutionChange += DoBestFit;
 	}
 
-	protected override void OnDisable()
+	protected void OnDisable()
 	{
-		base.OnDisable();
 		BestFit.ResolutionChange -= DoBestFit;
-	}
-
-	protected override void PostShow()
-	{
-
-	}
-
-	protected override void PostHide()
-	{
-
 	}
 
 	private void DoBestFit()

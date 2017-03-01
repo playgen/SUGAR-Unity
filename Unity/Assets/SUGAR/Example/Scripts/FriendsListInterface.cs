@@ -71,7 +71,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		_listType = 0;
 	}
 
-	protected override void DrawFriendsList(bool loadingSuccess)
+	protected override void Draw(bool loadingSuccess)
 	{
 		var actorList = new List<ActorResponseAllowableActions>();
 		_searchArea.SetActive(false);
@@ -126,7 +126,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		{
 			if (_errorText)
 			{
-				_errorText.text = Localization.Get("NO_RESULTS_ERROR");
+				_errorText.text = NoResultsErrorText();
 			}
 		}
 		DoBestFit();
@@ -140,13 +140,13 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	private void SetListType(int type)
 	{
 		_listType = type;
-		ShowFriendsList(true);
+		Show(true);
 	}
 
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		ShowFriendsList(true);
+		Show(true);
 	}
 
 	private void DoBestFit()

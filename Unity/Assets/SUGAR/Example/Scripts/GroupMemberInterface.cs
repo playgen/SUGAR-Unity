@@ -45,7 +45,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		_pageNumber = 0;
 	}
 
-	protected override void DrawMemberList(bool loadingSuccess)
+	protected override void Draw(bool loadingSuccess)
 	{
 		var actorList = SUGARManager.GroupMember.Members;
 		_nextButton.interactable = actorList.Count > (_pageNumber + 1) * _memberItems.Length;
@@ -77,7 +77,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		{
 			if (_errorText)
 			{
-				_errorText.text = Localization.Get("NO_RESULTS_ERROR");
+				_errorText.text = NoResultsErrorText();
 			}
 		}
 		DoBestFit();
@@ -91,7 +91,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		ShowGroupMemberList(true);
+		Show(true);
 	}
 
 	private void DoBestFit()

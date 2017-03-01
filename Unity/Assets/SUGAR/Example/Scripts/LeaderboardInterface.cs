@@ -48,10 +48,9 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		_pageNumber = 0;
 	}
 
-	protected override void DrawLeaderboard(IEnumerable<LeaderboardStandingsResponse> standings, bool loadingSuccess)
+	protected override void Draw(bool loadingSuccess)
 	{
-		var standingsList = standings.ToList();
-		if (!standingsList.Any() && _pageNumber > 0)
+		if (!SUGARManager.Leaderboard.CurrentStandings.Any() && _pageNumber > 0)
 		{
 			UpdatePageNumber(-1);
 			return;
@@ -63,32 +62,32 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		}
 		for (int i = 0; i < _leaderboardPositions.Length; i++)
 		{
-			if (i >= standingsList.Count)
+			if (i >= SUGARManager.Leaderboard.CurrentStandings.Count)
 			{
 				_leaderboardPositions[i].Disable();
 			}
 			else
 			{
-				_leaderboardPositions[i].SetText(standingsList[i]);
+				_leaderboardPositions[i].SetText(SUGARManager.Leaderboard.CurrentStandings[i]);
 			}
 		}
-		_leaderboardName.text = _currentLeaderboard != null ? _currentLeaderboard.Name : string.Empty;
-		_leaderboardType.text = Localization.Get(_filter.ToString());
+		_leaderboardName.text = SUGARManager.Leaderboard.CurrentLeaderboard != null ? SUGARManager.Leaderboard.CurrentLeaderboard.Name : string.Empty;
+		_leaderboardType.text = Localization.Get(SUGARManager.Leaderboard.CurrentFilter.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
 		_nextButton.interactable = false;
-		GetStandings(_filter, _pageNumber + 1, result =>
+		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber + 1, success => {}, result =>
 		{
 			_nextButton.interactable = result.ToList().Count > 0;
 		});
-		if (_currentLeaderboard == null)
+		if (SUGARManager.Leaderboard.CurrentLeaderboard == null)
 		{
 			loadingSuccess = false;
 		}
 		else
 		{
-			_nearButton.interactable = SUGARManager.CurrentUser != null && _currentLeaderboard.ActorType == ActorType.User;
-			_friendsButton.interactable = SUGARManager.CurrentUser != null && _currentLeaderboard.ActorType == ActorType.User;
+			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
+			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
 		}
 		_leaderboardPositions.Select(t => t.gameObject).BestFit();
 	}
@@ -101,11 +100,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		GetStandings(_filter, _pageNumber, result =>
-		{
-			var standings = result.ToList();
-			ShowLeaderboard(standings, true);
-		});
+		SUGARManager.Leaderboard.Display(SUGARManager.Leaderboard.CurrentLeaderboard.Token, SUGARManager.Leaderboard.CurrentFilter, _pageNumber);
 	}
 
 	private void DoBestFit()
