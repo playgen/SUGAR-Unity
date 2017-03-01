@@ -11,10 +11,15 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
-		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
-		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
+		private List<ActorResponseAllowableActions> _groups = new List<ActorResponseAllowableActions>();
+		private List<ActorResponseAllowableActions> _pendingSent = new List<ActorResponseAllowableActions>();
+		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
+
+		public List<ActorResponseAllowableActions> Groups => _groups;
+		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
+
 		private string _lastSearch;
-		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		public void Display()
 		{
@@ -74,16 +79,21 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		public void GetGroupsList(Action<bool> success)
+		{
+			GetGroups(success);
+		}
+
 		internal void GetGroups(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			Groups.Clear();
+			_groups.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					Groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -105,13 +115,13 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingSent(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			PendingSent.Clear();
+			_pendingSent.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -133,7 +143,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetSearchResults(string searchString, Action<bool> success)
 		{
 			_lastSearch = searchString;
-			SearchResults.Clear();
+			_searchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
 				success(true);
@@ -148,13 +158,13 @@ namespace PlayGen.SUGAR.Unity
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
-						if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
+						if (_groups.Any(p => p.Actor.Id == r.Id) || _pendingSent.Any(p => p.Actor.Id == r.Id))
 						{
-							SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
+							_searchResults.Add(new ActorResponseAllowableActions(r, false, false));
 						}
 						else
 						{
-							SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
+							_searchResults.Add(new ActorResponseAllowableActions(r, true, false));
 						}
 					}
 					SUGARManager.unity.StopSpinner();

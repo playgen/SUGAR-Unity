@@ -11,11 +11,17 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class UserFriendUnityClient : BaseUnityClient<BaseUserFriendInterface>
 	{
-		public List<ActorResponseAllowableActions> Friends { get; private set; } = new List<ActorResponseAllowableActions>();
-		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
-		public List<ActorResponseAllowableActions> PendingReceived { get; private set; } = new List<ActorResponseAllowableActions>();
+		private List<ActorResponseAllowableActions> _friends = new List<ActorResponseAllowableActions>();
+		private List<ActorResponseAllowableActions> _pendingSent = new List<ActorResponseAllowableActions>();
+		private List<ActorResponseAllowableActions> _pendingReceived = new List<ActorResponseAllowableActions>();
+		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
+
+		public List<ActorResponseAllowableActions> Friends => _friends;
+		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+		public List<ActorResponseAllowableActions> PendingReceived => _pendingReceived;
+		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
+
 		private string _lastSearch;
-		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		public void Display()
 		{
@@ -25,23 +31,6 @@ namespace PlayGen.SUGAR.Unity
 				{
 					_interface.Display(success);
 				}
-			});
-		}
-
-		internal void RefreshLists(Action<bool> success)
-		{
-			GetFriends(result =>
-			{
-				GetPendingReceived(result2 =>
-				{
-					GetPendingSent(result3 =>
-					{
-						GetSearchResults(_lastSearch, result4 =>
-						{
-							success(result && result2 && result3 && result4);
-						});
-					});
-				});
 			});
 		}
 
@@ -78,16 +67,38 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		public void GetFriendsList(Action<bool> success)
+		{
+			GetFriends(success);
+		}
+
+		internal void RefreshLists(Action<bool> success)
+		{
+			GetFriends(result =>
+			{
+				GetPendingReceived(result2 =>
+				{
+					GetPendingSent(result3 =>
+					{
+						GetSearchResults(_lastSearch, result4 =>
+						{
+							success(result && result2 && result3 && result4);
+						});
+					});
+				});
+			});
+		}
+
 		internal void GetFriends(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			Friends.Clear();
+			_friends.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetFriendsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					Friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -109,13 +120,13 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingSent(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			PendingSent.Clear();
+			_pendingSent.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -137,13 +148,13 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingReceived(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			PendingReceived.Clear();
+			_pendingReceived.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetFriendRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					PendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
+					_pendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -165,7 +176,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetSearchResults(string searchString, Action<bool> success)
 		{
 			_lastSearch = searchString;
-			SearchResults.Clear();
+			_searchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
 				success(true);
@@ -182,13 +193,13 @@ namespace PlayGen.SUGAR.Unity
 					{
 						if (r.Id != SUGARManager.CurrentUser.Id)
 						{
-							if (Friends.Any(p => p.Actor.Id == r.Id) || PendingReceived.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
+							if (_friends.Any(p => p.Actor.Id == r.Id) || _pendingReceived.Any(p => p.Actor.Id == r.Id) || _pendingSent.Any(p => p.Actor.Id == r.Id))
 							{
-								SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
+								_searchResults.Add(new ActorResponseAllowableActions(r, false, false));
 							}
 							else
 							{
-								SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
+								_searchResults.Add(new ActorResponseAllowableActions(r, true, false));
 							}
 						}
 					}

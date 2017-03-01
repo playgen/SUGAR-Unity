@@ -8,14 +8,18 @@ using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
+	[DisallowMultipleComponent]
 	public class GroupMemberUnityClient : BaseUnityClient<BaseGroupMemberInterface>
 	{
-		public ActorResponse CurrentGroup { get; private set; }
-		public List<ActorResponseAllowableActions> Members { get; } = new List<ActorResponseAllowableActions>();
+		private ActorResponse _currentGroup;
+		private readonly List<ActorResponseAllowableActions> _members = new List<ActorResponseAllowableActions>();
+
+		public ActorResponse CurrentGroup => _currentGroup;
+		public List<ActorResponseAllowableActions> Members => _members;
 
 		public void Display(ActorResponse group)
 		{
-			CurrentGroup = group;
+			_currentGroup = group;
 			GetMembers(success =>
 			{
 				if (_interface)
@@ -42,10 +46,10 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetMembers(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			Members.Clear();
+			_members.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
+				SUGARManager.client.GroupMember.GetMembersAsync(_currentGroup.Id,
 				response =>
 				{
 					SUGARManager.userFriend.RefreshLists(result =>
@@ -56,11 +60,11 @@ namespace PlayGen.SUGAR.Unity
 							{
 								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
 								{
-									Members.Add(new ActorResponseAllowableActions(r, false, false));
+									_members.Add(new ActorResponseAllowableActions(r, false, false));
 								}
 								else
 								{
-									Members.Add(new ActorResponseAllowableActions(r, true, false));
+									_members.Add(new ActorResponseAllowableActions(r, true, false));
 								}
 							}
 						}

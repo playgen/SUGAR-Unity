@@ -12,13 +12,16 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : BaseUnityClient<BaseLeaderboardListInterface>
 	{
-		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards = new Dictionary<ActorType, List<LeaderboardResponse>>();
+		private readonly Dictionary<ActorType, List<LeaderboardResponse>> _leaderboards = new Dictionary<ActorType, List<LeaderboardResponse>>();
+		[SerializeField]
+		private ActorType _currentActorType = ActorType.User;
 
-		public ActorType CurrentActorType = ActorType.User;
+		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards => _leaderboards;
+		public ActorType CurrentActorType => _currentActorType;
 
 		public void DisplayList(ActorType filter = ActorType.User)
 		{
-			CurrentActorType = filter;
+			SetFilter(filter);
 			SUGARManager.unity.StartSpinner();
 			GetLeaderboards(success =>
 			{
@@ -30,9 +33,14 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		public void SetFilter(ActorType filter)
+		{
+			_currentActorType = filter;
+		}
+
 		private void GetLeaderboards(Action<bool> success)
 		{
-			Leaderboards.Clear();
+			_leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
@@ -42,7 +50,7 @@ namespace PlayGen.SUGAR.Unity
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;
-						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
+						_leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
 					}
 					success(true);
 				},
@@ -52,7 +60,7 @@ namespace PlayGen.SUGAR.Unity
 					Debug.LogError(error);
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
-						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
+						_leaderboards.Add(actorType, new List<LeaderboardResponse>());
 					}
 					success(false);
 				});
@@ -61,7 +69,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 				{
-					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
+					_leaderboards.Add(actorType, new List<LeaderboardResponse>());
 				}
 				success(false);
 			}

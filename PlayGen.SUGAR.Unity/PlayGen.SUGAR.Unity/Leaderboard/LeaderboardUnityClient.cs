@@ -5,7 +5,6 @@ using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -14,18 +13,20 @@ namespace PlayGen.SUGAR.Unity
 	{
 		[SerializeField]
 		private int _positionCount;
+		[SerializeField]
+		private LeaderboardFilterType _currentFilter = LeaderboardFilterType.Top;
+		private LeaderboardResponse _currentLeaderboard;
+		private List<LeaderboardStandingsResponse> _currentStandings = new List<LeaderboardStandingsResponse>();
+
+		public LeaderboardFilterType CurrentFilter => _currentFilter;
+		public LeaderboardResponse CurrentLeaderboard => _currentLeaderboard;
+		public List<LeaderboardStandingsResponse> CurrentStandings => _currentStandings;
 
 		public int PositionCount => _positionCount;
 
-		public LeaderboardFilterType CurrentFilter = LeaderboardFilterType.Top;
-
-		public LeaderboardResponse CurrentLeaderboard;
-
-		public List<LeaderboardStandingsResponse> CurrentStandings = new List<LeaderboardStandingsResponse>();
-
 		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0)
 		{
-				CurrentFilter = filter;
+				_currentFilter = filter;
 				SUGARManager.unity.StartSpinner();
 				GetLeaderboard(token, success =>
 				{
@@ -53,13 +54,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetLeaderboard(string token, Action<bool> success)
 		{
-			CurrentLeaderboard = null;
+			_currentLeaderboard = null;
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
 				response =>
 				{
-					CurrentLeaderboard = response;
+					_currentLeaderboard = response;
 					success(true);
 				},
 				exception =>
@@ -79,16 +80,16 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (result == null)
 			{
-				CurrentStandings.Clear();
+				_currentStandings.Clear();
 			}
-			if (SUGARManager.CurrentUser != null && CurrentLeaderboard != null)
+			if (SUGARManager.CurrentUser != null && _currentLeaderboard != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{
-					LeaderboardToken = CurrentLeaderboard.Token,
+					LeaderboardToken = _currentLeaderboard.Token,
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
-					LeaderboardFilterType = CurrentFilter,
+					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
 					PageOffset = pageNumber
 				};
@@ -98,7 +99,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					if (result == null)
 					{
-						CurrentStandings = response.ToList();
+						_currentStandings = response.ToList();
 					}
 					success(true);
 				},

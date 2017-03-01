@@ -16,12 +16,14 @@ namespace PlayGen.SUGAR.Unity
 		private BaseAchievementPopupInterface _achievementPopup;
 
 		[SerializeField]
-		[Range(1f, 10f)]
+		[Range(0.1f, 10f)]
 		private float _notificationCheckRate = 2.5f;
 
-		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();
+		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
 
-		internal void CreateInterface(Canvas canvas)
+		public List<EvaluationProgressResponse> Progress => _progress;
+
+		internal override void CreateInterface(Canvas canvas)
 		{
 			base.CreateInterface(canvas);
 			if (_interface)
@@ -57,13 +59,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetAchievements(Action<bool> success)
 		{
-			Progress.Clear();
+			_progress.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					Progress = response.ToList();
+					_progress = response.ToList();
 					success(true);
 				},
 				exception =>
@@ -79,11 +81,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public void ForceNotificationTest()
+		public void ForceNotificationTest(string notification = "Test Notification")
 		{
 			HandleNotification(new EvaluationNotification
 			{
-				Name = "Test Notification"
+				Name = notification
 			});
 		}
 

@@ -9,12 +9,8 @@ namespace PlayGen.SUGAR.Unity
 {
 	public class ResourceUnityClient : MonoBehaviour
 	{
-		public Dictionary<string, long> UserGameResources = new Dictionary<string, long>();
-		public Dictionary<string, long> GlobalGameResources = new Dictionary<string, long>();
-		public Dictionary<string, long> GlobalUserResources = new Dictionary<string, long>();
-
 		[SerializeField]
-		[Range(1f, 30f)]
+		[Range(0.5f, 30f)]
 		private float _resourceCheckRate = 2.5f;
 
 		[SerializeField]
@@ -22,6 +18,14 @@ namespace PlayGen.SUGAR.Unity
 
 		[SerializeField]
 		private bool _checkGlobalUserResources;
+
+		private readonly Dictionary<string, long> _userGameResources = new Dictionary<string, long>();
+		private readonly Dictionary<string, long> _globalGameResources = new Dictionary<string, long>();
+		private readonly Dictionary<string, long> _globalUserResources = new Dictionary<string, long>();
+
+		public Dictionary<string, long> UserGameResources => _userGameResources;
+		public Dictionary<string, long> GlobalGameResources => _globalGameResources;
+		public Dictionary<string, long> GlobalUserResources => _globalUserResources;
 
 		internal void StartCheck()
 		{
@@ -34,13 +38,13 @@ namespace PlayGen.SUGAR.Unity
 			{
 				foreach (var r in result)
 				{
-					if (UserGameResources.ContainsKey(r.Key))
+					if (_userGameResources.ContainsKey(r.Key))
 					{
-						UserGameResources[r.Key] = r.Quantity;
+						_userGameResources[r.Key] = r.Quantity;
 					}
 					else
 					{
-						UserGameResources.Add(r.Key, r.Quantity);
+						_userGameResources.Add(r.Key, r.Quantity);
 					}
 				}
 			});
@@ -50,13 +54,13 @@ namespace PlayGen.SUGAR.Unity
 				{
 					foreach (var r in result)
 					{
-						if (GlobalGameResources.ContainsKey(r.Key))
+						if (_globalGameResources.ContainsKey(r.Key))
 						{
-							GlobalGameResources[r.Key] = r.Quantity;
+							_globalGameResources[r.Key] = r.Quantity;
 						}
 						else
 						{
-							GlobalGameResources.Add(r.Key, r.Quantity);
+							_globalGameResources.Add(r.Key, r.Quantity);
 						}
 					}
 				}, null, false, null);
@@ -67,13 +71,13 @@ namespace PlayGen.SUGAR.Unity
 				{
 					foreach (var r in result)
 					{
-						if (GlobalUserResources.ContainsKey(r.Key))
+						if (_globalUserResources.ContainsKey(r.Key))
 						{
-							GlobalUserResources[r.Key] = r.Quantity;
+							_globalUserResources[r.Key] = r.Quantity;
 						}
 						else
 						{
-							GlobalUserResources.Add(r.Key, r.Quantity);
+							_globalUserResources.Add(r.Key, r.Quantity);
 						}
 					}
 				}, null, true);

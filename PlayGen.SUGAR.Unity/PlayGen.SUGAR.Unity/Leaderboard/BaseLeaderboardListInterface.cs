@@ -93,7 +93,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void UpdateFilter(int filter)
 		{
-			SUGARManager.gameLeaderboard.CurrentActorType = (ActorType)filter;
+			SUGARManager.gameLeaderboard.SetFilter((ActorType)filter);
 			Display();
 		}
 	}
