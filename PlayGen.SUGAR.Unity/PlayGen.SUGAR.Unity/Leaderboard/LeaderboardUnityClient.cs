@@ -10,11 +10,8 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
-	public class LeaderboardUnityClient : MonoBehaviour
+	public class LeaderboardUnityClient : BaseUnityClient<BaseLeaderboardInterface>
 	{
-		[SerializeField]
-		private BaseLeaderboardInterface _leaderboardInterface;
-
 		[SerializeField]
 		private int _positionCount;
 
@@ -26,27 +23,8 @@ namespace PlayGen.SUGAR.Unity
 
 		public List<LeaderboardStandingsResponse> CurrentStandings = new List<LeaderboardStandingsResponse>();
 
-		public bool IsActive => _leaderboardInterface && _leaderboardInterface.gameObject.activeInHierarchy;
-
-		internal void CreateInterface(Canvas canvas)
-		{
-			if (_leaderboardInterface)
-			{
-				bool inScene = _leaderboardInterface.gameObject.scene == SceneManager.GetActiveScene();
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_leaderboardInterface.gameObject, canvas.transform, false);
-					newInterface.name = _leaderboardInterface.name;
-					_leaderboardInterface = newInterface.GetComponent<BaseLeaderboardInterface>();
-				}
-				_leaderboardInterface.gameObject.SetActive(false);
-			}
-		}
-
 		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0)
 		{
-			if (_leaderboardInterface)
-			{
 				CurrentFilter = filter;
 				SUGARManager.unity.StartSpinner();
 				GetLeaderboard(token, success =>
@@ -56,24 +34,21 @@ namespace PlayGen.SUGAR.Unity
 						GetLeaderboardStandings(pageNumber, result =>
 						{
 							SUGARManager.unity.StopSpinner();
-							_leaderboardInterface.Display(result);
+							if (_interface)
+							{
+								_interface.Display(result);
+							}
 						});
 					}
 					else
 					{
 						SUGARManager.unity.StopSpinner();
-						_leaderboardInterface.Display(false);
+						if (_interface)
+						{
+							_interface.Display(false);
+						}
 					}
 				});
-			}
-		}
-
-		public void Hide()
-		{
-			if (IsActive)
-			{
-				SUGARManager.unity.DisableObject(_leaderboardInterface.gameObject);
-			}
 		}
 
 		private void GetLeaderboard(string token, Action<bool> success)

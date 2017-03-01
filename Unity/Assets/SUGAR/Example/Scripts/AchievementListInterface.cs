@@ -46,7 +46,7 @@ public class AchievementListInterface : BaseAchievementListInterface
 		_pageNumber = 0;
 	}
 
-	protected override void Draw(bool loadingSuccess)
+	protected override void Draw()
 	{
 		var achievementList = SUGARManager.Achievement.Progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
 		if (!achievementList.Any() && _pageNumber > 0)

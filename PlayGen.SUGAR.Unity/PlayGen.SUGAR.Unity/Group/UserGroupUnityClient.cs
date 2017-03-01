@@ -5,47 +5,26 @@ using System.Linq;
 using PlayGen.SUGAR.Contracts.Shared;
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
-	public class UserGroupUnityClient : MonoBehaviour
+	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
-		[SerializeField]
-		private BaseUserGroupInterface _userGroupInterface;
-
-		public bool IsActive => _userGroupInterface && _userGroupInterface.gameObject.activeInHierarchy;
-
 		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
 		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
 		private string _lastSearch;
-		public List<ActorResponseAllowableActions> SearchResults { get; private set; } = new List<ActorResponseAllowableActions>();
-
-		internal void CreateInterface(Canvas canvas)
-		{
-			if (_userGroupInterface)
-			{
-				bool inScene = _userGroupInterface.gameObject.scene == SceneManager.GetActiveScene();
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_userGroupInterface.gameObject, canvas.transform, false);
-					newInterface.name = _userGroupInterface.name;
-					_userGroupInterface = newInterface.GetComponent<BaseUserGroupInterface>();
-				}
-				_userGroupInterface.gameObject.SetActive(false);
-			}
-		}
+		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		public void Display()
 		{
-			if (_userGroupInterface)
+			RefreshLists(success =>
 			{
-				RefreshLists(success =>
+				if (_interface)
 				{
-					_userGroupInterface.Display(success);
-				});
-			}
+					_interface.Display(success);
+				}
+			});
 		}
 
 		private void RefreshLists(Action<bool> success)
@@ -68,7 +47,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (reload)
 				{
-					_userGroupInterface.Reload(result);
+					_interface.Reload(result);
 				}
 			});
 		}
@@ -79,7 +58,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (reload)
 				{
-					_userGroupInterface.Reload(result);
+					_interface.Reload(result);
 				}
 			});
 		}
@@ -90,7 +69,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (reload)
 				{
-					_userGroupInterface.Reload(result);
+					_interface.Reload(result);
 				}
 			});
 		}
@@ -288,14 +267,6 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}
-		}
-
-		public void Hide()
-		{
-			if (IsActive)
-			{
-				SUGARManager.unity.DisableObject(_userGroupInterface.gameObject);
 			}
 		}
 	}

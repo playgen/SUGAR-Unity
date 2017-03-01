@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -64,6 +61,11 @@ namespace PlayGen.SUGAR.Unity
 
 		protected override void ErrorDraw(bool loadingSuccess)
 		{
+			if (SUGARManager.leaderboard.CurrentLeaderboard == null)
+			{
+				_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
+				loadingSuccess = false;
+			}
 			if (!loadingSuccess)
 			{
 				if (_topButton)

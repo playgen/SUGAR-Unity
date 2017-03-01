@@ -27,8 +27,6 @@ namespace PlayGen.SUGAR.Unity
 
 		internal CommandLineOptions options;
 
-		public bool HasInterface => _accountInterface;
-
 		internal string autoLoginSourceToken;
 
 		internal bool autoLoginSourcePassRequired;
@@ -42,6 +40,8 @@ namespace PlayGen.SUGAR.Unity
 		internal bool autoLoginAuto;
 
 		internal string autoLoginCustomArgs;
+
+		public bool HasInterface => _accountInterface;
 
 		public bool IsActive => _accountInterface && _accountInterface.gameObject.activeInHierarchy;
 

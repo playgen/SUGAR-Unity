@@ -10,11 +10,8 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	[DisallowMultipleComponent]
-	public class AchievementUnityClient : MonoBehaviour
+	public class AchievementUnityClient : BaseUnityClient<BaseAchievementListInterface>
 	{
-		[SerializeField]
-		private BaseAchievementListInterface _achievementInterface;
-
 		[SerializeField]
 		private BaseAchievementPopupInterface _achievementPopup;
 
@@ -24,20 +21,11 @@ namespace PlayGen.SUGAR.Unity
 
 		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();
 
-		public bool IsActive => _achievementInterface && _achievementInterface.gameObject.activeInHierarchy;
-
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (_achievementInterface)
+			base.CreateInterface(canvas);
+			if (_interface)
 			{
-				bool inScene = _achievementInterface.gameObject.scene == SceneManager.GetActiveScene();
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_achievementInterface.gameObject, canvas.transform, false);
-					newInterface.name = _achievementInterface.name;
-					_achievementInterface = newInterface.GetComponent<BaseAchievementListInterface>();
-				}
-				_achievementInterface.gameObject.SetActive(false);
 				SUGARManager.client.Achievement.EnableNotifications(true);
 			}
 			if (_achievementPopup)
@@ -56,30 +44,14 @@ namespace PlayGen.SUGAR.Unity
 
 		public void DisplayList()
 		{
-			if (_achievementInterface)
+			SUGARManager.unity.StartSpinner();
+			GetAchievements(success =>
 			{
-				SUGARManager.unity.StartSpinner();
-				GetAchievements(success =>
+				SUGARManager.unity.StopSpinner();
+				if (HasInterface)
 				{
-					SUGARManager.unity.StopSpinner();
-					_achievementInterface.Display(success);
-				});
-			}
-		}
-
-		public void Hide()
-		{
-			if (IsActive)
-			{
-				SUGARManager.unity.DisableObject(_achievementInterface.gameObject);
-			}
-		}
-
-		public void ForceNotificationTest()
-		{
-			HandleNotification(new EvaluationNotification
-			{
-				Name = "Test Notification"
+					_interface.Display(success);
+				}
 			});
 		}
 
@@ -105,6 +77,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				success(false);
 			}
+		}
+
+		public void ForceNotificationTest()
+		{
+			HandleNotification(new EvaluationNotification
+			{
+				Name = "Test Notification"
+			});
 		}
 
 		private void NotificatonCheck()

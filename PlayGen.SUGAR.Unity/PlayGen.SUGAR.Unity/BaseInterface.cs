@@ -38,7 +38,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			HideInterfaces();
 			PreDraw();
-			Draw(loadingSuccess);
+			Draw();
 			ErrorDraw(loadingSuccess);
 		}
 
@@ -57,7 +57,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		protected abstract void Draw(bool loadingSuccess);
+		protected abstract void Draw();
 
 		protected virtual void ErrorDraw(bool loadingSuccess)
 		{

@@ -18,6 +18,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void Notification(EvaluationNotification notification)
 		{
 			_achievementQueue.Add(notification);
+			transform.SetAsLastSibling();
 			Display(notification);
 		}
 

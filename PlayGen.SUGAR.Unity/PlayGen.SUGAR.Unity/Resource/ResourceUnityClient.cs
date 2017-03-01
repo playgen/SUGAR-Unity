@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 
@@ -61,7 +59,7 @@ namespace PlayGen.SUGAR.Unity
 							GlobalGameResources.Add(r.Key, r.Quantity);
 						}
 					}
-				}, null, false, 0);
+				}, null, false, null);
 			}
 			if (_checkGlobalUserResources)
 			{
@@ -82,7 +80,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false, int actorId = -1)
+		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false, int? actorId = -1)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
@@ -90,7 +88,12 @@ namespace PlayGen.SUGAR.Unity
 				{
 					actorId = SUGARManager.CurrentUser.Id;
 				}
-				SUGARManager.client.Resource.GetAsync(actorId, globalResource ? 0 : SUGARManager.GameId, keys,
+				int? gameId = SUGARManager.GameId;
+				if (globalResource)
+				{
+					gameId = null;
+				}
+				SUGARManager.client.Resource.GetAsync(gameId, actorId, keys,
 				response =>
 				{
 					result(response.ToList());

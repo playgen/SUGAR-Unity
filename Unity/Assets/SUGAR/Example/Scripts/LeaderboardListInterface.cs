@@ -43,7 +43,7 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 		_pageNumber = 0;
 	}
 
-	protected override void Draw(bool loadingSuccess)
+	protected override void Draw()
 	{
 		var leaderboardList = SUGARManager.GameLeaderboard.Leaderboards[SUGARManager.GameLeaderboard.CurrentActorType].ToList();
 		_nextButton.interactable = leaderboardList.Count > (_pageNumber + 1) * _leaderboardButtons.Length;

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.BestFit;
 
@@ -48,7 +46,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		_pageNumber = 0;
 	}
 
-	protected override void Draw(bool loadingSuccess)
+	protected override void Draw()
 	{
 		if (!SUGARManager.Leaderboard.CurrentStandings.Any() && _pageNumber > 0)
 		{
@@ -80,11 +78,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		{
 			_nextButton.interactable = result.ToList().Count > 0;
 		});
-		if (SUGARManager.Leaderboard.CurrentLeaderboard == null)
-		{
-			loadingSuccess = false;
-		}
-		else
+		if (SUGARManager.Leaderboard.CurrentLeaderboard != null)
 		{
 			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
 			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;

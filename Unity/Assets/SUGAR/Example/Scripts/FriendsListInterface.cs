@@ -71,7 +71,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		_listType = 0;
 	}
 
-	protected override void Draw(bool loadingSuccess)
+	protected override void Draw()
 	{
 		var actorList = new List<ActorResponseAllowableActions>();
 		_searchArea.SetActive(false);

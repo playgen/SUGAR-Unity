@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 106238491, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _achievementInterface: {fileID: 114000011335328718, guid: da1b3e420bd0de7438fc02f71340f4d4,
+  _interface: {fileID: 114000011335328718, guid: da1b3e420bd0de7438fc02f71340f4d4,
     type: 2}
   _achievementPopup: {fileID: 114000013413874684, guid: 30bf371ff31e0bc429751b3218cfa999,
     type: 2}
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: -1070070240, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leaderboardListInterface: {fileID: 114000012229610962, guid: be736ad3ec565d9488b29626d58f6d30,
+  _interface: {fileID: 114000012229610962, guid: be736ad3ec565d9488b29626d58f6d30,
     type: 2}
   CurrentActorType: 1
 --- !u!114 &114000012885612516
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 1493326051, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leaderboardInterface: {fileID: 114000013210295108, guid: e29d7a7dd4a690245a2e6d8cf00df004,
+  _interface: {fileID: 114000013210295108, guid: e29d7a7dd4a690245a2e6d8cf00df004,
     type: 2}
   _positionCount: 10
   CurrentFilter: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: -1907648989, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userFriendInterface: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
+  _interface: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
     type: 2}
 --- !u!114 &114419658720830504
 MonoBehaviour:
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 1776674429, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groupMemberInterface: {fileID: 114821472770664860, guid: 5cfb24d32dc83384484706106f0caec4,
+  _interface: {fileID: 114821472770664860, guid: 5cfb24d32dc83384484706106f0caec4,
     type: 2}
 --- !u!114 &114796202535955300
 MonoBehaviour:
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 1429074576, guid: 4f8932c3a6246ed4d80bcab92e6d16f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userGroupInterface: {fileID: 114104722844422242, guid: 8488cb6b2115d4d49965736a2a957c97,
+  _interface: {fileID: 114104722844422242, guid: 8488cb6b2115d4d49965736a2a957c97,
     type: 2}
 --- !u!114 &114938960575845522
 MonoBehaviour:

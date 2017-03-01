@@ -5,45 +5,24 @@ using System.Linq;
 using PlayGen.SUGAR.Contracts.Shared;
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
 {
-	public class GroupMemberUnityClient : MonoBehaviour
+	public class GroupMemberUnityClient : BaseUnityClient<BaseGroupMemberInterface>
 	{
-		[SerializeField]
-		private BaseGroupMemberInterface _groupMemberInterface;
-
-		public bool IsActive => _groupMemberInterface && _groupMemberInterface.gameObject.activeInHierarchy;
-
 		public ActorResponse CurrentGroup { get; private set; }
-		public List<ActorResponseAllowableActions> Members { get; private set; } = new List<ActorResponseAllowableActions>();
-
-		internal void CreateInterface(Canvas canvas)
-		{
-			if (_groupMemberInterface)
-			{
-				bool inScene = _groupMemberInterface.gameObject.scene == SceneManager.GetActiveScene();
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_groupMemberInterface.gameObject, canvas.transform, false);
-					newInterface.name = _groupMemberInterface.name;
-					_groupMemberInterface = newInterface.GetComponent<BaseGroupMemberInterface>();
-				}
-				_groupMemberInterface.gameObject.SetActive(false);
-			}
-		}
+		public List<ActorResponseAllowableActions> Members { get; } = new List<ActorResponseAllowableActions>();
 
 		public void Display(ActorResponse group)
 		{
-			if (_groupMemberInterface)
+			CurrentGroup = group;
+			GetMembers(success =>
 			{
-				CurrentGroup = group;
-				GetMembers(success =>
+				if (_interface)
 				{
-					_groupMemberInterface.Display(success);
-				});
-			}
+					_interface.Display(success);
+				}
+			});
 		}
 
 		public void AddFriend(int id, bool reload = true)
@@ -54,7 +33,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					GetMembers(success =>
 					{
-						_groupMemberInterface.Reload(success && result);
+						_interface.Reload(success && result);
 					});
 				}
 			});
@@ -69,12 +48,11 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
 				response =>
 				{
-					var results = response.Select(r => (ActorResponse)r).ToList();
 					SUGARManager.userFriend.RefreshLists(result =>
 					{
 						if (result)
 						{
-							foreach (var r in results)
+							foreach (var r in response)
 							{
 								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
 								{
@@ -102,14 +80,6 @@ namespace PlayGen.SUGAR.Unity
 			{
 				SUGARManager.unity.StopSpinner();
 				success(false);
-			}
-		}
-
-		public void Hide()
-		{
-			if (IsActive)
-			{
-				SUGARManager.unity.DisableObject(_groupMemberInterface.gameObject);
 			}
 		}
 	}

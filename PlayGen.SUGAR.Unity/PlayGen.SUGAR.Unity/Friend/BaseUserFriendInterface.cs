@@ -1,8 +1,5 @@
 ﻿using PlayGen.Unity.Utilities.Localization;
 
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace PlayGen.SUGAR.Unity
 {
 	public abstract class BaseUserFriendInterface : BaseInterface

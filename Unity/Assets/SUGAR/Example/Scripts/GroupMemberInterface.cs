@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.BestFit;
@@ -45,7 +44,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		_pageNumber = 0;
 	}
 
-	protected override void Draw(bool loadingSuccess)
+	protected override void Draw()
 	{
 		var actorList = SUGARManager.GroupMember.Members;
 		_nextButton.interactable = actorList.Count > (_pageNumber + 1) * _memberItems.Length;
