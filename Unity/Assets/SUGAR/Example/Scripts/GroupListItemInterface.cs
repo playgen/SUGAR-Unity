@@ -5,13 +5,30 @@ using UnityEngine.UI;
 
 public class GroupListItemInterface : MonoBehaviour
 {
+	/// <summary>
+	/// Text for displaying group name.
+	/// </summary>
+	[Tooltip("Text for displaying group name")]
 	[SerializeField]
 	private Text _actorName;
+
+	/// <summary>
+	/// Button for applying to join a group.
+	/// </summary>
+	[Tooltip("Button for applying to join a group")]
 	[SerializeField]
 	private Button _addButton;
+
+	/// <summary>
+	/// Button for leaving a group or cancelling a user's request to join.
+	/// </summary>
+	[Tooltip("Button for leaving a group or cancelling a user's request to join")]
 	[SerializeField]
 	private Button _removeButton;
 
+	/// <summary>
+	/// Enable the GameObject, set the text and set up the buttons to work in the context they are in.
+	/// </summary>
 	internal void SetText(ActorResponseAllowableActions actor, bool pending, bool member)
 	{
 		gameObject.SetActive(true);
@@ -39,6 +56,9 @@ public class GroupListItemInterface : MonoBehaviour
 		GetComponent<Button>().onClick.AddListener(delegate { SUGARManager.GroupMember.Display(actor.Actor); });
 	}
 
+	/// <summary>
+	/// Disable the GameObject if it isn't being used.
+	/// </summary>
 	internal void Disable()
 	{
 		gameObject.SetActive(false);

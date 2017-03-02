@@ -102,7 +102,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get the resources with the keys provided for the acotrId provided (or currently user if left default).
+		/// Get the resources with the keys provided for the actorId provided (or currently user if left default).
 		/// If globalResource is true, resources will be global rather than for the game.
 		/// </summary>
 		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false, int? actorId = -1)

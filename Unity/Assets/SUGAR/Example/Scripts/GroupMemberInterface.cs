@@ -9,16 +9,42 @@ using UnityEngine.UI;
 
 public class GroupMemberInterface : BaseGroupMemberInterface
 {
+	/// <summary>
+	/// An array of the GroupMemberItemInterface on this GameObject, set in the Inspector.
+	/// </summary>
+	[Tooltip("An array of the GroupMemberItemInterface on this GameObject, set in the Inspector.")]
 	[SerializeField]
 	private GroupMemberItemInterface[] _memberItems;
+
+	/// <summary>
+	/// Button used to go to the previous page of results.
+	/// </summary>
+	[Tooltip("Button used to go to the previous page of results.")]
 	[SerializeField]
 	private Button _previousButton;
+
+	/// <summary>
+	/// Button used to go to the next page of results.
+	/// </summary>
+	[Tooltip("Button used to go to the next page of results.")]
 	[SerializeField]
 	private Button _nextButton;
+
+	/// <summary>
+	/// Text which displays the current page.
+	/// </summary>
+	[Tooltip("Text which displays the current page.")]
 	[SerializeField]
 	private Text _pageNumberText;
+
+	/// <summary>
+	/// The current page number.
+	/// </summary>
 	private int _pageNumber;
 
+	/// <summary>
+	/// In addition to base onclick adding, adds listeners for the previous and next buttons.
+	/// </summary>
 	protected override void Awake()
 	{
 		base.Awake();
@@ -26,6 +52,9 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
 	}
 
+	/// <summary>
+	/// Trigger DoBestFit method and add event listeners for when resolution and language changes.
+	/// </summary>
 	private void OnEnable()
 	{
 		DoBestFit();
@@ -33,17 +62,26 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		Localization.LanguageChange += OnLanguageChange;
 	}
 
+	/// <summary>
+	/// Remove event listeners.
+	/// </summary>
 	private void OnDisable()
 	{
 		BestFit.ResolutionChange -= DoBestFit;
 		Localization.LanguageChange -= OnLanguageChange;
 	}
 
+	/// <summary>
+	/// Set the pageNumber to 0 before displaying the UI.
+	/// </summary>
 	protected override void PreDisplay()
 	{
 		_pageNumber = 0;
 	}
 
+	/// <summary>
+	/// Adjust GroupMemberItemInterface pool to display a page of group members.
+	/// </summary>
 	protected override void Draw()
 	{
 		var actorList = SUGARManager.GroupMember.Members;
@@ -82,22 +120,34 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 		DoBestFit();
 	}
 
+	/// <summary>
+	/// If a user signs in via this panel, refresh the current page (which should be page 1).
+	/// </summary>
 	protected override void OnSignIn()
 	{
 		UpdatePageNumber(0);
 	}
 
+	/// <summary>
+	/// Adjust the current page number and redraw the UI.
+	/// </summary>
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
 		Show(true);
 	}
 
+	/// <summary>
+	/// Set the text of all buttons not a child of a GroupMemberItemInterface to be as big as possible and the same size.
+	/// </summary>
 	private void DoBestFit()
 	{
-		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<FriendsListItemInterface>()).Select(t => t.gameObject).BestFit();
+		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<GroupMemberItemInterface>()).Select(t => t.gameObject).BestFit();
 	}
 
+	/// <summary>
+	/// Refresh the current page to ensure any text set in code is also translated.
+	/// </summary>
 	private void OnLanguageChange()
 	{
 		UpdatePageNumber(0);

@@ -7,9 +7,16 @@ using UnityEngine;
 
 public class AchievementPopupInterface : BaseAchievementPopupInterface
 {
+	/// <summary>
+	/// Animation for displaying the achievement notification.
+	/// </summary>
+	[Tooltip("Animation for displaying the achievement notification")]
 	[SerializeField]
 	private Animation _animation;
 
+	/// <summary>
+	/// If the animation is not playing, start the animation coroutine.
+	/// </summary>
 	protected override void Display(EvaluationNotification notification)
 	{
 		if (!_animation.isPlaying)
@@ -18,6 +25,9 @@ public class AchievementPopupInterface : BaseAchievementPopupInterface
 		}
 	}
 
+	/// <summary>
+	/// While there are notifications to display, cycle the animation.
+	/// </summary>
 	private IEnumerator AnimatePopup()
 	{
 		while (_achievementQueue.Count > 0)

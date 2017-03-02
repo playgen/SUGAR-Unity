@@ -5,7 +5,7 @@ namespace PlayGen.SUGAR.Unity
 {
 	public class ResponseHandler : MonoBehaviour
 	{
-		[Tooltip("If there are more than one reponses queued to execute, this controls how much time will be allocated to executing them." +
+		[Tooltip("If there are more than one responses queued to execute, this controls how much time will be allocated to executing them." +
 				 "\nAt least one attempt to execute any pending response will be made per frame." +
 				 "\nA value of 0 will execute all responses in available in each frame.")]
 		[SerializeField]

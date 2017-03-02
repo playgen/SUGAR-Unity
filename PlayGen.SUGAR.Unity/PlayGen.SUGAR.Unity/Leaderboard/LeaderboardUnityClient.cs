@@ -101,7 +101,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get standgs for the current leaderboard. A request for results to be returned means that the standings gotten will not be stored. Otherwise, they will be saved into CurrentStandings.
+		/// Get standings for the current leaderboard. A request for results to be returned means that the standings gotten will not be stored. Otherwise, they will be saved into CurrentStandings.
 		/// </summary>
 		public void GetLeaderboardStandings(int pageNumber, Action<bool> success, Action<List<LeaderboardStandingsResponse>> result = null)
 		{
