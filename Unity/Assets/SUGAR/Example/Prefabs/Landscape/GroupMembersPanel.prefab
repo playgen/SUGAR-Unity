@@ -3886,10 +3886,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2808df7c5018145be18d4a3654d3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groupName: {fileID: 114972105146050368}
   _errorText: {fileID: 114517348493781826}
   _closeButton: {fileID: 114072842975756908}
   _signinButton: {fileID: 114863244422536370}
+  _groupName: {fileID: 114972105146050368}
   _memberItems:
   - {fileID: 114085293051576948}
   - {fileID: 114335218711960196}

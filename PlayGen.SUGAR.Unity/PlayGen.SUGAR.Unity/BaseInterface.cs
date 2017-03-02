@@ -5,15 +5,35 @@ using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Base abstract class for controlling UI objects
+	/// </summary>
 	public abstract class BaseInterface : MonoBehaviour
 	{
+		/// <summary>
+		/// Text object which displays errors if/when they occur. Can be left null.
+		/// </summary>
+		[Tooltip("Text object which displays errors if/when they occur. Can be left null.")]
 		[SerializeField]
 		protected Text _errorText;
+
+		/// <summary>
+		/// Button used to disable this object. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to disable this object. Can be left null.")]
 		[SerializeField]
 		protected Button _closeButton;
+
+		/// <summary>
+		/// Button used to display account UI object (if available) if no user is signed in. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to disable this object. Can be left null.")]
 		[SerializeField]
 		protected Button _signinButton;
 
+		/// <summary>
+		/// Base Awake method adds onClick listeners for the close and signin buttons.
+		/// </summary>
 		protected virtual void Awake()
 		{
 			if (_closeButton)
@@ -32,8 +52,18 @@ namespace PlayGen.SUGAR.Unity
 			Show(loadingSuccess);
 		}
 
+		/// <summary>
+		/// Functionality triggered before displaying the UI object.
+		/// </summary>
 		protected abstract void PreDisplay();
 
+		/// <summary>
+		/// Used to display/redraw the UI on this object. Triggers methods in this order:
+		/// HideInterfaces - abstract method used to enable/disable UI on this object and hide other UI objects.
+		/// PreDraw - private method. Activates object using SUGARManager.Unity.EnableObject, resets error text and hides signin button.
+		/// Draw - abstract method where creation and placement of the UI should be performed.
+		/// ErrorDraw - where error text is determined and set, if required.
+		/// </summary>
 		protected void Show(bool loadingSuccess)
 		{
 			HideInterfaces();
@@ -42,6 +72,9 @@ namespace PlayGen.SUGAR.Unity
 			ErrorDraw(loadingSuccess);
 		}
 
+		/// <summary>
+		/// Should be used to enable/disable UI on this object and hide other UI objects.
+		/// </summary>
 		protected abstract void HideInterfaces();
 
 		private void PreDraw()
@@ -57,8 +90,14 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Should be used to set, create and place UI on this object.
+		/// </summary>
 		protected abstract void Draw();
 
+		/// <summary>
+		/// Should be used to set error text and disable UI objects due to errors, if required. By default sets error text in case of no user being signed in or loading issues.
+		/// </summary>
 		protected virtual void ErrorDraw(bool loadingSuccess)
 		{
 			if (!loadingSuccess)
@@ -84,8 +123,14 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Get error string if there were issues loading what was required.
+		/// </summary>
 		protected abstract string LoadErrorText();
 
+		/// <summary>
+		/// Get error string if there were no results to display.
+		/// </summary>
 		protected abstract string NoResultsErrorText();
 
 		private void AttemptSignIn()
@@ -99,6 +144,9 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Triggered by successful sign-in via this UI object. 
+		/// </summary>
 		protected abstract void OnSignIn();
 	}
 }

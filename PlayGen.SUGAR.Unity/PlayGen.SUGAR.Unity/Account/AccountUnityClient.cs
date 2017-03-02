@@ -8,18 +8,28 @@ using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to accounts
+	/// </summary>
 	[DisallowMultipleComponent]
 	public class AccountUnityClient : MonoBehaviour
 	{
+		/// <summary>
+		/// UI object for this unity client. Can be left null if no UI is required.
+		/// </summary>
+		[Tooltip("UI object for this unity client. Can be left null if no UI is required.")]
 		[SerializeField]
 		private BaseAccountInterface _accountInterface;
 
+		[Tooltip("Should the application attempt to sign in users using information provided at start-up?")]
 		[SerializeField]
 		private bool _allowAutoLogin;
 
+		[Tooltip("Should the application show a registration button on the UI object?")]
 		[SerializeField]
 		private bool _allowRegister;
 
+		[Tooltip("The default account source token to be used when signing in and registering via the UI object")]
 		[SerializeField]
 		private string _defaultSourceToken = "SUGAR";
 
@@ -41,9 +51,15 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string autoLoginCustomArgs;
 
+		/// <summary>
+		/// Has a UI object been provided for this Unity Client?
+		/// </summary>
 		public bool HasInterface => _accountInterface;
 
-		public bool IsActive => _accountInterface && _accountInterface.gameObject.activeInHierarchy;
+		/// <summary>
+		/// Is there a UI object and if so is it currently active?
+		/// </summary>
+		public bool IsActive => HasInterface && _accountInterface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -61,6 +77,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Displays UI object if provided and allowAutoLogin is false. Attempts automatic sign in using provided details if allowAutoLogin is true.
+		/// Note: allowAutoLogin is made false after automatic sign in is first attempted.
+		/// </summary>
 		public void DisplayPanel(Action<bool> success)
 		{
 			_signInCallback = success;
@@ -75,6 +95,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Hide the UI object if it is currently active.
+		/// </summary>
 		public void Hide()
 		{
 			if (IsActive)

@@ -5,17 +5,42 @@ using PlayGen.Unity.Utilities.Localization;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Base abstract class for controlling the UI object related to getting all leaderboards for a game
+	/// </summary>
 	public abstract class BaseLeaderboardListInterface : BaseInterface
 	{
+		/// <summary>
+		/// Text used for displaying current leaderboard type. Can be left null.
+		/// </summary>
+		[Tooltip("Text used for displaying current leaderboard type. Can be left null.")]
 		[SerializeField]
 		protected Text _leaderboardType;
+
+		/// <summary>
+		/// Button used to change the current actor type filter to 'User'. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to change the current actor type filter to 'User'. Can be left null.")]
 		[SerializeField]
 		protected Button _userButton;
+
+		/// <summary>
+		/// Button used to change the current actor type filter to 'Group'. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to change the current actor type filter to 'Group'. Can be left null.")]
 		[SerializeField]
 		protected Button _groupButton;
+
+		/// <summary>
+		/// Button used to change the current actor type filter to 'Combined'. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to change the current actor type filter to 'Combined'. Can be left null.")]
 		[SerializeField]
 		protected Button _combinedButton;
 
+		/// <summary>
+		/// Base Awake method adds onClick listeners for the close, signin, user, group and combined filter buttons.
+		/// </summary>
 		protected override void Awake()
 		{
 			base.Awake();
@@ -33,6 +58,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Hides Account, Achievement, UserFriend, GroupMember and UserGroup UI objects. Makes filter buttons interactable.
+		/// </summary>
 		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
@@ -54,6 +82,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Used to set error text in case of no user being signed in, loading issues or if no leaderboards are available.
+		/// Filter button interactable set to false if no user is signed in or loading issues occur.
+		/// </summary>
 		protected override void ErrorDraw(bool loadingSuccess)
 		{
 			base.ErrorDraw(loadingSuccess);
@@ -81,11 +113,17 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Get error string from Localization with key "LEADERBOARD_LIST_LOAD_ERROR" if there were issues loading the leaderboard list.
+		/// </summary>
 		protected override string LoadErrorText()
 		{
 			return Localization.Get("LEADERBOARD_LIST_LOAD_ERROR");
 		}
 
+		/// <summary>
+		/// Get error string from Localization with key "NO_LEADERBOARD_LIST_ERROR" if there were no leaderboards to display.
+		/// </summary>
 		protected override string NoResultsErrorText()
 		{
 			return Localization.Get("NO_LEADERBOARD_LIST_ERROR");

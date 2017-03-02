@@ -21,6 +21,9 @@ namespace PlayGen.SUGAR.Unity
 		public GameObject GameObject;
 	}
 
+	/// <summary>
+	/// Class for managing Unity elements of the asset
+	/// </summary>
 	[RequireComponent(typeof(AccountUnityClient))]
 	[RequireComponent(typeof(AchievementUnityClient))]
 	[RequireComponent(typeof(UserFriendUnityClient))]
@@ -32,34 +35,59 @@ namespace PlayGen.SUGAR.Unity
 	[RequireComponent(typeof(ResponseHandler))]
 	public class SUGARUnityManager : MonoBehaviour
 	{
+		[Tooltip("Address where SUGAR is hosted. Overwritten by config file if provided.")]
 		[SerializeField]
 		private string _baseAddress;
+
+		[Tooltip("Unique game token.")]
 		[SerializeField]
 		private string _gameToken;
+
+		[Tooltip("ID for this game.")]
 		[SerializeField]
 		private int _gameId;
+
+		[Tooltip("Does this game require achievement functionality?")]
 		[SerializeField]
 		private bool _useAchievements = true;
+
+		[Tooltip("Does this game require friends list functionality?")]
 		[SerializeField]
 		private bool _useFriends = true;
+
+		[Tooltip("Does this game require group functionality?")]
 		[SerializeField]
 		private bool _useGroups = true;
+
+		[Tooltip("Does this game require leaderboard functionality?")]
 		[SerializeField]
 		private bool _useLeaderboards = true;
+
+		[Tooltip("Does this game require resource functionality?")]
 		[SerializeField]
 		private bool _useResources = true;
+
+		[Tooltip("The GameObject used as the 'blocker' behind SUGAR UI objects. Can be left null if not required.")]
 		[SerializeField]
 		private GameObject _uiBlocker;
+
+		[Tooltip("Should the blocker be used?")]
 		[SerializeField]
 		private bool _useBlocker = true;
+
+		[Tooltip("Should clicking the blocker close the currently active SUGAR UI object?")]
 		[SerializeField]
 		private bool _blockerClickClose = true;
+
+		[Tooltip("Object with LoadingSpinner to be used as a blocker when loading is occurring. Can be left null.")]
 		[SerializeField]
 		private LoadingSpinner _uiSpinner;
+
+		[Tooltip("A list of custom interfaces intended for SUGAR that aren't provided on Unity Clients. Names must be unique.")]
 		[SerializeField]
 		private List<CustomInterface> _customInterfaceList;
-		public Dictionary<string, GameObject> CustomInterfaces;
 
+		public Dictionary<string, GameObject> CustomInterfaces;
 		private GameObject _currentBlock;
 		private readonly List<GameObject> _blockQueue = new List<GameObject>();
 
@@ -76,13 +104,17 @@ namespace PlayGen.SUGAR.Unity
 
 		private bool _validCheck;
 
+		/// <summary>
+		/// Is any piece of SUGAR UI currently active?
+		/// </summary>
 		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
 									(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
 									(SUGARManager.userFriend && SUGARManager.userFriend.IsActive) ||
 									(SUGARManager.userGroup && SUGARManager.userGroup.IsActive) ||
 									(SUGARManager.groupMember && SUGARManager.groupMember.IsActive) ||
 									(SUGARManager.gameLeaderboard && SUGARManager.gameLeaderboard.IsActive) ||
-									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive);
+									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive) ||
+									CustomInterfaces.Values.Any(go => go.activeSelf);
 
 		private void Awake()
 		{
@@ -261,12 +293,19 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.groupMember = null;
 		}
 
+		/// <summary>
+		/// Set if the blocker should be used and if it should close objects when clicked
+		/// </summary>
 		public void SetBlocker(bool use, bool block)
 		{
 			_useBlocker = use;
 			_blockerClickClose = block;
 		}
 
+		/// <summary>
+		/// Enable a piece of SUGAR UI.
+		/// This should be used instead of SetActive to ensure UI and blocker ordering is correct.
+		/// </summary>
 		public void EnableObject(GameObject activeObject)
 		{
 			if (_uiBlocker && _useBlocker)
@@ -289,6 +328,10 @@ namespace PlayGen.SUGAR.Unity
 			activeObject.SetActive(true);
 		}
 
+		/// <summary>
+		/// Disable a piece of SUGAR UI.
+		/// This should be used instead of SetActive to ensure UI and blocker ordering is correct.
+		/// </summary>
 		public void DisableObject(GameObject activeObject)
 		{
 			if (_uiBlocker)
@@ -310,17 +353,28 @@ namespace PlayGen.SUGAR.Unity
 			activeObject.SetActive(false);
 		}
 
+		/// <summary>
+		/// Set the direction and speed of the loading spinner
+		/// </summary>
 		public void SetSpinner(bool clockwise, int speed)
 		{
 			Loading.Set(speed, clockwise);
 		}
 
+		/// <summary>
+		/// Start the loading spinner.
+		/// This method should be used instead of directly calling Loading.Start to ensure UI and blocker ordering is correct.
+		/// </summary>
 		public void StartSpinner(string text = "")
 		{
 			Loading.Start(text);
 			Loading.LoadingSpinner.transform.SetAsLastSibling();
 		}
 
+		/// <summary>
+		/// Stop the loading spinner.
+		/// This method should be used instead of directly calling Loading.Stop to ensure UI and blocker ordering is correct.
+		/// </summary>
 		public void StopSpinner(string text = "", float stopDelay = 0f)
 		{
 			Loading.Stop(text, stopDelay);

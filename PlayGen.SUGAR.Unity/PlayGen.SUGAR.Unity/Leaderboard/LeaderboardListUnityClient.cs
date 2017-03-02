@@ -9,16 +9,31 @@ using System.Linq;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to leaderboards for an application.
+	/// </summary>
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : BaseUnityClient<BaseLeaderboardListInterface>
 	{
 		private readonly Dictionary<ActorType, List<LeaderboardResponse>> _leaderboards = new Dictionary<ActorType, List<LeaderboardResponse>>();
+
+		[Tooltip("Currently used ActorType filter.")]
 		[SerializeField]
 		private ActorType _currentActorType = ActorType.User;
 
+		/// <summary>
+		/// List of leaderboards for this application for each ActorType filter.
+		/// </summary>
 		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards => _leaderboards;
+
+		/// <summary>
+		/// Currently used ActorType filter.
+		/// </summary>
 		public ActorType CurrentActorType => _currentActorType;
 
+		/// <summary>
+		/// Gathers leaderboards for this application and displays list for current ActorType if UI object if provided.
+		/// </summary>
 		public void DisplayList(ActorType filter = ActorType.User)
 		{
 			SetFilter(filter);
@@ -33,6 +48,9 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Set the ActorType filter to use.
+		/// </summary>
 		public void SetFilter(ActorType filter)
 		{
 			_currentActorType = filter;

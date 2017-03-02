@@ -9,18 +9,26 @@ using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to achievements.
+	/// </summary>
 	[DisallowMultipleComponent]
 	public class AchievementUnityClient : BaseUnityClient<BaseAchievementListInterface>
 	{
+		[Tooltip("UI object used for achievement completion notifications. Can be left null if not needed.")]
 		[SerializeField]
 		private BaseAchievementPopupInterface _achievementPopup;
 
 		[SerializeField]
 		[Range(0.1f, 10f)]
+		[Tooltip("How often (in seconds) checks are made for if any achievements have been completed.")]
 		private float _notificationCheckRate = 2.5f;
 
 		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
 
+		/// <summary>
+		/// Current completion status for achievements in this application for this user.
+		/// </summary>
 		public List<EvaluationProgressResponse> Progress => _progress;
 
 		internal override void CreateInterface(Canvas canvas)
@@ -44,6 +52,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Gathers current achievement completion status and displays UI object if provided.
+		/// </summary>
 		public void DisplayList()
 		{
 			SUGARManager.unity.StartSpinner();
@@ -81,6 +92,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Force an achievement notification to be displayed with the provided text.
+		/// </summary>
 		public void ForceNotificationTest(string notification = "Test Notification")
 		{
 			HandleNotification(new EvaluationNotification

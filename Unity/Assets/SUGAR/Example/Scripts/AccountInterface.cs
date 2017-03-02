@@ -5,11 +5,6 @@ using PlayGen.Unity.Utilities.BestFit;
 
 public class AccountInterface : BaseAccountInterface
 {
-	protected override void Awake()
-	{
-		base.Awake();
-	}
-
 	private void OnEnable()
 	{
 		DoBestFit();

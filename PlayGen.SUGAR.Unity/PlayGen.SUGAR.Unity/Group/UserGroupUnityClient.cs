@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to group lists.
+	/// </summary>
 	[DisallowMultipleComponent]
 	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
@@ -15,12 +18,26 @@ namespace PlayGen.SUGAR.Unity
 		private List<ActorResponseAllowableActions> _pendingSent = new List<ActorResponseAllowableActions>();
 		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
 
+		/// <summary>
+		/// List of groups that the currently signed in user is a member of.
+		/// </summary>
 		public List<ActorResponseAllowableActions> Groups => _groups;
+
+		/// <summary>
+		/// List of groups that the currently signed in user has applied to join.
+		/// </summary>
 		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+
+		/// <summary>
+		/// List of groups that matched the last search string.
+		/// </summary>
 		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
 
 		private string _lastSearch;
 
+		/// <summary>
+		/// Gathers updated versions of each list and displays UI object if provided.
+		/// </summary>
 		public void Display()
 		{
 			RefreshLists(success =>
@@ -46,6 +63,9 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Send group membership request to group with id provided. If reload is true, UI is also redrawn.
+		/// </summary>
 		public void AddGroup(int id, bool reload = true)
 		{
 			Add(id, result =>
@@ -57,9 +77,12 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		public void ManageGroupRequest(int id, bool accept, bool reload = true)
+		/// <summary>
+		/// Cancel sent membership request to group with id provided. If reload is true, UI is also redrawn.
+		/// </summary>
+		public void ManageGroupRequest(int id, bool reload = true)
 		{
-			UpdateRequest(id, accept, result =>
+			UpdateRequest(id, result =>
 			{
 				if (reload)
 				{
@@ -68,6 +91,9 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Leave group with id provided. If reload is true, UI is also redrawn.
+		/// </summary>
 		public void RemoveGroup(int id, bool reload = true)
 		{
 			Remove(id, result =>
@@ -79,6 +105,9 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Get group list for the currently signed in user.
+		/// </summary>
 		public void GetGroupsList(Action<bool> success)
 		{
 			GetGroups(success);
@@ -216,7 +245,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal void UpdateRequest(int id, bool accept, Action<bool> success)
+		internal void UpdateRequest(int id, Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.CurrentUser != null)
@@ -225,7 +254,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					RequestorId = SUGARManager.CurrentUser.Id,
 					AcceptorId = id,
-					Accepted = accept
+					Accepted = false
 				};
 				SUGARManager.client.GroupMember.UpdateMemberRequestAsync(relationship,
 				() =>

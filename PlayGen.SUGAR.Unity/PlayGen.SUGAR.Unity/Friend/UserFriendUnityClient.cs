@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to user friends.
+	/// </summary>
 	[DisallowMultipleComponent]
 	public class UserFriendUnityClient : BaseUnityClient<BaseUserFriendInterface>
 	{
@@ -16,13 +19,28 @@ namespace PlayGen.SUGAR.Unity
 		private List<ActorResponseAllowableActions> _pendingReceived = new List<ActorResponseAllowableActions>();
 		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
 
+		/// <summary>
+		/// Friends list for currently signed in user.
+		/// </summary>
 		public List<ActorResponseAllowableActions> Friends => _friends;
+		/// <summary>
+		/// Pending sent friend requests for currently signed in user.
+		/// </summary>
 		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+		/// <summary>
+		/// Pending received friend requests for currently signed in user.
+		/// </summary>
 		public List<ActorResponseAllowableActions> PendingReceived => _pendingReceived;
+		/// <summary>
+		/// Last set of search results.
+		/// </summary>
 		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
 
 		private string _lastSearch;
 
+		/// <summary>
+		/// Updates lists and displays UI object if provided.
+		/// </summary>
 		public void Display()
 		{
 			RefreshLists(success =>
@@ -34,39 +52,55 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Send friend request to user with id provided. If reload is true, UI is also redrawn.
+		/// </summary>
 		public void AddFriend(int id, bool reload = true)
 		{
 			Add(id, result =>
 			{
-				if (reload)
+				if (reload && _interface)
 				{
 					_interface.Reload(result);
 				}
 			});
 		}
 
+		/// <summary>
+		/// Resolve friend request to user with id provided. If reload is true, UI is also redrawn.
+		/// Reverse should be true if cancelling sent request. Accept and reverse cannot both be true.
+		/// </summary>
 		public void ManageFriendRequest(int id, bool accept, bool reverse = false, bool reload = true)
 		{
-			UpdateRequest(id, accept, reverse, result =>
+			if (!(accept && reverse))
 			{
-				if (reload)
+				UpdateRequest(id, accept, reverse, result =>
 				{
-					_interface.Reload(result);
-				}
-			});
+					if (reload && _interface)
+					{
+						_interface.Reload(result);
+					}
+				});
+			}
 		}
 
+		/// <summary>
+		/// Remove user with id provided from friends list. If reload is true, UI is also redrawn.
+		/// </summary>
 		public void RemoveFriend(int id, bool reload = true)
 		{
 			Remove(id, result =>
 			{
-				if (reload)
+				if (reload && _interface)
 				{
 					_interface.Reload(result);
 				}
 			});
 		}
 
+		/// <summary>
+		/// Get friends list for the currently signed in user.
+		/// </summary>
 		public void GetFriendsList(Action<bool> success)
 		{
 			GetFriends(success);

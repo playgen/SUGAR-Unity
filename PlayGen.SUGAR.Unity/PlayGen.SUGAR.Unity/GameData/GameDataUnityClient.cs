@@ -8,9 +8,15 @@ using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Unity client for calls related to gamedata.
+	/// </summary>
 	public class GameDataUnityClient
 	{
-        public IEnumerable<EvaluationDataResponse> GetHighest(string[] keys, EvaluationDataType dataType)
+		/// <summary>
+		/// Get the highest value for this user for the keys provided.
+		/// </summary>
+		public IEnumerable<EvaluationDataResponse> GetHighest(string[] keys, EvaluationDataType dataType)
         {
 			if (SUGARManager.CurrentUser != null)
 			{
@@ -20,21 +26,33 @@ namespace PlayGen.SUGAR.Unity
 			return Enumerable.Empty<EvaluationDataResponse>();
 		}
 
-        public void Send(string key, string value)
+		/// <summary>
+		/// Send a piece of gamedata with key and value provided.
+		/// </summary>
+		public void Send(string key, string value)
 		{
 			Send(key, value, EvaluationDataType.String);
 		}
 
+		/// <summary>
+		/// Send a piece of gamedata with key and value provided.
+		/// </summary>
 		public void Send(string key, long value)
 		{
 			Send(key, value.ToString(), EvaluationDataType.Long);
 		}
 
+		/// <summary>
+		/// Send a piece of gamedata with key and value provided.
+		/// </summary>
 		public void Send(string key, float value)
 		{
 			Send(key, value.ToString(CultureInfo.InvariantCulture), EvaluationDataType.Float);
 		}
 
+		/// <summary>
+		/// Send a piece of gamedata with key and value provided.
+		/// </summary>
 		public void Send(string key, bool value)
 		{
 			Send(key, value.ToString(), EvaluationDataType.Boolean);

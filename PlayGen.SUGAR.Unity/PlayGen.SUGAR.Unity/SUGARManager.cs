@@ -4,6 +4,9 @@ using PlayGen.SUGAR.Contracts.Shared;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// Access point for SUGAR related classes.
+	/// </summary>
 	public static class SUGARManager
 	{
 		internal static SUGARUnityManager unity { get; set; }
@@ -30,12 +33,24 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static Config config { get; set; }
 
+		/// <summary>
+		/// GameId for this application.
+		/// </summary>
 		public static int GameId { get; internal set; }
 
+		/// <summary>
+		/// Currently signed in user.
+		/// </summary>
 		public static ActorResponse CurrentUser { get; internal set; }
 
+		/// <summary>
+		/// Group name gathered from auto sign in.
+		/// </summary>
 		public static string GroupId { get; internal set; }
 
+		/// <summary>
+		/// Unity client for calls related to accounts
+		/// </summary>
 		public static AccountUnityClient Account
 		{
 			get
@@ -48,6 +63,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to achievements
+		/// </summary>
 		public static AchievementUnityClient Achievement
 		{
 			get
@@ -60,6 +78,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to friend lists
+		/// </summary>
 		public static UserFriendUnityClient UserFriend
 		{
 			get
@@ -72,6 +93,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to gamedata
+		/// </summary>
 		public static GameDataUnityClient GameData
 		{
 			get
@@ -84,6 +108,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to group members
+		/// </summary>
 		public static GroupMemberUnityClient GroupMember
 		{
 			get
@@ -96,6 +123,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to leaderboard lists
+		/// </summary>
 		public static LeaderboardListUnityClient GameLeaderboard
 		{
 			get
@@ -108,6 +138,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to leaderboard standings
+		/// </summary>
 		public static LeaderboardUnityClient Leaderboard
 		{
 			get
@@ -120,6 +153,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to resources
+		/// </summary>
 		public static ResourceUnityClient Resource
 		{
 			get
@@ -132,6 +168,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Unity client for calls related to user groups
+		/// </summary>
 		public static UserGroupUnityClient UserGroup
 		{
 			get
@@ -144,6 +183,9 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Class for managing Unity elements of the asset
+		/// </summary>
 		public static SUGARUnityManager Unity
 		{
 			get
