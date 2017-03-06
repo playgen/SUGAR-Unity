@@ -95,9 +95,12 @@ namespace PlayGen.SUGAR.Unity
 
 		private string ConfigPath => Application.streamingAssetsPath + "/SUGAR.config.json";
 
-		internal string gameToken => _gameToken;
+		internal string gameToken
+        {
+            set { _gameToken = value; }
+        }
 
-		internal int gameId
+        internal int gameId
 		{
 			set { _gameId = value; }
 		}
@@ -189,7 +192,7 @@ namespace PlayGen.SUGAR.Unity
 		private void SetUpClient()
 		{
 			SUGARManager.client = new SUGARClient(_baseAddress);
-			if (string.IsNullOrEmpty(gameToken))
+			if (string.IsNullOrEmpty(_gameToken))
 			{
 				ResetManager();
 				throw new Exception("A game token must be provided in the SUGAR Unity Manager");
@@ -256,7 +259,7 @@ namespace PlayGen.SUGAR.Unity
 			if (!_validCheck)
 			{
 				_validCheck = true;
-				var game = SUGARManager.client.Game.Get(gameToken).FirstOrDefault();
+				var game = SUGARManager.client.Game.Get(_gameToken).FirstOrDefault();
 				if (game == null)
 				{
 					ResetManager();
