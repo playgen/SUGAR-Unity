@@ -74,7 +74,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return achievement;
 				}
-				throw new Exception("Achievements are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Achievements");
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return userFriend;
 				}
-				throw new Exception("Friends are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Friends");
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return groupMember;
 				}
-				throw new Exception("Groups are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Groups");
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return gameLeaderboard;
 				}
-				throw new Exception("Leaderboards are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Leaderboards");
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return leaderboard;
 				}
-				throw new Exception("Leaderboards are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Leaderboards");
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return resource;
 				}
-				throw new Exception("Resources are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Resources");
 			}
 		}
 
@@ -179,7 +179,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					return userGroup;
 				}
-				throw new Exception("Groups are currently disabled in the SUGAR Unity Manager");
+				throw new Exception("SUGAR GameObject needs to be active to access Groups");
 			}
 		}
 

@@ -47,26 +47,6 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private int _gameId;
 
-		[Tooltip("Does this game require achievement functionality?")]
-		[SerializeField]
-		private bool _useAchievements = true;
-
-		[Tooltip("Does this game require friends list functionality?")]
-		[SerializeField]
-		private bool _useFriends = true;
-
-		[Tooltip("Does this game require group functionality?")]
-		[SerializeField]
-		private bool _useGroups = true;
-
-		[Tooltip("Does this game require leaderboard functionality?")]
-		[SerializeField]
-		private bool _useLeaderboards = true;
-
-		[Tooltip("Does this game require resource functionality?")]
-		[SerializeField]
-		private bool _useResources = true;
-
 		[Tooltip("The GameObject used as the 'blocker' behind SUGAR UI objects. Can be left null if not required.")]
 		[SerializeField]
 		private GameObject _uiBlocker;
@@ -151,13 +131,13 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.unity = this;
 			SUGARManager.GameId = _gameId;
 			SUGARManager.account = GetComponent<AccountUnityClient>();
-			SUGARManager.achievement = _useAchievements ? GetComponent<AchievementUnityClient>() : null;
-			SUGARManager.userFriend = _useFriends ? GetComponent<UserFriendUnityClient>() : null;
-			SUGARManager.userGroup = _useGroups ? GetComponent<UserGroupUnityClient>() : null;
-			SUGARManager.groupMember = _useGroups ? GetComponent<GroupMemberUnityClient>() : null;
-			SUGARManager.leaderboard = _useLeaderboards ? GetComponent<LeaderboardUnityClient>() : null;
-			SUGARManager.gameLeaderboard = _useLeaderboards ? GetComponent<LeaderboardListUnityClient>() : null;
-			SUGARManager.resource = _useResources ? GetComponent<ResourceUnityClient>() : null;
+			SUGARManager.achievement = GetComponent<AchievementUnityClient>();
+			SUGARManager.userFriend = GetComponent<UserFriendUnityClient>();
+			SUGARManager.userGroup = GetComponent<UserGroupUnityClient>();
+			SUGARManager.groupMember = GetComponent<GroupMemberUnityClient>();
+			SUGARManager.leaderboard = GetComponent<LeaderboardUnityClient>();
+			SUGARManager.gameLeaderboard = GetComponent<LeaderboardListUnityClient>();
+			SUGARManager.resource = GetComponent<ResourceUnityClient>();
 
 			if (!LoadConfig())
 			{
@@ -199,25 +179,13 @@ namespace PlayGen.SUGAR.Unity
 			}
 			var canvas = GetComponentInChildren<Canvas>();
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
-			if (_useLeaderboards)
-			{
-				GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
-				GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
-			}
-			if (_useAchievements)
-			{
-				GetComponent<AchievementUnityClient>().CreateInterface(canvas);
-			}
-			if (_useFriends)
-			{
-				GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
-			}
-			if (_useGroups)
-			{
-				GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
-				GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
-			}
-			var customKeys = CustomInterfaces.Keys.ToList();
+            GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
+            GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
+            GetComponent<AchievementUnityClient>().CreateInterface(canvas);
+            GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
+            GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
+            GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
+            var customKeys = CustomInterfaces.Keys.ToList();
 			foreach (var key in customKeys)
 			{
 				bool inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene();
@@ -272,11 +240,8 @@ namespace PlayGen.SUGAR.Unity
 					Debug.LogError("Game ID provided does not match game ID for provided token");
 					return false;
 				}
-				if (_useResources)
-				{
-					SUGARManager.Resource.StartCheck();
-				}
-				return true;
+                SUGARManager.Resource.StartCheck();
+                return true;
 			}
 			return gameObject.activeSelf;
 		}
