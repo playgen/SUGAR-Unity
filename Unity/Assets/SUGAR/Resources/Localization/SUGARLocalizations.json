@@ -5,7 +5,7 @@
 {"Key":"FRIENDS","en-gb":"Friends","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"FRIENDS_LIST","en-gb":"Friends List","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"FRIENDS_LOAD_ERROR","en-gb":"Error: Unable to gather list of users.","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
-{"Key":"FRIENDS_PENDING_REQUESTS","en-gb":"Friends Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
+{"Key":"FRIENDS_PENDING_REQUESTS","en-gb":"Friend Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"FRIENDS_PENDING_SENT","en-gb":"Sent Friend Requests","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUP","en-gb":"Group","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},
 {"Key":"GROUP_LIST","en-gb":"Group List","en-us":"XXXX","fr":"XXXX","es":"XXXX","it":"XXXX","de":"XXXX","nl":"XXXX","el":"XXXX","ja":"XXXX","zh-cn":"XXXX"},

@@ -99,6 +99,8 @@ namespace PlayGen.SUGAR.Unity
 									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive) ||
 									CustomInterfaces.Values.Any(go => go.activeSelf);
 
+        public bool SpinnerActive => _uiSpinner && _uiSpinner.IsActive;
+
 		private void Awake()
 		{
 			if (SUGARManager.Register(this))
@@ -347,5 +349,5 @@ namespace PlayGen.SUGAR.Unity
 		{
 			Loading.Stop(text, stopDelay);
 		}
-	}
+    }
 }

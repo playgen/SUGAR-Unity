@@ -126,6 +126,11 @@ namespace PlayGen.SUGAR.Unity
 				{
 					if (result == null)
 					{
+                        if (_currentLeaderboard.LeaderboardType == LeaderboardType.Earliest || _currentLeaderboard.LeaderboardType == LeaderboardType.Latest)
+                        foreach (var r in response)
+                        {
+                                r.Value = DateTime.Parse(r.Value).ToString();
+                        }
 						_currentStandings = response.ToList();
 					}
 					success(true);

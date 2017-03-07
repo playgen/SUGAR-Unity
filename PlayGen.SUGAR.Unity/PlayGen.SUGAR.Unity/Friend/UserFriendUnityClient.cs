@@ -269,7 +269,6 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					RefreshLists(success);
-					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
 				{
@@ -306,7 +305,6 @@ namespace PlayGen.SUGAR.Unity
 				() =>
 				{
 					RefreshLists(success);
-					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
 				{
@@ -338,7 +336,6 @@ namespace PlayGen.SUGAR.Unity
 				() =>
 				{
 					RefreshLists(success);
-					SUGARManager.unity.StopSpinner();
 				},
 				exception =>
 				{
