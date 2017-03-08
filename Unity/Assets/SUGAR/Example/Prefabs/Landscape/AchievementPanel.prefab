@@ -2537,7 +2537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: NEXT
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114212458770254572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2551,7 +2551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: SIGN_IN
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114339581648919614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2592,7 +2592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: CLOSE
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114400897429780386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2639,7 +2639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: PREVIOUS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114749759618620804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2694,7 +2694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: ACHIEVEMENTS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!222 &222000010023899760
 CanvasRenderer:
   m_ObjectHideFlags: 1

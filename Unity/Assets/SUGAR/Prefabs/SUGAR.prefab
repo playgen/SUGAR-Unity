@@ -115,16 +115,12 @@ MonoBehaviour:
   _baseAddress: 
   _gameToken: 
   _gameId: 0
-  _useAchievements: 1
-  _useFriends: 1
-  _useGroups: 1
-  _useLeaderboards: 1
-  _useResources: 1
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
   _useBlocker: 1
   _blockerClickClose: 1
   _uiSpinner: {fileID: 114066451447811422, guid: 225fde9262ab3a441a877acceec873ec,
     type: 2}
+  _customInterfaceList: []
 --- !u!114 &114000012266143498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interface: {fileID: 114000012229610962, guid: be736ad3ec565d9488b29626d58f6d30,
     type: 2}
-  CurrentActorType: 1
+  _currentActorType: 1
 --- !u!114 &114000012885612516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,7 +182,7 @@ MonoBehaviour:
   _interface: {fileID: 114000013210295108, guid: e29d7a7dd4a690245a2e6d8cf00df004,
     type: 2}
   _positionCount: 10
-  CurrentFilter: 0
+  _currentFilter: 0
 --- !u!114 &114000013496830746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,15 +290,15 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011383437524}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.63474405, y: 0.63474405, z: 0.63474405}
   m_Children: []
   m_Father: {fileID: 4000010393178106}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 102, y: 474}
+  m_SizeDelta: {x: 321.38937, y: 1493.5154}
+  m_Pivot: {x: 0.5, y: 0.5}

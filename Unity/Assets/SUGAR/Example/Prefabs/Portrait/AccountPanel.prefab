@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: SIGN_IN
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114683811958141886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: PASSWORD
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114730694036671526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: USERNAME
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114796701354686474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: REGISTER
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114818721826937018
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2536,7 +2536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: CLOSE
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114071363969021604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2550,7 +2550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: NEXT
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114195129335449458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2564,7 +2564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: PREVIOUS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114333265037976156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2652,7 +2652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: ACHIEVEMENTS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114663930614506024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2666,7 +2666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: SIGN_IN
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114890416252483474
 MonoBehaviour:
   m_ObjectHideFlags: 1

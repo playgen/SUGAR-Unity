@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: FRIENDS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114033351558301050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1193,14 +1193,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a2a2672ae741b4eaec1c6e0ccdccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _errorText: {fileID: 114247686200322108}
+  _closeButton: {fileID: 114687967772270152}
+  _signinButton: {fileID: 114387807287716694}
   _leaderboardName: {fileID: 114391480909604568}
   _leaderboardType: {fileID: 114624429222005390}
   _topButton: {fileID: 114354789391475252}
   _nearButton: {fileID: 114179044950100208}
   _friendsButton: {fileID: 114430226638228042}
-  _errorText: {fileID: 114247686200322108}
-  _closeButton: {fileID: 114687967772270152}
-  _signinButton: {fileID: 114387807287716694}
   _leaderboardPositions:
   - {fileID: 114122769671307010}
   - {fileID: 114209682092686390}
@@ -1864,7 +1864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: NEXT
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114238722548630754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1952,7 +1952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: POSITION
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114247686200322108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2073,7 +2073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: CLOSE
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114301797332306380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2167,7 +2167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: SIGN_IN
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114354789391475252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2378,7 +2378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: USER
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114452408429022882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2524,7 +2524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: VALUE
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114520658462415482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2645,7 +2645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: TOP
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114568057430728606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2739,7 +2739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: PREVIOUS
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114614881052152764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3153,7 +3153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: NEARBY
   ToUpper: 0
-  LanguageOverride: 0
+  LanguageOverride: 
 --- !u!114 &114721328737494878
 MonoBehaviour:
   m_ObjectHideFlags: 1
