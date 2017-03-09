@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditGameSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeedGame.cs" />
     <Compile Include="SetEditorAutoLogin.cs" />
