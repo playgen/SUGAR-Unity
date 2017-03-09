@@ -51,14 +51,12 @@ namespace PlayGen.SUGAR.Unity
 		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0)
 		{
 				_currentFilter = filter;
-				SUGARManager.unity.StartSpinner();
 				GetLeaderboard(token, success =>
 				{
 					if (success)
 					{
 						GetLeaderboardStandings(pageNumber, result =>
 						{
-							SUGARManager.unity.StopSpinner();
 							if (_interface)
 							{
 								_interface.Display(result);
@@ -67,7 +65,6 @@ namespace PlayGen.SUGAR.Unity
 					}
 					else
 					{
-						SUGARManager.unity.StopSpinner();
 						if (_interface)
 						{
 							_interface.Display(false);
@@ -105,7 +102,8 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void GetLeaderboardStandings(int pageNumber, Action<bool> success, Action<List<LeaderboardStandingsResponse>> result = null)
 		{
-			if (result == null)
+            SUGARManager.unity.StartSpinner();
+            if (result == null)
 			{
 				_currentStandings.Clear();
 			}
@@ -124,28 +122,52 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
 				response =>
 				{
-					if (result == null)
-					{
+                    SUGARManager.unity.StopSpinner();
+                    foreach (var r in response)
+                    {
                         if (_currentLeaderboard.LeaderboardType == LeaderboardType.Earliest || _currentLeaderboard.LeaderboardType == LeaderboardType.Latest)
-                        foreach (var r in response)
                         {
-                                r.Value = DateTime.Parse(r.Value).ToString();
+                            r.Value = DateTime.Parse(r.Value).ToString();
                         }
+                    }
+                    response = response.Where(r => r.Ranking > 0).ToList();
+                    if (result == null)
+					{
 						_currentStandings = response.ToList();
-					}
-					success(true);
-				},
+                        success(true);
+                    }
+                    else
+                    {
+                        result(response.ToList());
+                    }
+                },
 				exception =>
 				{
-					string error = "Failed to get leaderboard standings. " + exception.Message;
+                    SUGARManager.unity.StopSpinner();
+                    string error = "Failed to get leaderboard standings. " + exception.Message;
 					Debug.LogError(error);
-					success(false);
-				});
+                    if (result == null)
+                    {
+                        success(false);
+                    }
+                    else
+                    {
+                        result(new List<LeaderboardStandingsResponse>());
+                    }
+                });
 			}
 			else
 			{
-				success(false);
-			}
+                SUGARManager.unity.StopSpinner();
+                if (result == null)
+                {
+                    success(false);
+                }
+                else
+                {
+                    result(new List<LeaderboardStandingsResponse>());
+                }
+            }
 		}
 
 		/// <summary>
