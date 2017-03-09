@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PlayGen.SUGAR.Common.Shared;
 using System;
 using System.Collections.Generic;
@@ -37,11 +38,12 @@ namespace PlayGen.SUGAR.Unity.Editor
 
         void OnGUI()
         {
+            EditorGUIUtility.labelWidth = 225f;
             EditorGUILayout.BeginHorizontal();
             _textAsset = (TextAsset)EditorGUILayout.ObjectField("Game Seed File", _textAsset, typeof(TextAsset), false);
             if (_textAsset)
             {
-                if (GUILayout.Button("Load"))
+                if (GUILayout.Button("Load", GUILayout.ExpandWidth(false)))
                 {
                     var gameSeed = new GameSeed();
                     try
@@ -60,7 +62,7 @@ namespace PlayGen.SUGAR.Unity.Editor
             EditorGUILayout.EndHorizontal();
             if (_seed != null)
             {
-                _seed.game = EditorGUILayout.TextField("Name", _seed.game, EditorStyles.textField);
+                _seed.game = EditorGUILayout.TextField("Name", _seed.game ?? string.Empty, EditorStyles.textField);
                 _showAchievements = EditorGUILayout.Foldout(_showAchievements, "Achievements");
                 if (_showAchievements)
                 {
@@ -73,9 +75,9 @@ namespace PlayGen.SUGAR.Unity.Editor
                         _showAchievementList[i] = EditorGUILayout.Foldout(_showAchievementList[i], _seed.achievements[i].Name);
                         if (_showAchievementList[i])
                         {
-                            _seed.achievements[i].Name = EditorGUILayout.TextField("Name", _seed.achievements[i].Name, EditorStyles.textField);
-                            _seed.achievements[i].Description = EditorGUILayout.TextField("Description", _seed.achievements[i].Description, EditorStyles.textField);
-                            _seed.achievements[i].Token = EditorGUILayout.TextField("Token", _seed.achievements[i].Token, EditorStyles.textField);
+                            _seed.achievements[i].Name = EditorGUILayout.TextField("Name", _seed.achievements[i].Name ?? string.Empty, EditorStyles.textField);
+                            _seed.achievements[i].Description = EditorGUILayout.TextField("Description", _seed.achievements[i].Description ?? string.Empty, EditorStyles.textField);
+                            _seed.achievements[i].Token = EditorGUILayout.TextField("Token", _seed.achievements[i].Token ?? string.Empty, EditorStyles.textField);
                             _seed.achievements[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _seed.achievements[i].ActorType, EditorStyles.popup);
                             _showAchievementCriteria[i] = EditorGUILayout.Foldout(_showAchievementCriteria[i], "Evaluation Criteria");
                             if (_showAchievementCriteria[i])
@@ -89,26 +91,32 @@ namespace PlayGen.SUGAR.Unity.Editor
                                     _showAchievementCriteriaList[i][j] = EditorGUILayout.Foldout(_showAchievementCriteriaList[i][j], _seed.achievements[i].EvaluationCriterias[j].EvaluationDataKey);
                                     if (_showAchievementCriteriaList[i][j])
                                     {
-                                        _seed.achievements[i].EvaluationCriterias[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _seed.achievements[i].EvaluationCriterias[j].EvaluationDataKey, EditorStyles.textField);
+                                        _seed.achievements[i].EvaluationCriterias[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _seed.achievements[i].EvaluationCriterias[j].EvaluationDataKey ?? string.Empty, EditorStyles.textField);
                                         _seed.achievements[i].EvaluationCriterias[j].ComparisonType = (ComparisonType)EditorGUILayout.EnumPopup("ComparisonType", _seed.achievements[i].EvaluationCriterias[j].ComparisonType, EditorStyles.popup);
                                         _seed.achievements[i].EvaluationCriterias[j].CriteriaQueryType = (CriteriaQueryType)EditorGUILayout.EnumPopup("CriteriaQueryType", _seed.achievements[i].EvaluationCriterias[j].CriteriaQueryType, EditorStyles.popup);
                                         _seed.achievements[i].EvaluationCriterias[j].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _seed.achievements[i].EvaluationCriterias[j].EvaluationDataType, EditorStyles.popup);
                                         _seed.achievements[i].EvaluationCriterias[j].Scope = (CriteriaScope)EditorGUILayout.EnumPopup("Scope", _seed.achievements[i].EvaluationCriterias[j].Scope, EditorStyles.popup);
-                                        _seed.achievements[i].EvaluationCriterias[j].Value = EditorGUILayout.TextField("Value", _seed.achievements[i].EvaluationCriterias[j].Value, EditorStyles.textField);
-                                        if (GUILayout.Button("Remove Criteria"))
+                                        _seed.achievements[i].EvaluationCriterias[j].Value = EditorGUILayout.TextField("Value", _seed.achievements[i].EvaluationCriterias[j].Value ?? string.Empty, EditorStyles.textField);
+                                        EditorGUILayout.BeginHorizontal();
+                                        GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+                                        if (GUILayout.Button("Remove Criteria", GUILayout.ExpandWidth(false)))
                                         {
                                             _seed.achievements[i].EvaluationCriterias.RemoveAt(j);
                                             _showAchievementCriteriaList[i].RemoveAt(j);
                                         }
+                                        EditorGUILayout.EndHorizontal();
                                     }
                                     EditorGUI.indentLevel--;
                                     EditorGUILayout.EndVertical();
                                 }
-                                if (GUILayout.Button("Add Criteria"))
+                                EditorGUILayout.BeginHorizontal();
+                                GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+                                if (GUILayout.Button("Add Criteria", GUILayout.ExpandWidth(false)))
                                 {
                                     _seed.achievements[i].EvaluationCriterias.Add(new Contracts.Shared.EvaluationCriteriaCreateRequest());
                                     _showAchievementCriteriaList[i].Add(false);
                                 }
+                                EditorGUILayout.EndHorizontal();
                                 EditorGUI.indentLevel--;
                                 EditorGUILayout.EndVertical();
                             }
@@ -124,28 +132,36 @@ namespace PlayGen.SUGAR.Unity.Editor
                                     _showAchievementRewardList[i][j] = EditorGUILayout.Foldout(_showAchievementRewardList[i][j], _seed.achievements[i].Rewards[j].EvaluationDataKey);
                                     if (_showAchievementRewardList[i][j])
                                     {
-                                        _seed.achievements[i].Rewards[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _seed.achievements[i].Rewards[j].EvaluationDataKey, EditorStyles.textField);
+                                        _seed.achievements[i].Rewards[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _seed.achievements[i].Rewards[j].EvaluationDataKey ?? string.Empty, EditorStyles.textField);
                                         _seed.achievements[i].Rewards[j].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _seed.achievements[i].Rewards[j].EvaluationDataCategory, EditorStyles.popup);
                                         _seed.achievements[i].Rewards[j].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _seed.achievements[i].Rewards[j].EvaluationDataType, EditorStyles.popup);
-                                        _seed.achievements[i].Rewards[j].Value = EditorGUILayout.TextField("Value", _seed.achievements[i].Rewards[j].Value, EditorStyles.textField);
-                                        if (GUILayout.Button("Remove Reward"))
+                                        _seed.achievements[i].Rewards[j].Value = EditorGUILayout.TextField("Value", _seed.achievements[i].Rewards[j].Value ?? string.Empty, EditorStyles.textField);
+                                        EditorGUILayout.BeginHorizontal();
+                                        GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+                                        if (GUILayout.Button("Remove Reward", GUILayout.ExpandWidth(false)))
                                         {
                                             _seed.achievements[i].Rewards.RemoveAt(j);
                                             _showAchievementRewardList[i].RemoveAt(j);
                                         }
+                                        EditorGUILayout.EndHorizontal();
                                     }
                                     EditorGUI.indentLevel--;
                                     EditorGUILayout.EndVertical();
                                 }
-                                if (GUILayout.Button("Add Reward"))
+                                EditorGUILayout.BeginHorizontal();
+                                GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+                                if (GUILayout.Button("Add Reward", GUILayout.ExpandWidth(false)))
                                 {
                                     _seed.achievements[i].Rewards.Add(new Contracts.Shared.RewardCreateRequest());
                                     _showAchievementRewardList[i].Add(false);
                                 }
+                                EditorGUILayout.EndHorizontal();
                                 EditorGUI.indentLevel--;
                                 EditorGUILayout.EndVertical();
                             }
-                            if (GUILayout.Button("Remove Achievement"))
+                            EditorGUILayout.BeginHorizontal();
+                            GUILayout.Space((EditorGUI.indentLevel - 1) * 35);
+                            if (GUILayout.Button("Remove Achievement", GUILayout.ExpandWidth(false)))
                             {
                                 var list = _seed.achievements.ToList();
                                 list.RemoveAt(i);
@@ -156,11 +172,12 @@ namespace PlayGen.SUGAR.Unity.Editor
                                 _showAchievementRewardList.RemoveAt(i);
                                 _seed.achievements = list.ToArray();
                             }
+                            EditorGUILayout.EndHorizontal();
                         }
                         EditorGUI.indentLevel--;
                         EditorGUILayout.EndVertical();
                     }
-                    if (GUILayout.Button("Add Achievement"))
+                    if (GUILayout.Button("Add Achievement", GUILayout.ExpandWidth(false)))
                     {
                         var list = _seed.achievements.ToList();
                         list.Add(new Contracts.Shared.EvaluationCreateRequest());
@@ -188,25 +205,28 @@ namespace PlayGen.SUGAR.Unity.Editor
                         _showLeaderboardList[i] = EditorGUILayout.Foldout(_showLeaderboardList[i], _seed.leaderboards[i].Name);
                         if (_showLeaderboardList[i])
                         {
-                            _seed.leaderboards[i].Token = EditorGUILayout.TextField("Token", _seed.leaderboards[i].Token, EditorStyles.textField);
-                            _seed.leaderboards[i].Name = EditorGUILayout.TextField("Name", _seed.leaderboards[i].Name, EditorStyles.textField);
-                            _seed.leaderboards[i].Key = EditorGUILayout.TextField("Description", _seed.leaderboards[i].Key, EditorStyles.textField);
+                            _seed.leaderboards[i].Token = EditorGUILayout.TextField("Token", _seed.leaderboards[i].Token ?? string.Empty, EditorStyles.textField);
+                            _seed.leaderboards[i].Name = EditorGUILayout.TextField("Name", _seed.leaderboards[i].Name ?? string.Empty, EditorStyles.textField);
+                            _seed.leaderboards[i].Key = EditorGUILayout.TextField("Description", _seed.leaderboards[i].Key ?? string.Empty, EditorStyles.textField);
                             _seed.leaderboards[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _seed.leaderboards[i].ActorType, EditorStyles.popup);
                             _seed.leaderboards[i].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _seed.leaderboards[i].EvaluationDataType, EditorStyles.popup);
                             _seed.leaderboards[i].CriteriaScope = (CriteriaScope)EditorGUILayout.EnumPopup("CriteriaScope", _seed.leaderboards[i].CriteriaScope, EditorStyles.popup);
                             _seed.leaderboards[i].LeaderboardType = (LeaderboardType)EditorGUILayout.EnumPopup("LeaderboardType", _seed.leaderboards[i].LeaderboardType, EditorStyles.popup);
-                            if (GUILayout.Button("Remove Leaderboard"))
+                            EditorGUILayout.BeginHorizontal();
+                            GUILayout.Space((EditorGUI.indentLevel - 1) * 35);
+                            if (GUILayout.Button("Remove Leaderboard", GUILayout.ExpandWidth(false)))
                             {
                                 var list = _seed.leaderboards.ToList();
                                 list.RemoveAt(i);
                                 _showLeaderboardList.RemoveAt(i);
                                 _seed.leaderboards = list.ToArray();
                             }
+                            EditorGUILayout.EndHorizontal();
                         }
                         EditorGUI.indentLevel--;
                         EditorGUILayout.EndVertical();
                     }
-                    if (GUILayout.Button("Add Leaderboard"))
+                    if (GUILayout.Button("Add Leaderboard", GUILayout.ExpandWidth(false)))
                     {
                         var list = _seed.leaderboards.ToList();
                         list.Add(new Contracts.Shared.LeaderboardRequest());
@@ -220,11 +240,11 @@ namespace PlayGen.SUGAR.Unity.Editor
                 _saveAsset = (TextAsset)EditorGUILayout.ObjectField("Save File", _saveAsset, typeof(TextAsset), false);
                 if (_saveAsset != null)
                 {
-                    if (GUILayout.Button("Save"))
+                    if (GUILayout.Button("Save", GUILayout.ExpandWidth(false)))
                     {
                         try
                         {
-                            var seedJson = JsonConvert.SerializeObject(_seed);
+                            var seedJson = JsonConvert.SerializeObject(_seed, Formatting.Indented, new StringEnumConverter());
                             File.WriteAllText(AssetDatabase.GetAssetPath(_saveAsset), seedJson);
                         }
                         catch (Exception ex)
@@ -238,7 +258,7 @@ namespace PlayGen.SUGAR.Unity.Editor
             }
             else
             {
-                if (GUILayout.Button("Create Game Seed"))
+                if (GUILayout.Button("Create Game Seed", GUILayout.ExpandWidth(false)))
                 {
                     _seed = new GameSeed();
                     _seed.achievements = new Contracts.Shared.EvaluationCreateRequest[0];

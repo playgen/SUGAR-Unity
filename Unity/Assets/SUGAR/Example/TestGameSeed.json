@@ -1,32 +1,36 @@
 {
-    "Game" :  "Test Game",
-    "Achievements": [
+  "game": "Test Game",
+  "achievements": [
+    {
+      "Token": "test_achievement",
+      "GameId": null,
+      "Name": "Test Achievement",
+      "Description": "Test Achievement",
+      "ActorType": "User",
+      "EvaluationCriterias": [
         {
-            "Name": "Test Achievement",
-            "Description": "Test Achievement",
-            "ActorType": "User",
-            "Token": "test_achievement",
-            "EvaluationCriterias": [
-                {
-                    "EvaluationDataKey": "test_key",
-                    "ComparisonType": "Equals",
-                    "CriteriaQueryType": "Any",
-                    "EvaluationDataType": "String",
-                    "Scope": "Actor",
-                    "Value": "yep"
-                }
-            ]
+          "EvaluationDataKey": "test_key",
+          "EvaluationDataCategory": "GameData",
+          "EvaluationDataType": "String",
+          "CriteriaQueryType": "Any",
+          "ComparisonType": "Equals",
+          "Scope": "Actor",
+          "Value": "yep"
         }
-    ],
-    "Leaderboards": [
-        {
-            "Token": "test_leaderboard",
-            "Name": "Test Leaderboard",
-            "Key": "Test Leaderboard",
-            "ActorType": "User",
-            "EvaluationDataType": "String",
-            "CriteriaScope": "Actor",
-            "LeaderboardType": "Latest"
-        }
-    ]
+      ],
+      "Rewards": []
+    }
+  ],
+  "leaderboards": [
+    {
+      "Token": "test_leaderboard",
+      "GameId": null,
+      "Name": "Test Leaderboard",
+      "Key": "Test Leaderboard",
+      "ActorType": "User",
+      "EvaluationDataType": "String",
+      "CriteriaScope": "Actor",
+      "LeaderboardType": "Latest"
+    }
+  ]
 }
