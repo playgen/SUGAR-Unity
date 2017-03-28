@@ -142,10 +142,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber, success =>
-        {
-            Show(success);
-        });
+		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber, Show);
 	}
 
 	/// <summary>

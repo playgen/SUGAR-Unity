@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
 
@@ -123,14 +124,15 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
                     SUGARManager.unity.StopSpinner();
-                    foreach (var r in response)
+					var leaderboardStandingsResponses = response.ToList();
+					foreach (var r in leaderboardStandingsResponses)
                     {
                         if (_currentLeaderboard.LeaderboardType == LeaderboardType.Earliest || _currentLeaderboard.LeaderboardType == LeaderboardType.Latest)
                         {
-                            r.Value = DateTime.Parse(r.Value).ToString();
+                            r.Value = DateTime.Parse(r.Value).ToString(Localization.SelectedLanguage);
                         }
                     }
-                    response = response.Where(r => r.Ranking > 0).ToList();
+                    response = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
                     if (result == null)
 					{
 						_currentStandings = response.ToList();

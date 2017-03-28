@@ -11,7 +11,10 @@ namespace PlayGen.SUGAR.Unity
 		{
 			var parser = new Parser();
 			var options = new CommandLineOptions();
-			parser.ParseArguments(args, options);
+			if (args != null)
+			{
+				parser.ParseArguments(args, options);
+			}
 			var customArgs = options.Custom;
 			CustomArgs = new Dictionary<string, string>();
 			if (customArgs != null)

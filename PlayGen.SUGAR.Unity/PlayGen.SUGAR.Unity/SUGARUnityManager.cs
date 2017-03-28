@@ -160,7 +160,10 @@ namespace PlayGen.SUGAR.Unity
 
 		private IEnumerator LoadOnlineConfig(string path)
 		{
-			path = "file:///" + path;
+			if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WSAPlayerX86 || Application.platform == RuntimePlatform.WSAPlayerX64)
+			{
+				path = "file:///" + path;
+			}
 			var www = new WWW(path);
 			yield return www;
 
