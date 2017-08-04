@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using PlayGen.SUGAR.Common.Shared;
+using PlayGen.SUGAR.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using PlayGen.SUGAR.Contracts;
+
 using UnityEditor;
 using UnityEngine;
 
@@ -113,7 +116,7 @@ namespace PlayGen.SUGAR.Unity.Editor
                                 GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
                                 if (GUILayout.Button("Add Criteria", GUILayout.ExpandWidth(false)))
                                 {
-                                    _seed.achievements[i].EvaluationCriterias.Add(new Contracts.Shared.EvaluationCriteriaCreateRequest());
+                                    _seed.achievements[i].EvaluationCriterias.Add(new EvaluationCriteriaCreateRequest());
                                     _showAchievementCriteriaList[i].Add(false);
                                 }
                                 EditorGUILayout.EndHorizontal();
@@ -152,7 +155,7 @@ namespace PlayGen.SUGAR.Unity.Editor
                                 GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
                                 if (GUILayout.Button("Add Reward", GUILayout.ExpandWidth(false)))
                                 {
-                                    _seed.achievements[i].Rewards.Add(new Contracts.Shared.RewardCreateRequest());
+                                    _seed.achievements[i].Rewards.Add(new RewardCreateRequest());
                                     _showAchievementRewardList[i].Add(false);
                                 }
                                 EditorGUILayout.EndHorizontal();
@@ -180,9 +183,9 @@ namespace PlayGen.SUGAR.Unity.Editor
                     if (GUILayout.Button("Add Achievement", GUILayout.ExpandWidth(false)))
                     {
                         var list = _seed.achievements.ToList();
-                        list.Add(new Contracts.Shared.EvaluationCreateRequest());
-                        list.Last().EvaluationCriterias = new List<Contracts.Shared.EvaluationCriteriaCreateRequest>();
-                        list.Last().Rewards = new List<Contracts.Shared.RewardCreateRequest>();
+                        list.Add(new EvaluationCreateRequest());
+                        list.Last().EvaluationCriterias = new List<EvaluationCriteriaCreateRequest>();
+                        list.Last().Rewards = new List<RewardCreateRequest>();
                         _showAchievementList.Add(false);
                         _showAchievementCriteria.Add(false);
                         _showAchievementReward.Add(false);
@@ -229,7 +232,7 @@ namespace PlayGen.SUGAR.Unity.Editor
                     if (GUILayout.Button("Add Leaderboard", GUILayout.ExpandWidth(false)))
                     {
                         var list = _seed.leaderboards.ToList();
-                        list.Add(new Contracts.Shared.LeaderboardRequest());
+                        list.Add(new LeaderboardRequest());
                         _showLeaderboardList.Add(false);
                         _seed.leaderboards = list.ToArray();
                     }
@@ -261,8 +264,8 @@ namespace PlayGen.SUGAR.Unity.Editor
                 if (GUILayout.Button("Create Game Seed", GUILayout.ExpandWidth(false)))
                 {
                     _seed = new GameSeed();
-                    _seed.achievements = new Contracts.Shared.EvaluationCreateRequest[0];
-                    _seed.leaderboards = new Contracts.Shared.LeaderboardRequest[0];
+                    _seed.achievements = new EvaluationCreateRequest[0];
+                    _seed.leaderboards = new LeaderboardRequest[0];
                     SetFoldOut();
                 }
             }
@@ -285,7 +288,7 @@ namespace PlayGen.SUGAR.Unity.Editor
                 _showAchievementRewardList.Add(new List<bool>());
                 if (achieve.EvaluationCriterias == null)
                 {
-                    achieve.EvaluationCriterias = new List<Contracts.Shared.EvaluationCriteriaCreateRequest>();
+                    achieve.EvaluationCriterias = new List<EvaluationCriteriaCreateRequest>();
                 }
                 foreach (var criteria in achieve.EvaluationCriterias)
                 {
@@ -293,7 +296,7 @@ namespace PlayGen.SUGAR.Unity.Editor
                 }
                 if (achieve.Rewards == null)
                 {
-                    achieve.Rewards = new List<Contracts.Shared.RewardCreateRequest>();
+                    achieve.Rewards = new List<RewardCreateRequest>();
                 }
                 foreach (var reward in achieve.Rewards)
                 {

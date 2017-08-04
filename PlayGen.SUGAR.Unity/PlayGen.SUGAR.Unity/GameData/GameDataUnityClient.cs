@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
@@ -21,7 +21,7 @@ namespace PlayGen.SUGAR.Unity
 			if (SUGARManager.CurrentUser != null)
 			{
 				var response = SUGARManager.client.GameData.GetHighest(SUGARManager.CurrentUser.Id, SUGARManager.GameId, keys, dataType);
-				return response;
+				return response.Items;
 			}
 			return Enumerable.Empty<EvaluationDataResponse>();
 		}

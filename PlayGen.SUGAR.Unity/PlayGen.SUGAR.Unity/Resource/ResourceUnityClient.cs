@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
@@ -121,7 +121,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Resource.GetAsync(gameId, actorId, keys,
 				response =>
 				{
-					result(response.ToList());
+					result(response.Items.ToList());
 				},
 				exception =>
 				{

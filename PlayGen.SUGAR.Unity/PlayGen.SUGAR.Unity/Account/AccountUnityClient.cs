@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;

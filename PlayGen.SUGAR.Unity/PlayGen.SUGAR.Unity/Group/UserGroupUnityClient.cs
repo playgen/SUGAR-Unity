@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 
 using UnityEngine;
 
@@ -122,7 +122,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_groups = response.Items.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -150,7 +150,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_pendingSent = response.Items.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -184,7 +184,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Group.GetAsync(searchString,
 				response =>
 				{
-					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
+					var results = response.Items.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
 						if (_groups.Any(p => p.Actor.Id == r.Id) || _pendingSent.Any(p => p.Actor.Id == r.Id))

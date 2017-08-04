@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PlayGen.SUGAR.Client.EvaluationEvents;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 using UnityEngine;
 using System.Linq;
 
@@ -76,7 +76,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_progress = response.ToList();
+					_progress = response.Items.ToList();
 					success(true);
 				},
 				exception =>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 
 using UnityEngine;
 
@@ -72,7 +72,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						if (result)
 						{
-							foreach (var r in response)
+							foreach (var r in response.Items)
 							{
 								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
 								{

@@ -3,8 +3,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 using System.Linq;
 
 namespace PlayGen.SUGAR.Unity
@@ -64,7 +64,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
 				response =>
 				{
-					var result = response.ToList();
+					var result = response.Items.ToList();
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;

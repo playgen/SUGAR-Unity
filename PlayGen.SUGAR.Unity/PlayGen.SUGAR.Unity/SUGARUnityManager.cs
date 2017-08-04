@@ -232,7 +232,7 @@ namespace PlayGen.SUGAR.Unity
 			if (!_validCheck)
 			{
 				_validCheck = true;
-				var game = SUGARManager.client.Game.Get(_gameToken).FirstOrDefault();
+				var game = SUGARManager.client.Game.Get(_gameToken).Items.FirstOrDefault();
 				if (game == null)
 				{
 					ResetManager();

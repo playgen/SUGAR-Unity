@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 
 using UnityEngine;
 
@@ -132,7 +132,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.GetFriendsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_friends = response.Items.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -160,7 +160,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					_pendingSent = response.Items.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -188,7 +188,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.GetFriendRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
+					_pendingReceived = response.Items.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
@@ -222,7 +222,7 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.User.GetAsync(searchString,
 				response =>
 				{
-					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
+					var results = response.Items.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
 						if (r.Id != SUGARManager.CurrentUser.Id)

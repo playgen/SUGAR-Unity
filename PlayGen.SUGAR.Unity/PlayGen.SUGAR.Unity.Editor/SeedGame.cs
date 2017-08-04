@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -72,7 +72,7 @@ namespace PlayGen.SUGAR.Unity.Editor
             if (response != null)
             {
                 Debug.Log("Developer Sign-In Successful");
-                var game = SUGARManager.client.Game.Get(gameSeed.game).FirstOrDefault();
+                var game = SUGARManager.client.Game.Get(gameSeed.game).Items.FirstOrDefault();
                 if (game != null)
                 {
                     Debug.Log(gameSeed.game + " Game Found");

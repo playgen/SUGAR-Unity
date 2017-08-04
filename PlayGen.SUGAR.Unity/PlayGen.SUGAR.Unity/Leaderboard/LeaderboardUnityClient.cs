@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -124,7 +124,7 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
                     SUGARManager.unity.StopSpinner();
-					var leaderboardStandingsResponses = response.ToList();
+					var leaderboardStandingsResponses = response.Items.ToList();
 					foreach (var r in leaderboardStandingsResponses)
                     {
                         if (_currentLeaderboard.LeaderboardType == LeaderboardType.Earliest || _currentLeaderboard.LeaderboardType == LeaderboardType.Latest)
@@ -132,15 +132,15 @@ namespace PlayGen.SUGAR.Unity
                             r.Value = DateTime.Parse(r.Value).ToString(Localization.SelectedLanguage);
                         }
                     }
-                    response = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
+					leaderboardStandingsResponses = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
                     if (result == null)
 					{
-						_currentStandings = response.ToList();
+						_currentStandings = leaderboardStandingsResponses;
                         success(true);
                     }
                     else
                     {
-                        result(response.ToList());
+                        result(leaderboardStandingsResponses);
                     }
                 },
 				exception =>

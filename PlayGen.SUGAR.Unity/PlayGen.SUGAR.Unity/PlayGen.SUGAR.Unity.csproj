@@ -34,14 +34,20 @@
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net35\CommandLine.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\lib\PlayGen Utilities\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\lib\SUGAR\Client\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PlayGen.SUGAR.Client">
       <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.SUGAR.Client.Unity">
+      <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.SUGAR.Common">
+      <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.SUGAR.Contracts">
+      <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="PlayGen.Unity.Utilities.BestFit">
       <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
@@ -55,18 +61,15 @@
     <Reference Include="PlayGen.Unity.Utilities.Localization">
       <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
     </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.Platforms">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayGen.Unity.Utilities.UI">
+      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.UI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
