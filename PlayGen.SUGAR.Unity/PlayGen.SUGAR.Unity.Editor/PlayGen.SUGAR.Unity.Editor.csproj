@@ -33,9 +33,11 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SUGAR\Client\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PlayGen.SUGAR.Client">
       <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PlayGen.Unity.Utilities.Editor.FontReplace">
       <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.FontReplace.dll</HintPath>
@@ -47,11 +49,6 @@
       <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Shortcuts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="UnityEditor">
       <HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
       <Private>False</Private>
@@ -75,6 +72,7 @@
     <ProjectReference Include="..\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj">
       <Project>{e7b6c8dc-262e-4b9d-85e3-2e6ae0467018}</Project>
       <Name>PlayGen.SUGAR.Unity</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

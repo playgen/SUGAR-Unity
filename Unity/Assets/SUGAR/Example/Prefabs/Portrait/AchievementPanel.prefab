@@ -2531,12 +2531,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011111438878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1952341525, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
+  m_Script: {fileID: 1807221761, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanguageOverride: 
   Key: CLOSE
   ToUpper: 0
-  LanguageOverride: 
 --- !u!114 &114071363969021604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2545,12 +2545,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000013369000256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1952341525, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
+  m_Script: {fileID: 1807221761, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanguageOverride: 
   Key: NEXT
   ToUpper: 0
-  LanguageOverride: 
 --- !u!114 &114195129335449458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2559,12 +2559,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011349129812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1952341525, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
+  m_Script: {fileID: 1807221761, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanguageOverride: 
   Key: PREVIOUS
   ToUpper: 0
-  LanguageOverride: 
 --- !u!114 &114333265037976156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2647,12 +2647,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011332589560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1952341525, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
+  m_Script: {fileID: 1807221761, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanguageOverride: 
   Key: ACHIEVEMENTS
   ToUpper: 0
-  LanguageOverride: 
 --- !u!114 &114663930614506024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2661,12 +2661,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1792632965749234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1952341525, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
+  m_Script: {fileID: 1807221761, guid: af75e3018e40c7546b2d53c46b2cc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanguageOverride: 
   Key: SIGN_IN
   ToUpper: 0
-  LanguageOverride: 
 --- !u!114 &114890416252483474
 MonoBehaviour:
   m_ObjectHideFlags: 1
