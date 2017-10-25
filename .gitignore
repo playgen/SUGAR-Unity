@@ -1,17 +1,16 @@
 # Visual Studio
 .vs/
-bin/
-obj/
+PlayGen.SUGAR.Unity/**/bin/
+PlayGen.SUGAR.Unity/**/obj/
 
 # Unity
 [Ll]ibrary/
 [Tt]emp/
 Unity/Unity.csproj
 Unity/Unity.Editor.csproj
-!*.meta
+Unity/**/bin/**/*.dll
+Unity/**/bin/**/*.pdb
+Unity/**/bin/**/*.pdb.meta
 
 # Output
 [Bb]uild/
-
-# Visual Studio
-*.pdb.meta
