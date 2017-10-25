@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using PlayGen.SUGAR.Common;
+using UnityEngine;
 using UnityEngine.UI;
-using PlayGen.SUGAR.Common.Shared;
 using PlayGen.Unity.Utilities.Localization;
 
 namespace PlayGen.SUGAR.Unity

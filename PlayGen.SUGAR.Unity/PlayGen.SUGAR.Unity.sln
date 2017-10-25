@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity", "PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj", "{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.SUGAR.Unity", "PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj", "{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity.Editor", "PlayGen.SUGAR.Unity.Editor\PlayGen.SUGAR.Unity.Editor.csproj", "{4605FA53-6D48-4182-A3D5-2613505BEDE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.SUGAR.Unity.Editor", "PlayGen.SUGAR.Unity.Editor\PlayGen.SUGAR.Unity.Editor.csproj", "{1513F93D-D06B-43EA-8586-F7B2E75B6F03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity.WebGL", "PlayGen.SUGAR.Unity.WebGL\PlayGen.SUGAR.Unity.WebGL.csproj", "{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,16 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4605FA53-6D48-4182-A3D5-2613505BEDE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78F3F512-32C7-499D-B5AB-A8C7CB785F60}
 	EndGlobalSection
 EndGlobal

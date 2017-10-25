@@ -1,6 +1,6 @@
 ﻿using System;
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 
 namespace PlayGen.SUGAR.Unity
 {

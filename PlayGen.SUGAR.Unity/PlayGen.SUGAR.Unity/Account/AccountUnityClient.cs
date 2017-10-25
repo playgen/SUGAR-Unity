@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PlayGen.SUGAR.Contracts;
 
 namespace PlayGen.SUGAR.Unity
 {

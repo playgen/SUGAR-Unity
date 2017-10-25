@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
@@ -12,6 +12,7 @@ using PlayGen.Unity.Utilities.Loading;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[assembly: InternalsVisibleTo("PlayGen.SUGAR.Unity.Editor")]
 namespace PlayGen.SUGAR.Unity
 {
 	[Serializable]

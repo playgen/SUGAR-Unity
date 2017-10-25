@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
+using PlayGen.SUGAR.Contracts;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
+using PlayGen.SUGAR.Common;
 
 namespace PlayGen.SUGAR.Unity
 {

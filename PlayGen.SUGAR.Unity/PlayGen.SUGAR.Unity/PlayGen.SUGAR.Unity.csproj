@@ -1,111 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E7B6C8DC-262E-4B9D-85E3-2E6AE0467018}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlayGen.SUGAR.Unity</RootNamespace>
-    <AssemblyName>PlayGen.SUGAR.Unity</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Unity\Assets\SUGAR\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net35\CommandLine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\lib\PlayGen Utilities\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\lib\SUGAR\Client\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.SUGAR.Client">
-      <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.Unity.Utilities.BestFit">
-      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.Unity.Utilities.FormKeyboardControls">
-      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.Unity.Utilities.Loading">
-      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayGen.Unity.Utilities.Localization">
-      <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\lib\Unity\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Account\AccountUnityClient.cs" />
-    <Compile Include="Account\BaseAccountInterface.cs" />
-    <Compile Include="Achievement\BaseAchievementListInterface.cs" />
-    <Compile Include="Achievement\BaseAchievementPopupInterface.cs" />
-    <Compile Include="Achievement\AchievementUnityClient.cs" />
-    <Compile Include="BaseInterface.cs" />
-    <Compile Include="BaseUnityClient.cs" />
-    <Compile Include="CommandLineUtility.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ActorResponseAllowableActions.cs" />
-    <Compile Include="Friend\BaseUserFriendInterface.cs" />
-    <Compile Include="Friend\UserFriendUnityClient.cs" />
-    <Compile Include="GameData\GameDataUnityClient.cs" />
-    <Compile Include="Group\BaseGroupMemberInterface.cs" />
-    <Compile Include="Group\BaseUserGroupInterface.cs" />
-    <Compile Include="Group\GroupMemberUnityClient.cs" />
-    <Compile Include="Group\UserGroupUnityClient.cs" />
-    <Compile Include="Leaderboard\LeaderboardListUnityClient.cs" />
-    <Compile Include="Leaderboard\BaseLeaderboardListInterface.cs" />
-    <Compile Include="Leaderboard\LeaderboardUnityClient.cs" />
-    <Compile Include="Leaderboard\BaseLeaderboardInterface.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource\ResourceUnityClient.cs" />
-    <Compile Include="ResponseHandler.cs" />
-    <Compile Include="SUGARManager.cs" />
-    <Compile Include="SUGARUnityManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net35</TargetFramework>
+		<OutputPath>..\..\Unity\Assets\SUGAR\bin\</OutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="1.9.71" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>..\..\lib\SUGAR\Client\Newtonsoft.Json.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.SUGAR.Client">
+			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.SUGAR.Common">
+			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.SUGAR.Contracts">
+			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Loading">
+			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Localization">
+			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>..\..\lib\Unity\UnityEngine.UI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Update="link.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>

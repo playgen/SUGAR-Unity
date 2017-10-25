@@ -3,9 +3,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-using PlayGen.SUGAR.Common.Shared;
-using PlayGen.SUGAR.Contracts.Shared;
 using System.Linq;
+using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 
 namespace PlayGen.SUGAR.Unity
 {

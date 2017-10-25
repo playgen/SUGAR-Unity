@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224491446423631480}
   - component: {fileID: 222803055804554876}
-  - component: {fileID: 114066451447811422}
+  - component: {fileID: 114457698309810782}
   m_Layer: 5
   m_Name: SUGARUISpinner
   m_TagString: Untagged
@@ -79,7 +79,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114066451447811422
+--- !u!114 &114457698309810782
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1134415642687984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1827919002, guid: d0e5a7bb27289d449babc70013481680, type: 3}
+  m_Script: {fileID: 1827919002, guid: 001707e238409ac4697127623aaf7342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spinSpeed: 900

@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 222000011296475054}
   - component: {fileID: 114000013660795512}
   - component: {fileID: 114000014259607728}
-  - component: {fileID: 114990310936905492}
+  - component: {fileID: 114775479752207988}
   m_Layer: 5
   m_Name: AccountPanel
   m_TagString: Untagged
@@ -1034,6 +1034,19 @@ MonoBehaviour:
   LanguageOverride: 
   Key: USERNAME
   ToUpper: 0
+--- !u!114 &114775479752207988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012764916846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1251820456, guid: b7d62156b03146349a59165fa3f65535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _returnButton: {fileID: 114000010025172124}
+  _escapeButton: {fileID: 114000010799422944}
 --- !u!114 &114796701354686474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1070,19 +1083,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
---- !u!114 &114990310936905492
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012764916846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1251820456, guid: 8e200a361d9866b438289245a5ad398d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _returnButton: {fileID: 114000010025172124}
-  _escapeButton: {fileID: 114000011763907676}
 --- !u!222 &222000010040566640
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1231,7 +1231,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010186727000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224000014007379780}
@@ -1422,7 +1422,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012234590346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224000012535605448}
