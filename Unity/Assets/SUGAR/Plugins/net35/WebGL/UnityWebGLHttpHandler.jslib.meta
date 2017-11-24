@@ -1,39 +1,36 @@
 fileFormatVersion: 2
-guid: 29bb844f7375d85429f9a8aec64d9a9f
-timeCreated: 1511522963
+guid: 21ea0984b201abf49a71444041677137
+timeCreated: 1508927833
 licenseType: Free
 PluginImporter:
+  externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
   isOverridable: 0
   platformData:
-    data:
-      first:
-        Any: 
-      second:
-        enabled: 0
-        settings: {}
-    data:
-      first:
-        Editor: Editor
-      second:
-        enabled: 0
-        settings:
-          DefaultValueInitialized: true
-    data:
-      first:
-        Facebook: WebGL
-      second:
-        enabled: 1
-        settings: {}
-    data:
-      first:
-        WebGL: WebGL
-      second:
-        enabled: 1
-        settings: {}
+  - first:
+      Any: 
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  - first:
+      Facebook: WebGL
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      WebGL: WebGL
+    second:
+      enabled: 1
+      settings: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
