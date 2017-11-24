@@ -61,7 +61,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				EvaluationDataRequest data = new EvaluationDataRequest
+				var data = new EvaluationDataRequest
 				{
 					CreatingActorId = SUGARManager.CurrentUser.Id,
 					GameId = SUGARManager.GameId,

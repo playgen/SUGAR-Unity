@@ -78,13 +78,13 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string gameToken
         {
-            set { _gameToken = value; }
-        }
+            set => _gameToken = value;
+		}
 
         internal int gameId
 		{
-			set { _gameId = value; }
-		}
+			set => _gameId = value;
+        }
 
 		private bool _validCheck;
 
@@ -194,7 +194,7 @@ namespace PlayGen.SUGAR.Unity
             var customKeys = CustomInterfaces.Keys.ToList();
 			foreach (var key in customKeys)
 			{
-				bool inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene();
+				var inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
 					var newInterface = Instantiate(CustomInterfaces[key], canvas.transform, false);
@@ -205,7 +205,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_uiBlocker)
 			{
-				bool blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene();
+				var blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene();
 				if (!blockerInScene)
 				{
 					var newBlocker = Instantiate(_uiBlocker, canvas.transform, false);
@@ -216,7 +216,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_uiSpinner)
 			{
-				bool spinnerInScene = _uiSpinner.gameObject.scene == SceneManager.GetActiveScene();
+				var spinnerInScene = _uiSpinner.gameObject.scene == SceneManager.GetActiveScene();
 				if (!spinnerInScene)
 				{
 					var newSpinner = Instantiate(_uiSpinner, canvas.transform, false);

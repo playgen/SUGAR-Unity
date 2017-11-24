@@ -29,7 +29,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (HasInterface)
 			{
-				bool inScene = _interface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _interface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
 					var newInterface = Instantiate(_interface.gameObject, canvas.transform, false);

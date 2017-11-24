@@ -13,7 +13,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			EditorApplication.update += Update;
 		}
 
-		static void Update()
+		private static void Update()
 		{
 			if (SUGARManager.client != null && SUGARManager.account != null && !_accountSet)
 			{
@@ -55,7 +55,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 		[MenuItem("SUGAR/Set Auto Log-in Values")]
 		public static void SetAutoLogIn()
 		{
-			AutoLogIn window = ScriptableObject.CreateInstance<AutoLogIn>();
+			var window = ScriptableObject.CreateInstance<AutoLogIn>();
 			window.titleContent.text = "Set Auto Log-in Values";
 			window.Show();
 		}
@@ -71,7 +71,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 		private bool _passRequired;
 		private string _customArgs;
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			_passRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
 			_auto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
@@ -82,7 +82,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			_customArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
 		}
 
-		void OnGUI()
+		private void OnGUI()
 		{
 			_username = EditorGUILayout.TextField("Username", _username, EditorStyles.textField);
 			_passRequired = EditorGUILayout.Toggle("Password Required", _passRequired, EditorStyles.toggle);

@@ -12,24 +12,20 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
-		private List<ActorResponseAllowableActions> _groups = new List<ActorResponseAllowableActions>();
-		private List<ActorResponseAllowableActions> _pendingSent = new List<ActorResponseAllowableActions>();
-		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
-
 		/// <summary>
 		/// List of groups that the currently signed in user is a member of.
 		/// </summary>
-		public List<ActorResponseAllowableActions> Groups => _groups;
+		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
 
 		/// <summary>
 		/// List of groups that the currently signed in user has applied to join.
 		/// </summary>
-		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
 
 		/// <summary>
 		/// List of groups that matched the last search string.
 		/// </summary>
-		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
+		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		private string _lastSearch;
 
@@ -114,19 +110,19 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetGroups(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_groups.Clear();
+			Groups.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					Groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get groups list. " + exception.Message;
+					var error = "Failed to get groups list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -142,19 +138,19 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingSent(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_pendingSent.Clear();
+			PendingSent.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get list. " + exception.Message;
+					var error = "Failed to get list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -170,7 +166,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetSearchResults(string searchString, Action<bool> success)
 		{
 			_lastSearch = searchString;
-			_searchResults.Clear();
+			SearchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
 				success(true);
@@ -185,13 +181,13 @@ namespace PlayGen.SUGAR.Unity
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
-						if (_groups.Any(p => p.Actor.Id == r.Id) || _pendingSent.Any(p => p.Actor.Id == r.Id))
+						if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
 						{
-							_searchResults.Add(new ActorResponseAllowableActions(r, false, false));
+							SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
 						}
 						else
 						{
-							_searchResults.Add(new ActorResponseAllowableActions(r, true, false));
+							SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
 						}
 					}
 					SUGARManager.unity.StopSpinner();
@@ -199,7 +195,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to get list. " + exception.Message;
+					var error = "Failed to get list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -229,7 +225,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to create group request. " + exception.Message;
+					var error = "Failed to create group request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -260,7 +256,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update group request. " + exception.Message;
+					var error = "Failed to update group request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -291,7 +287,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update group status. " + exception.Message;
+					var error = "Failed to update group status. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);

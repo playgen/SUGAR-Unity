@@ -13,25 +13,22 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class GroupMemberUnityClient : BaseUnityClient<BaseGroupMemberInterface>
 	{
-		private ActorResponse _currentGroup;
-		private readonly List<ActorResponseAllowableActions> _members = new List<ActorResponseAllowableActions>();
-
 		/// <summary>
 		/// Currently selected/displayed group.
 		/// </summary>
-		public ActorResponse CurrentGroup => _currentGroup;
+		public ActorResponse CurrentGroup { get; private set; }
 
 		/// <summary>
 		/// Member list for the current group.
 		/// </summary>
-		public List<ActorResponseAllowableActions> Members => _members;
+		public List<ActorResponseAllowableActions> Members { get; } = new List<ActorResponseAllowableActions>();
 
 		/// <summary>
 		/// Sets current group and gathers member list for that group. Displays UI object if provided.
 		/// </summary>
 		public void Display(ActorResponse group)
 		{
-			_currentGroup = group;
+			CurrentGroup = group;
 			GetMembers(success =>
 			{
 				if (_interface)
@@ -61,10 +58,10 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetMembers(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_members.Clear();
+			Members.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.GroupMember.GetMembersAsync(_currentGroup.Id,
+				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
 				response =>
 				{
 					SUGARManager.userFriend.RefreshLists(result =>
@@ -75,11 +72,11 @@ namespace PlayGen.SUGAR.Unity
 							{
 								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
 								{
-									_members.Add(new ActorResponseAllowableActions(r, false, false));
+									Members.Add(new ActorResponseAllowableActions(r, false, false));
 								}
 								else
 								{
-									_members.Add(new ActorResponseAllowableActions(r, true, false));
+									Members.Add(new ActorResponseAllowableActions(r, true, false));
 								}
 							}
 						}
@@ -89,7 +86,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to get friends list. " + exception.Message;
+					var error = "Failed to get friends list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);

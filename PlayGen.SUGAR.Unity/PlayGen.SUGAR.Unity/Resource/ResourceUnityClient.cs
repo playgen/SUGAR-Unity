@@ -25,24 +25,20 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private bool _checkGlobalUserResources;
 
-		private readonly Dictionary<string, long> _userGameResources = new Dictionary<string, long>();
-		private readonly Dictionary<string, long> _globalGameResources = new Dictionary<string, long>();
-		private readonly Dictionary<string, long> _globalUserResources = new Dictionary<string, long>();
-
 		/// <summary>
 		/// Resources for the currently signed in user for this game.
 		/// </summary>
-		public Dictionary<string, long> UserGameResources => _userGameResources;
+		public Dictionary<string, long> UserGameResources { get; } = new Dictionary<string, long>();
 
 		/// <summary>
 		/// Resources for the game not tied to any user.
 		/// </summary>
-		public Dictionary<string, long> GlobalGameResources => _globalGameResources;
+		public Dictionary<string, long> GlobalGameResources { get; } = new Dictionary<string, long>();
 
 		/// <summary>
 		/// Resources for the user not tied to any game.
 		/// </summary>
-		public Dictionary<string, long> GlobalUserResources => _globalUserResources;
+		public Dictionary<string, long> GlobalUserResources { get; } = new Dictionary<string, long>();
 
 		internal void StartCheck()
 		{
@@ -55,13 +51,13 @@ namespace PlayGen.SUGAR.Unity
 			{
 				foreach (var r in result)
 				{
-					if (_userGameResources.ContainsKey(r.Key))
+					if (UserGameResources.ContainsKey(r.Key))
 					{
-						_userGameResources[r.Key] = r.Quantity;
+						UserGameResources[r.Key] = r.Quantity;
 					}
 					else
 					{
-						_userGameResources.Add(r.Key, r.Quantity);
+						UserGameResources.Add(r.Key, r.Quantity);
 					}
 				}
 			});
@@ -71,13 +67,13 @@ namespace PlayGen.SUGAR.Unity
 				{
 					foreach (var r in result)
 					{
-						if (_globalGameResources.ContainsKey(r.Key))
+						if (GlobalGameResources.ContainsKey(r.Key))
 						{
-							_globalGameResources[r.Key] = r.Quantity;
+							GlobalGameResources[r.Key] = r.Quantity;
 						}
 						else
 						{
-							_globalGameResources.Add(r.Key, r.Quantity);
+							GlobalGameResources.Add(r.Key, r.Quantity);
 						}
 					}
 				}, null, false, null);
@@ -88,13 +84,13 @@ namespace PlayGen.SUGAR.Unity
 				{
 					foreach (var r in result)
 					{
-						if (_globalUserResources.ContainsKey(r.Key))
+						if (GlobalUserResources.ContainsKey(r.Key))
 						{
-							_globalUserResources[r.Key] = r.Quantity;
+							GlobalUserResources[r.Key] = r.Quantity;
 						}
 						else
 						{
-							_globalUserResources.Add(r.Key, r.Quantity);
+							GlobalUserResources.Add(r.Key, r.Quantity);
 						}
 					}
 				}, null, true);
@@ -125,7 +121,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to gather resources. " + exception.Message;
+					var error = "Failed to gather resources. " + exception.Message;
 					Debug.LogError(error);
 					result(new List<ResourceResponse>());
 				});
@@ -140,7 +136,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				ResourceTransferRequest request = new ResourceTransferRequest
+				var request = new ResourceTransferRequest
 				{
 					SenderActorId = SUGARManager.CurrentUser.Id,
 					RecipientActorId = recipientId,
@@ -156,7 +152,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to transfer resources. " + exception.Message;
+					var error = "Failed to transfer resources. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});
@@ -171,7 +167,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				ResourceChangeRequest request = new ResourceChangeRequest {
+				var request = new ResourceChangeRequest {
 					ActorId = SUGARManager.CurrentUser.Id,
 					GameId = globalResource ? 0 : SUGARManager.GameId,
 					Key = key,
@@ -185,7 +181,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to add resources. " + exception.Message;
+					var error = "Failed to add resources. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});
@@ -201,7 +197,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				ResourceChangeRequest request = new ResourceChangeRequest {
+				var request = new ResourceChangeRequest {
 					ActorId = SUGARManager.CurrentUser.Id,
 					GameId = globalResource ? 0 : SUGARManager.GameId,
 					Key = key,
@@ -215,7 +211,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to set resources. " + exception.Message;
+					var error = "Failed to set resources. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});

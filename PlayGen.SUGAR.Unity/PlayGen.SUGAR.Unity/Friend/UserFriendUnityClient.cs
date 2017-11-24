@@ -12,27 +12,25 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class UserFriendUnityClient : BaseUnityClient<BaseUserFriendInterface>
 	{
-		private List<ActorResponseAllowableActions> _friends = new List<ActorResponseAllowableActions>();
-		private List<ActorResponseAllowableActions> _pendingSent = new List<ActorResponseAllowableActions>();
-		private List<ActorResponseAllowableActions> _pendingReceived = new List<ActorResponseAllowableActions>();
-		private readonly List<ActorResponseAllowableActions> _searchResults = new List<ActorResponseAllowableActions>();
-
 		/// <summary>
 		/// Friends list for currently signed in user.
 		/// </summary>
-		public List<ActorResponseAllowableActions> Friends => _friends;
+		public List<ActorResponseAllowableActions> Friends { get; private set; } = new List<ActorResponseAllowableActions>();
+
 		/// <summary>
 		/// Pending sent friend requests for currently signed in user.
 		/// </summary>
-		public List<ActorResponseAllowableActions> PendingSent => _pendingSent;
+		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
+
 		/// <summary>
 		/// Pending received friend requests for currently signed in user.
 		/// </summary>
-		public List<ActorResponseAllowableActions> PendingReceived => _pendingReceived;
+		public List<ActorResponseAllowableActions> PendingReceived { get; private set; } = new List<ActorResponseAllowableActions>();
+
 		/// <summary>
 		/// Last set of search results.
 		/// </summary>
-		public List<ActorResponseAllowableActions> SearchResults => _searchResults;
+		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		private string _lastSearch;
 
@@ -124,19 +122,19 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetFriends(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_friends.Clear();
+			Friends.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetFriendsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					Friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get friends list. " + exception.Message;
+					var error = "Failed to get friends list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -152,19 +150,19 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingSent(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_pendingSent.Clear();
+			PendingSent.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get list. " + exception.Message;
+					var error = "Failed to get list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -180,19 +178,19 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingReceived(Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			_pendingReceived.Clear();
+			PendingReceived.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.UserFriend.GetFriendRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_pendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
+					PendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
 					SUGARManager.unity.StopSpinner();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get list. " + exception.Message;
+					var error = "Failed to get list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -208,7 +206,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetSearchResults(string searchString, Action<bool> success)
 		{
 			_lastSearch = searchString;
-			_searchResults.Clear();
+			SearchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
 				success(true);
@@ -225,13 +223,13 @@ namespace PlayGen.SUGAR.Unity
 					{
 						if (r.Id != SUGARManager.CurrentUser.Id)
 						{
-							if (_friends.Any(p => p.Actor.Id == r.Id) || _pendingReceived.Any(p => p.Actor.Id == r.Id) || _pendingSent.Any(p => p.Actor.Id == r.Id))
+							if (Friends.Any(p => p.Actor.Id == r.Id) || PendingReceived.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
 							{
-								_searchResults.Add(new ActorResponseAllowableActions(r, false, false));
+								SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
 							}
 							else
 							{
-								_searchResults.Add(new ActorResponseAllowableActions(r, true, false));
+								SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
 							}
 						}
 					}
@@ -240,7 +238,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to get list. " + exception.Message;
+					var error = "Failed to get list. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -270,7 +268,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to create friend request. " + exception.Message;
+					var error = "Failed to create friend request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -306,7 +304,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update friend request. " + exception.Message;
+					var error = "Failed to update friend request. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);
@@ -337,7 +335,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					string error = "Failed to update friend status. " + exception.Message;
+					var error = "Failed to update friend status. " + exception.Message;
 					Debug.LogError(error);
 					SUGARManager.unity.StopSpinner();
 					success(false);

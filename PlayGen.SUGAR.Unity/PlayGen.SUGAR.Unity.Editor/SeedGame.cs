@@ -18,14 +18,14 @@ namespace PlayGen.SUGAR.Unity.Editor
         [MenuItem("SUGAR/Seed Game")]
         public static void SeedAchivements()
         {
-            AdminLogIn window = ScriptableObject.CreateInstance<AdminLogIn>();
+            var window = ScriptableObject.CreateInstance<AdminLogIn>();
             window.titleContent.text = "Seed Game";
             window.Show();
         }
 
         public static void LogInUser(string username, string password, TextAsset textAsset)
         {
-            var gameSeed = new GameSeed();
+            GameSeed gameSeed;
             try
             {
                 gameSeed = JsonConvert.DeserializeObject<GameSeed>(textAsset.text);
@@ -86,8 +86,8 @@ namespace PlayGen.SUGAR.Unity.Editor
                     EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding " + gameSeed.game, 0);
                     try
                     {
-                        var gameResponse = SUGARManager.client.Game.Create(new GameRequest()
-                        {
+                        var gameResponse = SUGARManager.client.Game.Create(new GameRequest
+																				{
                             Name = gameSeed.game
                         });
                         if (gameResponse != null)
@@ -140,8 +140,8 @@ namespace PlayGen.SUGAR.Unity.Editor
                     criteria.EvaluationDataCategory = EvaluationDataCategory.GameData;
 				}
 				try
-                {
-                    EvaluationResponse response = achievementClient.Create(achieve);
+				{
+					achievementClient.Create(achieve);
 				}
                 catch (Exception e)
                 {
@@ -173,8 +173,8 @@ namespace PlayGen.SUGAR.Unity.Editor
         {
             try
             {
-                return SUGARManager.client.Session.Login(new AccountRequest()
-                {
+                return SUGARManager.client.Session.Login(new AccountRequest
+															{
                     Name = username,
                     Password = password,
                     SourceToken = "SUGAR"
@@ -194,7 +194,7 @@ namespace PlayGen.SUGAR.Unity.Editor
         private string _password;
         private TextAsset _textAsset;
 
-        void OnGUI()
+	    private void OnGUI()
         {
             _username = EditorGUILayout.TextField("Username", _username, EditorStyles.textField);
             _password = EditorGUILayout.PasswordField("Password", _password);

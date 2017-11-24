@@ -23,9 +23,6 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private LeaderboardFilterType _currentFilter = LeaderboardFilterType.Top;
 
-		private LeaderboardResponse _currentLeaderboard;
-		private List<LeaderboardStandingsResponse> _currentStandings = new List<LeaderboardStandingsResponse>();
-
 		/// <summary>
 		/// Current filter to use for gathering leaderboard standings.
 		/// </summary>
@@ -34,12 +31,12 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Current leaderboard to use for gathering leaderboard standings from.
 		/// </summary>
-		public LeaderboardResponse CurrentLeaderboard => _currentLeaderboard;
+		public LeaderboardResponse CurrentLeaderboard { get; private set; }
 
 		/// <summary>
 		/// Last set of standings gathered.
 		/// </summary>
-		public List<LeaderboardStandingsResponse> CurrentStandings => _currentStandings;
+		public List<LeaderboardStandingsResponse> CurrentStandings { get; private set; } = new List<LeaderboardStandingsResponse>();
 
 		/// <summary>
 		/// Number of results that should be gathered per call.
@@ -76,18 +73,18 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetLeaderboard(string token, Action<bool> success)
 		{
-			_currentLeaderboard = null;
+			CurrentLeaderboard = null;
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
 				response =>
 				{
-					_currentLeaderboard = response;
+					CurrentLeaderboard = response;
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get leaderboard. " + exception.Message;
+					var error = "Failed to get leaderboard. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});
@@ -106,13 +103,13 @@ namespace PlayGen.SUGAR.Unity
             SUGARManager.unity.StartSpinner();
             if (result == null)
 			{
-				_currentStandings.Clear();
+				CurrentStandings.Clear();
 			}
-			if (SUGARManager.CurrentUser != null && _currentLeaderboard != null)
+			if (SUGARManager.CurrentUser != null && CurrentLeaderboard != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{
-					LeaderboardToken = _currentLeaderboard.Token,
+					LeaderboardToken = CurrentLeaderboard.Token,
 					GameId = SUGARManager.GameId,
 					ActorId = SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = _currentFilter,
@@ -127,7 +124,7 @@ namespace PlayGen.SUGAR.Unity
 					var leaderboardStandingsResponses = response.ToList();
 					foreach (var r in leaderboardStandingsResponses)
                     {
-                        if (_currentLeaderboard.LeaderboardType == LeaderboardType.Earliest || _currentLeaderboard.LeaderboardType == LeaderboardType.Latest)
+                        if (CurrentLeaderboard.LeaderboardType == LeaderboardType.Earliest || CurrentLeaderboard.LeaderboardType == LeaderboardType.Latest)
                         {
                             r.Value = DateTime.Parse(r.Value).ToString(Localization.SelectedLanguage);
                         }
@@ -135,7 +132,7 @@ namespace PlayGen.SUGAR.Unity
                     response = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
                     if (result == null)
 					{
-						_currentStandings = response.ToList();
+						CurrentStandings = response.ToList();
                         success(true);
                     }
                     else
@@ -146,7 +143,7 @@ namespace PlayGen.SUGAR.Unity
 				exception =>
 				{
                     SUGARManager.unity.StopSpinner();
-                    string error = "Failed to get leaderboard standings. " + exception.Message;
+                    var error = "Failed to get leaderboard standings. " + exception.Message;
 					Debug.LogError(error);
                     if (result == null)
                     {

@@ -15,8 +15,6 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : BaseUnityClient<BaseLeaderboardListInterface>
 	{
-		private readonly Dictionary<ActorType, List<LeaderboardResponse>> _leaderboards = new Dictionary<ActorType, List<LeaderboardResponse>>();
-
 		[Tooltip("Currently used ActorType filter.")]
 		[SerializeField]
 		private ActorType _currentActorType = ActorType.User;
@@ -24,7 +22,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// List of leaderboards for this application for each ActorType filter.
 		/// </summary>
-		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards => _leaderboards;
+		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards { get; } = new Dictionary<ActorType, List<LeaderboardResponse>>();
 
 		/// <summary>
 		/// Currently used ActorType filter.
@@ -58,7 +56,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetLeaderboards(Action<bool> success)
 		{
-			_leaderboards.Clear();
+			Leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
@@ -68,17 +66,17 @@ namespace PlayGen.SUGAR.Unity
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						var at = actorType;
-						_leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
+						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
 					}
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get leaderboard list. " + exception.Message;
+					var error = "Failed to get leaderboard list. " + exception.Message;
 					Debug.LogError(error);
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
-						_leaderboards.Add(actorType, new List<LeaderboardResponse>());
+						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 					}
 					success(false);
 				});
@@ -87,7 +85,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 				{
-					_leaderboards.Add(actorType, new List<LeaderboardResponse>());
+					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 				}
 				success(false);
 			}

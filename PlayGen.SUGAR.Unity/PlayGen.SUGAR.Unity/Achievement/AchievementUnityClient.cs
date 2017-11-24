@@ -23,12 +23,10 @@ namespace PlayGen.SUGAR.Unity
 		[Tooltip("How often (in seconds) checks are made for if any achievements have been completed.")]
 		private float _notificationCheckRate = 2.5f;
 
-		private List<EvaluationProgressResponse> _progress = new List<EvaluationProgressResponse>();
-
 		/// <summary>
 		/// Current completion status for achievements in this application for this user.
 		/// </summary>
-		public List<EvaluationProgressResponse> Progress => _progress;
+		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();
 
 		internal override void CreateInterface(Canvas canvas)
 		{
@@ -39,7 +37,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_achievementPopup)
 			{
-				bool inScenePopUp = _achievementPopup.gameObject.scene == SceneManager.GetActiveScene();
+				var inScenePopUp = _achievementPopup.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScenePopUp)
 				{
 					var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false);
@@ -69,18 +67,18 @@ namespace PlayGen.SUGAR.Unity
 
 		private void GetAchievements(Action<bool> success)
 		{
-			_progress.Clear();
+			Progress.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
 				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					_progress = response.ToList();
+					Progress = response.ToList();
 					success(true);
 				},
 				exception =>
 				{
-					string error = "Failed to get achievements list. " + exception.Message;
+					var error = "Failed to get achievements list. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});

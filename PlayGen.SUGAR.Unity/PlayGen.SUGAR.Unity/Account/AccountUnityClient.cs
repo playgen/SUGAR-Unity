@@ -65,7 +65,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (HasInterface)
 			{
-				bool inScene = _accountInterface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _accountInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
 					var newInterface = Instantiate(_accountInterface.gameObject, canvas.transform, false);
@@ -108,7 +108,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private IEnumerator CheckConfigLoad()
 		{
-			WaitForFixedUpdate wait = new WaitForFixedUpdate();
+			var wait = new WaitForFixedUpdate();
 			while (SUGARManager.client == null || (Application.isEditor && options == null))
 			{
 				yield return wait;
@@ -204,7 +204,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				Name = user,
 				Password = pass,
-				SourceToken = source,
+				SourceToken = source
 			};
 		}
 	}
