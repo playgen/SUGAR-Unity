@@ -138,11 +138,11 @@ namespace PlayGen.SUGAR.Unity.Editor
                 foreach (var criteria in achieve.EvaluationCriterias)
                 {
                     criteria.EvaluationDataCategory = EvaluationDataCategory.GameData;
-                }
-                try
+				}
+				try
                 {
-                    achievementClient.Create(achieve);
-                }
+                    EvaluationResponse response = achievementClient.Create(achieve);
+				}
                 catch (Exception e)
                 {
                     Debug.LogError("Unable to create achievement " + achieve.Name + ". " + e.Message);

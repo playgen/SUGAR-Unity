@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a6245aef940ea72408fa87c12ff88a6e
-timeCreated: 1508927826
+guid: f4f2b619dcb98104e88f50832f172ab9
+timeCreated: 1510138107
 licenseType: Free
 PluginImporter:
   serializedVersion: 2
@@ -25,7 +25,7 @@ PluginImporter:
           Exclude OSXUniversal: 1
           Exclude SamsungTV: 1
           Exclude Tizen: 1
-          Exclude WebGL: 0
+          Exclude WebGL: 1
           Exclude Win: 1
           Exclude Win64: 1
           Exclude WindowsStoreApps: 1
@@ -136,12 +136,6 @@ PluginImporter:
         enabled: 0
         settings:
           CPU: AnyCPU
-    data:
-      first:
-        WebGL: WebGL
-      second:
-        enabled: 1
-        settings: {}
     data:
       first:
         Windows Store Apps: WindowsStoreApps

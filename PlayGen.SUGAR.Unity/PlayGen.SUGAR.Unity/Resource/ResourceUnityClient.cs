@@ -162,5 +162,64 @@ namespace PlayGen.SUGAR.Unity
 				});
 			}
 		}
+
+		/// <summary>
+		/// Add the resource with the key provided from the currently signed in user.
+		/// If globalResource is true, resource transferred will be global rather than for the game.
+		/// </summary>
+		public void Add(string key, long amount, Action<bool> success, bool globalResource = false)
+		{
+			if (SUGARManager.CurrentUser != null)
+			{
+				ResourceChangeRequest request = new ResourceChangeRequest {
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = globalResource ? 0 : SUGARManager.GameId,
+					Key = key,
+					Quantity = amount
+				};
+				SUGARManager.client.Resource.AddAsync(request,
+				response =>
+				{
+					UpdateResources();
+					success(true);
+				},
+				exception =>
+				{
+					string error = "Failed to add resources. " + exception.Message;
+					Debug.LogError(error);
+					success(false);
+				});
+			}
+		}
+
+
+		/// <summary>
+		/// Set the resource with the key provided from the currently signed in user.
+		/// If globalResource is true, resource transferred will be global rather than for the game.
+		/// </summary>
+		public void Set(string key, long amount, Action<bool> success, bool globalResource = false)
+		{
+			if (SUGARManager.CurrentUser != null)
+			{
+				ResourceChangeRequest request = new ResourceChangeRequest {
+					ActorId = SUGARManager.CurrentUser.Id,
+					GameId = globalResource ? 0 : SUGARManager.GameId,
+					Key = key,
+					Quantity = amount
+				};
+				SUGARManager.client.Resource.SetAsync(request,
+				response =>
+				{
+					UpdateResources();
+					success(true);
+				},
+				exception =>
+				{
+					string error = "Failed to set resources. " + exception.Message;
+					Debug.LogError(error);
+					success(false);
+				});
+			}
+		}
 	}
 }
