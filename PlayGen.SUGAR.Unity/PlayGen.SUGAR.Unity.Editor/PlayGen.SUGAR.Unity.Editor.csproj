@@ -1,12 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net35</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\..\Unity\Assets\SUGAR\bin\</OutputPath>
+		<OutputPath>..\..\Unity\Assets\SUGAR\Plugins\net35\Editor\</OutputPath>
+		<DefineConstants>TRACE;DEBUG</DefineConstants>
 	</PropertyGroup>
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj">
@@ -30,6 +35,15 @@
 		<Reference Include="PlayGen.SUGAR.Contracts">
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
 			<Private>false</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Editor.FontReplace">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.FontReplace.dll</HintPath>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Editor.Shortcuts">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Shortcuts.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEditor">
 			<HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>

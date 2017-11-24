@@ -1,12 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net35</TargetFramework>
-		<OutputPath>..\..\Unity\Assets\SUGAR\bin\</OutputPath>
+		<OutputPath>..\..\Unity\Assets\SUGAR\Plugins\net35\</OutputPath>
+		<ApplicationIcon />
+		<Win32Resource />
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>TRACE;DEBUG</DefineConstants>
+	</PropertyGroup>
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="CommandLineParser" Version="1.9.71" />
+	  <PackageReference Include="CommandLineParser" Version="1.9.71" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,6 +36,14 @@
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
 			<Private>true</Private>
 		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.BestFit">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
+		  <Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.FormKeyboardControls">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
+		  <Private>true</Private>
+		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Loading">
 			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
 			<Private>true</Private>
@@ -33,6 +51,14 @@
 		<Reference Include="PlayGen.Unity.Utilities.Localization">
 			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
 			<Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Platforms">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
+		  <Private>true</Private>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.UI">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.UI.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="System.ComponentModel.DataAnnotations">
 		  <HintPath>..\..\lib\SUGAR\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
@@ -43,8 +69,8 @@
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UI">
-			<HintPath>..\..\lib\Unity\UnityEngine.UI.dll</HintPath>
-			<Private>false</Private>
+		  <HintPath>..\..\lib\Unity\UnityEngine.UI.dll</HintPath>
+		  <Private>false</Private>
 		</Reference>
 	</ItemGroup>
 
