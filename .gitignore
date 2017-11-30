@@ -8,9 +8,9 @@ PlayGen.SUGAR.Unity/**/obj/
 [Tt]emp/
 Unity/Unity.csproj
 Unity/Unity.Editor.csproj
-Unity/**/bin/**/*.dll
-Unity/**/bin/**/*.pdb
-Unity/**/bin/**/*.pdb.meta
+Unity/**/net35/**/*.dll
+Unity/**/net35/**/*.pdb
+Unity/**/net35/**/*.pdb.meta
 
 # Output
 [Bb]uild/
