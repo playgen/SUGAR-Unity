@@ -28,8 +28,8 @@
       },
       {
         "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
+          "**/*.md",
+          "**/*.yml",
           "toc.yml",
           "*.md"
         ],
@@ -65,8 +65,13 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "default",
+      "template"
     ],
+    "globalMetadata": {
+			"_appTitle": "SUGAR-Unity",
+			"_enableSearch": true
+		},
     "postProcessors": [],
     "noLangKeyword": false,
     "keepFileLink": false,
