@@ -26,7 +26,7 @@ namespace PlayGen.SUGAR.Unity
 	/// Class for managing Unity elements of the asset
 	/// </summary>
 	[RequireComponent(typeof(AccountUnityClient))]
-	[RequireComponent(typeof(AchievementUnityClient))]
+	[RequireComponent(typeof(EvaluationUnityClient))]
 	[RequireComponent(typeof(UserFriendUnityClient))]
 	[RequireComponent(typeof(UserGroupUnityClient))]
 	[RequireComponent(typeof(GroupMemberUnityClient))]
@@ -92,7 +92,7 @@ namespace PlayGen.SUGAR.Unity
 		/// Is any piece of SUGAR UI currently active?
 		/// </summary>
 		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
-									(SUGARManager.achievement && SUGARManager.achievement.IsActive) ||
+									(SUGARManager.evaluation && SUGARManager.evaluation.IsActive) ||
 									(SUGARManager.userFriend && SUGARManager.userFriend.IsActive) ||
 									(SUGARManager.userGroup && SUGARManager.userGroup.IsActive) ||
 									(SUGARManager.groupMember && SUGARManager.groupMember.IsActive) ||
@@ -134,7 +134,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.unity = this;
 			SUGARManager.GameId = _gameId;
 			SUGARManager.account = GetComponent<AccountUnityClient>();
-			SUGARManager.achievement = GetComponent<AchievementUnityClient>();
+			SUGARManager.evaluation = GetComponent<EvaluationUnityClient>();
 			SUGARManager.userFriend = GetComponent<UserFriendUnityClient>();
 			SUGARManager.userGroup = GetComponent<UserGroupUnityClient>();
 			SUGARManager.groupMember = GetComponent<GroupMemberUnityClient>();
@@ -187,7 +187,7 @@ namespace PlayGen.SUGAR.Unity
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
             GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
             GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
-            GetComponent<AchievementUnityClient>().CreateInterface(canvas);
+            GetComponent<EvaluationUnityClient>().CreateInterface(canvas);
             GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
             GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
             GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
@@ -259,7 +259,7 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.client = null;
 			SUGARManager.GameId = 0;
 			SUGARManager.account = null;
-			SUGARManager.achievement = null;
+			SUGARManager.evaluation = null;
 			SUGARManager.leaderboard = null;
 			SUGARManager.gameLeaderboard = null;
 			SUGARManager.userFriend = null;

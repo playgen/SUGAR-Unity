@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012920798932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 106238491, guid: a68d5202d3713b54d9346a2ffece787b, type: 3}
+  m_Script: {fileID: -454488637, guid: a68d5202d3713b54d9346a2ffece787b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interface: {fileID: 114000011335328718, guid: da1b3e420bd0de7438fc02f71340f4d4,
@@ -230,7 +230,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourceCheckRate: 2.5
-  _checkGlobalGameResources: 0
   _checkGlobalUserResources: 0
 --- !u!114 &114796202535955300
 MonoBehaviour:
@@ -292,7 +291,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011383437524}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 102, y: 474, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.63474405, y: 0.63474405, z: 0.63474405}
   m_Children: []
   m_Father: {fileID: 4000010393178106}

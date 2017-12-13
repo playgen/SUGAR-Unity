@@ -2,10 +2,10 @@
 	<assembly fullname="PlayGen.SUGAR.Contracts">
 		<type fullname="PlayGen.SUGAR.Contracts.AccountResponse" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Contracts.ActorResponse" preserve="all"/>
-		<type fullname="PlayGen.SUGAR.Contracts.AchievementCriteria" preserve="all"/>
-		<type fullname="PlayGen.SUGAR.Contracts.AchievementProgressResponse" preserve="all"/>
-		<type fullname="PlayGen.SUGAR.Contracts.AchievementRequest" preserve="all"/>
-		<type fullname="PlayGen.SUGAR.Contracts.AchievementResponse" preserve="all"/>
+		<type fullname="PlayGen.SUGAR.Contracts.EvaluationCriteria" preserve="all"/>
+		<type fullname="PlayGen.SUGAR.Contracts.EvaluationProgressResponse" preserve="all"/>
+		<type fullname="PlayGen.SUGAR.Contracts.EvaluationRequest" preserve="all"/>
+		<type fullname="PlayGen.SUGAR.Contracts.EvaluationResponse" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Contracts.ActorRequest" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Contracts.ActorResponse" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Contracts.ActorType" preserve="all"/>

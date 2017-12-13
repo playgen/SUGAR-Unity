@@ -28,6 +28,9 @@
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="PlayGen.SUGAR.Client.Development">
+		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.Development.dll</HintPath>
+		</Reference>
 		<Reference Include="PlayGen.SUGAR.Common">
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
 			<Private>false</Private>

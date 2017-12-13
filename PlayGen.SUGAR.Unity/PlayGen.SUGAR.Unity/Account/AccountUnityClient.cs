@@ -103,8 +103,26 @@ namespace PlayGen.SUGAR.Unity
 			if (IsActive)
 			{
 				SUGARManager.unity.DisableObject(_accountInterface.gameObject);
-            }
-        }
+			}
+		}
+
+		public void Logout(Action<bool> success)
+		{
+			if (SUGARManager.CurrentUser != null)
+			{
+				SUGARManager.client.Session.LogoutAsync(
+				() =>
+				{
+					SUGARManager.CurrentUser = null;
+					success(true);
+				},
+				exception =>
+				{
+					Debug.LogError(exception.Message);
+					success(false);
+				});
+			}
+		}
 
 		private IEnumerator CheckConfigLoad()
 		{
@@ -162,7 +180,7 @@ namespace PlayGen.SUGAR.Unity
 					_signInCallback(true);
 				}
 				Hide();
-            },
+			},
 			exception =>
 			{
 				Debug.LogError(exception);
@@ -171,22 +189,24 @@ namespace PlayGen.SUGAR.Unity
 					_accountInterface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
 				}
 				_signInCallback(false);
-                SUGARManager.unity.StopSpinner();
-            });
+				SUGARManager.unity.StopSpinner();
+			});
 		}
 
 		internal void RegisterUser(string user, string pass)
 		{
 			SUGARManager.unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken);
-			SUGARManager.client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
+			SUGARManager.client.Session.CreateAndLoginAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
-				if (HasInterface)
-				{
-					LoginUser(response.User.Name, pass);
-				}
 				SUGARManager.unity.StopSpinner();
+				if (SUGARManager.unity.GameValidityCheck())
+				{
+					SUGARManager.CurrentUser = response.User;
+					_signInCallback(true);
+				}
+				Hide();
 			},
 			exception =>
 			{

@@ -13,12 +13,12 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Hides Account, GameLeaderboard, Leaderboard, Achievement, GroupMember and UserGroup UI objects.
+		/// Hides Account, GameLeaderboard, Leaderboard, Evaluation, GroupMember and UserGroup UI objects.
 		/// </summary>
 		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
-			SUGARManager.Achievement.Hide();
+			SUGARManager.Evaluation.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
 			SUGARManager.GroupMember.Hide();

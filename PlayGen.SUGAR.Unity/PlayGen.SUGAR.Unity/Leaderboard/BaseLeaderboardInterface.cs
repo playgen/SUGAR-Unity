@@ -68,12 +68,12 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Hides Account, Achievement, UserFriend, GroupMember and UserGroup UI objects. Makes filter buttons interactable.
+		/// Hides Account, Evaluation, UserFriend, GroupMember and UserGroup UI objects. Makes filter buttons interactable.
 		/// </summary>
 		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
-			SUGARManager.Achievement.Hide();
+			SUGARManager.Evaluation.Hide();
 			SUGARManager.UserFriend.Hide();
 			SUGARManager.GroupMember.Hide();
 			SUGARManager.UserGroup.Hide();
