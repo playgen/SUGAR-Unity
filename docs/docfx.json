@@ -34,6 +34,8 @@
         "files": [
           "tutorials/**.md",
           "tutorials/**/toc.yml",
+          "development/**.md",
+          "development/**/toc.yml",
           "toc.yml",
           "*.md",
           "pdf/*"
