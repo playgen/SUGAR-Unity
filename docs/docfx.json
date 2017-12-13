@@ -9,7 +9,8 @@
           "exclude": [
             "**/obj/**",
             "**/bin/**",
-            "_site/**"
+            "_site/**",
+            "_pdf/**"
           ],
           "src": "../"
         }
@@ -18,6 +19,63 @@
       "disableGitFeatures": false
     }
   ],
+  "pdf": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml"
+        ],
+        "exclude": [
+          "**/toc.yml",
+          "**/toc.md"
+        ]
+      },
+      {
+        "files": [
+          "tutorials/**.md",
+          "tutorials/**/toc.yml",
+          "toc.yml",
+          "*.md",
+          "pdf/*"
+        ],
+        "exclude": [
+          "**/bin/**",
+          "**/obj/**",
+          "_pdf/**",
+          "**/toc.yml",
+          "**/toc.md"
+        ]
+      },
+      {
+        "files": "pdf/toc.yml"
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ],
+        "exclude": [
+          "**/bin/**",
+          "**/obj/**",
+          "_pdf/**"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "apidoc/**.md"
+        ],
+        "exclude": [
+          "**/bin/**",
+          "**/obj/**",
+          "_pdf/**"
+        ]
+      }
+    ],
+    "dest": "_pdf"
+  },
   "build": {
     "content": [
       {
@@ -35,7 +93,9 @@
         ],
         "exclude": [
           "obj/**",
-          "_site/**"
+          "_site/**",
+          "_pdf/**",
+          "pdf/**"
         ]
       }
     ],
@@ -46,7 +106,9 @@
         ],
         "exclude": [
           "obj/**",
-          "_site/**"
+          "_site/**",
+          "_pdf/**",
+          "pdf/**"
         ]
       }
     ],
@@ -57,7 +119,8 @@
         ],
         "exclude": [
           "obj/**",
-          "_site/**"
+          "_site/**",
+          "_pdf/**",
         ]
       }
     ],
