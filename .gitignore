@@ -12,5 +12,8 @@ Unity/**/net35/**/*.dll
 Unity/**/net35/**/*.pdb
 Unity/**/net35/**/*.pdb.meta
 
+# Auto Generated
+Unity/Assets/SUGAR/Documentation.pdf
+
 # Output
 [Bb]uild/
