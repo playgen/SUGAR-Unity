@@ -3,5 +3,5 @@
   homepage: index.md
 - name: Tutorials
   href: tutorials/  
-- name: Api
+- name: API
   href: api/
