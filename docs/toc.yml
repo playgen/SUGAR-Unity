@@ -1,9 +1,8 @@
-- name: Unity Client
-  href: index.md
-  homepage: index.md
 - name: Tutorials
   href: tutorials/  
+  topicHref: tutorials/index.md
 - name: Api
   href: api/
 - name: Development
   href: development/
+  topicHref: development/index.md

@@ -1,6 +1,11 @@
+- name: SUGAR Unity Client
+  href: ../index.md
 - name: Tutorials
   href: ../tutorials/toc.yml
+  topicHref: ../tutorials/index.md
 - name: Development
   href: ../development/toc.yml
+  topicHref: ../development/index.md
 - name: Api
   href: ../api/toc.yml
+  topicHref: ../api/index.md

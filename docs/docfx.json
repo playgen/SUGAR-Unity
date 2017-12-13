@@ -36,6 +36,7 @@
           "tutorials/**/toc.yml",
           "development/**.md",
           "development/**/toc.yml",
+          "api/**.md",
           "toc.yml",
           "*.md",
           "pdf/*"
