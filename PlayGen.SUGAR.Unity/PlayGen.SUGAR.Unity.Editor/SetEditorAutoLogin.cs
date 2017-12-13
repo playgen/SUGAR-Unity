@@ -52,7 +52,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 		}
 
-		[MenuItem("SUGAR/Set Auto Log-in Values")]
+		[MenuItem("Tools/SUGAR/Set Auto Log-in Values")]
 		public static void SetAutoLogIn()
 		{
 			var window = ScriptableObject.CreateInstance<AutoLogIn>();
