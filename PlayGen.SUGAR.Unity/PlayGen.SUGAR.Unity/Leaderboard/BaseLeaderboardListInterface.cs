@@ -74,7 +74,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_groupButton)
 			{
-				_groupButton.interactable = true;
+				_groupButton.interactable = SUGARManager.CurrentGroup != null;
 			}
 			if (_combinedButton)
 			{

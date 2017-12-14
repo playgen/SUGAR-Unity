@@ -129,7 +129,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					LeaderboardToken = CurrentLeaderboard.Token,
 					GameId = SUGARManager.GameId,
-					ActorId = SUGARManager.CurrentUser.Id,
+					ActorId = CurrentLeaderboard.ActorType == ActorType.Group ? SUGARManager.CurrentGroup.Id : SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
 					PageOffset = pageNumber

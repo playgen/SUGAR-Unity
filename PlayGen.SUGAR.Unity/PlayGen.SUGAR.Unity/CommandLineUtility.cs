@@ -37,8 +37,8 @@ namespace PlayGen.SUGAR.Unity
 		[Option('s', "source", Required = true, HelpText = "Specify an authentication source.")]
 		public string AuthenticationSource { get; set; }
 
-		[Option('g', "group", Required = false, HelpText = "Specify the id of the group.")]
-		public string GroupId { get; set; }
+		[Option('g', "class", Required = false, HelpText = "Specify the id of the class.")]
+		public string ClassId { get; set; }
 
 		[Option('u', "uid", Required = true, HelpText = "Specify the id of the user.")]
 		public string UserId { get; set; }

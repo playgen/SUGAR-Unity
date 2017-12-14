@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -114,6 +116,7 @@ namespace PlayGen.SUGAR.Unity
 				() =>
 				{
 					SUGARManager.CurrentUser = null;
+					SUGARManager.CurrentGroup = null;
 					success(true);
 				},
 				exception =>
@@ -159,7 +162,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 			}
 			_allowAutoLogin = false;
-			if (options != null) SUGARManager.GroupId = options.GroupId;
+			if (options != null) SUGARManager.ClassId = options.ClassId;
 		}
 
 		internal void LoginUser(string user, string pass, string sourceToken = "")
@@ -177,6 +180,7 @@ namespace PlayGen.SUGAR.Unity
 				if (SUGARManager.unity.GameValidityCheck())
 				{
 					SUGARManager.CurrentUser = response.User;
+					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup = SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 					_signInCallback(true);
 				}
 				Hide();
@@ -204,6 +208,7 @@ namespace PlayGen.SUGAR.Unity
 				if (SUGARManager.unity.GameValidityCheck())
 				{
 					SUGARManager.CurrentUser = response.User;
+					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup = SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 					_signInCallback(true);
 				}
 				Hide();

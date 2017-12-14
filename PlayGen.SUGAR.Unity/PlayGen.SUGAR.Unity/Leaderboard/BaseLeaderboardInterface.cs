@@ -48,6 +48,20 @@ namespace PlayGen.SUGAR.Unity
 		protected Button _friendsButton;
 
 		/// <summary>
+		/// Button used to change the current leaderboard filter to 'Group Members'. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to change the current leaderboard filter to 'Group Members'. Can be left null.")]
+		[SerializeField]
+		protected Button _membersButton;
+
+		/// <summary>
+		/// Button used to change the current leaderboard filter to 'Alliances'. Can be left null.
+		/// </summary>
+		[Tooltip("Button used to change the current leaderboard filter to 'Alliances'. Can be left null.")]
+		[SerializeField]
+		protected Button _alliancesButton;
+
+		/// <summary>
 		/// Base Awake method adds onClick listeners for the close, signin, top, near and friends filter buttons.
 		/// </summary>
 		protected override void Awake()
@@ -64,6 +78,14 @@ namespace PlayGen.SUGAR.Unity
 			if (_friendsButton)
 			{
 				_friendsButton.onClick.AddListener(delegate { UpdateFilter(2); });
+			}
+			if (_membersButton)
+			{
+				_membersButton.onClick.AddListener(delegate { UpdateFilter(3); });
+			}
+			if (_alliancesButton)
+			{
+				_friendsButton.onClick.AddListener(delegate { UpdateFilter(4); });
 			}
 		}
 
@@ -83,11 +105,24 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_nearButton)
 			{
-				_nearButton.interactable = true;
+				_nearButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group) ||
+											(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
+				_nearButton.gameObject.SetActive(_nearButton.interactable);
 			}
 			if (_friendsButton)
 			{
-				_friendsButton.interactable = true;
+				_friendsButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group);
+				_friendsButton.gameObject.SetActive(_friendsButton.interactable);
+			}
+			if (_membersButton)
+			{
+				_membersButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
+				_membersButton.gameObject.SetActive(_membersButton.interactable);
+			}
+			if (_alliancesButton)
+			{
+				_alliancesButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
+				_alliancesButton.gameObject.SetActive(_alliancesButton.interactable);
 			}
 		}
 
@@ -115,6 +150,14 @@ namespace PlayGen.SUGAR.Unity
 				if (_friendsButton)
 				{
 					_friendsButton.interactable = false;
+				}
+				if (_membersButton)
+				{
+					_membersButton.interactable = false;
+				}
+				if (_alliancesButton)
+				{
+					_alliancesButton.interactable = false;
 				}
 			}
 			else if (!SUGARManager.leaderboard.CurrentStandings.Any())
