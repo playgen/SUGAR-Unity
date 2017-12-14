@@ -16,9 +16,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 {
 	public static class SeedGame
 	{
-		public static TextAsset DefaultGameSeed => (TextAsset) AssetDatabase.LoadAssetAtPath("Assets/Editor/SUGAR/GameSeed.json", typeof(TextAsset));
+		public static TextAsset DefaultGameSeed => (TextAsset) AssetDatabase.LoadAssetAtPath("Assets/SUGAR/Editor/GameSeed.json", typeof(TextAsset));
 
-		[MenuItem("SUGAR/Seed Game")]
+		[MenuItem("Tools/SUGAR/Seed Game")]
 		public static void ShowSeedGameWindow()
 		{
 			var window = ScriptableObject.CreateInstance<SeedGameWindow>();

@@ -13,7 +13,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 {
 	public static class EditGameSeed
 	{
-		[MenuItem("SUGAR/Edit Game Seed")]
+		[MenuItem("Tools/SUGAR/Edit Game Seed")]
 		public static void ShowEditGameSeed()
 		{
 			var window = ScriptableObject.CreateInstance<EditGameSeedWindow>();

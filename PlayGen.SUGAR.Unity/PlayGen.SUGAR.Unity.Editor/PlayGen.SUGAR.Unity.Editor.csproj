@@ -42,9 +42,6 @@
 		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
 		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.Editor.Shortcuts">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Shortcuts.dll</HintPath>
-		</Reference>
 		<Reference Include="UnityEditor">
 			<HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
 			<Private>false</Private>
