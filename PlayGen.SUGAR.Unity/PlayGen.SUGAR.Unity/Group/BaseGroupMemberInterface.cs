@@ -23,12 +23,12 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Hides Account, Achievement, Leaderboard, GameLeaderboard and UserFriend UI objects. Set groupName text to match name of CurrentGroup.
+		/// Hides Account, Evaluation, Leaderboard, GameLeaderboard and UserFriend UI objects. Set groupName text to match name of CurrentGroup.
 		/// </summary>
 		protected override void HideInterfaces()
 		{
 			SUGARManager.Account.Hide();
-			SUGARManager.Achievement.Hide();
+			SUGARManager.Evaluation.Hide();
 			SUGARManager.UserFriend.Hide();
 			SUGARManager.GameLeaderboard.Hide();
 			SUGARManager.Leaderboard.Hide();
@@ -57,7 +57,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get error string from Localization with key "GROUPS_LOAD_ERROR" if there were issues loading the achievement list.
+		/// Get error string from Localization with key "GROUPS_LOAD_ERROR" if there were issues loading the evaluation list.
 		/// </summary>
 		protected override string LoadErrorText()
 		{
@@ -65,7 +65,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get error string from Localization with key "NO_ACHIEVEMENT_ERROR" if there were no group members to display.
+		/// Get error string from Localization with key "NO_RESULTS_ERROR" if there were no group members to display.
 		/// </summary>
 		protected override string NoResultsErrorText()
 		{

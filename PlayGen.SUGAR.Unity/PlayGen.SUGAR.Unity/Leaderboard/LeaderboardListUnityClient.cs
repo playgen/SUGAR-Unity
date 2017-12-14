@@ -32,7 +32,24 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Gathers leaderboards for this application and displays list for current ActorType if UI object if provided.
 		/// </summary>
-		public void DisplayList(ActorType filter = ActorType.User)
+		public void DisplayGlobalList(ActorType filter = ActorType.User)
+		{
+			SetFilter(filter);
+			SUGARManager.unity.StartSpinner();
+			GetGlobalLeaderboards(success =>
+			{
+				SUGARManager.unity.StopSpinner();
+				if (_interface)
+				{
+					_interface.Display(success);
+				}
+			});
+		}
+
+		/// <summary>
+		/// Gathers leaderboards for this application and displays list for current ActorType if UI object if provided.
+		/// </summary>
+		public void DisplayGameList(ActorType filter = ActorType.User)
 		{
 			SetFilter(filter);
 			SUGARManager.unity.StartSpinner();
@@ -52,6 +69,43 @@ namespace PlayGen.SUGAR.Unity
 		public void SetFilter(ActorType filter)
 		{
 			_currentActorType = filter;
+		}
+
+		private void GetGlobalLeaderboards(Action<bool> success)
+		{
+			Leaderboards.Clear();
+			if (SUGARManager.CurrentUser != null)
+			{
+				SUGARManager.client.Leaderboard.GetGlobalAsync(
+				response =>
+				{
+					var result = response.ToList();
+					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
+					{
+						var at = actorType;
+						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
+					}
+					success(true);
+				},
+				exception =>
+				{
+					var error = "Failed to get leaderboard list. " + exception.Message;
+					Debug.LogError(error);
+					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
+					{
+						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
+					}
+					success(false);
+				});
+			}
+			else
+			{
+				foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
+				{
+					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
+				}
+				success(false);
+			}
 		}
 
 		private void GetLeaderboards(Action<bool> success)

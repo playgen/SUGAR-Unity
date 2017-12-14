@@ -15,7 +15,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static AccountUnityClient account { get; set; }
 
-		internal static AchievementUnityClient achievement { get; set; }
+		internal static EvaluationUnityClient evaluation { get; set; }
 
 		internal static GroupMemberUnityClient groupMember { get; set; }
 
@@ -64,17 +64,17 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Unity client for calls related to achievements
+		/// Unity client for calls related to evaluations
 		/// </summary>
-		public static AchievementUnityClient Achievement
+		public static EvaluationUnityClient Evaluation
 		{
 			get
 			{
-				if (achievement != null)
+				if (evaluation != null)
 				{
-					return achievement;
+					return evaluation;
 				}
-				throw new Exception("SUGAR GameObject needs to be active to access Achievements");
+				throw new Exception("SUGAR GameObject needs to be active to access Evaluations");
 			}
 		}
 

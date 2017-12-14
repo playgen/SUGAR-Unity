@@ -3,9 +3,9 @@
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to achievement lists.
+	/// Base abstract class for controlling the UI object related to evaluation lists.
 	/// </summary>
-	public abstract class BaseAchievementListInterface : BaseInterface
+	public abstract class BaseEvaluationListInterface : BaseInterface
 	{
 		/// <summary>
 		/// Hides Account, GameLeaderboard, Leaderboard, UserFriend, GroupMember and UserGroup UI objects.
@@ -28,7 +28,7 @@ namespace PlayGen.SUGAR.Unity
 			base.ErrorDraw(loadingSuccess);
 			if (loadingSuccess)
 			{
-				if (SUGARManager.Achievement.Progress.Count == 0)
+				if (SUGARManager.Evaluation.Progress.Count == 0)
 				{
 					if (_errorText)
 					{
@@ -39,19 +39,19 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get error string from Localization with key "ACHIEVEMENT_LOAD_ERROR" if there were issues loading the achievement list.
+		/// Get error string from Localization with key "EVALUATION_LOAD_ERROR" if there were issues loading the evaluation list.
 		/// </summary>
 		protected override string LoadErrorText()
 		{
-			return Localization.Get("ACHIEVEMENT_LOAD_ERROR");
+			return Localization.Get("EVALUATION_LOAD_ERROR");
 		}
 
 		/// <summary>
-		/// Get error string from Localization with key "NO_ACHIEVEMENT_ERROR" if there were no achievements to display.
+		/// Get error string from Localization with key "NO_EVALUATION_ERROR" if there were no evaluations to display.
 		/// </summary>
 		protected override string NoResultsErrorText()
 		{
-			return Localization.Get("NO_ACHIEVEMENT_ERROR");
+			return Localization.Get("NO_EVALUATION_ERROR");
 		}
 	}
 }

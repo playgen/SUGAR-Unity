@@ -7,14 +7,14 @@ using UnityEngine.UI;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to achievement notifications.
+	/// Base abstract class for controlling the UI object related to evaluation notifications.
 	/// </summary>
-	public abstract class BaseAchievementPopupInterface : MonoBehaviour
+	public abstract class BaseEvaluationPopupInterface : MonoBehaviour
 	{
 		/// <summary>
-		/// Text used for display notification string (usually achievement name). Can be left null.
+		/// Text used for display notification string (usually evaluation name). Can be left null.
 		/// </summary>
-		[Tooltip("Text used for display notification string (usually achievement name). Can be left null.")]
+		[Tooltip("Text used for display notification string (usually evaluation name). Can be left null.")]
 		[SerializeField]
 		protected Text _name;
 
@@ -28,11 +28,11 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Queue of notifications to be displayed.
 		/// </summary>
-		protected readonly List<EvaluationNotification> _achievementQueue = new List<EvaluationNotification>();
+		protected readonly List<EvaluationNotification> _evaluationQueue = new List<EvaluationNotification>();
 
 		internal void Notification(EvaluationNotification notification)
 		{
-			_achievementQueue.Add(notification);
+			_evaluationQueue.Add(notification);
 			transform.SetAsLastSibling();
 			Display(notification);
 		}

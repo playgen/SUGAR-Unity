@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using PlayGen.SUGAR.Common.Authorization;
+
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
@@ -17,10 +19,6 @@ namespace PlayGen.SUGAR.Unity
 		[Range(0.5f, 30f)]
 		private float _resourceCheckRate = 2.5f;
 
-		[Tooltip("Should the current status of game resources not tied to any user also be gathered?")]
-		[SerializeField]
-		private bool _checkGlobalGameResources;
-
 		[Tooltip("Should the current status of user resources not tied to any game also be gathered?")]
 		[SerializeField]
 		private bool _checkGlobalUserResources;
@@ -29,11 +27,6 @@ namespace PlayGen.SUGAR.Unity
 		/// Resources for the currently signed in user for this game.
 		/// </summary>
 		public Dictionary<string, long> UserGameResources { get; } = new Dictionary<string, long>();
-
-		/// <summary>
-		/// Resources for the game not tied to any user.
-		/// </summary>
-		public Dictionary<string, long> GlobalGameResources { get; } = new Dictionary<string, long>();
 
 		/// <summary>
 		/// Resources for the user not tied to any game.
@@ -61,23 +54,6 @@ namespace PlayGen.SUGAR.Unity
 					}
 				}
 			});
-			if (_checkGlobalGameResources)
-			{
-				Get(result =>
-				{
-					foreach (var r in result)
-					{
-						if (GlobalGameResources.ContainsKey(r.Key))
-						{
-							GlobalGameResources[r.Key] = r.Quantity;
-						}
-						else
-						{
-							GlobalGameResources.Add(r.Key, r.Quantity);
-						}
-					}
-				}, null, false, null);
-			}
 			if (_checkGlobalUserResources)
 			{
 				Get(result =>
@@ -98,23 +74,19 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get the resources with the keys provided for the actorId provided (or currently user if left default).
+		/// Get the resources with the keys provided for the signed in user.
 		/// If globalResource is true, resources will be global rather than for the game.
 		/// </summary>
-		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false, int? actorId = -1)
+		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false)
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				if (actorId == -1)
-				{
-					actorId = SUGARManager.CurrentUser.Id;
-				}
-				int? gameId = SUGARManager.GameId;
+				var gameId = SUGARManager.GameId;
 				if (globalResource)
 				{
-					gameId = null;
+					gameId = Platform.GlobalId;
 				}
-				SUGARManager.client.Resource.GetAsync(gameId, actorId, keys,
+				SUGARManager.client.Resource.GetAsync(gameId, SUGARManager.CurrentUser.Id, keys,
 				response =>
 				{
 					result(response.ToList());
@@ -140,7 +112,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					SenderActorId = SUGARManager.CurrentUser.Id,
 					RecipientActorId = recipientId,
-					GameId = globalResource ? 0 : SUGARManager.GameId,
+					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
@@ -167,13 +139,13 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
-				var request = new ResourceChangeRequest {
+				var request = new ResourceAddRequest {
 					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = globalResource ? 0 : SUGARManager.GameId,
+					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
-				SUGARManager.client.Resource.AddAsync(request,
+				SUGARManager.client.Resource.AddOrUpdateAsync(request,
 				response =>
 				{
 					UpdateResources();
@@ -182,36 +154,6 @@ namespace PlayGen.SUGAR.Unity
 				exception =>
 				{
 					var error = "Failed to add resources. " + exception.Message;
-					Debug.LogError(error);
-					success(false);
-				});
-			}
-		}
-
-
-		/// <summary>
-		/// Set the resource with the key provided from the currently signed in user.
-		/// If globalResource is true, resource transferred will be global rather than for the game.
-		/// </summary>
-		public void Set(string key, long amount, Action<bool> success, bool globalResource = false)
-		{
-			if (SUGARManager.CurrentUser != null)
-			{
-				var request = new ResourceChangeRequest {
-					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = globalResource ? 0 : SUGARManager.GameId,
-					Key = key,
-					Quantity = amount
-				};
-				SUGARManager.client.Resource.SetAsync(request,
-				response =>
-				{
-					UpdateResources();
-					success(true);
-				},
-				exception =>
-				{
-					var error = "Failed to set resources. " + exception.Message;
 					Debug.LogError(error);
 					success(false);
 				});

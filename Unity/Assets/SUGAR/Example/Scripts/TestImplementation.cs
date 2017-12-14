@@ -17,15 +17,15 @@ public class TestImplementation : MonoBehaviour {
 		{
 			if (Input.GetKeyDown(KeyCode.L))
 			{
-				SUGARManager.GameLeaderboard.DisplayList();
+				SUGARManager.GameLeaderboard.DisplayGameList();
 			}
 			if (Input.GetKeyDown(KeyCode.K))
 			{
-				SUGARManager.Achievement.DisplayList();
+				SUGARManager.Evaluation.DisplayAchievementList();
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
-				SUGARManager.Achievement.ForceNotificationTest();
+				SUGARManager.Evaluation.ForceNotificationTest();
 			}
 			if (Input.GetKeyDown(KeyCode.S))
 			{

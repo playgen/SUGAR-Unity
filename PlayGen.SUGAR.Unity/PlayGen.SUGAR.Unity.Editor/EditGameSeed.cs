@@ -35,6 +35,14 @@ namespace PlayGen.SUGAR.Unity.Editor
 		private readonly List<bool> _showAchievementReward = new List<bool>();
 		private readonly List<List<bool>> _showAchievementCriteriaList = new List<List<bool>>();
 		private readonly List<List<bool>> _showAchievementRewardList = new List<List<bool>>();
+
+		private bool _showSkills;
+		private readonly List<bool> _showSkillList = new List<bool>();
+		private readonly List<bool> _showSkillCriteria = new List<bool>();
+		private readonly List<bool> _showSkillReward = new List<bool>();
+		private readonly List<List<bool>> _showSkillCriteriaList = new List<List<bool>>();
+		private readonly List<List<bool>> _showSkillRewardList = new List<List<bool>>();
+
 		private bool _showLeaderboards;
 		private readonly List<bool> _showLeaderboardList = new List<bool>();
 
@@ -70,7 +78,6 @@ namespace PlayGen.SUGAR.Unity.Editor
 				}
 			}
 
-
 			EditorGUILayout.EndHorizontal();
 			if (_gameSeed != null)
 			{
@@ -104,6 +111,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 									if (_showAchievementCriteriaList[i][j])
 									{
 										_gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataKey ?? string.Empty, EditorStyles.textField);
+										_gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataCategory, EditorStyles.popup);
 										_gameSeed.achievements[i].EvaluationCriterias[j].ComparisonType = (ComparisonType)EditorGUILayout.EnumPopup("ComparisonType", _gameSeed.achievements[i].EvaluationCriterias[j].ComparisonType, EditorStyles.popup);
 										_gameSeed.achievements[i].EvaluationCriterias[j].CriteriaQueryType = (CriteriaQueryType)EditorGUILayout.EnumPopup("CriteriaQueryType", _gameSeed.achievements[i].EvaluationCriterias[j].CriteriaQueryType, EditorStyles.popup);
 										_gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _gameSeed.achievements[i].EvaluationCriterias[j].EvaluationDataType, EditorStyles.popup);
@@ -205,6 +213,137 @@ namespace PlayGen.SUGAR.Unity.Editor
 					EditorGUI.indentLevel--;
 					EditorGUILayout.EndVertical();
 				}
+				_showSkills = EditorGUILayout.Foldout(_showSkills, "Skills");
+				if (_showSkills)
+				{
+					EditorGUI.indentLevel++;
+					EditorGUILayout.BeginVertical();
+					for (var i = 0; i < _gameSeed.skills.Length; i++)
+					{
+						EditorGUI.indentLevel++;
+						EditorGUILayout.BeginVertical();
+						_showSkillList[i] = EditorGUILayout.Foldout(_showSkillList[i], _gameSeed.skills[i].Name);
+						if (_showSkillList[i])
+						{
+							_gameSeed.skills[i].Name = EditorGUILayout.TextField("Name", _gameSeed.skills[i].Name ?? string.Empty, EditorStyles.textField);
+							_gameSeed.skills[i].Description = EditorGUILayout.TextField("Description", _gameSeed.skills[i].Description ?? string.Empty, EditorStyles.textField);
+							_gameSeed.skills[i].Token = EditorGUILayout.TextField("Token", _gameSeed.skills[i].Token ?? string.Empty, EditorStyles.textField);
+							_gameSeed.skills[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _gameSeed.skills[i].ActorType, EditorStyles.popup);
+							_showSkillCriteria[i] = EditorGUILayout.Foldout(_showSkillCriteria[i], "Evaluation Criteria");
+							if (_showSkillCriteria[i])
+							{
+								EditorGUI.indentLevel++;
+								EditorGUILayout.BeginVertical();
+								for (var j = 0; j < _gameSeed.skills[i].EvaluationCriterias.Count; j++)
+								{
+									EditorGUI.indentLevel++;
+									EditorGUILayout.BeginVertical();
+									_showSkillCriteriaList[i][j] = EditorGUILayout.Foldout(_showSkillCriteriaList[i][j], _gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataKey);
+									if (_showSkillCriteriaList[i][j])
+									{
+										_gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataKey ?? string.Empty, EditorStyles.textField);
+										_gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataCategory, EditorStyles.popup);
+										_gameSeed.skills[i].EvaluationCriterias[j].ComparisonType = (ComparisonType)EditorGUILayout.EnumPopup("ComparisonType", _gameSeed.skills[i].EvaluationCriterias[j].ComparisonType, EditorStyles.popup);
+										_gameSeed.skills[i].EvaluationCriterias[j].CriteriaQueryType = (CriteriaQueryType)EditorGUILayout.EnumPopup("CriteriaQueryType", _gameSeed.skills[i].EvaluationCriterias[j].CriteriaQueryType, EditorStyles.popup);
+										_gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _gameSeed.skills[i].EvaluationCriterias[j].EvaluationDataType, EditorStyles.popup);
+										_gameSeed.skills[i].EvaluationCriterias[j].Scope = (CriteriaScope)EditorGUILayout.EnumPopup("Scope", _gameSeed.skills[i].EvaluationCriterias[j].Scope, EditorStyles.popup);
+										_gameSeed.skills[i].EvaluationCriterias[j].Value = EditorGUILayout.TextField("Value", _gameSeed.skills[i].EvaluationCriterias[j].Value ?? string.Empty, EditorStyles.textField);
+										EditorGUILayout.BeginHorizontal();
+										GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+										if (GUILayout.Button("Remove Criteria", GUILayout.ExpandWidth(false)))
+										{
+											_gameSeed.skills[i].EvaluationCriterias.RemoveAt(j);
+											_showSkillCriteriaList[i].RemoveAt(j);
+										}
+										EditorGUILayout.EndHorizontal();
+									}
+									EditorGUI.indentLevel--;
+									EditorGUILayout.EndVertical();
+								}
+								EditorGUILayout.BeginHorizontal();
+								GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+								if (GUILayout.Button("Add Criteria", GUILayout.ExpandWidth(false)))
+								{
+									_gameSeed.skills[i].EvaluationCriterias.Add(new EvaluationCriteriaCreateRequest());
+									_showSkillCriteriaList[i].Add(false);
+								}
+								EditorGUILayout.EndHorizontal();
+								EditorGUI.indentLevel--;
+								EditorGUILayout.EndVertical();
+							}
+							_showSkillReward[i] = EditorGUILayout.Foldout(_showSkillReward[i], "Rewards");
+							if (_showSkillReward[i])
+							{
+								EditorGUI.indentLevel++;
+								EditorGUILayout.BeginVertical();
+								for (var j = 0; j < _gameSeed.skills[i].Rewards.Count; j++)
+								{
+									EditorGUI.indentLevel++;
+									EditorGUILayout.BeginVertical();
+									_showSkillRewardList[i][j] = EditorGUILayout.Foldout(_showSkillRewardList[i][j], _gameSeed.skills[i].Rewards[j].EvaluationDataKey);
+									if (_showSkillRewardList[i][j])
+									{
+										_gameSeed.skills[i].Rewards[j].EvaluationDataKey = EditorGUILayout.TextField("EvaluationDataKey", _gameSeed.skills[i].Rewards[j].EvaluationDataKey ?? string.Empty, EditorStyles.textField);
+										_gameSeed.skills[i].Rewards[j].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.skills[i].Rewards[j].EvaluationDataCategory, EditorStyles.popup);
+										_gameSeed.skills[i].Rewards[j].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _gameSeed.skills[i].Rewards[j].EvaluationDataType, EditorStyles.popup);
+										_gameSeed.skills[i].Rewards[j].Value = EditorGUILayout.TextField("Value", _gameSeed.skills[i].Rewards[j].Value ?? string.Empty, EditorStyles.textField);
+										EditorGUILayout.BeginHorizontal();
+										GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+										if (GUILayout.Button("Remove Reward", GUILayout.ExpandWidth(false)))
+										{
+											_gameSeed.skills[i].Rewards.RemoveAt(j);
+											_showSkillRewardList[i].RemoveAt(j);
+										}
+										EditorGUILayout.EndHorizontal();
+									}
+									EditorGUI.indentLevel--;
+									EditorGUILayout.EndVertical();
+								}
+								EditorGUILayout.BeginHorizontal();
+								GUILayout.Space((EditorGUI.indentLevel - 2) * 35);
+								if (GUILayout.Button("Add Reward", GUILayout.ExpandWidth(false)))
+								{
+									_gameSeed.skills[i].Rewards.Add(new RewardCreateRequest());
+									_showSkillRewardList[i].Add(false);
+								}
+								EditorGUILayout.EndHorizontal();
+								EditorGUI.indentLevel--;
+								EditorGUILayout.EndVertical();
+							}
+							EditorGUILayout.BeginHorizontal();
+							GUILayout.Space((EditorGUI.indentLevel - 1) * 35);
+							if (GUILayout.Button("Remove Skill", GUILayout.ExpandWidth(false)))
+							{
+								var list = _gameSeed.skills.ToList();
+								list.RemoveAt(i);
+								_showSkillList.RemoveAt(i);
+								_showSkillCriteria.RemoveAt(i);
+								_showSkillReward.RemoveAt(i);
+								_showSkillCriteriaList.RemoveAt(i);
+								_showSkillRewardList.RemoveAt(i);
+								_gameSeed.skills = list.ToArray();
+							}
+							EditorGUILayout.EndHorizontal();
+						}
+						EditorGUI.indentLevel--;
+						EditorGUILayout.EndVertical();
+					}
+					if (GUILayout.Button("Add Skill", GUILayout.ExpandWidth(false)))
+					{
+						var list = _gameSeed.skills.ToList();
+						list.Add(new EvaluationCreateRequest());
+						list.Last().EvaluationCriterias = new List<EvaluationCriteriaCreateRequest>();
+						list.Last().Rewards = new List<RewardCreateRequest>();
+						_showSkillList.Add(false);
+						_showSkillCriteria.Add(false);
+						_showSkillReward.Add(false);
+						_showSkillCriteriaList.Add(new List<bool>());
+						_showSkillRewardList.Add(new List<bool>());
+						_gameSeed.skills = list.ToArray();
+					}
+					EditorGUI.indentLevel--;
+					EditorGUILayout.EndVertical();
+				}
 				_showLeaderboards = EditorGUILayout.Foldout(_showLeaderboards, "Leaderboards");
 				if (_showLeaderboards)
 				{
@@ -219,8 +358,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 						{
 							_gameSeed.leaderboards[i].Token = EditorGUILayout.TextField("Token", _gameSeed.leaderboards[i].Token ?? string.Empty, EditorStyles.textField);
 							_gameSeed.leaderboards[i].Name = EditorGUILayout.TextField("Name", _gameSeed.leaderboards[i].Name ?? string.Empty, EditorStyles.textField);
-							_gameSeed.leaderboards[i].Key = EditorGUILayout.TextField("Description", _gameSeed.leaderboards[i].Key ?? string.Empty, EditorStyles.textField);
+							_gameSeed.leaderboards[i].Key = EditorGUILayout.TextField("Key", _gameSeed.leaderboards[i].Key ?? string.Empty, EditorStyles.textField);
 							_gameSeed.leaderboards[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _gameSeed.leaderboards[i].ActorType, EditorStyles.popup);
+							_gameSeed.leaderboards[i].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.leaderboards[i].EvaluationDataCategory, EditorStyles.popup);
 							_gameSeed.leaderboards[i].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _gameSeed.leaderboards[i].EvaluationDataType, EditorStyles.popup);
 							_gameSeed.leaderboards[i].CriteriaScope = (CriteriaScope)EditorGUILayout.EnumPopup("CriteriaScope", _gameSeed.leaderboards[i].CriteriaScope, EditorStyles.popup);
 							_gameSeed.leaderboards[i].LeaderboardType = (LeaderboardType)EditorGUILayout.EnumPopup("LeaderboardType", _gameSeed.leaderboards[i].LeaderboardType, EditorStyles.popup);

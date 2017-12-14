@@ -46,48 +46,66 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Gathers information on the leaderboard with the token provided and gets current standings based on the filter and page number provided, with the UI object displayed if provided.
 		/// </summary>
-		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0)
+		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0, bool globalLeaderboard = false)
 		{
-				_currentFilter = filter;
-				GetLeaderboard(token, success =>
+			_currentFilter = filter;
+			GetLeaderboard(token, globalLeaderboard, success =>
+			{
+				if (success)
 				{
-					if (success)
-					{
-						GetLeaderboardStandings(pageNumber, result =>
-						{
-							if (_interface)
-							{
-								_interface.Display(result);
-							}
-						});
-					}
-					else
+					GetLeaderboardStandings(pageNumber, result =>
 					{
 						if (_interface)
 						{
-							_interface.Display(false);
+							_interface.Display(result);
 						}
+					});
+				}
+				else
+				{
+					if (_interface)
+					{
+						_interface.Display(false);
 					}
-				});
+				}
+			});
 		}
 
-		private void GetLeaderboard(string token, Action<bool> success)
+		private void GetLeaderboard(string token, bool globalLeaderboard, Action<bool> success)
 		{
 			CurrentLeaderboard = null;
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
-				response =>
+				if (globalLeaderboard)
 				{
-					CurrentLeaderboard = response;
-					success(true);
-				},
-				exception =>
+					SUGARManager.client.Leaderboard.GetGlobalAsync(token,
+					response =>
+					{
+						CurrentLeaderboard = response;
+						success(true);
+					},
+					exception =>
+					{
+						var error = "Failed to get leaderboard. " + exception.Message;
+						Debug.LogError(error);
+						success(false);
+					});
+				}
+				else
 				{
-					var error = "Failed to get leaderboard. " + exception.Message;
-					Debug.LogError(error);
-					success(false);
-				});
+					SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
+					response =>
+					{
+						CurrentLeaderboard = response;
+						success(true);
+					},
+					exception =>
+					{
+						var error = "Failed to get leaderboard. " + exception.Message;
+						Debug.LogError(error);
+						success(false);
+					});
+				}
 			}
 			else
 			{
@@ -100,8 +118,8 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void GetLeaderboardStandings(int pageNumber, Action<bool> success, Action<List<LeaderboardStandingsResponse>> result = null)
 		{
-            SUGARManager.unity.StartSpinner();
-            if (result == null)
+			SUGARManager.unity.StartSpinner();
+			if (result == null)
 			{
 				CurrentStandings.Clear();
 			}
@@ -120,53 +138,53 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
 				response =>
 				{
-                    SUGARManager.unity.StopSpinner();
+					SUGARManager.unity.StopSpinner();
 					var leaderboardStandingsResponses = response.ToList();
 					foreach (var r in leaderboardStandingsResponses)
-                    {
-                        if (CurrentLeaderboard.LeaderboardType == LeaderboardType.Earliest || CurrentLeaderboard.LeaderboardType == LeaderboardType.Latest)
-                        {
-                            r.Value = DateTime.Parse(r.Value).ToString(Localization.SelectedLanguage);
-                        }
-                    }
-                    response = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
-                    if (result == null)
+					{
+						if (CurrentLeaderboard.LeaderboardType == LeaderboardType.Earliest || CurrentLeaderboard.LeaderboardType == LeaderboardType.Latest)
+						{
+							r.Value = DateTime.Parse(r.Value).ToString(Localization.SelectedLanguage);
+						}
+					}
+					response = leaderboardStandingsResponses.Where(r => r.Ranking > 0).ToList();
+					if (result == null)
 					{
 						CurrentStandings = response.ToList();
-                        success(true);
-                    }
-                    else
-                    {
-                        result(response.ToList());
-                    }
-                },
+						success(true);
+					}
+					else
+					{
+						result(response.ToList());
+					}
+				},
 				exception =>
 				{
-                    SUGARManager.unity.StopSpinner();
-                    var error = "Failed to get leaderboard standings. " + exception.Message;
+					SUGARManager.unity.StopSpinner();
+					var error = "Failed to get leaderboard standings. " + exception.Message;
 					Debug.LogError(error);
-                    if (result == null)
-                    {
-                        success(false);
-                    }
-                    else
-                    {
-                        result(new List<LeaderboardStandingsResponse>());
-                    }
-                });
+					if (result == null)
+					{
+						success(false);
+					}
+					else
+					{
+						result(new List<LeaderboardStandingsResponse>());
+					}
+				});
 			}
 			else
 			{
-                SUGARManager.unity.StopSpinner();
-                if (result == null)
-                {
-                    success(false);
-                }
-                else
-                {
-                    result(new List<LeaderboardStandingsResponse>());
-                }
-            }
+				SUGARManager.unity.StopSpinner();
+				if (result == null)
+				{
+					success(false);
+				}
+				else
+				{
+					result(new List<LeaderboardStandingsResponse>());
+				}
+			}
 		}
 
 		/// <summary>

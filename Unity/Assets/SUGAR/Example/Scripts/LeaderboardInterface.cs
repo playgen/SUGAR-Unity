@@ -32,13 +32,6 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	private Button _nextButton;
 
 	/// <summary>
-	/// Text which displays the current page.
-	/// </summary>
-	[Tooltip("Text which displays the current page.")]
-	[SerializeField]
-	private Text _pageNumberText;
-
-	/// <summary>
 	/// The current page number.
 	/// </summary>
 	private int _pageNumber;
@@ -109,17 +102,16 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		}
 		_leaderboardName.text = SUGARManager.Leaderboard.CurrentLeaderboard != null ? SUGARManager.Leaderboard.CurrentLeaderboard.Name : string.Empty;
 		_leaderboardType.text = Localization.Get(SUGARManager.Leaderboard.CurrentFilter.ToString());
-		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
-        _previousButton.interactable = false;
-        _nextButton.interactable = false;
-        SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber - 1, success => { }, resultDown =>
-        {
-            _previousButton.interactable = resultDown.ToList().Count > 0 && resultDown.First().ActorName != SUGARManager.Leaderboard.CurrentStandings.First().ActorName;
-            SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber + 1, success => { }, resultUp =>
-            {
-                _nextButton.interactable = resultUp.ToList().Count > 0;
-            });
-        });
+		_previousButton.interactable = false;
+		_nextButton.interactable = false;
+		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber - 1, success => { }, resultDown =>
+		{
+			_previousButton.interactable = resultDown.ToList().Count > 0 && resultDown.First().ActorName != SUGARManager.Leaderboard.CurrentStandings.First().ActorName;
+			SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber + 1, success => { }, resultUp =>
+			{
+				_nextButton.interactable = resultUp.ToList().Count > 0;
+			});
+		});
 		if (SUGARManager.Leaderboard.CurrentLeaderboard != null)
 		{
 			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;

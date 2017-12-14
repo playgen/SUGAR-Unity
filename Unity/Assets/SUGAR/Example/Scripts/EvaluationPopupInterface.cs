@@ -5,12 +5,12 @@ using PlayGen.SUGAR.Unity;
 
 using UnityEngine;
 
-public class AchievementPopupInterface : BaseAchievementPopupInterface
+public class EvaluationPopupInterface : BaseEvaluationPopupInterface
 {
 	/// <summary>
-	/// Animation for displaying the achievement notification.
+	/// Animation for displaying the evaluation notification.
 	/// </summary>
-	[Tooltip("Animation for displaying the achievement notification")]
+	[Tooltip("Animation for displaying the evaluation notification")]
 	[SerializeField]
 	private Animation _animation;
 
@@ -30,15 +30,15 @@ public class AchievementPopupInterface : BaseAchievementPopupInterface
 	/// </summary>
 	private IEnumerator AnimatePopup()
 	{
-		while (_achievementQueue.Count > 0)
+		while (_evaluationQueue.Count > 0)
 		{
-			_name.text = _achievementQueue[0].Name;
+			_name.text = _evaluationQueue[0].Name;
 			_animation.Play();
 			while (_animation.isPlaying)
 			{
 				yield return null;
 			}
-			_achievementQueue.RemoveAt(0);
+			_evaluationQueue.RemoveAt(0);
 			yield return null;
 		}
 	}

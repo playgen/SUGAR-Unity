@@ -8,14 +8,14 @@ using UnityEngine.UI;
 using PlayGen.Unity.Utilities.BestFit;
 using PlayGen.Unity.Utilities.Localization;
 
-public class AchievementListInterface : BaseAchievementListInterface
+public class EvaluationListInterface : BaseEvaluationListInterface
 {
 	/// <summary>
-	/// An array of the AchievementItemInterfaces on this GameObject, set in the Inspector.
+	/// An array of the EvaluationItemInterfaces on this GameObject, set in the Inspector.
 	/// </summary>
-	[Tooltip("An array of the AchievementItemInterfaces on this GameObject, set in the Inspector.")]
+	[Tooltip("An array of the EvaluationItemInterfaces on this GameObject, set in the Inspector.")]
 	[SerializeField]
-	private AchievementItemInterface[] _achievementItems;
+	private EvaluationItemInterface[] _evaluationItems;
 
 	/// <summary>
 	/// Button used to go to the previous page of results.
@@ -81,12 +81,12 @@ public class AchievementListInterface : BaseAchievementListInterface
 	}
 
 	/// <summary>
-	/// Adjust AchievementItemInterface pool to display a page of achievements.
+	/// Adjust EvaluationItemInterface pool to display a page of evaluations.
 	/// </summary>
 	protected override void Draw()
 	{
-		var achievementList = SUGARManager.Achievement.Progress.Skip(_pageNumber * _achievementItems.Length).Take(_achievementItems.Length).ToList();
-		if (!achievementList.Any() && _pageNumber > 0)
+		var evaluationList = SUGARManager.Evaluation.Progress.Skip(_pageNumber * _evaluationItems.Length).Take(_evaluationItems.Length).ToList();
+		if (!evaluationList.Any() && _pageNumber > 0)
 		{
 			UpdatePageNumber(-1);
 			return;
@@ -96,21 +96,21 @@ public class AchievementListInterface : BaseAchievementListInterface
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = 0; i < _achievementItems.Length; i++)
+		for (int i = 0; i < _evaluationItems.Length; i++)
 		{
-			if (i >= achievementList.Count)
+			if (i >= evaluationList.Count)
 			{
-				_achievementItems[i].Disable();
+				_evaluationItems[i].Disable();
 			}
 			else
 			{
-				_achievementItems[i].SetText(achievementList[i].Name, Mathf.Approximately(achievementList[i].Progress, 1.0f));
+				_evaluationItems[i].SetText(evaluationList[i].Name, Mathf.Approximately(evaluationList[i].Progress, 1.0f));
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		_nextButton.interactable = SUGARManager.Achievement.Progress.Count > (_pageNumber + 1) * _achievementItems.Length;
-		_achievementItems.Select(t => t.gameObject).BestFit();
+		_nextButton.interactable = SUGARManager.Evaluation.Progress.Count > (_pageNumber + 1) * _evaluationItems.Length;
+		_evaluationItems.Select(t => t.gameObject).BestFit();
 	}
 
 	/// <summary>
@@ -131,11 +131,11 @@ public class AchievementListInterface : BaseAchievementListInterface
 	}
 
 	/// <summary>
-	/// Set the text of all buttons and all achievements to be as big as possible and the same size within the same grouping.
+	/// Set the text of all buttons and all evaluations to be as big as possible and the same size within the same grouping.
 	/// </summary>
 	private void DoBestFit()
 	{
-		_achievementItems.Select(t => t.gameObject).BestFit();
+		_evaluationItems.Select(t => t.gameObject).BestFit();
 		GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
 	}
 
