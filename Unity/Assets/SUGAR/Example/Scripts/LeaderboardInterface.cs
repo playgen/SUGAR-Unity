@@ -112,11 +112,6 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 				_nextButton.interactable = resultUp.ToList().Count > 0;
 			});
 		});
-		if (SUGARManager.Leaderboard.CurrentLeaderboard != null)
-		{
-			_nearButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
-			_friendsButton.interactable = SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType == ActorType.User;
-		}
 		_leaderboardPositions.Select(t => t.gameObject).BestFit();
 	}
 

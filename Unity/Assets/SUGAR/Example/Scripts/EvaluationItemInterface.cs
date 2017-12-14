@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PlayGen.SUGAR.Contracts;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 public class EvaluationItemInterface : MonoBehaviour
@@ -11,6 +13,13 @@ public class EvaluationItemInterface : MonoBehaviour
 	private Text _evaluationName;
 
 	/// <summary>
+	/// Text for displaying evaluation description.
+	/// </summary>
+	[Tooltip("Text for displaying evaluation description")]
+	[SerializeField]
+	private Text _evaluationDescription;
+
+	/// <summary>
 	/// Text for showing evaluation image. In this case, a tick showing if the evaluation has been completed or not.
 	/// </summary>
 	[Tooltip("Text for showing evaluation image. In this case, a tick showing if the evaluation has been completed or not")]
@@ -20,10 +29,14 @@ public class EvaluationItemInterface : MonoBehaviour
 	/// <summary>
 	/// Enable the GameObject, set the text and enable/disable the image.
 	/// </summary>
-	internal void SetText(string evaluationName, bool completed)
+	internal void SetText(EvaluationProgressResponse evaluation, bool completed)
 	{
 		gameObject.SetActive(true);
-		_evaluationName.text = evaluationName;
+		_evaluationName.text = evaluation.Name;
+		if (_evaluationDescription)
+		{
+			_evaluationDescription.text = evaluation.Description;
+		}
 		_evaluationImage.enabled = completed;
 	}
 
