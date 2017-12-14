@@ -44,9 +44,14 @@ namespace PlayGen.SUGAR.Unity
 		public static ActorResponse CurrentUser { get; internal set; }
 
 		/// <summary>
+		/// Currently signed in user.
+		/// </summary>
+		public static ActorResponse CurrentGroup { get; internal set; }
+
+		/// <summary>
 		/// Group name gathered from auto sign in.
 		/// </summary>
-		public static string GroupId { get; internal set; }
+		public static string ClassId { get; internal set; }
 
 		/// <summary>
 		/// Unity client for calls related to accounts

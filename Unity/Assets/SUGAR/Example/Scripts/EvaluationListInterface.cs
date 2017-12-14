@@ -104,7 +104,7 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 			}
 			else
 			{
-				_evaluationItems[i].SetText(evaluationList[i].Name, Mathf.Approximately(evaluationList[i].Progress, 1.0f));
+				_evaluationItems[i].SetText(evaluationList[i], Mathf.Approximately(evaluationList[i].Progress, 1.0f));
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
