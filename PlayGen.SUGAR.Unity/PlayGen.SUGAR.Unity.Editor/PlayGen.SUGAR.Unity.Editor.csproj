@@ -39,9 +39,6 @@
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.Editor.FontReplace">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.FontReplace.dll</HintPath>
-		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
 		</Reference>

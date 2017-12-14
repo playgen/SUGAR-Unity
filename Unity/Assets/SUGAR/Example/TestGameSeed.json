@@ -21,11 +21,13 @@
       "Rewards": []
     }
   ],
+  "skills": [],
   "leaderboards": [
     {
       "Token": "test_leaderboard",
       "GameId": null,
       "Name": "Test Leaderboard",
+      "EvaluationDataCategory": "GameData",
       "Key": "Test Leaderboard",
       "ActorType": "User",
       "EvaluationDataType": "String",

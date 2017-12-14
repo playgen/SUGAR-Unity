@@ -9,6 +9,7 @@ using Object = UnityEngine.Object;
 using System.IO;
 
 using PlayGen.SUGAR.Client.Development;
+using PlayGen.SUGAR.Common.Authorization;
 using PlayGen.SUGAR.Contracts;
 
 namespace PlayGen.SUGAR.Unity.Editor
@@ -73,7 +74,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			Debug.Log(baseAddress);
 			var devClient = new SUGARDevelopmentClient(baseAddress);
 
-			if (!TryLoginAdmin(username, password, out var response, out var loginError))
+			if (!TryLoginAdmin(devClient, username, password, out var response, out var loginError))
 			{
 				errors.Add(loginError);
 			}
@@ -215,13 +216,13 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryLoginAdmin(string username, string password, out AccountResponse response, out string error)
+		private static bool TryLoginAdmin(SUGARDevelopmentClient devClient, string username, string password, out AccountResponse response, out string error)
 		{
 			error = null;
 			response = null;
 			try
 			{
-				response = SUGARManager.client.Session.Login(SUGARManager.GameId, new AccountRequest
+				response = devClient.Session.Login(Platform.GlobalId, new AccountRequest
 				{
 					Name = username,
 					Password = password,
