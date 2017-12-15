@@ -9,11 +9,20 @@ namespace PlayGen.SUGAR.Unity
 	public class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
 	{
 		/// <summary>
-		/// UI object for this unity client. Can be left null if no UI is required.
+		/// Landscape UI object for this unity client. Can be left null if not required.
 		/// </summary>
-		[Tooltip("UI object for this unity client. Can be left null if no UI is required.")]
+		[Tooltip("Landscape UI object for this unity client. Can be left null if not required.")]
 		[SerializeField]
-		protected T _interface;
+		protected T _landscapeInterface;
+
+		/// <summary>
+		/// Portrait UI object for this unity client. Can be left null if not required.
+		/// </summary>
+		[Tooltip("Portrait UI object for this unity client. Can be left null if not required.")]
+		[SerializeField]
+		protected T _portraitInterface;
+
+		protected T _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
 
 		/// <summary>
 		/// Has a UI object been provided for this Unity Client?
@@ -27,16 +36,43 @@ namespace PlayGen.SUGAR.Unity
 
 		internal virtual void CreateInterface(Canvas canvas)
 		{
-			if (HasInterface)
+			if (_landscapeInterface)
 			{
-				var inScene = _interface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
-					var newInterface = Instantiate(_interface.gameObject, canvas.transform, false);
-					newInterface.name = _interface.name;
-					_interface = newInterface.GetComponent<T>();
+					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
+					newInterface.name = _landscapeInterface.name;
+					_landscapeInterface = newInterface.GetComponent<T>();
 				}
-				_interface.gameObject.SetActive(false);
+				_landscapeInterface.gameObject.SetActive(false);
+			}
+			if (_portraitInterface)
+			{
+				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene();
+				if (!inScene)
+				{
+					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
+					newInterface.name = _portraitInterface.name;
+					_portraitInterface = newInterface.GetComponent<T>();
+				}
+				_portraitInterface.gameObject.SetActive(false);
+			}
+		}
+
+		protected virtual void Update()
+		{
+			if (_landscapeInterface && _landscapeInterface != _interface && _landscapeInterface.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_landscapeInterface.gameObject);
+				SUGARManager.unity.EnableObject(_interface.gameObject);
+				_interface.Display();
+			}
+			if (_portraitInterface && _portraitInterface != _interface && _portraitInterface.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_portraitInterface.gameObject);
+				SUGARManager.unity.EnableObject(_interface.gameObject);
+				_interface.Display();
 			}
 		}
 

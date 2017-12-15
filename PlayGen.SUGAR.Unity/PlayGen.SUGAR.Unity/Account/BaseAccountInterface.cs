@@ -102,5 +102,17 @@ namespace PlayGen.SUGAR.Unity
 				_errorText.text = text;
 			}
 		}
+
+		internal string[] GetText()
+		{
+			return new[] { _name.text, _password.text, _errorText.text };
+		}
+
+		internal void SetText(string[] text)
+		{
+			_name.text = text[0];
+			_password.text = text[1];
+			_errorText.text = text[2];
+		}
 	}
 }

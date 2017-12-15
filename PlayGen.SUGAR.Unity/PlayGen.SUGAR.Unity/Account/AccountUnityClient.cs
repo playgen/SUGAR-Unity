@@ -17,11 +17,20 @@ namespace PlayGen.SUGAR.Unity
 	public class AccountUnityClient : MonoBehaviour
 	{
 		/// <summary>
-		/// UI object for this unity client. Can be left null if no UI is required.
+		/// Landscape UI object for this unity client. Can be left null if not required.
 		/// </summary>
-		[Tooltip("UI object for this unity client. Can be left null if no UI is required.")]
+		[Tooltip("Landscape UI object for this unity client. Can be left null if not required.")]
 		[SerializeField]
-		private BaseAccountInterface _accountInterface;
+		protected BaseAccountInterface _landscapeInterface;
+
+		/// <summary>
+		/// Portrait UI object for this unity client. Can be left null if not required.
+		/// </summary>
+		[Tooltip("Portrait UI object for this unity client. Can be left null if not required.")]
+		[SerializeField]
+		protected BaseAccountInterface _portraitInterface;
+
+		protected BaseAccountInterface _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
 
 		[Tooltip("Should the application attempt to sign in users using information provided at start-up?")]
 		[SerializeField]
@@ -56,26 +65,36 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Has a UI object been provided for this Unity Client?
 		/// </summary>
-		public bool HasInterface => _accountInterface;
+		public bool HasInterface => _interface;
 
 		/// <summary>
 		/// Is there a UI object and if so is it currently active?
 		/// </summary>
-		public bool IsActive => HasInterface && _accountInterface.gameObject.activeInHierarchy;
+		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (HasInterface)
+			if (_landscapeInterface)
 			{
-				var inScene = _accountInterface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScene)
 				{
-					var newInterface = Instantiate(_accountInterface.gameObject, canvas.transform, false);
-					newInterface.name = _accountInterface.name;
-					_accountInterface = newInterface.GetComponent<BaseAccountInterface>();
+					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
+					newInterface.name = _landscapeInterface.name;
+					_landscapeInterface = newInterface.GetComponent<BaseAccountInterface>();
 				}
-				_accountInterface.RegisterButtonDisplay(_allowRegister);
-				_accountInterface.gameObject.SetActive(false);
+				_landscapeInterface.gameObject.SetActive(false);
+			}
+			if (_portraitInterface)
+			{
+				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene();
+				if (!inScene)
+				{
+					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
+					newInterface.name = _portraitInterface.name;
+					_portraitInterface = newInterface.GetComponent<BaseAccountInterface>();
+				}
+				_portraitInterface.gameObject.SetActive(false);
 			}
 		}
 
@@ -97,6 +116,22 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		protected virtual void Update()
+		{
+			if (_landscapeInterface && _landscapeInterface != _interface && _landscapeInterface.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_landscapeInterface.gameObject);
+				SUGARManager.unity.EnableObject(_interface.gameObject);
+				_interface.SetText(_landscapeInterface.GetText());
+			}
+			if (_portraitInterface && _portraitInterface != _interface && _portraitInterface.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_portraitInterface.gameObject);
+				SUGARManager.unity.EnableObject(_interface.gameObject);
+				_interface.SetText(_portraitInterface.GetText());
+			}
+		}
+
 		/// <summary>
 		/// Hide the UI object if it is currently active.
 		/// </summary>
@@ -104,7 +139,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (IsActive)
 			{
-				SUGARManager.unity.DisableObject(_accountInterface.gameObject);
+				SUGARManager.unity.DisableObject(_interface.gameObject);
 			}
 		}
 
@@ -158,7 +193,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (HasInterface)
 				{
-					_accountInterface.Display();
+					_interface.Display();
 				}
 			}
 			_allowAutoLogin = false;
@@ -190,7 +225,7 @@ namespace PlayGen.SUGAR.Unity
 				Debug.LogError(exception);
 				if (HasInterface)
 				{
-					_accountInterface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
+					_interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
 				}
 				_signInCallback(false);
 				SUGARManager.unity.StopSpinner();
@@ -217,7 +252,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (HasInterface)
 				{
-					_accountInterface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception.Message));
+					_interface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception.Message));
 				}
 				SUGARManager.unity.StopSpinner();
 			});

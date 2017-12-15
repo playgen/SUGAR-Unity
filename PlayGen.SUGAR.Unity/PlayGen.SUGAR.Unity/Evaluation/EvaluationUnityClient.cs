@@ -15,9 +15,15 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class EvaluationUnityClient : BaseUnityClient<BaseEvaluationListInterface>
 	{
-		[Tooltip("UI object used for evaluation completion notifications. Can be left null if not needed.")]
+		[Tooltip("Landscape UI object used for evaluation completion notifications. Can be left null if not needed.")]
 		[SerializeField]
-		private BaseEvaluationPopupInterface _achievementPopup;
+		private BaseEvaluationPopupInterface _landscapeAchievementPopup;
+
+		[Tooltip("Portrait UI object used for evaluation completion notifications. Can be left null if not needed.")]
+		[SerializeField]
+		private BaseEvaluationPopupInterface _portraitAchievementPopup;
+
+		private BaseEvaluationPopupInterface _achievementPopup => Screen.width > Screen.height ? _landscapeAchievementPopup ?? _portraitAchievementPopup : _portraitAchievementPopup ?? _landscapeAchievementPopup;
 
 		[SerializeField]
 		[Range(0.1f, 10f)]
@@ -37,17 +43,47 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.EnableNotifications(true);
 				SUGARManager.client.Skill.EnableNotifications(true);
 			}
-			if (_achievementPopup)
+			if (_landscapeAchievementPopup)
 			{
-				var inScenePopUp = _achievementPopup.gameObject.scene == SceneManager.GetActiveScene();
+				var inScenePopUp = _landscapeAchievementPopup.gameObject.scene == SceneManager.GetActiveScene();
 				if (!inScenePopUp)
 				{
-					var newPopUp = Instantiate(_achievementPopup.gameObject, canvas.transform, false);
-					newPopUp.name = _achievementPopup.name;
-					_achievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
+					var newPopUp = Instantiate(_landscapeAchievementPopup.gameObject, canvas.transform, false);
+					newPopUp.name = _landscapeAchievementPopup.name;
+					_landscapeAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 				}
-				_achievementPopup.gameObject.SetActive(true);
+				_landscapeAchievementPopup.gameObject.SetActive(true);
 				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+			}
+			if (_portraitAchievementPopup)
+			{
+				var inScenePopUp = _portraitAchievementPopup.gameObject.scene == SceneManager.GetActiveScene();
+				if (!inScenePopUp)
+				{
+					var newPopUp = Instantiate(_portraitAchievementPopup.gameObject, canvas.transform, false);
+					newPopUp.name = _portraitAchievementPopup.name;
+					_portraitAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
+				}
+				_portraitAchievementPopup.gameObject.SetActive(true);
+				if (!IsInvoking("NotificatonCheck"))
+				{
+					InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+				}
+			}
+		}
+
+		protected override void Update()
+		{
+			base.Update();
+			if (_landscapeAchievementPopup && _landscapeAchievementPopup == _achievementPopup && !_landscapeAchievementPopup.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
+				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
+			}
+			if (_portraitAchievementPopup && _portraitAchievementPopup == _achievementPopup && !_portraitAchievementPopup.gameObject.activeInHierarchy)
+			{
+				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
+				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
 		}
 
@@ -156,9 +192,13 @@ namespace PlayGen.SUGAR.Unity
 
 		private void HandleNotification(EvaluationNotification notification)
 		{
-			if (_achievementPopup)
+			if (_landscapeAchievementPopup)
 			{
-				_achievementPopup.Notification(notification);
+				_landscapeAchievementPopup.Notification(notification);
+			}
+			if (_portraitAchievementPopup)
+			{
+				_portraitAchievementPopup.Notification(notification);
 			}
 		}
 	}
