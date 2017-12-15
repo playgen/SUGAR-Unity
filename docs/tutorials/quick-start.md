@@ -2,6 +2,8 @@
 
 **Note: Please ensure you have created a SUGAR account before going through the following steps.**
 
+If you don't already have one, you can create a SUGAR account [here](https://admindemo.sugarengine.org/).
+
 #### Add SUGAR  
 1. Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs/Landscape.   
 
