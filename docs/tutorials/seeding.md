@@ -35,7 +35,7 @@
 * **[EvaluationDataCategory](#evaluationdatacategory)**: The category of data which will be used for this leaderboard.
 * **[EvaluationDataType](#evaluationdatatype)**: The type of data which will be used for this leaderboard.
 * **[CriteriaScope](#criteriascope)**: The range of actors from which the data will be collected.
-* **[LeaderboardType](#leaderboardtype)**: How collected data will be used and sorted for this leaderboard.
+* **[LeaderboardType](#leaderboardtype)**: How collected data will be sorted for this leaderboard.
 
 ## Enums
 
