@@ -242,8 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: -2015201922, guid: a68d5202d3713b54d9346a2ffece787b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseAddress: http://localhost
-  _gameToken: example
+  _baseAddress: http://api.sugarengine.org/v1/
+  _gameToken: 
   _gameId: 0
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
   _useBlocker: 1
