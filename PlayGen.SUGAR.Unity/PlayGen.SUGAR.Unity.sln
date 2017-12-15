@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.SUGAR.Unity", "PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj", "{14F79E99-A3F5-4F70-AA2A-06719A0DE82E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.SUGAR.Unity.Editor", "PlayGen.SUGAR.Unity.Editor\PlayGen.SUGAR.Unity.Editor.csproj", "{1513F93D-D06B-43EA-8586-F7B2E75B6F03}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.SUGAR.Unity.WebGL", "PlayGen.SUGAR.Unity.WebGL\PlayGen.SUGAR.Unity.WebGL.csproj", "{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1513F93D-D06B-43EA-8586-F7B2E75B6F03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DECEE9DC-9371-4BE6-869E-9B8426BBB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
