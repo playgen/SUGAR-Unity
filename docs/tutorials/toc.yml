@@ -1,8 +1,8 @@
-﻿- name: Build Instructions
-  href: build-instructions.md
-- name: Quick Start
+﻿- name: Quick Start
   href: quick-start.md
 - name: Seeding
   href: seeding.md   
 - name: Client Prefabs
   href: client-prefabs.md
+- name: Build Instructions
+  href: build-instructions.md

@@ -6,5 +6,6 @@
 /**/packages/
 /**/bin/
 /**/obj/
-_site
-_pdf
+api/
+_site/
+_pdf/
