@@ -259,7 +259,8 @@ namespace PlayGen.SUGAR.Unity
 				var relationship = new RelationshipRequest
 				{
 					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id
+					AcceptorId = id,
+					AutoAccept = false
 				};
 				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
 				response =>

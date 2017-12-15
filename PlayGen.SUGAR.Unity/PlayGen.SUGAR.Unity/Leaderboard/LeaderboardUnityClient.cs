@@ -132,7 +132,8 @@ namespace PlayGen.SUGAR.Unity
 					ActorId = CurrentLeaderboard.ActorType == ActorType.Group ? SUGARManager.CurrentGroup.Id : SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
-					PageOffset = pageNumber
+					PageOffset = pageNumber,
+					MultiplePerActor = false
 				};
 
 				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
