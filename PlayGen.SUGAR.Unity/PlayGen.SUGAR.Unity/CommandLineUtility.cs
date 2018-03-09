@@ -15,13 +15,13 @@ namespace PlayGen.SUGAR.Unity
 			{
 				parser.ParseArguments(args, options);
 			}
-			var customArgs = options.Custom;
+			var customArgs = options.Custom?.Split(' ') ?? new string[0];
 			CustomArgs = new Dictionary<string, string>();
-			if (customArgs != null)
+			foreach (var arg in customArgs)
 			{
-				foreach (var arg in customArgs)
+				var keyValue = arg.Split('=');
+				if (keyValue.Length == 2)
 				{
-					var keyValue = arg.Split('=');
 					CustomArgs.Add(keyValue[0], keyValue[1]);
 				}
 			}
@@ -46,7 +46,7 @@ namespace PlayGen.SUGAR.Unity
 		[Option('p', "pass", Required = false, HelpText = "Specify the password for the user.")]
 		public string Password { get; set; }
 
-		[OptionArray('c', "custom", Required = false, HelpText = "Customs args list, dictionary pattern, separated by space. Eg: -c key=value key=value etc.")]
-		public string[] Custom { get; set; }
+		[Option('c', "custom", Required = false, HelpText = "Customs args list, dictionary pattern, separated by space. Eg: -c key=value key=value etc.")]
+		public string Custom { get; set; }
 	}
 }

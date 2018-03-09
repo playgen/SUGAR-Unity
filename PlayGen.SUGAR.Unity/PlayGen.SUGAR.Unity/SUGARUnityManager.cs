@@ -228,7 +228,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal bool GameValidityCheck()
+		public bool GameValidityCheck()
 		{
 			if (!_validCheck)
 			{
