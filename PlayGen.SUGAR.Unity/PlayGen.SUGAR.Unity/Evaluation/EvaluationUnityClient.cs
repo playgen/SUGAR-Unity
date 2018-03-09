@@ -4,7 +4,7 @@ using PlayGen.SUGAR.Client.EvaluationEvents;
 using UnityEngine;
 using System.Linq;
 
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine.SceneManagement;
 
 namespace PlayGen.SUGAR.Unity

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Common.Shared;
 using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.BestFit;
 using PlayGen.Unity.Utilities.Localization;

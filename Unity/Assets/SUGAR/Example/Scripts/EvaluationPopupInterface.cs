@@ -4,17 +4,9 @@ using PlayGen.SUGAR.Client.EvaluationEvents;
 using PlayGen.SUGAR.Unity;
 
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EvaluationPopupInterface : BaseEvaluationPopupInterface
 {
-	/// <summary>
-	/// Text used for display evaluation description. Can be left null.
-	/// </summary>
-	[Tooltip("Text used for display evaluation description. Can be left null.")]
-	[SerializeField]
-	protected Text _description;
-
 	/// <summary>
 	/// Animation for displaying the evaluation notification.
 	/// </summary>
@@ -41,7 +33,6 @@ public class EvaluationPopupInterface : BaseEvaluationPopupInterface
 		while (_evaluationQueue.Count > 0)
 		{
 			_name.text = _evaluationQueue[0].Name;
-			_description.text = _evaluationQueue[0].Description;
 			_animation.Play();
 			while (_animation.isPlaying)
 			{

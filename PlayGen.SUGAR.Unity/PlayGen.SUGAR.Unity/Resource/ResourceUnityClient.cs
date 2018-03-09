@@ -1,10 +1,7 @@
-﻿using PlayGen.SUGAR.Contracts;
+﻿using PlayGen.SUGAR.Contracts.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using PlayGen.SUGAR.Common.Authorization;
-
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
@@ -84,7 +81,7 @@ namespace PlayGen.SUGAR.Unity
 				var gameId = SUGARManager.GameId;
 				if (globalResource)
 				{
-					gameId = Platform.GlobalId;
+					gameId = -1;
 				}
 				SUGARManager.client.Resource.GetAsync(gameId, SUGARManager.CurrentUser.Id, keys,
 				response =>
@@ -112,7 +109,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					SenderActorId = SUGARManager.CurrentUser.Id,
 					RecipientActorId = recipientId,
-					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					GameId = globalResource ? -1 : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
@@ -141,7 +138,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				var request = new ResourceAddRequest {
 					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					GameId = globalResource ? -1 : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};

@@ -1,4 +1,4 @@
-﻿using PlayGen.SUGAR.Common;
+﻿using PlayGen.SUGAR.Common.Shared;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayGen.Unity.Utilities.Localization;

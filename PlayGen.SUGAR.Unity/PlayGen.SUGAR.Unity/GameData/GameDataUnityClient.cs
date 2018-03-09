@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using PlayGen.SUGAR.Common;
-using PlayGen.SUGAR.Contracts;
+﻿using System.Globalization;
+using PlayGen.SUGAR.Common.Shared;
+using PlayGen.SUGAR.Contracts.Shared;
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
@@ -12,82 +10,6 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public class GameDataUnityClient
 	{
-		public void Get(Action<IEnumerable<EvaluationDataResponse>> success, string[] keys = null)
-		{
-			if (SUGARManager.CurrentUser != null)
-			{
-				SUGARManager.client.GameData.GetAsync(SUGARManager.CurrentUser.Id, SUGARManager.GameId, keys,
-				success,
-				exception =>
-				{
-					Debug.LogError(exception.Message);
-					success(null);
-				});
-			}
-		}
-
-		/// <summary>
-		/// Get the highest value for this user for the key provided.
-		/// </summary>
-		public void GetHighest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Highest, success);
-		}
-
-		/// <summary>
-		/// Get the lowest value for this user for the key provided.
-		/// </summary>
-		public void GetLowest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Lowest, success);
-		}
-
-		/// <summary>
-		/// Get the cumulative value for this user for the key provided.
-		/// </summary>
-		public void GetCumulative(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Cumulative, success);
-		}
-
-		/// <summary>
-		/// Get the count for this user for the key provided.
-		/// </summary>
-		public void GetCount(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Count, success);
-		}
-
-		/// <summary>
-		/// Get the earliest value for this user for the key provided.
-		/// </summary>
-		public void GetEarliest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Earliest, success);
-		}
-
-		/// <summary>
-		/// Get the latest value for this user for the key provided.
-		/// </summary>
-		public void GetLatest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
-		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Latest, success);
-		}
-
-		private void GetByLeaderboardType(string key, EvaluationDataType dataType, LeaderboardType type, Action<EvaluationDataResponse> success)
-		{
-			if (SUGARManager.CurrentUser != null)
-			{
-				SUGARManager.client.GameData.GetByLeaderboardTypeAsync(SUGARManager.CurrentUser.Id, SUGARManager.GameId, key, dataType, type,
-				success,
-				exception =>
-				{
-					Debug.LogError(exception.Message);
-					success(null);
-				});
-			}
-		}
-
 		/// <summary>
 		/// Send a piece of gamedata with key and value provided.
 		/// </summary>

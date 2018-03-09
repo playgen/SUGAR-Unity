@@ -2,17 +2,28 @@
 
 	<PropertyGroup>
 		<TargetFramework>net35</TargetFramework>
-		<OutputPath>..\..\Unity\Assets\SUGAR\Plugins\net35\</OutputPath>
+		<OutputPath>..\..\Unity\Assets\SUGAR\Plugins\</OutputPath>
 		<ApplicationIcon />
 		<Win32Resource />
+		<Configurations>Debug;Release;DebugNET35;DebugNET46;ReleaseNET35;ReleaseNET46</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <DefineConstants>TRACE;DEBUG</DefineConstants>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugNET46|AnyCPU'">
+      <TargetFramework>net46</TargetFramework>
+      <DefineConstants>DEBUG;TRACE;NET46</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugNET35|AnyCPU'">
+      <TargetFramework>net35</TargetFramework>
+      <DefineConstants>DEBUG;TRACE;NET35</DefineConstants>
+	</PropertyGroup>
+
   <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -28,42 +39,28 @@
 			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
 			<Private>true</Private>
 		</Reference>
-		<Reference Include="PlayGen.SUGAR.Common">
-			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
-			<Private>true</Private>
-		</Reference>
-		<Reference Include="PlayGen.SUGAR.Contracts">
-			<HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
-			<Private>true</Private>
-		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.BestFit">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
-		  <Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
+		</Reference>
+		<Reference Include="PlayGen.Unity.Utilities.Extensions">
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.Extensions.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.FormKeyboardControls">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
-		  <Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Loading">
-			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
-			<Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.Loading.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Localization">
-			<HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
-			<Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.Localization.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Platforms">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
-		  <Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.UI">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.UI.dll</HintPath>
-		  <Private>true</Private>
+		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.UI.dll</HintPath>
 		</Reference>
-		<Reference Include="System.ComponentModel.DataAnnotations">
-		  <HintPath>..\..\lib\SUGAR\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
-		  <Private>true</Private>
-		</Reference>
+		<Reference Include="System.ComponentModel.DataAnnotations" />
 		<Reference Include="UnityEngine">
 			<HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
 			<Private>false</Private>

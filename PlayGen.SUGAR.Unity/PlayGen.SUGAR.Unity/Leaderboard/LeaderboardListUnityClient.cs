@@ -4,8 +4,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using System.Linq;
-using PlayGen.SUGAR.Common;
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Common.Shared;
+using PlayGen.SUGAR.Contracts.Shared;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -36,14 +36,14 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SetFilter(filter);
 			SUGARManager.unity.StartSpinner();
-			GetGlobalLeaderboards(success =>
+			GetLeaderboards(success =>
 			{
 				SUGARManager.unity.StopSpinner();
 				if (_interface)
 				{
 					_interface.Display(success);
 				}
-			});
+			}, true);
 		}
 
 		/// <summary>
@@ -71,49 +71,12 @@ namespace PlayGen.SUGAR.Unity
 			_currentActorType = filter;
 		}
 
-		private void GetGlobalLeaderboards(Action<bool> success)
+		private void GetLeaderboards(Action<bool> success, bool global = false)
 		{
 			Leaderboards.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				SUGARManager.client.Leaderboard.GetGlobalAsync(
-				response =>
-				{
-					var result = response.ToList();
-					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
-					{
-						var at = actorType;
-						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
-					}
-					success(true);
-				},
-				exception =>
-				{
-					var error = "Failed to get leaderboard list. " + exception.Message;
-					Debug.LogError(error);
-					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
-					{
-						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
-					}
-					success(false);
-				});
-			}
-			else
-			{
-				foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
-				{
-					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
-				}
-				success(false);
-			}
-		}
-
-		private void GetLeaderboards(Action<bool> success)
-		{
-			Leaderboards.Clear();
-			if (SUGARManager.CurrentUser != null)
-			{
-				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
+				SUGARManager.client.Leaderboard.GetAsync(global ? -1 : SUGARManager.GameId,
 				response =>
 				{
 					var result = response.ToList();

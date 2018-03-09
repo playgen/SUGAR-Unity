@@ -1,6 +1,6 @@
 ﻿using System;
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Contracts.Shared;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -39,19 +39,19 @@ namespace PlayGen.SUGAR.Unity
 		public static int GameId { get; internal set; }
 
 		/// <summary>
-		/// Currently signed in user.
+		/// Currently signed in user. WARNING: Only set this value if completely necessary.
 		/// </summary>
-		public static ActorResponse CurrentUser { get; internal set; }
+		public static ActorResponse CurrentUser { get; set; }
 
 		/// <summary>
-		/// Currently signed in user.
+		/// Currently signed in user's group. WARNING: Only set this value if completely necessary.
 		/// </summary>
-		public static ActorResponse CurrentGroup { get; internal set; }
+		public static ActorResponse CurrentGroup { get; set; }
 
 		/// <summary>
-		/// Group name gathered from auto sign in.
+		/// Group name gathered from auto sign in. WARNING: Only set this value if completely necessary.
 		/// </summary>
-		public static string ClassId { get; internal set; }
+		public static string ClassId { get; set; }
 
 		/// <summary>
 		/// Unity client for calls related to accounts
@@ -200,6 +200,21 @@ namespace PlayGen.SUGAR.Unity
 					return unity;
 				}
 				throw new Exception("No SUGARUnityManager found.");
+			}
+		}
+
+		/// <summary>
+		/// Class for contacting SUGAR client functionality
+		/// </summary>
+		public static SUGARClient Client
+		{
+			get
+			{
+				if (client != null)
+				{
+					return client;
+				}
+				throw new Exception("No SUGARClient found.");
 			}
 		}
 

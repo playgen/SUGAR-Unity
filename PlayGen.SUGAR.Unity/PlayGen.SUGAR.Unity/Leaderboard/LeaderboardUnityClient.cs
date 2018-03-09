@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Contracts.Shared;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
-using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Common.Shared;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -76,36 +76,18 @@ namespace PlayGen.SUGAR.Unity
 			CurrentLeaderboard = null;
 			if (SUGARManager.CurrentUser != null)
 			{
-				if (globalLeaderboard)
+				SUGARManager.client.Leaderboard.GetAsync(token, globalLeaderboard ? -1 : SUGARManager.GameId,
+				response =>
 				{
-					SUGARManager.client.Leaderboard.GetGlobalAsync(token,
-					response =>
-					{
-						CurrentLeaderboard = response;
-						success(true);
-					},
-					exception =>
-					{
-						var error = "Failed to get leaderboard. " + exception.Message;
-						Debug.LogError(error);
-						success(false);
-					});
-				}
-				else
+					CurrentLeaderboard = response;
+					success(true);
+				},
+				exception =>
 				{
-					SUGARManager.client.Leaderboard.GetAsync(token, SUGARManager.GameId,
-					response =>
-					{
-						CurrentLeaderboard = response;
-						success(true);
-					},
-					exception =>
-					{
-						var error = "Failed to get leaderboard. " + exception.Message;
-						Debug.LogError(error);
-						success(false);
-					});
-				}
+					var error = "Failed to get leaderboard. " + exception.Message;
+					Debug.LogError(error);
+					success(false);
+				});
 			}
 			else
 			{
@@ -132,8 +114,7 @@ namespace PlayGen.SUGAR.Unity
 					ActorId = CurrentLeaderboard.ActorType == ActorType.Group ? SUGARManager.CurrentGroup.Id : SUGARManager.CurrentUser.Id,
 					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
-					PageOffset = pageNumber,
-					MultiplePerActor = false
+					PageOffset = pageNumber
 				};
 
 				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,

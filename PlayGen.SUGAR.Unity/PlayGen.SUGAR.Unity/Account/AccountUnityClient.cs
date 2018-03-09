@@ -6,7 +6,7 @@ using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Contracts.Shared;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -143,25 +143,6 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		public void Logout(Action<bool> success)
-		{
-			if (SUGARManager.CurrentUser != null)
-			{
-				SUGARManager.client.Session.LogoutAsync(
-				() =>
-				{
-					SUGARManager.CurrentUser = null;
-					SUGARManager.CurrentGroup = null;
-					success(true);
-				},
-				exception =>
-				{
-					Debug.LogError(exception.Message);
-					success(false);
-				});
-			}
-		}
-
 		private IEnumerator CheckConfigLoad()
 		{
 			var wait = new WaitForFixedUpdate();
@@ -236,13 +217,13 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken);
-			SUGARManager.client.Session.CreateAndLoginAsync(SUGARManager.GameId, accountRequest,
+			SUGARManager.client.Account.CreateAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
 				SUGARManager.unity.StopSpinner();
 				if (SUGARManager.unity.GameValidityCheck())
 				{
-					SUGARManager.CurrentUser = response.User;
+					LoginUser(response.User.Name, pass);
 					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup = SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 					_signInCallback(true);
 				}

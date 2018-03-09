@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Common.Shared;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;

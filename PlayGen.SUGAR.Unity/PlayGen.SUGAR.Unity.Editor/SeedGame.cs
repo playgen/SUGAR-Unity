@@ -8,9 +8,8 @@ using Newtonsoft.Json;
 using Object = UnityEngine.Object;
 using System.IO;
 
-using PlayGen.SUGAR.Client.Development;
-using PlayGen.SUGAR.Common.Authorization;
-using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Contracts.Shared;
 
 namespace PlayGen.SUGAR.Unity.Editor
 {
@@ -72,7 +71,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				}
 			}
 			Debug.Log(baseAddress);
-			var devClient = new SUGARDevelopmentClient(baseAddress);
+			var devClient = new SUGARClient(baseAddress);
 
 			if (!TryLoginAdmin(devClient, username, password, out var response, out var loginError))
 			{
@@ -95,7 +94,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding " + gameSeed.game, 0);
 					try
 					{
-						var gameResponse = devClient.Development.CreateGame(new GameRequest
+						var gameResponse = devClient.Game.Create(new GameRequest
 						{
 							Name = gameSeed.game
 						});
@@ -153,7 +152,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryCreateAchievements(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] achievements, out List<string> errors)
+		private static bool TryCreateAchievements(SUGARClient devClient, EvaluationCreateRequest[] achievements, out List<string> errors)
 		{
 			errors = new List<string>();
 			var gameId = SUGARManager.GameId;
@@ -163,7 +162,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				achieve.GameId = gameId;
 				try
 				{
-					devClient.Development.CreateAchievement(achieve);
+					devClient.Achievement.Create(achieve);
 				}
 				catch (Exception ex)
 				{
@@ -174,7 +173,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryCreateSkills(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] skills, out List<string> errors)
+		private static bool TryCreateSkills(SUGARClient devClient, EvaluationCreateRequest[] skills, out List<string> errors)
 		{
 			errors = new List<string>();
 			var gameId = SUGARManager.GameId;
@@ -184,7 +183,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				skill.GameId = gameId;
 				try
 				{
-					devClient.Development.CreateAchievement(skill);
+					devClient.Skill.Create(skill);
 				}
 				catch (Exception ex)
 				{
@@ -195,7 +194,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryCreateLeaderboards(SUGARDevelopmentClient devClient, LeaderboardRequest[] leaderboards, out List<string> errors)
+		private static bool TryCreateLeaderboards(SUGARClient devClient, LeaderboardRequest[] leaderboards, out List<string> errors)
 		{
 			errors = new List<string>();
 			var gameId = SUGARManager.GameId;
@@ -205,7 +204,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				leader.GameId = gameId;
 				try
 				{
-					devClient.Development.CreateLeaderboard(leader);
+					devClient.Leaderboard.Create(leader);
 				}
 				catch (Exception ex)
 				{
@@ -216,13 +215,13 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryLoginAdmin(SUGARDevelopmentClient devClient, string username, string password, out AccountResponse response, out string error)
+		private static bool TryLoginAdmin(SUGARClient devClient, string username, string password, out AccountResponse response, out string error)
 		{
 			error = null;
 			response = null;
 			try
 			{
-				response = devClient.Session.Login(Platform.GlobalId, new AccountRequest
+				response = devClient.Session.Login(-1, new AccountRequest
 				{
 					Name = username,
 					Password = password,

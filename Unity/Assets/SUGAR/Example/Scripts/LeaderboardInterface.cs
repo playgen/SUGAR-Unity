@@ -6,7 +6,6 @@ using PlayGen.Unity.Utilities.BestFit;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayGen.Unity.Utilities.Localization;
-using PlayGen.SUGAR.Common;
 
 public class LeaderboardInterface : BaseLeaderboardInterface
 {
