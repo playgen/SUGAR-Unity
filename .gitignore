@@ -2,6 +2,7 @@
 .vs/
 PlayGen.SUGAR.Unity/**/bin/
 PlayGen.SUGAR.Unity/**/obj/
+*.DotSettings.user
 
 # Unity
 [Ll]ibrary/
@@ -11,6 +12,8 @@ Unity/Unity.Editor.csproj
 Unity/**/net35/**/*.dll
 Unity/**/net35/**/*.pdb
 Unity/**/net35/**/*.pdb.meta
+Unity/**/net35/**/*.mdb
+Unity/**/net35/**/*.mdb.meta
 Unity/**/AssetStoreTools/
 Unity/**/AssetStoreTools.meta
 
