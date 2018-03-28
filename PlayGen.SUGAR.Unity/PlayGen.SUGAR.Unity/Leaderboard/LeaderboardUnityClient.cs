@@ -123,13 +123,14 @@ namespace PlayGen.SUGAR.Unity
 			{
 				CurrentStandings.Clear();
 			}
-			if (SUGARManager.CurrentUser != null && CurrentLeaderboard != null)
+			var actor = CurrentLeaderboard.ActorType == ActorType.Group || _currentFilter == LeaderboardFilterType.GroupMembers ? SUGARManager.CurrentGroup : SUGARManager.CurrentUser;
+			if (actor != null && CurrentLeaderboard != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{
 					LeaderboardToken = CurrentLeaderboard.Token,
 					GameId = SUGARManager.GameId,
-					ActorId = CurrentLeaderboard.ActorType == ActorType.Group ? SUGARManager.CurrentGroup.Id : SUGARManager.CurrentUser.Id,
+					ActorId = actor.Id,
 					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
 					PageOffset = pageNumber,

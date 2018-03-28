@@ -85,7 +85,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_alliancesButton)
 			{
-				_friendsButton.onClick.AddListener(delegate { UpdateFilter(4); });
+				_alliancesButton.onClick.AddListener(delegate { UpdateFilter(4); });
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_membersButton)
 			{
-				_membersButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
+				_membersButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group);
 				_membersButton.gameObject.SetActive(_membersButton.interactable);
 			}
 			if (_alliancesButton)

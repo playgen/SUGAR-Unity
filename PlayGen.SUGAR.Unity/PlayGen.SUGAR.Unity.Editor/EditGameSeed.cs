@@ -420,6 +420,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					_gameSeed = new GameSeed
 					{
 						achievements = new EvaluationCreateRequest[0],
+						skills = new EvaluationCreateRequest[0],
 						leaderboards = new LeaderboardRequest[0]
 					};
 					SetFoldOut();
@@ -434,7 +435,13 @@ namespace PlayGen.SUGAR.Unity.Editor
 			_showAchievementReward.Clear();
 			_showAchievementCriteriaList.Clear();
 			_showAchievementRewardList.Clear();
+			_showSkillList.Clear();
+			_showSkillCriteria.Clear();
+			_showSkillReward.Clear();
+			_showSkillCriteriaList.Clear();
+			_showSkillRewardList.Clear();
 			var currentAchieve = 0;
+			var currentSkill = 0;
 			foreach (var achieve in _gameSeed.achievements)
 			{
 				_showAchievementList.Add(false);
@@ -459,6 +466,31 @@ namespace PlayGen.SUGAR.Unity.Editor
 					_showAchievementRewardList[currentAchieve].Add(false);
 				}
 				currentAchieve++;
+			}
+			foreach (var skill in _gameSeed.skills)
+			{
+				_showSkillList.Add(false);
+				_showSkillCriteria.Add(false);
+				_showSkillReward.Add(false);
+				_showSkillCriteriaList.Add(new List<bool>());
+				_showSkillRewardList.Add(new List<bool>());
+				if (skill.EvaluationCriterias == null)
+				{
+					skill.EvaluationCriterias = new List<EvaluationCriteriaCreateRequest>();
+				}
+				foreach (var criteria in skill.EvaluationCriterias)
+				{
+					_showSkillCriteriaList[currentSkill].Add(false);
+				}
+				if (skill.Rewards == null)
+				{
+					skill.Rewards = new List<RewardCreateRequest>();
+				}
+				foreach (var reward in skill.Rewards)
+				{
+					_showSkillRewardList[currentSkill].Add(false);
+				}
+				currentSkill++;
 			}
 			_showLeaderboardList.Clear();
 			foreach (var leader in _gameSeed.leaderboards)

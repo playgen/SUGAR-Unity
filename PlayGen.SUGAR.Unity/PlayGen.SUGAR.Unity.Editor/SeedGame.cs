@@ -141,9 +141,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 				if (gameSeed.leaderboards != null)
 				{
 					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding leaderboards", 0);
-					if (!TryCreateLeaderboards(devClient, gameSeed.leaderboards, out var leaderboardAchievements))
+					if (!TryCreateLeaderboards(devClient, gameSeed.leaderboards, out var leaderboardErrors))
 					{
-						errors.AddRange(leaderboardAchievements);
+						errors.AddRange(leaderboardErrors);
 					}
 					EditorUtility.ClearProgressBar();
 				}
@@ -184,7 +184,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				skill.GameId = gameId;
 				try
 				{
-					devClient.Development.CreateAchievement(skill);
+					devClient.Development.CreateSkill(skill);
 				}
 				catch (Exception ex)
 				{

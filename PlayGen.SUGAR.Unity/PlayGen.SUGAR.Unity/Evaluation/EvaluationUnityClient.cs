@@ -77,12 +77,12 @@ namespace PlayGen.SUGAR.Unity
 			base.Update();
 			if (_landscapeAchievementPopup && _landscapeAchievementPopup == _achievementPopup && !_landscapeAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
+				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
 			if (_portraitAchievementPopup && _portraitAchievementPopup == _achievementPopup && !_portraitAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
+				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
 		}
@@ -93,7 +93,7 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplayAchievementList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetAchievements(success =>
+			GetAchievements(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
 				if (HasInterface)
@@ -103,12 +103,28 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		private void GetAchievements(Action<bool> success)
+		/// <summary>
+		/// Gathers current evaluation completion status and displays UI object if provided.
+		/// </summary>
+		public void DisplayGroupAchievementList()
+		{
+			SUGARManager.unity.StartSpinner();
+			GetAchievements(SUGARManager.CurrentGroup, success =>
+			{
+				SUGARManager.unity.StopSpinner();
+				if (HasInterface)
+				{
+					_interface.Display(success);
+				}
+			});
+		}
+
+		private void GetAchievements(ActorResponse actor, Action<bool> success)
 		{
 			Progress.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (actor != null)
 			{
-				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
+				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, actor.Id,
 				response =>
 				{
 					Progress = response.ToList();
@@ -133,7 +149,7 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplaySkillList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetSkills(success =>
+			GetSkills(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
 				if (HasInterface)
@@ -143,12 +159,28 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		private void GetSkills(Action<bool> success)
+		/// <summary>
+		/// Gathers current skill completion status and displays UI object if provided.
+		/// </summary>
+		public void DisplayGroupSkillList()
+		{
+			SUGARManager.unity.StartSpinner();
+			GetSkills(SUGARManager.CurrentGroup, success =>
+			{
+				SUGARManager.unity.StopSpinner();
+				if (HasInterface)
+				{
+					_interface.Display(success);
+				}
+			});
+		}
+
+		private void GetSkills(ActorResponse actor, Action<bool> success)
 		{
 			Progress.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (actor != null)
 			{
-				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, SUGARManager.CurrentUser.Id,
+				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, actor.Id,
 				response =>
 				{
 					Progress = response.ToList();
@@ -170,7 +202,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Force an evaluation notification to be displayed with the provided text.
 		/// </summary>
-		public void ForceNotificationTest(string notification = "Test Notification")
+		public void ForceNotification(string notification = "Test Notification")
 		{
 			HandleNotification(new EvaluationNotification
 			{

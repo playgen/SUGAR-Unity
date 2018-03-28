@@ -58,7 +58,6 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	/// </summary>
 	private void OnEnable()
 	{
-		DoBestFit();
 		BestFit.ResolutionChange += DoBestFit;
 		Localization.LanguageChange += OnLanguageChange;
 	}
@@ -110,7 +109,7 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
 		_nextButton.interactable = SUGARManager.Evaluation.Progress.Count > (_pageNumber + 1) * _evaluationItems.Length;
-		_evaluationItems.Select(t => t.gameObject).BestFit();
+		DoBestFit();
 	}
 
 	/// <summary>
@@ -135,7 +134,8 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	/// </summary>
 	private void DoBestFit()
 	{
-		_evaluationItems.Select(t => t.gameObject).BestFit();
+		_evaluationItems.Select(t => t.transform.Find("Name").gameObject).BestFit();
+		_evaluationItems.Select(t => t.transform.Find("Description").gameObject).BestFit();
 		GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
 	}
 
