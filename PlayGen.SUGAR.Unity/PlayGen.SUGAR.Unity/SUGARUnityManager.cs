@@ -177,7 +177,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SetUpClient()
 		{
-			SUGARManager.client = new SUGARClient(_baseAddress);
+			SUGARManager.client = new SUGARClient(_baseAddress, Application.platform != RuntimePlatform.WebGLPlayer ? null : new UnityWebGlHttpHandler(), Application.platform != RuntimePlatform.WebGLPlayer);
 			if (string.IsNullOrEmpty(_gameToken))
 			{
 				ResetManager();

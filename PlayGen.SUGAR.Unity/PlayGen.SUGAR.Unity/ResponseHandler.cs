@@ -15,19 +15,22 @@ namespace PlayGen.SUGAR.Unity
 
 		private void Update()
 		{
-			_stopwatch.Reset();
-
-			while (_tryExecuteNextResponse 
-				&& (_responseMillisecondBudgetPerFrame == 0 || _stopwatch.ElapsedMilliseconds < _responseMillisecondBudgetPerFrame))
+			if (Application.platform != RuntimePlatform.WebGLPlayer)
 			{
-				_stopwatch.Start();
+				_stopwatch.Reset();
 
-				_tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
+				while (_tryExecuteNextResponse
+					&& (_responseMillisecondBudgetPerFrame == 0 || _stopwatch.ElapsedMilliseconds < _responseMillisecondBudgetPerFrame))
+				{
+					_stopwatch.Start();
 
-				_stopwatch.Stop();
+					_tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
+
+					_stopwatch.Stop();
+				}
+
+				_tryExecuteNextResponse = true;
 			}
-
-			_tryExecuteNextResponse = true;
 		}
 	}
 }
