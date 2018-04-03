@@ -82,7 +82,7 @@
 		<None Update="link.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="WebGL Plugins\UnityWebGLHttpHandler.jslib">
+		<None Update="WebGL\UnityWebGLHttpHandler.jslib">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

@@ -39,15 +39,18 @@
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Client">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
+		  <Private>false</Private>
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Client.Development">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.Development.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Common">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
+		  <Private>false</Private>
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Contracts">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
+		  <Private>false</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
 		  <HintPath>..\..\lib\PlayGen Utilities\$(TargetFramework)\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>

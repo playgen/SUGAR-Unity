@@ -11,7 +11,37 @@
 			
 			debug && console.debug("HttpRequest::XMLHttpRequest::Open");
 			var xhr = new XMLHttpRequest();	
-			xhr.open(request.method, request.url, false);
+			xhr.open(request.method, request.url, true);
+
+			xhr.onload = function (e) {
+				if (xhr.readyState === 4) {
+					debug && console.debug("HttpRequest::XMLHttpRequest::getAllResponseHeaders");
+					var headersObj = {};
+					xhr.getAllResponseHeaders()
+						.split(/\r|\n/)
+						.forEach(function(pair) {
+							var pairsplit = pair.split(': ');
+							if (pairsplit != "") {
+								headersObj[pairsplit[0]] = pairsplit[1];
+							}
+						});
+			
+					debug && console.debug("HttpRequest::responseObj");
+					var responseObj = {
+						content: xhr.responseText,
+						headers: headersObj,
+						statusCode: xhr.status
+					};
+					var responseString = JSON.stringify(responseObj);
+			
+					debug && console.debug("HttpRequest::responseString::" + responseString);
+					var buffer = _malloc(lengthBytesUTF8(responseString) + 1);
+			
+					debug && console.debug("HttpRequest::writeStringToMemory");
+					writeStringToMemory(responseString, buffer);
+					return buffer;
+				}
+			};
 
 			debug && console.debug("HttpRequest::XMLHttpRequest::withCredentials");
 			var headers = Object.getOwnPropertyNames(request.headers);
@@ -31,32 +61,6 @@
 			
 			debug && console.debug("HttpRequest::XMLHttpRequest::send");
 			xhr.send(request.content);
-			
-			debug && console.debug("HttpRequest::XMLHttpRequest::getAllResponseHeaders");
-			var headersObj = {};
-			xhr.getAllResponseHeaders()
-				.split(/\r|\n/)
-				.forEach(function(pair) {
-					var pairsplit = pair.split(': ');
-					if (pairsplit != "") {
-						headersObj[pairsplit[0]] = pairsplit[1];
-					}
-				});
-			
-			debug && console.debug("HttpRequest::responseObj");
-			var responseObj = {
-				content: xhr.responseText,
-				headers: headersObj,
-				statusCode: xhr.status
-			};
-			var responseString = JSON.stringify(responseObj);
-			
-			debug && console.debug("HttpRequest::responseString::" + responseString);
-			var buffer = _malloc(lengthBytesUTF8(responseString) + 1);
-			
-			debug && console.debug("HttpRequest::writeStringToMemory");
-			writeStringToMemory(responseString, buffer);
-			return buffer;
 		} catch (exception) {
 			debug && console.debug("HttpRequest::Exception::" + exception);
 			return JSON.stringify({ statusCode: 599 });
