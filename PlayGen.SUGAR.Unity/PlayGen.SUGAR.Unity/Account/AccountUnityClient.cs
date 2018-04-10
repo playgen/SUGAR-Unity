@@ -176,10 +176,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (!Application.isEditor)
 			{
-				if (_allowAutoLogin)
-				{
-					options = CommandLineUtility.ParseArgs(Environment.GetCommandLineArgs());
-				}
+				options = CommandLineUtility.ParseArgs(Environment.GetCommandLineArgs());
 			}
 			if (options != null && options.AuthenticationSource == null)
 			{
