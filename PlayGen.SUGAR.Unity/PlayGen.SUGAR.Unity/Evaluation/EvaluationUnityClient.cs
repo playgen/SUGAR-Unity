@@ -77,12 +77,12 @@ namespace PlayGen.SUGAR.Unity
 			base.Update();
 			if (_landscapeAchievementPopup && _landscapeAchievementPopup == _achievementPopup && !_landscapeAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
+				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
 			if (_portraitAchievementPopup && _portraitAchievementPopup == _achievementPopup && !_portraitAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
+				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
 		}
@@ -170,7 +170,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Force an evaluation notification to be displayed with the provided text.
 		/// </summary>
-		public void ForceNotificationTest(string notification = "Test Notification")
+		public void ForceNotification(string notification = "Test Notification")
 		{
 			HandleNotification(new EvaluationNotification
 			{
