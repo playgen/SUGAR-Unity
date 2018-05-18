@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -22,7 +23,13 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_stopwatch.Start();
 
-				_tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
+			    if (SUGARManager.client == null)
+			    {
+                    Debug.LogWarning($"{nameof(SUGARManager.client)} is null. Make sure it has been setup with the {nameof(SUGARUnityManager)}");
+			    }
+                else { 
+			        _tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
+			    }
 
 				_stopwatch.Stop();
 			}
