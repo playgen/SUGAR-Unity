@@ -38,7 +38,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_landscapeInterface)
 			{
-				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene() || _landscapeInterface.gameObject.scene.name == "DontDestroyOnLoad";
 				if (!inScene)
 				{
 					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
@@ -49,7 +49,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_portraitInterface)
 			{
-				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene();
+				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene() || _portraitInterface.gameObject.scene.name == "DontDestroyOnLoad";
 				if (!inScene)
 				{
 					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
