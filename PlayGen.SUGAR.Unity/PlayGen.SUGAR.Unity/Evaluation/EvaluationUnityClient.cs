@@ -45,7 +45,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_landscapeAchievementPopup)
 			{
-				var inScenePopUp = _landscapeAchievementPopup.gameObject.scene == SceneManager.GetActiveScene();
+				var inScenePopUp = _landscapeAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _landscapeAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
 				if (!inScenePopUp)
 				{
 					var newPopUp = Instantiate(_landscapeAchievementPopup.gameObject, canvas.transform, false);
@@ -57,7 +57,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_portraitAchievementPopup)
 			{
-				var inScenePopUp = _portraitAchievementPopup.gameObject.scene == SceneManager.GetActiveScene();
+				var inScenePopUp = _portraitAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _portraitAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
 				if (!inScenePopUp)
 				{
 					var newPopUp = Instantiate(_portraitAchievementPopup.gameObject, canvas.transform, false);

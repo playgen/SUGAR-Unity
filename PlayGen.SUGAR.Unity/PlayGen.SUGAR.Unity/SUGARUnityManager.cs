@@ -125,7 +125,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					CustomInterfaces.Add(ci.Name, ci.GameObject);
 				}
-				if (ci.GameObject.scene == SceneManager.GetActiveScene())
+				if (ci.GameObject.scene == SceneManager.GetActiveScene() || ci.GameObject.scene.name == "DontDestroyOnLoad")
 				{
 					ci.GameObject.SetActive(false);
 				}
@@ -194,7 +194,7 @@ namespace PlayGen.SUGAR.Unity
             var customKeys = CustomInterfaces.Keys.ToList();
 			foreach (var key in customKeys)
 			{
-				var inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene();
+				var inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene() || CustomInterfaces[key].scene.name == "DontDestroyOnLoad";
 				if (!inScene)
 				{
 					var newInterface = Instantiate(CustomInterfaces[key], canvas.transform, false);
@@ -205,7 +205,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_uiBlocker)
 			{
-				var blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene();
+				var blockerInScene = _uiBlocker.scene == SceneManager.GetActiveScene() || _uiBlocker.scene.name == "DontDestroyOnLoad";
 				if (!blockerInScene)
 				{
 					var newBlocker = Instantiate(_uiBlocker, canvas.transform, false);
@@ -216,7 +216,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_uiSpinner)
 			{
-				var spinnerInScene = _uiSpinner.gameObject.scene == SceneManager.GetActiveScene();
+				var spinnerInScene = _uiSpinner.gameObject.scene == SceneManager.GetActiveScene() || _uiSpinner.gameObject.scene.name == "DontDestroyOnLoad";
 				if (!spinnerInScene)
 				{
 					var newSpinner = Instantiate(_uiSpinner, canvas.transform, false);
