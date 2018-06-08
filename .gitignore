@@ -1,21 +1,29 @@
+#
 # Visual Studio
+#
 .vs/
-PlayGen.SUGAR.Unity/**/bin/
-PlayGen.SUGAR.Unity/**/obj/
+bin/
+obj/
+packages/
 
+# Resharper
+*.DotSettings.user
+
+# Build output
+net46/
+!net46/*.dll.meta
+
+#
 # Unity
-[Ll]ibrary/
-[Tt]emp/
-Unity/Unity.csproj
-Unity/Unity.Editor.csproj
-Unity/**/net35/**/*.dll
-Unity/**/net35/**/*.pdb
-Unity/**/net35/**/*.pdb.meta
-Unity/**/AssetStoreTools/
-Unity/**/AssetStoreTools.meta
+#
+# Project Cache
+Library/
+Temp/
+AssetStoreTools/
+AssetStoreTools.meta
 
-# Auto Generated
-Unity/Assets/SUGAR/Documentation.pdf
-
-# Output
-[Bb]uild/
+# Generated Visual Studio Items
+Assembly-CSharp*.csproj
+Unity*.csproj
+Unity*.Editor.csproj
+Unity.sln
