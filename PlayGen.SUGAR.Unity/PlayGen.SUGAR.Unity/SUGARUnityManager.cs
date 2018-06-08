@@ -294,6 +294,10 @@ namespace PlayGen.SUGAR.Unity
 				{
 					_blockQueue.Add(_currentBlock);
 				}
+				if (activeObject.gameObject.scene.name == null)
+				{
+					return;
+				}
 				_currentBlock = activeObject;
 				_uiBlocker.transform.SetAsLastSibling();
 				_uiBlocker.SetActive(true);
