@@ -6,6 +6,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\PlayGen.SUGAR.Unity\PlayGen.SUGAR.Unity.csproj">
 			<Private>false</Private>
 		</ProjectReference>
@@ -20,18 +26,6 @@
       <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>

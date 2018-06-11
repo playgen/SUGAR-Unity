@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using PlayGen.SUGAR.Client;
 
-namespace PlayGen.SUGAR.Unity
+namespace PlayGen.SUGAR.Unity.WebGL
 {
 	public class UnityWebGlHttpHandler : IHttpHandler
 	{

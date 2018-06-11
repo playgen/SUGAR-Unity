@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 8
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -39,7 +39,6 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
-  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -55,10 +54,11 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -214,105 +214,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 223000012450321626, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1726300651}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _gameToken
-      value: demo
-      objectReference: {fileID: 0}
-    - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _allowAutoLogin
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114000014259607728, guid: bb12776c4b045cc45ab0ef3d57d1d79d,
-        type: 2}
-    - target: {fileID: 114000012611603444, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114000011335328718, guid: 7753862d15f4b1a4ca2e8f688004b8e8,
-        type: 2}
-    - target: {fileID: 114000012611603444, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitAchievementPopup
-      value: 
-      objectReference: {fileID: 114000013413874684, guid: 38ae97ef5e9f37142bced7d07e5e3fa4,
-        type: 2}
-    - target: {fileID: 114419658720830504, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114986476922269026, guid: 4fee6a59e10e32c48b66e520471eda7c,
-        type: 2}
-    - target: {fileID: 114000012611603444, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114000011335328718, guid: da1b3e420bd0de7438fc02f71340f4d4,
-        type: 2}
-    - target: {fileID: 114000012611603444, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeAchievementPopup
-      value: 
-      objectReference: {fileID: 114000013413874684, guid: 30bf371ff31e0bc429751b3218cfa999,
-        type: 2}
-    - target: {fileID: 114000012266143498, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114821472770664860, guid: 5cfb24d32dc83384484706106f0caec4,
-        type: 2}
-    - target: {fileID: 114551013849527086, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114000012229610962, guid: be736ad3ec565d9488b29626d58f6d30,
-        type: 2}
-    - target: {fileID: 114365565946979862, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _landscapeInterface
-      value: 
-      objectReference: {fileID: 114000013210295108, guid: e29d7a7dd4a690245a2e6d8cf00df004,
-        type: 2}
-    - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114000014259607728, guid: 0133eba20c4a22b41952b8904fea06a4,
-        type: 2}
-    - target: {fileID: 114419658720830504, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114444121039104144, guid: 02cb693e6e0d1bf47bde1a937c419ff4,
-        type: 2}
-    - target: {fileID: 114000012266143498, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114082581145949930, guid: 2aecc81e8942a734b92b4628b1dc975a,
-        type: 2}
-    - target: {fileID: 114551013849527086, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114000012229610962, guid: eb10b05a4c7df1342a4a9c3375046cf1,
-        type: 2}
-    - target: {fileID: 114365565946979862, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _portraitInterface
-      value: 
-      objectReference: {fileID: 114033351558301050, guid: 362117e88b6d6c542b47831f219e5e46,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 991ef3e1f70851f458b55f5f7eae55a2, type: 2}
   m_IsPrefabParent: 0
@@ -387,7 +288,6 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10

@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using PlayGen.SUGAR.Client;
+﻿using PlayGen.SUGAR.Client;
 using PlayGen.SUGAR.Unity;
+#if UNITY_WEBGL
+using PlayGen.SUGAR.Unity.WebGL;
+#endif
 
 public class PlatformSUGARUnityManager : SUGARUnityManager
 {
