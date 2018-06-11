@@ -16,29 +16,28 @@ namespace PlayGen.SUGAR.Unity
 
 		private void Update()
 		{
-			if (Application.platform != RuntimePlatform.WebGLPlayer)
-			{
-				_stopwatch.Reset();
+		    if (Application.platform != RuntimePlatform.WebGLPlayer)
+		    {
+		        if (SUGARManager.client == null)
+		        {
+		            Debug.LogWarning($"{nameof(SUGARManager.client)} is null. Make sure it has been setup with the {nameof(SUGARUnityManager)}");
+		        }
+                else
+		        { 
+		            _stopwatch.Reset();
 
-				while (_tryExecuteNextResponse
-					&& (_responseMillisecondBudgetPerFrame == 0 || _stopwatch.ElapsedMilliseconds < _responseMillisecondBudgetPerFrame))
-				{
-					_stopwatch.Start();
+		            while (_tryExecuteNextResponse && (_responseMillisecondBudgetPerFrame == 0 || _stopwatch.ElapsedMilliseconds < _responseMillisecondBudgetPerFrame))
+		            {
+		                _stopwatch.Start();
 
-					if (SUGARManager.client == null)
-					{
-						Debug.LogWarning($"{nameof(SUGARManager.client)} is null. Make sure it has been setup with the {nameof(SUGARUnityManager)}");
-					}
-					else
-					{
-						_tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
-					}
+		                _tryExecuteNextResponse = SUGARManager.client.TryExecuteResponse();
 
-					_stopwatch.Stop();
-				}
+		                _stopwatch.Stop();
+		            }
 
-				_tryExecuteNextResponse = true;
-			}
+		            _tryExecuteNextResponse = true;
+		        }
+		    }
 		}
 	}
 }
