@@ -20,32 +20,43 @@
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Common">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Contracts">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.BestFit">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Extensions">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Extensions.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.FormKeyboardControls">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.FormKeyboardControls.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Loading">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Loading.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Localization">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Platforms">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.UI">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.UI.dll</HintPath>
+		  <Private>true</Private>
 		</Reference>
-		<Reference Include="System.ComponentModel.DataAnnotations" />
+		<Reference Include="System.ComponentModel.DataAnnotations">
+		  <Private>false</Private>
+		</Reference>
 		<Reference Include="UnityEngine">
 			<HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
 			<Private>false</Private>
@@ -61,9 +72,69 @@
 		<None Update="link.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="WebGL\UnityWebGLHttpHandler.jslib">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Core">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Data">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Drawing">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.IO.Compression.FileSystem">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Numerics">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Runtime.Serialization">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Xml">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System.Xml.Linq">
+	    <Private>false</Private>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Update="System">
+	    <Private>false</Private>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

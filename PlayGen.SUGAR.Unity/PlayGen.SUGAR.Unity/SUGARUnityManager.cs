@@ -177,7 +177,9 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SetUpClient()
 		{
-			SUGARManager.client = new SUGARClient(_baseAddress, Application.platform != RuntimePlatform.WebGLPlayer ? null : new UnityWebGlHttpHandler(), Application.platform != RuntimePlatform.WebGLPlayer);
+		    var httpHandler = CreateHttpHandler();
+            SUGARManager.client = new SUGARClient(_baseAddress, httpHandler);
+
 			if (string.IsNullOrEmpty(_gameToken))
 			{
 				ResetManager();
@@ -227,6 +229,12 @@ namespace PlayGen.SUGAR.Unity
 				Loading.Stop();
 			}
 		}
+
+        protected virtual IHttpHandler CreateHttpHandler()
+	    {
+            // Return null to use the default handler.
+	        return null;
+        }
 
 		public bool GameValidityCheck()
 		{

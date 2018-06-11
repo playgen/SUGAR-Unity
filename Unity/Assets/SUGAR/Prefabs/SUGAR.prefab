@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000010393178106}
-  - component: {fileID: 114796202535955300}
+  - component: {fileID: 114229209033879260}
   - component: {fileID: 114597521308858716}
   - component: {fileID: 114000012611603444}
   - component: {fileID: 114419658720830504}
@@ -168,6 +168,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _responseMillisecondBudgetPerFrame: 0
+--- !u!114 &114229209033879260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012920798932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bfc4a8441065e54e819044af11f5aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseAddress: http://api.sugarengine.org/v1/
+  _gameToken: 
+  _gameId: 1
+  _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
+  _useBlocker: 1
+  _blockerClickClose: 1
+  _uiSpinner: {fileID: 114457698309810782, guid: 225fde9262ab3a441a877acceec873ec,
+    type: 2}
+  _customInterfaceList: []
 --- !u!114 &114365565946979862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,26 +267,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resourceCheckRate: 2.5
   _checkGlobalUserResources: 0
---- !u!114 &114796202535955300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012920798932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -2015201922, guid: a68d5202d3713b54d9346a2ffece787b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseAddress: http://api.sugarengine.org/v1/
-  _gameToken: 
-  _gameId: 1
-  _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
-  _useBlocker: 1
-  _blockerClickClose: 1
-  _uiSpinner: {fileID: 114457698309810782, guid: 225fde9262ab3a441a877acceec873ec,
-    type: 2}
-  _customInterfaceList: []
 --- !u!114 &114938960575845522
 MonoBehaviour:
   m_ObjectHideFlags: 1
