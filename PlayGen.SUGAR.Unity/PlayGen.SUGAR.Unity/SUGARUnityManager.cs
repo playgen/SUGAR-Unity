@@ -7,8 +7,9 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
+using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.Loading;
-
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -74,7 +75,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string baseAddress => _baseAddress;
 
-		private string ConfigPath => Application.streamingAssetsPath + "/SUGAR.config.json";
+		private string ConfigPath => Path.Combine(Application.streamingAssetsPath, "SUGAR.config.json");
 
 		internal string gameToken
         {
@@ -161,14 +162,20 @@ namespace PlayGen.SUGAR.Unity
 
 		private IEnumerator LoadOnlineConfig(string path)
 		{
-			if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WSAPlayerX86 || Application.platform == RuntimePlatform.WSAPlayerX64)
-			{
-				path = "file:///" + path;
-			}
-			var www = new WWW(path);
-			yield return www;
+	        string data;
+	    
+	        if (path.Contains("://"))
+	        {
+	            var www = UnityWebRequest.Get(path);
+	            yield return www.SendWebRequest();
+	            data = www.downloadHandler.text;
+	        }
+	        else
+            { 
+	            data = File.ReadAllText(path);
+	        }
 
-			SUGARManager.config = JsonConvert.DeserializeObject<Config>(www.text);
+			SUGARManager.config = JsonConvert.DeserializeObject<Config>(data);
 			Debug.Log(SUGARManager.config.BaseUri);
 
 			_baseAddress = SUGARManager.config.BaseUri;
