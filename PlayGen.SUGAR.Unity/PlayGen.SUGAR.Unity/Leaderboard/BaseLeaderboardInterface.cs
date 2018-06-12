@@ -101,7 +101,9 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.UserGroup.Hide();
 			if (_topButton)
 			{
-				_topButton.interactable = true;
+				_topButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group) ||
+										(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User); ;
+				_topButton.gameObject.SetActive(_topButton.interactable);
 			}
 			if (_nearButton)
 			{
@@ -132,7 +134,8 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		protected override void ErrorDraw(bool loadingSuccess)
 		{
-			if (SUGARManager.leaderboard.CurrentLeaderboard == null)
+			base.ErrorDraw(loadingSuccess);
+			if (SUGARManager.CurrentUser != null && SUGARManager.leaderboard.CurrentLeaderboard == null)
 			{
 				_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
 				loadingSuccess = false;

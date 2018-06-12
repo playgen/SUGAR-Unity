@@ -192,6 +192,10 @@ namespace PlayGen.SUGAR.Unity
 				{
 					_interface.Display();
 				}
+				else
+				{
+					_signInCallback(false);
+				}
 			}
 			_allowAutoLogin = false;
 			if (options != null) SUGARManager.ClassId = options.ClassId;
