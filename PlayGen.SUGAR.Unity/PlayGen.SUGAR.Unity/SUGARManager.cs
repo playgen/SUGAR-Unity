@@ -53,170 +53,60 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public static string ClassId { get; set; }
 
-		/// <summary>
-		/// Unity client for calls related to accounts
-		/// </summary>
-		public static AccountUnityClient Account
-		{
-			get
-			{
-				if (account != null)
-				{
-					return account;
-				} 
-				throw new Exception("SUGAR GameObject needs to be active to access Account");
-			}
-		}
+	    /// <summary>
+	    /// Unity client for calls related to accounts
+	    /// </summary>
+	    public static AccountUnityClient Account => account;
 
 		/// <summary>
 		/// Unity client for calls related to evaluations
 		/// </summary>
-		public static EvaluationUnityClient Evaluation
-		{
-			get
-			{
-				if (evaluation != null)
-				{
-					return evaluation;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Evaluations");
-			}
-		}
+		public static EvaluationUnityClient Evaluation => evaluation;
 
 		/// <summary>
 		/// Unity client for calls related to friend lists
 		/// </summary>
-		public static UserFriendUnityClient UserFriend
-		{
-			get
-			{
-				if (userFriend != null)
-				{
-					return userFriend;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Friends");
-			}
-		}
+		public static UserFriendUnityClient UserFriend => userFriend;
 
 		/// <summary>
 		/// Unity client for calls related to gamedata
 		/// </summary>
-		public static GameDataUnityClient GameData
-		{
-			get
-			{
-				if (gameData != null)
-				{
-					return gameData;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access GameData");
-			}
-		}
+		public static GameDataUnityClient GameData => gameData;
 
 		/// <summary>
 		/// Unity client for calls related to group members
 		/// </summary>
-		public static GroupMemberUnityClient GroupMember
-		{
-			get
-			{
-				if (groupMember != null)
-				{
-					return groupMember;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Groups");
-			}
-		}
+		public static GroupMemberUnityClient GroupMember => groupMember;
 
 		/// <summary>
 		/// Unity client for calls related to leaderboard lists
 		/// </summary>
-		public static LeaderboardListUnityClient GameLeaderboard
-		{
-			get
-			{
-				if (gameLeaderboard != null)
-				{
-					return gameLeaderboard;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Leaderboards");
-			}
-		}
+		public static LeaderboardListUnityClient GameLeaderboard => gameLeaderboard;
 
 		/// <summary>
 		/// Unity client for calls related to leaderboard standings
 		/// </summary>
-		public static LeaderboardUnityClient Leaderboard
-		{
-			get
-			{
-				if (leaderboard != null)
-				{
-					return leaderboard;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Leaderboards");
-			}
-		}
+		public static LeaderboardUnityClient Leaderboard => leaderboard;
 
 		/// <summary>
 		/// Unity client for calls related to resources
 		/// </summary>
-		public static ResourceUnityClient Resource
-		{
-			get
-			{
-				if (resource != null)
-				{
-					return resource;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Resources");
-			}
-		}
+		public static ResourceUnityClient Resource => resource;
 
 		/// <summary>
 		/// Unity client for calls related to user groups
 		/// </summary>
-		public static UserGroupUnityClient UserGroup
-		{
-			get
-			{
-				if (userGroup != null)
-				{
-					return userGroup;
-				}
-				throw new Exception("SUGAR GameObject needs to be active to access Groups");
-			}
-		}
+		public static UserGroupUnityClient UserGroup => userGroup;
 
 		/// <summary>
 		/// Class for managing Unity elements of the asset
 		/// </summary>
-		public static SUGARUnityManager Unity
-		{
-			get
-			{
-				if (unity != null)
-				{
-					return unity;
-				}
-				throw new Exception("No SUGARUnityManager found.");
-			}
-		}
+		public static SUGARUnityManager Unity => unity;
 
 		/// <summary>
 		/// Class for contacting SUGAR client functionality
 		/// </summary>
-		public static SUGARClient Client
-		{
-			get
-			{
-				if (client != null)
-				{
-					return client;
-				}
-				throw new Exception("No SUGARClient found.");
-			}
-		}
+		public static SUGARClient Client => client;
 
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
