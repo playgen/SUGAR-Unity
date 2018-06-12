@@ -22,7 +22,7 @@
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Client.Development">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Client.Development.dll</HintPath>
-		  <Private>false</Private>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.SUGAR.Common">
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Common.dll</HintPath>
@@ -34,11 +34,11 @@
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
-		  <Private>false</Private>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Editor.UI">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.UI.dll</HintPath>
-		  <Private>false</Private>
+		  <Private>true</Private>
 		</Reference>
 		<Reference Include="UnityEditor">
 			<HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
