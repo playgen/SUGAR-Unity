@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity.Editor
@@ -6,6 +10,72 @@ namespace PlayGen.SUGAR.Unity.Editor
 	[InitializeOnLoad]
 	public static class SetEditorAutoLogin
 	{
+		public class AutoLoginOption
+		{
+			public string Label;
+			public string Key;
+			public string SugarRefName;
+			public bool Required;
+			public string AutoLoginPrefix;
+			/// <summary>
+			/// depends on value name must be the name of a boolean
+			/// </summary>
+			public string DependsOnValue;
+		}
+
+		public class StringValue : AutoLoginOption
+		{
+			public string Value;
+			public bool Hidden;
+
+			public StringValue(string label, string key, string sugarRefName, string autoLoginPrefix, string dependsOnValue = "", bool required = false, bool hidden = false, string value = "")
+			{
+				Label = label;
+				Key = key;
+				AutoLoginPrefix = autoLoginPrefix;
+				SugarRefName = sugarRefName;
+				Required = required;
+				Value = value;
+				Hidden = hidden;
+				DependsOnValue = dependsOnValue;
+			}
+
+			public StringValue(string value)
+			{
+				Value = value;
+			}
+		}
+
+		public class BoolValue : AutoLoginOption
+		{
+			public bool Value;
+
+			public BoolValue(string label, string key, string sugarRefName, string autoLoginPrefix, bool required = false, bool value = false)
+			{
+				Label = label;
+				Key = key;
+				AutoLoginPrefix = autoLoginPrefix;
+				SugarRefName = sugarRefName;
+				Required = required;
+				Value = value;
+			}
+
+			public BoolValue(bool value)
+			{
+				Value = value;
+			}
+		}
+
+		public static List<AutoLoginOption> AutoLoginOptions = new List<AutoLoginOption> {
+			new StringValue("Username", "AutoLoginUsername", "autoLoginUsername", "-u", required:true),
+			new BoolValue("Password Required", "AutoLoginSourcePassRequired", "autoLoginSourcePassRequired", ""),
+			new StringValue("Password", "AutoLoginPassword", "autoLoginPassword", "-p", hidden:true, dependsOnValue:"AutoLoginSourcePassRequired"),
+			new StringValue("Group ID", "AutoLoginGroup", "autoLoginGroup", "-g"),
+			new StringValue("Source Token", "AutoLoginSourceToken", "autoLoginSourceToken", "-s", required:true),
+			new BoolValue("Auto Login", "AutoLoginAuto", "autoLoginAuto", "-a"),
+			new StringValue("Custom Args", "AutoLoginCustomArgs", "autoLoginCustomArgs", "-c")
+		};
+
 		private static bool _accountSet;
 
 		static SetEditorAutoLogin()
@@ -17,39 +87,86 @@ namespace PlayGen.SUGAR.Unity.Editor
 		{
 			if (SUGARManager.client != null && SUGARManager.account != null && !_accountSet)
 			{
-				SUGARManager.account.autoLoginSourcePassRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
-				SUGARManager.account.autoLoginAuto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
-				SUGARManager.account.autoLoginUsername = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
-				SUGARManager.account.autoLoginGroup = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
-				SUGARManager.account.autoLoginPassword = EditorPrefs.HasKey("AutoLoginPassword") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
-				SUGARManager.account.autoLoginSourceToken = EditorPrefs.HasKey("AutoLoginSourceToken") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
-				SUGARManager.account.autoLoginCustomArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
-				if (!EditorPrefs.HasKey("AutoLoginUsername") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginUsername")))
+				var sugarAccount = SUGARManager.account;
+				foreach (var autoLoginOption in AutoLoginOptions)
 				{
-					Debug.LogError("Auto Log-in Tool Error: Username not provided");
+					if (autoLoginOption.GetType() == typeof(BoolValue))
+					{
+						var boolValue = (BoolValue)autoLoginOption;
+						boolValue.Value = !EditorPrefs.HasKey(boolValue.Key) || EditorPrefs.GetBool(boolValue.Key);
+
+						var prop = sugarAccount.GetType().GetField(boolValue.SugarRefName, BindingFlags.Instance | BindingFlags.NonPublic);
+						prop?.SetValue(sugarAccount, boolValue.Value);
+					}
+					if (autoLoginOption.GetType() == typeof(StringValue))
+					{
+						var stringValue = (StringValue)autoLoginOption;
+						stringValue.Value = EditorPrefs.HasKey(stringValue.Key) ? EditorPrefs.GetString(stringValue.Key) : string.Empty;
+
+						var prop = sugarAccount.GetType().GetField(stringValue.SugarRefName, BindingFlags.Instance | BindingFlags.NonPublic);
+						prop?.SetValue(sugarAccount, stringValue.Value);
+
+						if (autoLoginOption.Required)
+						{
+							if (stringValue.Value == string.Empty)
+							{
+								Debug.LogError("Auto Log-in Tool Error: " + stringValue.Label + " not provided");
+							}
+						}
+					}
 				}
-				if (!EditorPrefs.HasKey("AutoLoginSourceToken") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginSourceToken")))
+
+				var args = new List<string>();
+				foreach (var autoLoginOption in AutoLoginOptions)
 				{
-					Debug.LogError("Auto Log-in Tool Error: Source token not provided");
+					if (autoLoginOption.GetType() == typeof(BoolValue))
+					{
+						var boolValue = (BoolValue)autoLoginOption;
+
+						if (!string.IsNullOrEmpty(boolValue.AutoLoginPrefix) && boolValue.Value)
+						{
+							args.Add(boolValue.AutoLoginPrefix);
+						}
+					}
+					if (autoLoginOption.GetType() == typeof(StringValue))
+					{
+						var stringValue = (StringValue) autoLoginOption;
+						if (!string.IsNullOrEmpty(stringValue.DependsOnValue))
+						{
+							// this value is only used if the value it depends on is true
+							if (DependentValue(stringValue.DependsOnValue) && !string.IsNullOrEmpty(stringValue.AutoLoginPrefix) && !string.IsNullOrEmpty(stringValue.Value))
+							{
+								args.Add(stringValue.AutoLoginPrefix + stringValue.Value);
+							}
+						}
+						else if (!string.IsNullOrEmpty(stringValue.AutoLoginPrefix) && !string.IsNullOrEmpty(stringValue.Value))
+						{
+							args.Add(stringValue.AutoLoginPrefix + stringValue.Value);
+						}
+					}
 				}
-				if (SUGARManager.account.autoLoginSourcePassRequired && (!EditorPrefs.HasKey("AutoLoginPassword") || string.IsNullOrEmpty(EditorPrefs.GetString("AutoLoginPassword"))))
+				var str = "";
+				foreach (var s in args)
 				{
-					Debug.LogError("Auto Log-in Tool Error: Password not provided. If no password is needed, 'password required' setting needs to be set to false");
+					str += s;
 				}
-				if (SUGARManager.account.autoLoginSourcePassRequired)
-				{
-					SUGARManager.account.options = CommandLineUtility.ParseArgs(new[] { "-u" + SUGARManager.account.autoLoginUsername, "-p" + SUGARManager.account.autoLoginPassword, "-s" + SUGARManager.account.autoLoginSourceToken, SUGARManager.account.autoLoginGroup != string.Empty ? "-g" + SUGARManager.account.autoLoginGroup : string.Empty, SUGARManager.account.autoLoginAuto ? "-a" : string.Empty, SUGARManager.account.autoLoginCustomArgs != string.Empty ? "-c" + SUGARManager.account.autoLoginCustomArgs : string.Empty });
-				}
-				else
-				{
-					SUGARManager.account.options = CommandLineUtility.ParseArgs(new[] { "-u" + SUGARManager.account.autoLoginUsername, "-s" + SUGARManager.account.autoLoginSourceToken, SUGARManager.account.autoLoginGroup != string.Empty ? "-g" + SUGARManager.account.autoLoginGroup : string.Empty, SUGARManager.account.autoLoginAuto ? "-a" : string.Empty, SUGARManager.account.autoLoginCustomArgs != string.Empty ? "-c" + SUGARManager.account.autoLoginCustomArgs : string.Empty });
-				}
+				Debug.Log(str);
+				SUGARManager.account.options = CommandLineUtility.ParseArgs(args.ToArray());
+				
 				_accountSet = true;
 			}
 			else if (SUGARManager.client == null && _accountSet)
 			{
 				_accountSet = false;
 			}
+		}
+
+		public static bool DependentValue(string dependingValueKey)
+		{
+			if (string.IsNullOrEmpty(dependingValueKey))
+				return false;
+			var dependingValue = (BoolValue)AutoLoginOptions.First(a => a.Key == dependingValueKey);
+			return dependingValue.Value;
 		}
 
 		[MenuItem("Tools/SUGAR/Set Auto Log-in Values")]
@@ -63,48 +180,67 @@ namespace PlayGen.SUGAR.Unity.Editor
 
 	public class AutoLogIn : EditorWindow
 	{
-		private string _username;
-		private string _password;
-		private string _group;
-		private string _source;
-		private bool _auto;
-		private bool _passRequired;
-		private string _customArgs;
-
 		private void OnEnable()
 		{
-			_passRequired = !EditorPrefs.HasKey("AutoLoginSourcePassRequired") || EditorPrefs.GetBool("AutoLoginSourcePassRequired");
-			_auto = !EditorPrefs.HasKey("AutoLoginAuto") || EditorPrefs.GetBool("AutoLoginAuto");
-			_username = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginUsername") : string.Empty;
-			_password = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginPassword") : string.Empty;
-			_group = EditorPrefs.HasKey("AutoLoginGroup") ? EditorPrefs.GetString("AutoLoginGroup") : string.Empty;
-			_source = EditorPrefs.HasKey("AutoLoginUsername") ? EditorPrefs.GetString("AutoLoginSourceToken") : string.Empty;
-			_customArgs = EditorPrefs.HasKey("AutoLoginCustomArgs") ? EditorPrefs.GetString("AutoLoginCustomArgs") : string.Empty;
+			foreach (var autoLoginOption in SetEditorAutoLogin.AutoLoginOptions)
+			{
+				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.BoolValue))
+				{
+					var boolValue = (SetEditorAutoLogin.BoolValue)autoLoginOption;
+					boolValue.Value = !EditorPrefs.HasKey(boolValue.Key) || EditorPrefs.GetBool(boolValue.Key);
+				}
+				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.StringValue))
+				{
+					var stringValue = (SetEditorAutoLogin.StringValue)autoLoginOption;
+					stringValue.Value = EditorPrefs.HasKey(stringValue.Key) ? EditorPrefs.GetString(stringValue.Key) : string.Empty;
+				}
+			}
 		}
 
 		private void OnGUI()
 		{
-			_username = EditorGUILayout.TextField("Username", _username, EditorStyles.textField);
-			_passRequired = EditorGUILayout.Toggle("Password Required", _passRequired, EditorStyles.toggle);
-			if (_passRequired)
+			foreach (var autoLoginOption in SetEditorAutoLogin.AutoLoginOptions)
 			{
-				_password = EditorGUILayout.PasswordField("Password", _password, EditorStyles.textField);
+				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.BoolValue))
+				{
+					var boolValue = (SetEditorAutoLogin.BoolValue)autoLoginOption;
+					boolValue.Value = EditorGUILayout.Toggle(boolValue.Label, boolValue.Value, EditorStyles.toggle);
+				}
+				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.StringValue))
+				{
+					var stringValue = (SetEditorAutoLogin.StringValue)autoLoginOption;
+					if ((!string.IsNullOrEmpty(stringValue.DependsOnValue) && SetEditorAutoLogin.DependentValue(stringValue.DependsOnValue)) ||
+					    string.IsNullOrEmpty(stringValue.DependsOnValue))
+					{
+						if (stringValue.Hidden)
+						{
+							stringValue.Value = EditorGUILayout.PasswordField(stringValue.Label, stringValue.Value, EditorStyles.textField);
+						}
+						else
+						{
+							stringValue.Value = EditorGUILayout.TextField(stringValue.Label, stringValue.Value, EditorStyles.textField);
+						}
+					}
+				}
 			}
-			_group = EditorGUILayout.TextField("Group Id", _group, EditorStyles.textField);
-			_source = EditorGUILayout.TextField("Account Source", _source, EditorStyles.textField);
-			_auto = EditorGUILayout.Toggle("Auto Log-in", _auto, EditorStyles.toggle);
-			_customArgs = EditorGUILayout.TextField("Custom Args. key=value key=value etc.", _customArgs, EditorStyles.textField);
 			if (GUILayout.Button("Save"))
 			{
-				EditorPrefs.SetBool("AutoLoginSourcePassRequired", _passRequired);
-				EditorPrefs.SetBool("AutoLoginAuto", _auto);
-				EditorPrefs.SetString("AutoLoginUsername", _username);
-				EditorPrefs.SetString("AutoLoginPassword", _password);
-				EditorPrefs.SetString("AutoLoginGroup", _group);
-				EditorPrefs.SetString("AutoLoginSourceToken", _source);
-				EditorPrefs.SetString("AutoLoginCustomArgs", _customArgs);
+				foreach (var autoLoginOption in SetEditorAutoLogin.AutoLoginOptions)
+				{
+					if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.BoolValue))
+					{
+						var boolValue = (SetEditorAutoLogin.BoolValue)autoLoginOption;
+						EditorPrefs.SetBool(boolValue.Key, boolValue.Value);
+					}
+					if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.StringValue))
+					{
+						var stringValue = (SetEditorAutoLogin.StringValue)autoLoginOption;
+						EditorPrefs.SetString(stringValue.Key, stringValue.Value);
+					}
+				}
 				Close();
 			}
 		}
 	}
 }
+
