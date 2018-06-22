@@ -70,12 +70,12 @@ namespace PlayGen.SUGAR.Unity
 		protected override void Update()
 		{
 			base.Update();
-			if (_landscapeAchievementPopup && _landscapeAchievementPopup == _achievementPopup && !_landscapeAchievementPopup.gameObject.activeInHierarchy)
+			if (_landscapeAchievementPopup && _landscapeAchievementPopup != _achievementPopup && _landscapeAchievementPopup.gameObject.activeInHierarchy)
 			{
 				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
 			}
-			if (_portraitAchievementPopup && _portraitAchievementPopup == _achievementPopup && !_portraitAchievementPopup.gameObject.activeInHierarchy)
+			if (_portraitAchievementPopup && _portraitAchievementPopup != _achievementPopup && _portraitAchievementPopup.gameObject.activeInHierarchy)
 			{
 				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
 				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
