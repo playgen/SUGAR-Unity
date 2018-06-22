@@ -45,31 +45,26 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (_landscapeAchievementPopup)
 			{
-				var inScenePopUp = _landscapeAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _landscapeAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScenePopUp)
-				{
-					var newPopUp = Instantiate(_landscapeAchievementPopup.gameObject, canvas.transform, false);
-					newPopUp.name = _landscapeAchievementPopup.name;
-					_landscapeAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
-				}
-				_landscapeAchievementPopup.gameObject.SetActive(true);
-				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+				SetInterface(_landscapeAchievementPopup, canvas).gameObject.SetActive(true);
 			}
 			if (_portraitAchievementPopup)
 			{
-				var inScenePopUp = _portraitAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _portraitAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScenePopUp)
-				{
-					var newPopUp = Instantiate(_portraitAchievementPopup.gameObject, canvas.transform, false);
-					newPopUp.name = _portraitAchievementPopup.name;
-					_portraitAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
-				}
-				_portraitAchievementPopup.gameObject.SetActive(true);
-				if (!IsInvoking("NotificatonCheck"))
-				{
-					InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
-				}
+				SetInterface(_portraitAchievementPopup, canvas).gameObject.SetActive(true);
 			}
+
+			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+		}
+
+		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas)
+		{
+			var inScenePopUp = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
+			if (!inScenePopUp)
+			{
+				var newPopUp = Instantiate(popupInterface.gameObject, canvas.transform, false);
+				newPopUp.name = popupInterface.name;
+				popupInterface = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
+			}
+			return popupInterface;
 		}
 
 		protected override void Update()

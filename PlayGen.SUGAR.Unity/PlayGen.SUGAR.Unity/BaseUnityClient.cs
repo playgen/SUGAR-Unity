@@ -36,28 +36,27 @@ namespace PlayGen.SUGAR.Unity
 
 		internal virtual void CreateInterface(Canvas canvas)
 		{
+
 			if (_landscapeInterface)
 			{
-				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene() || _landscapeInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
-					newInterface.name = _landscapeInterface.name;
-					_landscapeInterface = newInterface.GetComponent<T>();
-				}
-				_landscapeInterface.gameObject.SetActive(false);
+				SetInterface(_landscapeInterface, canvas).gameObject.SetActive(false);
 			}
 			if (_portraitInterface)
 			{
-				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene() || _portraitInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
-					newInterface.name = _portraitInterface.name;
-					_portraitInterface = newInterface.GetComponent<T>();
-				}
-				_portraitInterface.gameObject.SetActive(false);
+				SetInterface(_portraitInterface, canvas).gameObject.SetActive(false);
 			}
+		}
+
+		protected T SetInterface<T>(T panelInterface, Canvas canvas) where T : BaseInterface
+		{
+			var inScene = panelInterface.gameObject.scene == SceneManager.GetActiveScene() || panelInterface.gameObject.scene.name == "DontDestroyOnLoad";
+			if (!inScene)
+			{
+				var newInterface = Instantiate(panelInterface.gameObject, canvas.transform, false);
+				newInterface.name = panelInterface.name;
+				panelInterface = newInterface.GetComponent<T>();
+			}
+			return panelInterface;
 		}
 
 		protected virtual void Update()
