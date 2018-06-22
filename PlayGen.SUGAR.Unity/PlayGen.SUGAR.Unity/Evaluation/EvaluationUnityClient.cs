@@ -91,10 +91,7 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+					_interface?.Display(success);
 			});
 		}
 
@@ -107,10 +104,7 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(SUGARManager.CurrentGroup, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -147,10 +141,7 @@ namespace PlayGen.SUGAR.Unity
 			GetSkills(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -163,10 +154,7 @@ namespace PlayGen.SUGAR.Unity
 			GetSkills(SUGARManager.CurrentGroup, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 

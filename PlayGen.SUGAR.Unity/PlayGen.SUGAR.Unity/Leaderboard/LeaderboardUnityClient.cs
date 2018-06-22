@@ -55,18 +55,12 @@ namespace PlayGen.SUGAR.Unity
 				{
 					GetLeaderboardStandings(pageNumber, result =>
 					{
-						if (_interface)
-						{
-							_interface.Display(result);
-						}
+						_interface?.Display(result);
 					});
 				}
 				else
 				{
-					if (_interface)
-					{
-						_interface.Display(false);
-					}
+					_interface?.Display(false);
 				}
 			});
 		}
