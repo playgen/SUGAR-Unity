@@ -43,20 +43,19 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.EnableNotifications(true);
 				SUGARManager.client.Skill.EnableNotifications(true);
 			}
-			if (_landscapeAchievementPopup)
-			{
-				SetInterface(_landscapeAchievementPopup, canvas).gameObject.SetActive(true);
-			}
-			if (_portraitAchievementPopup)
-			{
-				SetInterface(_portraitAchievementPopup, canvas).gameObject.SetActive(true);
-			}
+			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas);
+			_landscapeAchievementPopup?.gameObject.SetActive(true);
+
+			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas);
+			_portraitAchievementPopup?.gameObject.SetActive(true);
 
 			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 		}
 
 		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas)
 		{
+			if (!popupInterface)
+				return null;
 			var inScenePopUp = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
 			if (!inScenePopUp)
 			{

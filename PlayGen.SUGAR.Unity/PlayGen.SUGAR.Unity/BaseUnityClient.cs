@@ -36,19 +36,17 @@ namespace PlayGen.SUGAR.Unity
 
 		internal virtual void CreateInterface(Canvas canvas)
 		{
+			_landscapeInterface = SetInterface(_landscapeInterface, canvas);
+			_landscapeInterface?.gameObject.SetActive(false);
 
-			if (_landscapeInterface)
-			{
-				SetInterface(_landscapeInterface, canvas).gameObject.SetActive(false);
-			}
-			if (_portraitInterface)
-			{
-				SetInterface(_portraitInterface, canvas).gameObject.SetActive(false);
-			}
+			_portraitInterface = SetInterface(_portraitInterface, canvas);
+			_portraitInterface?.gameObject.SetActive(false);
 		}
 
 		protected T SetInterface<T>(T panelInterface, Canvas canvas) where T : BaseInterface
 		{
+			if (!panelInterface)
+				return null;
 			var inScene = panelInterface.gameObject.scene == SceneManager.GetActiveScene() || panelInterface.gameObject.scene.name == "DontDestroyOnLoad";
 			if (!inScene)
 			{
