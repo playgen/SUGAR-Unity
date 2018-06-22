@@ -27,6 +27,13 @@ public class EvaluationItemInterface : MonoBehaviour
 	private Image _evaluationImage;
 
 	/// <summary>
+	/// Text for showing evaluation progress if not completed.
+	/// </summary>
+	[Tooltip("Text for showing evaluation progress if not completed.")]
+	[SerializeField]
+	private Text _evaluationProgress;
+
+	/// <summary>
 	/// Enable the GameObject, set the text and enable/disable the image.
 	/// </summary>
 	internal void SetText(EvaluationProgressResponse evaluation, bool completed)
@@ -38,6 +45,7 @@ public class EvaluationItemInterface : MonoBehaviour
 			_evaluationDescription.text = evaluation.Description;
 		}
 		_evaluationImage.enabled = completed;
+		_evaluationProgress.text = completed ? string.Empty : (Mathf.Round(evaluation.Progress * 100)) + "%";
 	}
 
 	/// <summary>

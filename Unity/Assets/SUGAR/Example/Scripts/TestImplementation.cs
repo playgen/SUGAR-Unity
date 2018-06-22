@@ -4,14 +4,14 @@ using PlayGen.SUGAR.Unity;
 public class TestImplementation : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	private void Start () {
 		SUGARManager.Account.DisplayPanel(success =>
 		{
 
 		});
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (Input.GetKey(KeyCode.T))
 		{

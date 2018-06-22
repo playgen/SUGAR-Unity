@@ -53,7 +53,7 @@ namespace PlayGen.SUGAR.Unity
 					_landscapeAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 				}
 				_landscapeAchievementPopup.gameObject.SetActive(true);
-				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+				InvokeRepeating(nameof(NotificatonCheck), _notificationCheckRate, _notificationCheckRate);
 			}
 			if (_portraitAchievementPopup)
 			{
@@ -65,9 +65,9 @@ namespace PlayGen.SUGAR.Unity
 					_portraitAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 				}
 				_portraitAchievementPopup.gameObject.SetActive(true);
-				if (!IsInvoking("NotificatonCheck"))
+				if (!IsInvoking(nameof(NotificatonCheck)))
 				{
-					InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+					InvokeRepeating(nameof(NotificatonCheck), _notificationCheckRate, _notificationCheckRate);
 				}
 			}
 		}

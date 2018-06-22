@@ -35,7 +35,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void StartCheck()
 		{
-			InvokeRepeating("UpdateResources", 0, _resourceCheckRate);
+			InvokeRepeating(nameof(UpdateResources), 0, _resourceCheckRate);
 		}
 
 		private void UpdateResources()

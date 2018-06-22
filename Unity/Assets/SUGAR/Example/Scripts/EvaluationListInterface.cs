@@ -5,7 +5,7 @@ using PlayGen.SUGAR.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
-using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 public class EvaluationListInterface : BaseEvaluationListInterface
@@ -58,6 +58,7 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	/// </summary>
 	private void OnEnable()
 	{
+		DoBestFit();
 		BestFit.ResolutionChange += DoBestFit;
 		Localization.LanguageChange += OnLanguageChange;
 	}
@@ -95,7 +96,7 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = 0; i < _evaluationItems.Length; i++)
+		for (var i = 0; i < _evaluationItems.Length; i++)
 		{
 			if (i >= evaluationList.Count)
 			{
@@ -134,9 +135,10 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	/// </summary>
 	private void DoBestFit()
 	{
-		_evaluationItems.Select(t => t.transform.Find("Name").gameObject).BestFit();
-		_evaluationItems.Select(t => t.transform.Find("Description").gameObject).BestFit();
-		GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
+		_evaluationItems.Select(t => t.transform.Find("Name")).BestFit();
+		_evaluationItems.Select(t => t.transform.Find("Description")).BestFit();
+		_evaluationItems.Select(t => t.transform.Find("Progress")).BestFit();
+		GetComponentsInChildren<Button>(true).ToList().BestFit();
 	}
 
 	/// <summary>

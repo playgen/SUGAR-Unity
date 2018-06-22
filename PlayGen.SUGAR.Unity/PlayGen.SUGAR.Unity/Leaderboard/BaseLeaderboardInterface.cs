@@ -102,7 +102,7 @@ namespace PlayGen.SUGAR.Unity
 			if (_topButton)
 			{
 				_topButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group) ||
-										(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User); ;
+										(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
 				_topButton.gameObject.SetActive(_topButton.interactable);
 			}
 			if (_nearButton)

@@ -26,10 +26,6 @@
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
 		  <Private>true</Private>
 		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.BestFit">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.BestFit.dll</HintPath>
-		  <Private>true</Private>
-		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.Extensions">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Extensions.dll</HintPath>
 		  <Private>true</Private>
@@ -46,9 +42,8 @@
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Localization.dll</HintPath>
 		  <Private>true</Private>
 		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.Platforms">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Platforms.dll</HintPath>
-		  <Private>true</Private>
+		<Reference Include="PlayGen.Unity.Utilities.Text">
+		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Text.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayGen.Unity.Utilities.UI">
 		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.UI.dll</HintPath>
