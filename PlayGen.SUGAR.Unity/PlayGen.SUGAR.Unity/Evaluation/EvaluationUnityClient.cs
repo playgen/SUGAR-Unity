@@ -49,7 +49,10 @@ namespace PlayGen.SUGAR.Unity
 			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas);
 			_portraitAchievementPopup?.gameObject.SetActive(true);
 
-			InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+			if (_landscapeAchievementPopup || _portraitAchievementPopup)
+			{
+				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
+			}
 		}
 
 		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas)
@@ -206,14 +209,8 @@ namespace PlayGen.SUGAR.Unity
 
 		private void HandleNotification(EvaluationNotification notification)
 		{
-			if (_landscapeAchievementPopup)
-			{
-				_landscapeAchievementPopup.Notification(notification);
-			}
-			if (_portraitAchievementPopup)
-			{
-				_portraitAchievementPopup.Notification(notification);
-			}
+			_landscapeAchievementPopup?.Notification(notification);
+			_portraitAchievementPopup?.Notification(notification);
 		}
 	}
 }
