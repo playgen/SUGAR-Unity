@@ -43,10 +43,10 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.EnableNotifications(true);
 				SUGARManager.client.Skill.EnableNotifications(true);
 			}
-			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas);
+			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas, "landscape");
 			_landscapeAchievementPopup?.gameObject.SetActive(true);
 
-			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas);
+			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas, "portrait");
 			_portraitAchievementPopup?.gameObject.SetActive(true);
 
 			if (_landscapeAchievementPopup || _portraitAchievementPopup)
@@ -55,15 +55,16 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas)
+		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string orientation)
 		{
 			if (!popupInterface)
 				return null;
+
 			var inScenePopUp = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
 			if (!inScenePopUp)
 			{
 				var newPopUp = Instantiate(popupInterface.gameObject, canvas.transform, false);
-				newPopUp.name = popupInterface.name;
+				newPopUp.name = popupInterface.name + "_" + orientation;
 				popupInterface = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 			}
 			return popupInterface;
@@ -74,13 +75,13 @@ namespace PlayGen.SUGAR.Unity
 			base.Update();
 			if (_landscapeAchievementPopup && _landscapeAchievementPopup != _achievementPopup && _landscapeAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
-				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
+				_landscapeAchievementPopup.gameObject.SetActive(false);
+				_achievementPopup.gameObject.SetActive(true);
 			}
 			if (_portraitAchievementPopup && _portraitAchievementPopup != _achievementPopup && _portraitAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
-				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
+				_portraitAchievementPopup.gameObject.SetActive(false);
+				_achievementPopup.gameObject.SetActive(true);
 			}
 		}
 
