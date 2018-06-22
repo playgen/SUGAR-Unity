@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-
+using System.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -76,26 +76,24 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_landscapeInterface)
 			{
-				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene() || _landscapeInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
-					newInterface.name = _landscapeInterface.name;
-					_landscapeInterface = newInterface.GetComponent<BaseAccountInterface>();
-				}
-				_landscapeInterface.gameObject.SetActive(false);
+				SetInterface(_landscapeInterface, canvas).gameObject.SetActive(false);
 			}
 			if (_portraitInterface)
 			{
-				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene() || _portraitInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
-					newInterface.name = _portraitInterface.name;
-					_portraitInterface = newInterface.GetComponent<BaseAccountInterface>();
-				}
-				_portraitInterface.gameObject.SetActive(false);
+				SetInterface(_portraitInterface, canvas).gameObject.SetActive(false);
 			}
+		}
+
+		protected BaseAccountInterface SetInterface(BaseAccountInterface popupInterface, Canvas canvas)
+		{
+			var inScene = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
+			if (!inScene)
+			{
+				var newInterface = Instantiate(popupInterface.gameObject, canvas.transform, false);
+				newInterface.name = popupInterface.name;
+				popupInterface = newInterface.GetComponent<BaseAccountInterface>();
+			}
+			return popupInterface;
 		}
 
 		/// <summary>

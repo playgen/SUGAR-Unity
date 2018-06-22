@@ -145,12 +145,6 @@ namespace PlayGen.SUGAR.Unity.Editor
 						}
 					}
 				}
-				var str = "";
-				foreach (var s in args)
-				{
-					str += s;
-				}
-				Debug.Log(str);
 				SUGARManager.account.options = CommandLineUtility.ParseArgs(args.ToArray());
 				
 				_accountSet = true;
