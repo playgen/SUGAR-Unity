@@ -43,7 +43,7 @@ namespace PlayGen.SUGAR.Unity
 			_portraitInterface?.gameObject.SetActive(false);
 		}
 
-		protected T SetInterface<T>(T panelInterface, Canvas canvas) where T : BaseInterface
+		protected T SetInterface<T>(T panelInterface, Canvas canvas, string extension = "") where T : BaseInterface
 		{
 			if (!panelInterface)
 				return null;
@@ -51,7 +51,7 @@ namespace PlayGen.SUGAR.Unity
 			if (!inScene)
 			{
 				var newInterface = Instantiate(panelInterface.gameObject, canvas.transform, false);
-				newInterface.name = panelInterface.name;
+				newInterface.name = panelInterface.name + extension;
 				panelInterface = newInterface.GetComponent<T>();
 			}
 			return panelInterface;

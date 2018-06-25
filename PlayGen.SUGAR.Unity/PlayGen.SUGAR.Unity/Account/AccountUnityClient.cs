@@ -81,7 +81,7 @@ namespace PlayGen.SUGAR.Unity
 			_portraitInterface?.gameObject.SetActive(false);
 		}
 
-		protected BaseAccountInterface SetInterface(BaseAccountInterface popupInterface, Canvas canvas)
+		protected BaseAccountInterface SetInterface(BaseAccountInterface popupInterface, Canvas canvas, string extension = "")
 		{
 			if (!popupInterface)
 				return null;
@@ -89,7 +89,7 @@ namespace PlayGen.SUGAR.Unity
 			if (!inScene)
 			{
 				var newInterface = Instantiate(popupInterface.gameObject, canvas.transform, false);
-				newInterface.name = popupInterface.name;
+				newInterface.name = popupInterface.name + extension;
 				popupInterface = newInterface.GetComponent<BaseAccountInterface>();
 			}
 			return popupInterface;

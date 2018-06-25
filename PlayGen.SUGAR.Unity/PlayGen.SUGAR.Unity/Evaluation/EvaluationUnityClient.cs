@@ -43,10 +43,10 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.EnableNotifications(true);
 				SUGARManager.client.Skill.EnableNotifications(true);
 			}
-			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas, "landscape");
+			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas);
 			_landscapeAchievementPopup?.gameObject.SetActive(true);
 
-			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas, "portrait");
+			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas);
 			_portraitAchievementPopup?.gameObject.SetActive(true);
 
 			if (_landscapeAchievementPopup || _portraitAchievementPopup)
@@ -55,7 +55,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string orientation)
+		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string extension = "")
 		{
 			if (!popupInterface)
 				return null;
@@ -64,7 +64,7 @@ namespace PlayGen.SUGAR.Unity
 			if (!inScenePopUp)
 			{
 				var newPopUp = Instantiate(popupInterface.gameObject, canvas.transform, false);
-				newPopUp.name = popupInterface.name + "_" + orientation;
+				newPopUp.name = popupInterface.name + extension;
 				popupInterface = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 			}
 			return popupInterface;
