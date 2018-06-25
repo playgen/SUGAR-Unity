@@ -70,14 +70,12 @@ namespace PlayGen.SUGAR.Unity
 						{
 							foreach (var r in response)
 							{
-								if (SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) || SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) || r.Id == SUGARManager.CurrentUser.Id)
-								{
-									Members.Add(new ActorResponseAllowableActions(r, false, false));
-								}
-								else
-								{
-									Members.Add(new ActorResponseAllowableActions(r, true, false));
-								}
+								var canAdd = !(SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) 
+									|| SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) 
+									|| SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) 
+									|| r.Id == SUGARManager.CurrentUser.Id);
+
+								Members.Add(new ActorResponseAllowableActions(r, canAdd, false));
 							}
 						}
 						SUGARManager.unity.StopSpinner();

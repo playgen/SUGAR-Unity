@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using PlayGen.SUGAR.Common;
+using PlayGen.SUGAR.Contracts;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -67,26 +69,12 @@ namespace PlayGen.SUGAR.Unity
 		protected override void Awake()
 		{
 			base.Awake();
-			if (_topButton)
-			{
-				_topButton.onClick.AddListener(delegate { UpdateFilter(0); });
-			}
-			if (_nearButton)
-			{
-				_nearButton.onClick.AddListener(delegate { UpdateFilter(1); });
-			}
-			if (_friendsButton)
-			{
-				_friendsButton.onClick.AddListener(delegate { UpdateFilter(2); });
-			}
-			if (_membersButton)
-			{
-				_membersButton.onClick.AddListener(delegate { UpdateFilter(3); });
-			}
-			if (_alliancesButton)
-			{
-				_alliancesButton.onClick.AddListener(delegate { UpdateFilter(4); });
-			}
+
+			_topButton?.onClick.AddListener(delegate { UpdateFilter(0); });
+			_nearButton?.onClick.AddListener(delegate { UpdateFilter(1); });
+			_friendsButton?.onClick.AddListener(delegate { UpdateFilter(2); });
+			_membersButton?.onClick.AddListener(delegate { UpdateFilter(3); });
+			_alliancesButton?.onClick.AddListener(delegate { UpdateFilter(4); });
 		}
 
 		/// <summary>
@@ -99,33 +87,18 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.UserFriend.Hide();
 			SUGARManager.GroupMember.Hide();
 			SUGARManager.UserGroup.Hide();
-			if (_topButton)
-			{
-				_topButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group) ||
-										(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
-				_topButton.gameObject.SetActive(_topButton.interactable);
-			}
-			if (_nearButton)
-			{
-				_nearButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group) ||
-											(SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
-				_nearButton.gameObject.SetActive(_nearButton.interactable);
-			}
-			if (_friendsButton)
-			{
-				_friendsButton.interactable = (SUGARManager.CurrentUser != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group);
-				_friendsButton.gameObject.SetActive(_friendsButton.interactable);
-			}
-			if (_membersButton)
-			{
-				_membersButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.Group);
-				_membersButton.gameObject.SetActive(_membersButton.interactable);
-			}
-			if (_alliancesButton)
-			{
-				_alliancesButton.interactable = (SUGARManager.CurrentGroup != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != ActorType.User);
-				_alliancesButton.gameObject.SetActive(_alliancesButton.interactable);
-			}
+
+			SetInteractable(_topButton, IsValid(SUGARManager.CurrentUser, ActorType.Group) || IsValid(SUGARManager.CurrentGroup, ActorType.User));
+			SetInteractable(_nearButton, IsValid(SUGARManager.CurrentUser, ActorType.Group) || IsValid(SUGARManager.CurrentGroup, ActorType.User));
+			SetInteractable(_nearButton, IsValid(SUGARManager.CurrentUser, ActorType.Group));
+			SetInteractable(_membersButton, IsValid(SUGARManager.CurrentGroup, ActorType.Group));
+			SetInteractable(_alliancesButton, IsValid(SUGARManager.CurrentGroup, ActorType.User));
+
+			_topButton?.gameObject.SetActive(_topButton.interactable);
+			_nearButton?.gameObject.SetActive(_nearButton.interactable);
+			_friendsButton?.gameObject.SetActive(_friendsButton.interactable);
+			_membersButton?.gameObject.SetActive(_membersButton.interactable);
+			_alliancesButton?.gameObject.SetActive(_alliancesButton.interactable);
 		}
 
 		/// <summary>
@@ -142,26 +115,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (!loadingSuccess)
 			{
-				if (_topButton)
-				{
-					_topButton.interactable = false;
-				}
-				if (_nearButton)
-				{
-					_nearButton.interactable = false;
-				}
-				if (_friendsButton)
-				{
-					_friendsButton.interactable = false;
-				}
-				if (_membersButton)
-				{
-					_membersButton.interactable = false;
-				}
-				if (_alliancesButton)
-				{
-					_alliancesButton.interactable = false;
-				}
+				SetInteractable(_topButton, false);
+				SetInteractable(_nearButton, false);
+				SetInteractable(_friendsButton, false);
+				SetInteractable(_membersButton, false);
+				SetInteractable(_alliancesButton, false);
 			}
 			else if (!SUGARManager.leaderboard.CurrentStandings.Any())
 			{
@@ -170,6 +128,19 @@ namespace PlayGen.SUGAR.Unity
 					_errorText.text = NoResultsErrorText();
 				}
 			}
+		}
+
+		private void SetInteractable(Button button, bool interactable = true)
+		{
+			if (button)
+			{
+				button.interactable = interactable;
+			}
+		}
+
+		private bool IsValid(ActorResponse response, ActorType actorType)
+		{
+			return response != null && SUGARManager.Leaderboard.CurrentLeaderboard.ActorType != actorType;
 		}
 
 		private void UpdateFilter(int filter)

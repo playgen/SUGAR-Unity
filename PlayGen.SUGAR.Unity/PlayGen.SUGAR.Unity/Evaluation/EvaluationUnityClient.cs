@@ -43,47 +43,45 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Achievement.EnableNotifications(true);
 				SUGARManager.client.Skill.EnableNotifications(true);
 			}
-			if (_landscapeAchievementPopup)
+			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas);
+			_landscapeAchievementPopup?.gameObject.SetActive(true);
+
+			_portraitAchievementPopup = SetInterface(_portraitAchievementPopup, canvas);
+			_portraitAchievementPopup?.gameObject.SetActive(true);
+
+			if (_landscapeAchievementPopup || _portraitAchievementPopup)
 			{
-				var inScenePopUp = _landscapeAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _landscapeAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScenePopUp)
-				{
-					var newPopUp = Instantiate(_landscapeAchievementPopup.gameObject, canvas.transform, false);
-					newPopUp.name = _landscapeAchievementPopup.name;
-					_landscapeAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
-				}
-				_landscapeAchievementPopup.gameObject.SetActive(true);
-				InvokeRepeating(nameof(NotificatonCheck), _notificationCheckRate, _notificationCheckRate);
+				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 			}
-			if (_portraitAchievementPopup)
+		}
+
+		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string extension = "")
+		{
+			if (!popupInterface)
+				return null;
+
+			var inScenePopUp = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
+			if (!inScenePopUp)
 			{
-				var inScenePopUp = _portraitAchievementPopup.gameObject.scene == SceneManager.GetActiveScene() || _portraitAchievementPopup.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScenePopUp)
-				{
-					var newPopUp = Instantiate(_portraitAchievementPopup.gameObject, canvas.transform, false);
-					newPopUp.name = _portraitAchievementPopup.name;
-					_portraitAchievementPopup = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
-				}
-				_portraitAchievementPopup.gameObject.SetActive(true);
-				if (!IsInvoking(nameof(NotificatonCheck)))
-				{
-					InvokeRepeating(nameof(NotificatonCheck), _notificationCheckRate, _notificationCheckRate);
-				}
+				var newPopUp = Instantiate(popupInterface.gameObject, canvas.transform, false);
+				newPopUp.name = popupInterface.name + extension;
+				popupInterface = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
 			}
+			return popupInterface;
 		}
 
 		protected override void Update()
 		{
 			base.Update();
-			if (_landscapeAchievementPopup && _landscapeAchievementPopup == _achievementPopup && !_landscapeAchievementPopup.gameObject.activeInHierarchy)
+			if (_landscapeAchievementPopup && _landscapeAchievementPopup != _achievementPopup && _landscapeAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_landscapeAchievementPopup.gameObject);
-				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
+				_landscapeAchievementPopup.gameObject.SetActive(false);
+				_achievementPopup.gameObject.SetActive(true);
 			}
-			if (_portraitAchievementPopup && _portraitAchievementPopup == _achievementPopup && !_portraitAchievementPopup.gameObject.activeInHierarchy)
+			if (_portraitAchievementPopup && _portraitAchievementPopup != _achievementPopup && _portraitAchievementPopup.gameObject.activeInHierarchy)
 			{
-				SUGARManager.unity.DisableObject(_portraitAchievementPopup.gameObject);
-				SUGARManager.unity.EnableObject(_achievementPopup.gameObject);
+				_portraitAchievementPopup.gameObject.SetActive(false);
+				_achievementPopup.gameObject.SetActive(true);
 			}
 		}
 
@@ -96,10 +94,7 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+					_interface?.Display(success);
 			});
 		}
 
@@ -112,10 +107,7 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(SUGARManager.CurrentGroup, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -152,10 +144,7 @@ namespace PlayGen.SUGAR.Unity
 			GetSkills(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -168,10 +157,7 @@ namespace PlayGen.SUGAR.Unity
 			GetSkills(SUGARManager.CurrentGroup, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (HasInterface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -224,14 +210,8 @@ namespace PlayGen.SUGAR.Unity
 
 		private void HandleNotification(EvaluationNotification notification)
 		{
-			if (_landscapeAchievementPopup)
-			{
-				_landscapeAchievementPopup.Notification(notification);
-			}
-			if (_portraitAchievementPopup)
-			{
-				_portraitAchievementPopup.Notification(notification);
-			}
+			_landscapeAchievementPopup?.Notification(notification);
+			_portraitAchievementPopup?.Notification(notification);
 		}
 	}
 }

@@ -39,10 +39,7 @@ namespace PlayGen.SUGAR.Unity
 			GetGlobalLeaderboards(success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (_interface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 
@@ -56,10 +53,7 @@ namespace PlayGen.SUGAR.Unity
 			GetLeaderboards(success =>
 			{
 				SUGARManager.unity.StopSpinner();
-				if (_interface)
-				{
-					_interface.Display(success);
-				}
+				_interface?.Display(success);
 			});
 		}
 

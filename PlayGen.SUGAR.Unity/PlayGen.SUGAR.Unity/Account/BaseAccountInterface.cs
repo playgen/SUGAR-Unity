@@ -61,19 +61,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				if (_loginButton)
-				{
-					_loginButton.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text); });
-				}
-				if (_registerButton)
-				{
-					_registerButton.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
-				}
+				_loginButton?.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text); });
+				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
 			}
-			if (_closeButton)
-			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
-			}
+			_closeButton?.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 		}
 
 		internal void Display()
@@ -89,10 +80,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void RegisterButtonDisplay(bool display)
 		{
-			if (_registerButton)
-			{
-				_registerButton.gameObject.SetActive(display);
-			}
+			_registerButton?.gameObject.SetActive(display);
 		}
 
 		internal void SetStatus(string text)

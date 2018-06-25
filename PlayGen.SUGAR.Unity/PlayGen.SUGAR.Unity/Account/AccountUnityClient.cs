@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-
+using System.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -74,28 +74,25 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void CreateInterface(Canvas canvas)
 		{
-			if (_landscapeInterface)
+			_landscapeInterface = SetInterface(_landscapeInterface, canvas);
+			_landscapeInterface?.gameObject.SetActive(false);
+			
+			_portraitInterface = SetInterface(_portraitInterface, canvas);
+			_portraitInterface?.gameObject.SetActive(false);
+		}
+
+		protected BaseAccountInterface SetInterface(BaseAccountInterface popupInterface, Canvas canvas, string extension = "")
+		{
+			if (!popupInterface)
+				return null;
+			var inScene = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
+			if (!inScene)
 			{
-				var inScene = _landscapeInterface.gameObject.scene == SceneManager.GetActiveScene() || _landscapeInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_landscapeInterface.gameObject, canvas.transform, false);
-					newInterface.name = _landscapeInterface.name;
-					_landscapeInterface = newInterface.GetComponent<BaseAccountInterface>();
-				}
-				_landscapeInterface.gameObject.SetActive(false);
+				var newInterface = Instantiate(popupInterface.gameObject, canvas.transform, false);
+				newInterface.name = popupInterface.name + extension;
+				popupInterface = newInterface.GetComponent<BaseAccountInterface>();
 			}
-			if (_portraitInterface)
-			{
-				var inScene = _portraitInterface.gameObject.scene == SceneManager.GetActiveScene() || _portraitInterface.gameObject.scene.name == "DontDestroyOnLoad";
-				if (!inScene)
-				{
-					var newInterface = Instantiate(_portraitInterface.gameObject, canvas.transform, false);
-					newInterface.name = _portraitInterface.name;
-					_portraitInterface = newInterface.GetComponent<BaseAccountInterface>();
-				}
-				_portraitInterface.gameObject.SetActive(false);
-			}
+			return popupInterface;
 		}
 
 		/// <summary>
