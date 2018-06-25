@@ -1,6 +1,6 @@
 # Documentation
 
-SUGAR's documentation is generated using [DocFX](https://dotnet.github.io/docfx/) using tripple slash code comments and [Swagger](https://swagger.io/) to generate the REST API.
+SUGAR Unity's documentation is generated using [DocFX](https://dotnet.github.io/docfx/) using tripple slash code comments and DicFX .md and .toc files located in docs/.
 
 ## Building
 
@@ -13,6 +13,13 @@ There are various build scripts in docs/tools to build, copy and serve the docs.
 - "docfx" as a command needs to be availabe via the command console for the scripts to work.
 
 - PDF documentation requires [wkhtmltopdf](https://wkhtmltopdf.org/).
+
+### Process
+Run docs/tools/all_and_copy.bat to build all the docs, the pdf and copy them, into the relevant places.
+
+OR 
+
+Run docs/tools/metadata_build_and_serve.bat to serve and test the docs.
 
 ### PDF
 
