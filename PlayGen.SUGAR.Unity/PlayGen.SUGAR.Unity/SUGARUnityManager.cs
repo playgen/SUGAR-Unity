@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using UnityEngine;
 using PlayGen.SUGAR.Client;
-using PlayGen.SUGAR.Unity;
 using PlayGen.Unity.Utilities.Loading;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -78,14 +77,14 @@ namespace PlayGen.SUGAR.Unity
 		private string ConfigPath => Path.Combine(Application.streamingAssetsPath, "SUGAR.config.json");
 
 		internal string gameToken
-        {
-            set => _gameToken = value;
+		{
+			set => _gameToken = value;
 		}
 
-        internal int gameId
+		internal int gameId
 		{
 			set => _gameId = value;
-        }
+		}
 
 		private bool _validCheck;
 
@@ -101,7 +100,7 @@ namespace PlayGen.SUGAR.Unity
 									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive) ||
 									CustomInterfaces.Values.Any(go => go.activeSelf);
 
-        public bool SpinnerActive => _uiSpinner && _uiSpinner.IsActive;
+		public bool SpinnerActive => _uiSpinner && _uiSpinner.IsActive;
 
 		private void Awake()
 		{
@@ -162,18 +161,18 @@ namespace PlayGen.SUGAR.Unity
 
 		private IEnumerator LoadOnlineConfig(string path)
 		{
-	        string data;
-	    
-	        if (path.Contains("://"))
-	        {
-	            var www = UnityWebRequest.Get(path);
-	            yield return www.SendWebRequest();
-	            data = www.downloadHandler.text;
-	        }
-	        else
-            { 
-	            data = File.ReadAllText(path);
-	        }
+			string data;
+		
+			if (path.Contains("://"))
+			{
+				var www = UnityWebRequest.Get(path);
+				yield return www.SendWebRequest();
+				data = www.downloadHandler.text;
+			}
+			else
+			{ 
+				data = File.ReadAllText(path);
+			}
 
 			SUGARManager.config = JsonConvert.DeserializeObject<Config>(data);
 			Debug.Log(SUGARManager.config.BaseUri);
@@ -184,8 +183,8 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SetUpClient()
 		{
-		    var httpHandler = CreateHttpHandler();
-            SUGARManager.client = new SUGARClient(_baseAddress, httpHandler);
+			var httpHandler = CreateHttpHandler();
+			SUGARManager.client = new SUGARClient(_baseAddress, httpHandler);
 
 			if (string.IsNullOrEmpty(_gameToken))
 			{
@@ -194,13 +193,13 @@ namespace PlayGen.SUGAR.Unity
 			}
 			var canvas = GetComponentInChildren<Canvas>();
 			GetComponent<AccountUnityClient>().CreateInterface(canvas);
-            GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
-            GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
-            GetComponent<EvaluationUnityClient>().CreateInterface(canvas);
-            GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
-            GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
-            GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
-            var customKeys = CustomInterfaces.Keys.ToList();
+			GetComponent<LeaderboardListUnityClient>().CreateInterface(canvas);
+			GetComponent<LeaderboardUnityClient>().CreateInterface(canvas);
+			GetComponent<EvaluationUnityClient>().CreateInterface(canvas);
+			GetComponent<UserFriendUnityClient>().CreateInterface(canvas);
+			GetComponent<UserGroupUnityClient>().CreateInterface(canvas);
+			GetComponent<GroupMemberUnityClient>().CreateInterface(canvas);
+			var customKeys = CustomInterfaces.Keys.ToList();
 			foreach (var key in customKeys)
 			{
 				var inScene = CustomInterfaces[key].scene == SceneManager.GetActiveScene() || CustomInterfaces[key].scene.name == "DontDestroyOnLoad";
@@ -237,11 +236,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-        protected virtual IHttpHandler CreateHttpHandler()
-	    {
-            // Return null to use the default handler.
-	        return null;
-        }
+		protected virtual IHttpHandler CreateHttpHandler()
+		{
+			// Return null to use the default handler.
+			return null;
+		}
 
 		public bool GameValidityCheck()
 		{
@@ -261,8 +260,8 @@ namespace PlayGen.SUGAR.Unity
 					Debug.LogError("Game ID provided does not match game ID for provided token");
 					return false;
 				}
-                SUGARManager.Resource.StartCheck();
-                return true;
+				SUGARManager.Resource.StartCheck();
+				return true;
 			}
 			return gameObject.activeSelf;
 		}
@@ -372,5 +371,5 @@ namespace PlayGen.SUGAR.Unity
 		{
 			Loading.Stop(text, stopDelay);
 		}
-    }
+	}
 }

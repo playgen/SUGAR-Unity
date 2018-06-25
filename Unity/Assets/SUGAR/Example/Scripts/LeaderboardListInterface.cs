@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Linq;
 using PlayGen.SUGAR.Common;
 using PlayGen.SUGAR.Unity;
-using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 public class LeaderboardListInterface : BaseLeaderboardListInterface
@@ -96,7 +96,7 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = 0; i < _leaderboardButtons.Length; i++)
+		for (var i = 0; i < _leaderboardButtons.Length; i++)
 		{
 			if (i >= leaderboardList.Count)
 			{
@@ -139,7 +139,7 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 	/// </summary>
 	private void DoBestFit()
 	{
-		GetComponentsInChildren<Button>(true).Select(t => t.gameObject).BestFit();
+		GetComponentsInChildren<Button>(true).ToList().BestFit();
 	}
 
 	/// <summary>

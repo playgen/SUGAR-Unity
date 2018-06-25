@@ -175,7 +175,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &901359226
+--- !u!1001 &823937980
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -214,6 +214,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224000013773299334, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _gameToken
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
+        type: 2}
+      propertyPath: _gameId
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 991ef3e1f70851f458b55f5f7eae55a2, type: 2}
   m_IsPrefabParent: 0
@@ -226,7 +241,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1726300652}
   - component: {fileID: 1726300651}
-  - component: {fileID: 1726300650}
   - component: {fileID: 1726300649}
   - component: {fileID: 1726300648}
   m_Layer: 0
@@ -244,13 +258,6 @@ AudioListener:
   m_GameObject: {fileID: 1726300647}
   m_Enabled: 1
 --- !u!124 &1726300649
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1726300647}
-  m_Enabled: 1
---- !u!92 &1726300650
 Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}

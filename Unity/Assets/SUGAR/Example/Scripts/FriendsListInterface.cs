@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using PlayGen.SUGAR.Unity;
-using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -191,7 +191,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = _listType == 3 ? 1 : 0; i < _friendItems.Length; i++)
+		for (var i = _listType == 3 ? 1 : 0; i < _friendItems.Length; i++)
 		{
 			if (i - (_listType == 3 ? 1 : 0) >= actorList.Count)
 			{
@@ -245,7 +245,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	/// </summary>
 	private void DoBestFit()
 	{
-		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<FriendsListItemInterface>()).Select(t => t.gameObject).BestFit();
+		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<FriendsListItemInterface>()).ToList().BestFit();
 	}
 
 	/// <summary>

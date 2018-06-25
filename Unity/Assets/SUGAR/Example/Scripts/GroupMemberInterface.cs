@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 using PlayGen.SUGAR.Unity;
-using PlayGen.Unity.Utilities.BestFit;
+using PlayGen.Unity.Utilities.Text;
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEngine;
@@ -97,7 +97,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 			UpdatePageNumber(1);
 			return;
 		}
-		for (int i = 0; i < _memberItems.Length; i++)
+		for (var i = 0; i < _memberItems.Length; i++)
 		{
 			if (i >= actorList.Count)
 			{
@@ -142,7 +142,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 	/// </summary>
 	private void DoBestFit()
 	{
-		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<GroupMemberItemInterface>()).Select(t => t.gameObject).BestFit();
+		GetComponentsInChildren<Button>(true).Where(t => !t.GetComponentInParent<GroupMemberItemInterface>()).ToList().BestFit();
 	}
 
 	/// <summary>
