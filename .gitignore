@@ -27,3 +27,8 @@ Assembly-CSharp*.csproj
 Unity*.csproj
 Unity*.Editor.csproj
 Unity.sln
+
+#
+# Documentation
+#
+Documentation.pdf
