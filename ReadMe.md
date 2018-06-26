@@ -8,6 +8,9 @@ With the key areas being:
 - [Concepts](http://docs.sugarengine.org/concepts/index.html)
 - [Features](http://docs.sugarengine.org/features/index.html)
 
+# Licensing
+See the [LICENCE](LICENCE.md) file included in this project.
+
 # Build Instructions
 
 Can be found [here](docs/tutorials/build-instructions.md)
