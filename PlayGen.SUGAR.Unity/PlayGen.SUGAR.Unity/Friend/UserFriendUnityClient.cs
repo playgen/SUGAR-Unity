@@ -251,7 +251,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal void Add(int id, Action<bool> success)
+		internal void Add(int id, Action<bool> success, bool autoAccept = true)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.CurrentUser != null)
@@ -259,7 +259,8 @@ namespace PlayGen.SUGAR.Unity
 				var relationship = new RelationshipRequest
 				{
 					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id
+					AcceptorId = id,
+                    AutoAccept = autoAccept
 				};
 				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
 				response =>
