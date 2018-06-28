@@ -6,12 +6,12 @@ using PlayGen.SUGAR.Unity.WebGL;
 
 public class PlatformSUGARUnityManager : SUGARUnityManager
 {
-    protected override IHttpHandler CreateHttpHandler()
+    protected override SUGARClient CreateSUGARClient(string baseAddress)
     {
-#if UNITY_WEBGL
-        return new UnityWebGlHttpHandler();
+#if UNITY_WEBGL && !UNITY_EDITOR
+        return new SUGARClient(baseAddress, new UnityWebGlHttpHandler(), false);
 #else
-        return null;
+        return base.CreateSUGARClient(baseAddress);
 #endif
     }
 }
