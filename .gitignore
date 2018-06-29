@@ -10,8 +10,8 @@ packages/
 *.DotSettings.user
 
 # Build output
-net46/
-!net46/*.dll.meta
+**/net46/**/*
+!**/net46/**/*.dll.meta
 
 #
 # Unity
