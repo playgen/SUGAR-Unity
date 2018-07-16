@@ -9,11 +9,14 @@ namespace PlayGen.SUGAR.Unity
 {
 	public static class BuildSUGARPackage
 	{
-		[MenuItem("Tools/Build SUGAR Package")]
+	    [MenuItem("Tools/Build SUGAR Package")]
 		public static void Build()
 		{
+	        var versionPath = "Assets/SUGAR/Version.txt";
+            var packageVersion = File.ReadAllText(versionPath);
+            
 			var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;
-			var packageFile = rootDir + "/Build/SUGAR.unitypackage";
+			var packageFile = $"{rootDir}/Build/SUGAR_{packageVersion}.unitypackage";
 			var directory = new[]
 			{
 				"Assets/Editor/SUGAR",
@@ -41,7 +44,7 @@ namespace PlayGen.SUGAR.Unity
 
 			AssetDatabase.ExportPackage(packageAssetPaths.ToArray(), packageFile);
 
-			Debug.Log("Exported package to: \"" + packageFile + "\"");
+			Debug.Log($"Exported package to: \"{packageFile}\"");
 		}
 	}
 } 
