@@ -400,7 +400,8 @@ namespace PlayGen.SUGAR.Unity.Editor
 							var seedJson = JsonConvert.SerializeObject(_gameSeed, Formatting.Indented, new StringEnumConverter());
 							var seedPath = AssetDatabase.GetAssetPath(_gameSeedSaveText);
 							File.WriteAllText(seedPath, seedJson);
-							message = $"Success! \n\nSeed Saved to: \n{seedPath}";
+						    AssetDatabase.Refresh();
+                            message = $"Success! \n\nSeed Saved to: \n{seedPath}";
 						}
 						catch (Exception ex)
 						{
