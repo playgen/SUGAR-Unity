@@ -85,9 +85,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				if (game != null)
 				{
 					Debug.Log(gameSeed.game + " Game Found");
-					unityManager.gameToken = gameSeed.game;
-					unityManager.gameId = game.Id;
-					SUGARManager.GameId = game.Id;
+				    SetGame(unityManager, gameSeed.game, game.Id);
 				}
 				else
 				{
@@ -101,10 +99,8 @@ namespace PlayGen.SUGAR.Unity.Editor
 						});
 						if (gameResponse != null)
 						{
-							unityManager.gameToken = gameSeed.game;
-							unityManager.gameId = gameResponse.Id;
-							SUGARManager.GameId = gameResponse.Id;
-						}
+						    SetGame(unityManager, gameSeed.game, game.Id);
+                        }
 						else
 						{
 							errors.Add("Unable to create game.");
@@ -153,7 +149,15 @@ namespace PlayGen.SUGAR.Unity.Editor
 			return !errors.Any();
 		}
 
-		private static bool TryCreateAchievements(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] achievements, out List<string> errors)
+	    private static void SetGame(SUGARUnityManager unityManager, string gameToken, int gameId)
+	    {
+	        unityManager.gameToken = gameToken;
+	        unityManager.gameId = gameId;
+            EditorUtility.SetDirty(unityManager);
+	        SUGARManager.GameId = gameId;
+        }
+
+	    private static bool TryCreateAchievements(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] achievements, out List<string> errors)
 		{
 			errors = new List<string>();
 			var gameId = SUGARManager.GameId;
