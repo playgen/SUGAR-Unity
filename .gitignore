@@ -21,6 +21,7 @@ Library/
 Temp/
 AssetStoreTools/
 AssetStoreTools.meta
+Build/
 
 # Generated Visual Studio Items
 Assembly-CSharp*.csproj
