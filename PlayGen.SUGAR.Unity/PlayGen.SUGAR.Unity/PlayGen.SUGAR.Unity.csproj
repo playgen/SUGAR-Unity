@@ -5,6 +5,14 @@
 		<OutputPath>..\..\Unity\Assets\SUGAR\Plugins\</OutputPath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>..\..\Unity\Assets\SUGAR\Plugins\net46\PlayGen.SUGAR.Unity.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DocumentationFile>..\..\Unity\Assets\SUGAR\Plugins\net46\PlayGen.SUGAR.Unity.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <PackageReference Include="CommandLineParser" Version="1.9.71" />
 	</ItemGroup>
