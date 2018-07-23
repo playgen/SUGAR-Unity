@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Net;
 using System.Text;
 using PlayGen.Unity.Utilities.Localization;
 
@@ -181,7 +182,17 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (options != null && _allowAutoLogin && options.AutoLogin)
 			{
-				LoginUser(options.UserId, options.Password ?? string.Empty, options.AuthenticationSource);
+				var token = PlayerPrefs.GetString("token");
+				Debug.Log("token: " + token);
+				if (!string.IsNullOrEmpty(token))
+				{
+					LoginToken(token);
+				}
+				else
+				{
+					// TODO remove hard coded true
+					LoginUser(options.UserId, options.Password ?? string.Empty, true, options.AuthenticationSource);
+				}
 			}
 			else
 			{
@@ -198,27 +209,73 @@ namespace PlayGen.SUGAR.Unity
 			if (options != null) SUGARManager.ClassId = options.ClassId;
 		}
 
-		internal void LoginUser(string user, string pass, string sourceToken = "")
+		internal void LoginUser(string user, string pass, bool remember = false, string sourceToken = "")
 		{
-			if (string.IsNullOrEmpty(sourceToken))
+			var token = PlayerPrefs.GetString("token");
+			Debug.Log("token: " + token);
+			if (!string.IsNullOrEmpty(token))
 			{
-				sourceToken = _defaultSourceToken;
+				LoginToken(token);
 			}
+			else
+			{
+
+
+				if (string.IsNullOrEmpty(sourceToken))
+				{
+					sourceToken = _defaultSourceToken;
+				}
+				SUGARManager.unity.StartSpinner();
+				var accountRequest = CreateAccountRequest(user, pass, sourceToken);
+
+				SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
+					response =>
+					{
+						SUGARManager.unity.StopSpinner();
+						if (SUGARManager.unity.GameValidityCheck())
+						{
+							SUGARManager.CurrentUser = response.User;
+							SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup =
+								SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
+							_signInCallback(true);
+						}
+						Hide();
+
+						if (remember)
+						{
+							Debug.Log("Setting Token: " + SUGARManager.client.Session.GetAuthentication());
+
+							PlayerPrefs.SetString("token", SUGARManager.client.Session.GetAuthentication());
+						}
+					},
+					exception =>
+					{
+						Debug.LogError(exception);
+						if (HasInterface)
+						{
+							_interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception.Message));
+						}
+						_signInCallback(false);
+						SUGARManager.unity.StopSpinner();
+					});
+			}
+		}
+		internal void LoginToken(string token)
+		{
 			SUGARManager.unity.StartSpinner();
-			var accountRequest = CreateAccountRequest(user, pass, sourceToken);
-			SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
-			response =>
+
+			SUGARManager.Client.Session.LoginAsync(token, response =>
 			{
 				SUGARManager.unity.StopSpinner();
 				if (SUGARManager.unity.GameValidityCheck())
 				{
 					SUGARManager.CurrentUser = response.User;
-					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup = SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
+					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup =
+						SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 					_signInCallback(true);
 				}
 				Hide();
-			},
-			exception =>
+			}, exception =>
 			{
 				Debug.LogError(exception);
 				if (HasInterface)

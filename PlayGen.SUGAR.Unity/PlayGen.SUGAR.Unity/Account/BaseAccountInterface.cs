@@ -37,6 +37,13 @@ namespace PlayGen.SUGAR.Unity
 		protected Button _registerButton;
 
 		/// <summary>
+		/// Toggle used to remember the current user login details for easy log in
+		/// </summary>
+		[Tooltip("Toggle used to remember the current user login details for easy log in")]
+		[SerializeField]
+		protected Toggle _rememberMeToggle;
+
+		/// <summary>
 		/// Button used to disable this object. Can be left null.
 		/// </summary>
 		[Tooltip("Button used to disable this object. Can be left null.")]
@@ -61,7 +68,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				_loginButton?.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text); });
+				_loginButton?.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text, _rememberMeToggle.isOn); });
 				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
 			}
 			_closeButton?.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
