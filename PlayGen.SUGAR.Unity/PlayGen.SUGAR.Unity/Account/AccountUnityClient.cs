@@ -190,8 +190,7 @@ namespace PlayGen.SUGAR.Unity
 				}
 				else
 				{
-					// TODO remove hard coded true
-					LoginUser(options.UserId, options.Password ?? string.Empty, true, options.AuthenticationSource);
+					LoginUser(options.UserId, options.Password ?? string.Empty, false, options.AuthenticationSource);
 				}
 			}
 			else
@@ -219,8 +218,6 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-
-
 				if (string.IsNullOrEmpty(sourceToken))
 				{
 					sourceToken = _defaultSourceToken;

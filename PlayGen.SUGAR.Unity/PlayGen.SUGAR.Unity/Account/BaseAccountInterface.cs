@@ -68,7 +68,27 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				_loginButton?.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text, _rememberMeToggle.isOn); });
+				var token = PlayerPrefs.GetString("token");
+				if (!string.IsNullOrEmpty(token))
+				{
+					_name.text = "Todo show name";
+					_password.text = "        ";
+				}
+				_loginButton?.onClick.AddListener(delegate
+				{
+					if (_password.text == "        ")
+					{
+						SUGARManager.account.LoginToken(token);
+						if (!_rememberMeToggle.isOn)
+						{
+							PlayerPrefs.DeleteKey("token");
+						}
+					}
+					else
+					{
+						SUGARManager.account.LoginUser(_name.text, _password.text, _rememberMeToggle.isOn);
+					}
+				});
 				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
 			}
 			_closeButton?.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
@@ -76,8 +96,8 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void Display()
 		{
-			_name.text = string.Empty;
-			_password.text = string.Empty;
+			//_name.text = string.Empty;
+			//_password.text = string.Empty;
 			if (_errorText)
 			{
 				_errorText.text = string.Empty;
