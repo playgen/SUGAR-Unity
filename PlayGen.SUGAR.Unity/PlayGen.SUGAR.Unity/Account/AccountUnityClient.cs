@@ -8,6 +8,8 @@ using PlayGen.Unity.Utilities.Localization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using PlayGen.SUGAR.Contracts;
+using PlayGen.SUGAR.Client;
+using UnityEngine.XR.WSA.Input;
 
 namespace PlayGen.SUGAR.Unity
 {
@@ -63,6 +65,11 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string autoLoginCustomArgs;
 
+
+		private const string DefaultPasswordString = "             ";
+
+		private readonly ISavedPrefsHandler _savedPrefsHandler = new SavedPrefsHandler();
+
 		/// <summary>
 		/// Has a UI object been provided for this Unity Client?
 		/// </summary>
@@ -95,6 +102,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			return popupInterface;
 		}
+
 
 		/// <summary>
 		/// Displays UI object if provided and allowAutoLogin is false. Attempts automatic sign in using provided details if allowAutoLogin is true.
@@ -182,16 +190,8 @@ namespace PlayGen.SUGAR.Unity
 			}
 			if (options != null && _allowAutoLogin && options.AutoLogin)
 			{
-				var token = PlayerPrefs.GetString("token");
-				Debug.Log("token: " + token);
-				if (!string.IsNullOrEmpty(token))
-				{
-					LoginToken(token);
-				}
-				else
-				{
-					LoginUser(options.UserId, options.Password ?? string.Empty, false, options.AuthenticationSource);
-				}
+				// Default remember me to false for auto logging in
+				LoginUser(options.UserId, options.Password ?? string.Empty, false, options.AuthenticationSource);
 			}
 			else
 			{
@@ -205,16 +205,21 @@ namespace PlayGen.SUGAR.Unity
 				}
 			}
 			_allowAutoLogin = false;
+			_interface.SetText(new []{_savedPrefsHandler.Get<string>("username"), DefaultPasswordString, _interface.GetText()[2]});
 			if (options != null) SUGARManager.ClassId = options.ClassId;
 		}
 
 		internal void LoginUser(string user, string pass, bool remember = false, string sourceToken = "")
 		{
-			var token = PlayerPrefs.GetString("token");
-			Debug.Log("token: " + token);
+			var token = _savedPrefsHandler.Get<string>("token");
 			if (!string.IsNullOrEmpty(token))
 			{
 				LoginToken(token);
+				if (!remember)
+				{
+					_savedPrefsHandler.Delete("token");
+					_savedPrefsHandler.Delete("username");
+				}
 			}
 			else
 			{
@@ -242,7 +247,8 @@ namespace PlayGen.SUGAR.Unity
 						{
 							Debug.Log("Setting Token: " + SUGARManager.client.Session.GetAuthentication());
 
-							PlayerPrefs.SetString("token", SUGARManager.client.Session.GetAuthentication());
+							_savedPrefsHandler.Save("token", SUGARManager.client.Session.GetAuthentication());
+							_savedPrefsHandler.Save("username", user);
 						}
 					},
 					exception =>
