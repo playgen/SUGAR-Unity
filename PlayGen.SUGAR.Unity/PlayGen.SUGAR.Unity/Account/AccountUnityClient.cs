@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -65,10 +66,10 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string autoLoginCustomArgs;
 
-
-		private const string DefaultPasswordString = "             ";
-
 		private readonly ISavedPrefsHandler _savedPrefsHandler = new SavedPrefsHandler();
+
+		internal string savedLoginToken;
+		internal string savedUsername;
 
 		/// <summary>
 		/// Has a UI object been provided for this Unity Client?
@@ -79,6 +80,12 @@ namespace PlayGen.SUGAR.Unity
 		/// Is there a UI object and if so is it currently active?
 		/// </summary>
 		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
+
+		void Awake()
+		{
+			savedLoginToken = _savedPrefsHandler.Get<string>("token");
+			savedUsername = _savedPrefsHandler.Get<string>("username");
+		}
 
 		internal void CreateInterface(Canvas canvas)
 		{
@@ -100,6 +107,7 @@ namespace PlayGen.SUGAR.Unity
 				newInterface.name = popupInterface.name + extension;
 				popupInterface = newInterface.GetComponent<BaseAccountInterface>();
 			}
+			
 			return popupInterface;
 		}
 
@@ -136,6 +144,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.unity.EnableObject(_interface.gameObject);
 				_interface.SetText(_portraitInterface.GetText());
 			}
+			_interface.RegisterButtonDisplay(_allowRegister && !_interface.UseToken(savedUsername));
+			_interface.SetPasswordPlaceholder(savedUsername);
 		}
 
 		/// <summary>
@@ -153,6 +163,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (SUGARManager.CurrentUser != null)
 			{
+				DeletePrefs();
 				SUGARManager.client.Session.LogoutAsync(
 				() =>
 				{
@@ -188,6 +199,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				options.AuthenticationSource = _defaultSourceToken;
 			}
+
 			if (options != null && _allowAutoLogin && options.AutoLogin)
 			{
 				// Default remember me to false for auto logging in
@@ -198,6 +210,10 @@ namespace PlayGen.SUGAR.Unity
 				if (HasInterface)
 				{
 					_interface.Display();
+					if (!string.IsNullOrEmpty(savedLoginToken))
+					{
+						_interface.SetTokenText(savedUsername);
+					}
 				}
 				else
 				{
@@ -205,21 +221,16 @@ namespace PlayGen.SUGAR.Unity
 				}
 			}
 			_allowAutoLogin = false;
-			_interface.SetText(new []{_savedPrefsHandler.Get<string>("username"), DefaultPasswordString, _interface.GetText()[2]});
+			
 			if (options != null) SUGARManager.ClassId = options.ClassId;
 		}
 
 		internal void LoginUser(string user, string pass, bool remember = false, string sourceToken = "")
 		{
-			var token = _savedPrefsHandler.Get<string>("token");
-			if (!string.IsNullOrEmpty(token))
+			
+			if (!string.IsNullOrEmpty(savedLoginToken) && _interface.UseToken(savedUsername))
 			{
-				LoginToken(token);
-				if (!remember)
-				{
-					_savedPrefsHandler.Delete("token");
-					_savedPrefsHandler.Delete("username");
-				}
+				LoginToken(savedLoginToken, remember);
 			}
 			else
 			{
@@ -228,7 +239,7 @@ namespace PlayGen.SUGAR.Unity
 					sourceToken = _defaultSourceToken;
 				}
 				SUGARManager.unity.StartSpinner();
-				var accountRequest = CreateAccountRequest(user, pass, sourceToken);
+				var accountRequest = CreateAccountRequest(user, pass, sourceToken, _interface.RemeberLogin());
 
 				SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
 					response =>
@@ -245,10 +256,13 @@ namespace PlayGen.SUGAR.Unity
 
 						if (remember)
 						{
-							Debug.Log("Setting Token: " + SUGARManager.client.Session.GetAuthentication());
-
-							_savedPrefsHandler.Save("token", SUGARManager.client.Session.GetAuthentication());
-							_savedPrefsHandler.Save("username", user);
+							SavePrefs(response.LoginToken, response.User.Name);
+						}
+						else
+						{
+							DeletePrefs();
+							// Clear text in the account panel
+							_interface.SetText(new[] { "", "", "" });
 						}
 					},
 					exception =>
@@ -262,8 +276,9 @@ namespace PlayGen.SUGAR.Unity
 						SUGARManager.unity.StopSpinner();
 					});
 			}
+
 		}
-		internal void LoginToken(string token)
+		internal void LoginToken(string token, bool remember)
 		{
 			SUGARManager.unity.StartSpinner();
 
@@ -276,6 +291,12 @@ namespace PlayGen.SUGAR.Unity
 					SUGARManager.userGroup.GetGroups(groups => SUGARManager.CurrentGroup =
 						SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 					_signInCallback(true);
+					if (!remember)
+					{
+						DeletePrefs();
+						// Clear text in the account panel
+						_interface.SetText(new[] { "", "", "" });
+					}
 				}
 				Hide();
 			}, exception =>
@@ -290,10 +311,10 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		internal void RegisterUser(string user, string pass)
+		internal void RegisterUser(string user, string pass, bool issueLoginToken)
 		{
 			SUGARManager.unity.StartSpinner();
-			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken);
+			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken, issueLoginToken);
 			SUGARManager.client.Session.CreateAndLoginAsync(SUGARManager.GameId, accountRequest,
 			response =>
 			{
@@ -316,13 +337,30 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		private AccountRequest CreateAccountRequest(string user, string pass, string source)
+		private void SavePrefs(string token, string username)
+		{
+			savedLoginToken = token;
+			savedUsername = username;
+			_savedPrefsHandler.Save("token", token);
+			_savedPrefsHandler.Save("username",username);
+		}
+
+		private void DeletePrefs()
+		{
+			_savedPrefsHandler.Delete("token");
+			_savedPrefsHandler.Delete("username");
+			savedLoginToken = "";
+			savedUsername = "";
+		}
+
+		private AccountRequest CreateAccountRequest(string user, string pass, string source, bool rememberLogin)
 		{
 			return new AccountRequest
 			{
 				Name = user,
 				Password = pass,
-				SourceToken = source
+				SourceToken = source,
+				IssueLoginToken = rememberLogin
 			};
 		}
 	}

@@ -113,7 +113,6 @@ namespace PlayGen.SUGAR.Unity
 			Groups.Clear();
 			if (SUGARManager.CurrentUser != null)
 			{
-				Debug.Log(SUGARManager.CurrentUser.Id);
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{

@@ -1,5 +1,6 @@
 ﻿using PlayGen.SUGAR.Client;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
@@ -73,13 +74,13 @@ namespace PlayGen.SUGAR.Unity
 				{
 					SUGARManager.account.LoginUser(_name.text, _password.text, _rememberMeToggle.isOn);
 				});
-				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
+				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text, _rememberMeToggle.isOn); });
 			}
 			_closeButton?.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 		}
 
 		internal void Display()
-		{
+		{ 
 			//_name.text = string.Empty;
 			//_password.text = string.Empty;
 			if (_errorText)
@@ -92,6 +93,11 @@ namespace PlayGen.SUGAR.Unity
 		internal void RegisterButtonDisplay(bool display)
 		{
 			_registerButton?.gameObject.SetActive(display);
+		}
+
+		public bool RemeberLogin()
+		{
+			return _rememberMeToggle.isOn;
 		}
 
 		internal void SetStatus(string text)
@@ -112,6 +118,28 @@ namespace PlayGen.SUGAR.Unity
 			_name.text = text[0];
 			_password.text = text[1];
 			_errorText.text = text[2];
+		}
+
+		internal void SetTokenText(string username)
+		{
+			_name.text = username;
+			_password.placeholder.enabled = true;
+		}
+
+		internal void SetPasswordPlaceholder(string username)
+		{
+			if (_password.placeholder.enabled)
+			{
+				if (_password.placeholder.enabled && (_password.isFocused || _name.text != username || _name.text == ""))
+				{
+					_password.placeholder.enabled = false;
+				}
+			}
+		}
+
+		internal bool UseToken(string username)
+		{
+			return _name.text == username && _password.placeholder.enabled;
 		}
 	}
 }
