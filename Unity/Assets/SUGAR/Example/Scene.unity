@@ -222,17 +222,17 @@ Prefab:
     - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
       propertyPath: _gameToken
-      value: Dumb Waiters
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
       propertyPath: _gameId
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
       propertyPath: _baseAddress
-      value: http://localhost:59400/
+      value: http://api.sugarengine.org/v1/
       objectReference: {fileID: 0}
     - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
         type: 2}
