@@ -216,13 +216,14 @@ namespace PlayGen.SUGAR.Unity
 				var relationship = new RelationshipRequest
 				{
 					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id
+					AcceptorId = id,
+					AutoAccept = true
 				};
 				SUGARManager.client.GroupMember.CreateMemberRequestAsync(relationship,
 				response =>
 				{
 					RefreshLists(success);
-				},
+				},	
 				exception =>
 				{
 					var error = "Failed to create group request. " + exception.Message;
