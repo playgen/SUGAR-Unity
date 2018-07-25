@@ -95,9 +95,9 @@ namespace PlayGen.SUGAR.Unity
 			_registerButton?.gameObject.SetActive(display);
 		}
 
-		public bool RemeberLogin()
+		public bool RememberLogin()
 		{
-			return _rememberMeToggle.isOn;
+			return _rememberMeToggle != null && _rememberMeToggle.isOn;
 		}
 
 		internal void SetStatus(string text)
@@ -111,6 +111,13 @@ namespace PlayGen.SUGAR.Unity
 		internal string[] GetText()
 		{
 			return new[] { _name.text, _password.text, _errorText.text };
+		}
+
+		internal void ResetText()
+		{
+			_name.text = string.Empty;
+			_password.text = string.Empty;
+			_errorText.text = string.Empty;
 		}
 
 		internal void SetText(string[] text)

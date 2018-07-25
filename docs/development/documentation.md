@@ -19,3 +19,9 @@ metadata_build_and_serve.bat | Build the site and serve. Use this to test the ge
 metadata_pdf.bat | Build the pdf.
 
 Note: The PDF docfx config was created by following [this guide](https://dotnet.github.io/docfx/tutorial/walkthrough/walkthrough_generate_pdf.html).
+
+## Saving Data
+SUGAR Unity includes a class which handles saving and retrieving of data, similar to the way in which [Player Prefs](https://docs.unity3d.com/ScriptReference/PlayerPrefs.html) are set, retrieved and deleted. The class uses the following prefix: SUGAR_PREFS_ followed by the key provided.
+
+### Current Usage
+Currently the saving and retrieving of data is used for storing player login tokens, allowing for players login details to be saved so they can log in without entering details every time

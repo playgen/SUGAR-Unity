@@ -83,6 +83,8 @@ namespace PlayGen.SUGAR.Unity
 
 		void Awake()
 		{
+			// Saving prefs to local variables so that we dont have to rely on unity to update player prefs efficiently
+			// PlayerPrefs dont appear to return updated values unless a new scene is loaded
 			savedLoginToken = _savedPrefsHandler.Get<string>("token");
 			savedUsername = _savedPrefsHandler.Get<string>("username");
 		}
@@ -239,7 +241,7 @@ namespace PlayGen.SUGAR.Unity
 					sourceToken = _defaultSourceToken;
 				}
 				SUGARManager.unity.StartSpinner();
-				var accountRequest = CreateAccountRequest(user, pass, sourceToken, _interface.RemeberLogin());
+				var accountRequest = CreateAccountRequest(user, pass, sourceToken, _interface.RememberLogin());
 
 				SUGARManager.client.Session.LoginAsync(SUGARManager.GameId, accountRequest,
 					response =>
@@ -262,7 +264,7 @@ namespace PlayGen.SUGAR.Unity
 						{
 							DeletePrefs();
 							// Clear text in the account panel
-							_interface.SetText(new[] { "", "", "" });
+							_interface.ResetText();
 						}
 					},
 					exception =>
@@ -295,7 +297,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						DeletePrefs();
 						// Clear text in the account panel
-						_interface.SetText(new[] { "", "", "" });
+						_interface.ResetText();
 					}
 				}
 				Hide();
@@ -349,8 +351,8 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_savedPrefsHandler.Delete("token");
 			_savedPrefsHandler.Delete("username");
-			savedLoginToken = "";
-			savedUsername = "";
+			savedLoginToken = string.Empty;
+			savedUsername = String.Empty;
 		}
 
 		private AccountRequest CreateAccountRequest(string user, string pass, string source, bool rememberLogin)

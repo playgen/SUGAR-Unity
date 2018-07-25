@@ -6,19 +6,14 @@ namespace PlayGen.SUGAR.Unity
 {
     class SavedPrefsHandler : ISavedPrefsHandler
     {
-	    public string Prefix => "SUGAR_PREFS_LOGIN_";
+	    public string Prefix => "SUGAR_PREFS_";
 
 	    public T Get<T>(string key)
 	    {
 		    var value = PlayerPrefs.GetString(Prefix + key);
 			var converter = TypeDescriptor.GetConverter(typeof(T));
 
-			if (converter != null)
-			{
-				return (T) converter.ConvertFromString(value);
-			}
-
-			return default(T);
+			return (T) converter.ConvertFromString(value);
 		}
 
 	    public void Save<T>(string key, T value)
