@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 224222312439078388}
   - component: {fileID: 222645889189303824}
   - component: {fileID: 114227580037899406}
+  - component: {fileID: 114967482878166076}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -1170,7 +1171,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: SIGN_IN
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114594745697815386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1239,7 +1239,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: PASSWORD
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114730694036671526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1254,7 +1253,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: USERNAME
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114774682855708634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1315,7 +1313,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: REGISTER
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114818721826937018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1351,6 +1348,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 2
   m_AspectRatio: 1
+--- !u!114 &114967482878166076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243668963515826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1807221761, guid: 91d9550cb06d16e4bb2022dc71cbb23f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LanguageOverride: 
+  Key: REMEMBER
+  ToUpper: 0
 --- !u!222 &222000010040566640
 CanvasRenderer:
   m_ObjectHideFlags: 1

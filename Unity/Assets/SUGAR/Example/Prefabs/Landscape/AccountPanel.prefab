@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 224616046735443756}
   - component: {fileID: 222195717808499498}
   - component: {fileID: 114864087442346482}
+  - component: {fileID: 114546761321497492}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -1127,7 +1128,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: PASSWORD
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114242301468487770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1187,7 +1187,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: REGISTER
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!114 &114517056957886936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1202,7 +1201,20 @@ MonoBehaviour:
   LanguageOverride: 
   Key: USERNAME
   ToUpper: 0
-  _text: {fileID: 0}
+--- !u!114 &114546761321497492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358805608232782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1807221761, guid: 91d9550cb06d16e4bb2022dc71cbb23f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LanguageOverride: 
+  Key: REMEMBER
+  ToUpper: 0
 --- !u!114 &114569969357700908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1350,7 +1362,6 @@ MonoBehaviour:
   LanguageOverride: 
   Key: SIGN_IN
   ToUpper: 0
-  _text: {fileID: 0}
 --- !u!222 &222000010040566640
 CanvasRenderer:
   m_ObjectHideFlags: 1
