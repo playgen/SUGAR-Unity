@@ -135,7 +135,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void SetPasswordPlaceholder(string username)
 		{
-			if (_password.placeholder.enabled)
+			if (_password.placeholder != null && _password.placeholder.enabled)
 			{
 				if (_password.placeholder.enabled && (_password.isFocused || _name.text != username || _name.text == ""))
 				{
