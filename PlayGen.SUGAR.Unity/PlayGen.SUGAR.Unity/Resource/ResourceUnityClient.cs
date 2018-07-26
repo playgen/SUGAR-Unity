@@ -132,6 +132,37 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
+		/// Attempt to Take a resource from an actor.
+		/// If globalResource is true, resource transferred will be global rather than for the game.
+		/// </summary>
+		public void TryTake(int senderId, string key, long amount, Action<bool> success, bool globalResource = false)
+		{
+			if (SUGARManager.CurrentUser != null)
+			{
+				var request = new ResourceTransferRequest
+				{
+					SenderActorId = senderId,
+					RecipientActorId = SUGARManager.CurrentUser.Id,
+					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					Key = key,
+					Quantity = amount
+				};
+				SUGARManager.client.Resource.TransferAsync(request,
+					response =>
+					{
+						UpdateResources();
+						success(true);
+					},
+					exception =>
+					{
+						var error = "Failed to transfer resources. " + exception.Message;
+						Debug.LogError(error);
+						success(false);
+					});
+			}
+		}
+
+		/// <summary>
 		/// Add the resource with the key provided from the currently signed in user.
 		/// If globalResource is true, resource transferred will be global rather than for the game.
 		/// </summary>

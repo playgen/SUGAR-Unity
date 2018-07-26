@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PlayGen.SUGAR.Client;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace PlayGen.SUGAR.Unity
@@ -37,6 +39,13 @@ namespace PlayGen.SUGAR.Unity
 		protected Button _registerButton;
 
 		/// <summary>
+		/// Toggle used to remember the current user login details for easy log in
+		/// </summary>
+		[Tooltip("Toggle used to remember the current user login details for easy log in")]
+		[SerializeField]
+		protected Toggle _rememberMeToggle;
+
+		/// <summary>
 		/// Button used to disable this object. Can be left null.
 		/// </summary>
 		[Tooltip("Button used to disable this object. Can be left null.")]
@@ -61,16 +70,19 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
-				_loginButton?.onClick.AddListener(delegate { SUGARManager.account.LoginUser(_name.text, _password.text); });
-				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text); });
+				_loginButton?.onClick.AddListener(delegate
+				{
+					SUGARManager.account.LoginUser(_name.text, _password.text, _rememberMeToggle.isOn);
+				});
+				_registerButton?.onClick.AddListener(delegate { SUGARManager.account.RegisterUser(_name.text, _password.text, _rememberMeToggle.isOn); });
 			}
 			_closeButton?.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
 		}
 
 		internal void Display()
-		{
-			_name.text = string.Empty;
-			_password.text = string.Empty;
+		{ 
+			//_name.text = string.Empty;
+			//_password.text = string.Empty;
 			if (_errorText)
 			{
 				_errorText.text = string.Empty;
@@ -81,6 +93,11 @@ namespace PlayGen.SUGAR.Unity
 		internal void RegisterButtonDisplay(bool display)
 		{
 			_registerButton?.gameObject.SetActive(display);
+		}
+
+		public bool RememberLogin()
+		{
+			return _rememberMeToggle != null && _rememberMeToggle.isOn;
 		}
 
 		internal void SetStatus(string text)
@@ -96,11 +113,40 @@ namespace PlayGen.SUGAR.Unity
 			return new[] { _name.text, _password.text, _errorText.text };
 		}
 
+		internal void ResetText()
+		{
+			_name.text = string.Empty;
+			_password.text = string.Empty;
+			_errorText.text = string.Empty;
+		}
+
 		internal void SetText(string[] text)
 		{
 			_name.text = text[0];
 			_password.text = text[1];
 			_errorText.text = text[2];
+		}
+
+		internal void SetTokenText(string username)
+		{
+			_name.text = username;
+			_password.placeholder.enabled = true;
+		}
+
+		internal void SetPasswordPlaceholder(string username)
+		{
+			if (_password.placeholder != null && _password.placeholder.enabled)
+			{
+				if (_password.placeholder.enabled && (_password.isFocused || _name.text != username || _name.text == ""))
+				{
+					_password.placeholder.enabled = false;
+				}
+			}
+		}
+
+		internal bool UseToken(string username)
+		{
+			return _name.text == username && _password.placeholder.enabled;
 		}
 	}
 }

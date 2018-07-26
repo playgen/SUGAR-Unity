@@ -251,8 +251,8 @@ MonoBehaviour:
     type: 2}
   _portraitInterface: {fileID: 114000014259607728, guid: 0133eba20c4a22b41952b8904fea06a4,
     type: 2}
-  _allowAutoLogin: 1
-  _allowRegister: 0
+  _allowAutoLogin: 0
+  _allowRegister: 1
   _defaultSourceToken: SUGAR
 --- !u!114 &114672035085703510
 MonoBehaviour:

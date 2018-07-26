@@ -41,6 +41,7 @@ T + S | Unity.StartSpinner
 T + H | Unity.StopSpinner
 T + F | UserFriend.Display
 T + G | UserGroup.Display
-Esc | Application.Quit
+Escape | Application.Quit
+Delete | Account.Logout
 
 Shortcuts can be seen and changed in *Unity/Assets/SUGAR/Example/Scripts/TestImplementation.cs*.

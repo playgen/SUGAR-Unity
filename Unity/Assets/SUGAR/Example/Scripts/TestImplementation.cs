@@ -48,5 +48,9 @@ public class TestImplementation : MonoBehaviour {
 		{
 			Application.Quit();
 		}
+		if (Input.GetKeyDown(KeyCode.Delete))
+		{
+			SUGARManager.Account.Logout(delegate(bool b) { SUGARManager.Account.DisplayPanel(delegate(bool b1) {  }); });
+		}
 	}
 }
