@@ -1,2 +1,6 @@
 ﻿- name: Documentation
   href: documentation.md
+- name: Saving Data
+  href: savingdata.md
+- name: SUGARManager
+  href: sugarmanager.md
