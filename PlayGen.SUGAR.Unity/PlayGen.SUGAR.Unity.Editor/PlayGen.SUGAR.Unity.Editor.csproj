@@ -32,14 +32,6 @@
 		  <HintPath>..\..\lib\SUGAR\Client\PlayGen.SUGAR.Contracts.dll</HintPath>
 		  <Private>false</Private>
 		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.Editor.Localization">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.Localization.dll</HintPath>
-		  <Private>true</Private>
-		</Reference>
-		<Reference Include="PlayGen.Unity.Utilities.Editor.UI">
-		  <HintPath>..\..\lib\PlayGen Utilities\PlayGen.Unity.Utilities.Editor.UI.dll</HintPath>
-		  <Private>true</Private>
-		</Reference>
 		<Reference Include="UnityEditor">
 			<HintPath>..\..\lib\Unity\UnityEditor.dll</HintPath>
 			<Private>false</Private>
