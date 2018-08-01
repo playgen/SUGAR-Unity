@@ -98,8 +98,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 							_gameSeed.achievements[i].Description = EditorGUILayout.TextField("Description", _gameSeed.achievements[i].Description ?? string.Empty, EditorStyles.textField);
 							_gameSeed.achievements[i].Token = EditorGUILayout.TextField("Token", _gameSeed.achievements[i].Token ?? string.Empty, EditorStyles.textField);
 							_gameSeed.achievements[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _gameSeed.achievements[i].ActorType ?? 0, EditorStyles.popup);
-							_showAchievementCriteria[i] = EditorGUILayout.Foldout(_showAchievementCriteria[i], "Evaluation Criteria");
-							if (_showAchievementCriteria[i])
+
+						    _showAchievementCriteria[i] = EditorGUILayout.Foldout(_showAchievementCriteria[i], "Evaluation Criteria");
+						    EditorGUILayout.HelpBox(CreateSummary(_gameSeed.achievements[i].EvaluationCriterias), MessageType.Info);
+
+                            if (_showAchievementCriteria[i])
 							{
 								EditorGUI.indentLevel++;
 								EditorGUILayout.BeginVertical();
@@ -140,8 +143,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 								EditorGUI.indentLevel--;
 								EditorGUILayout.EndVertical();
 							}
-							_showAchievementReward[i] = EditorGUILayout.Foldout(_showAchievementReward[i], "Rewards");
-							if (_showAchievementReward[i])
+
+						    _showAchievementReward[i] = EditorGUILayout.Foldout(_showAchievementReward[i], "Rewards");
+						    EditorGUILayout.HelpBox(CreateSummary(_gameSeed.achievements[i].Rewards), MessageType.Info);
+
+                            if (_showAchievementReward[i])
 							{
 								EditorGUI.indentLevel++;
 								EditorGUILayout.BeginVertical();
@@ -229,8 +235,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 							_gameSeed.skills[i].Description = EditorGUILayout.TextField("Description", _gameSeed.skills[i].Description ?? string.Empty, EditorStyles.textField);
 							_gameSeed.skills[i].Token = EditorGUILayout.TextField("Token", _gameSeed.skills[i].Token ?? string.Empty, EditorStyles.textField);
 							_gameSeed.skills[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _gameSeed.skills[i].ActorType ?? 0, EditorStyles.popup);
-							_showSkillCriteria[i] = EditorGUILayout.Foldout(_showSkillCriteria[i], "Evaluation Criteria");
-							if (_showSkillCriteria[i])
+
+						    _showSkillCriteria[i] = EditorGUILayout.Foldout(_showSkillCriteria[i], "Evaluation Criteria");
+						    EditorGUILayout.HelpBox(CreateSummary(_gameSeed.skills[i].EvaluationCriterias), MessageType.Info);
+
+                            if (_showSkillCriteria[i])
 							{
 								EditorGUI.indentLevel++;
 								EditorGUILayout.BeginVertical();
@@ -271,8 +280,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 								EditorGUI.indentLevel--;
 								EditorGUILayout.EndVertical();
 							}
-							_showSkillReward[i] = EditorGUILayout.Foldout(_showSkillReward[i], "Rewards");
-							if (_showSkillReward[i])
+
+						    _showSkillReward[i] = EditorGUILayout.Foldout(_showSkillReward[i], "Rewards");
+						    EditorGUILayout.HelpBox(CreateSummary(_gameSeed.skills[i].Rewards), MessageType.Info);
+
+                            if (_showSkillReward[i])
 							{
 								EditorGUI.indentLevel++;
 								EditorGUILayout.BeginVertical();
@@ -360,7 +372,10 @@ namespace PlayGen.SUGAR.Unity.Editor
 							_gameSeed.leaderboards[i].Name = EditorGUILayout.TextField("Name", _gameSeed.leaderboards[i].Name ?? string.Empty, EditorStyles.textField);
 							_gameSeed.leaderboards[i].Key = EditorGUILayout.TextField("Key", _gameSeed.leaderboards[i].Key ?? string.Empty, EditorStyles.textField);
 							_gameSeed.leaderboards[i].ActorType = (ActorType)EditorGUILayout.EnumPopup("ActorType", _gameSeed.leaderboards[i].ActorType ?? 0, EditorStyles.popup);
-							_gameSeed.leaderboards[i].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.leaderboards[i].EvaluationDataCategory ?? 0, EditorStyles.popup);
+
+						    EditorGUILayout.HelpBox(CreateSummary(_gameSeed.leaderboards[i]), MessageType.Info);
+                            
+                            _gameSeed.leaderboards[i].EvaluationDataCategory = (EvaluationDataCategory)EditorGUILayout.EnumPopup("EvaluationDataCategory", _gameSeed.leaderboards[i].EvaluationDataCategory ?? 0, EditorStyles.popup);
 							_gameSeed.leaderboards[i].EvaluationDataType = (EvaluationDataType)EditorGUILayout.EnumPopup("EvaluationDataType", _gameSeed.leaderboards[i].EvaluationDataType ?? 0, EditorStyles.popup);
 							_gameSeed.leaderboards[i].CriteriaScope = (CriteriaScope)EditorGUILayout.EnumPopup("CriteriaScope", _gameSeed.leaderboards[i].CriteriaScope ?? 0, EditorStyles.popup);
 							_gameSeed.leaderboards[i].LeaderboardType = (LeaderboardType)EditorGUILayout.EnumPopup("LeaderboardType", _gameSeed.leaderboards[i].LeaderboardType ?? 0, EditorStyles.popup);
@@ -429,7 +444,46 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 		}
 
-		private void SetFoldOut()
+        private string CreateSummary(LeaderboardRequest leaderboardRequest)
+        {
+            return $"{leaderboardRequest.ActorType}s" +
+                   $" sorted by {leaderboardRequest.LeaderboardType}" +
+                   $" of {leaderboardRequest.EvaluationDataCategory}" +
+                   $" with key {leaderboardRequest.Key}" +
+                   $" of type {leaderboardRequest.EvaluationDataType}" +
+                   $" of {leaderboardRequest.CriteriaScope}";
+        }
+
+        private string CreateSummary(List<RewardCreateRequest> rewards)
+	    {
+	        var summary = rewards
+	            .Select(r =>
+	                $"{r.Value}" +
+	                $" {r.EvaluationDataCategory}" +
+                    $" of key {r.EvaluationDataKey}" +
+	                $" of type {r.EvaluationDataType}")
+	            .ToList();
+
+	        return $"When completed it will reward: \n{string.Join("\nAND ", summary)}";
+        }
+
+	    private string CreateSummary(List<EvaluationCriteriaCreateRequest> criterias)
+	    {
+	        var summary = criterias
+                .Select(ec => 
+	                $"{ec.CriteriaQueryType}" + 
+	                $" of {ec.Scope}" + 
+	                $" {ec.EvaluationDataCategory}" + 
+	                $" with key {ec.EvaluationDataKey}" + 
+	                $" of type {ec.EvaluationDataType}" + 
+	                $" is {ec.ComparisonType}" + 
+	                $" {ec.Value}")
+	            .ToList();
+
+	        return $"This achievement is completed \nWHEN \n{string.Join("\nAND ", summary)}";
+	    }
+
+	    private void SetFoldOut()
 		{
 			_showAchievementList.Clear();
 			_showAchievementCriteria.Clear();
