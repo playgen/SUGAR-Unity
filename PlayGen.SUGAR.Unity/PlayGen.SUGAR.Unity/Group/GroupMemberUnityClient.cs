@@ -59,7 +59,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			Members.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
 				response =>
@@ -95,6 +95,12 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.unity.StopSpinner();
 				success(false);
 			}
+		}
+
+		internal void ResetClient()
+		{
+			CurrentGroup = null;
+			Members.Clear();
 		}
 	}
 }

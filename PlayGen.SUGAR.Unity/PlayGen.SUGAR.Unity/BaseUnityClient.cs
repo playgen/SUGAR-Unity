@@ -6,7 +6,7 @@ namespace PlayGen.SUGAR.Unity
 	/// <summary>
 	/// Base class for UnityClient classes
 	/// </summary>
-	public class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
+	public abstract class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
 	{
 		/// <summary>
 		/// Landscape UI object for this unity client. Can be left null if not required.
@@ -43,7 +43,7 @@ namespace PlayGen.SUGAR.Unity
 			_portraitInterface?.gameObject.SetActive(false);
 		}
 
-		protected T SetInterface<T>(T panelInterface, Canvas canvas, string extension = "") where T : BaseInterface
+		internal T SetInterface(T panelInterface, Canvas canvas, string extension = "")
 		{
 			if (!panelInterface)
 				return null;

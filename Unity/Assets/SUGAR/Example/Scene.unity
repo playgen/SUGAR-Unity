@@ -214,46 +214,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224000013773299334, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _gameToken
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _gameId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _baseAddress
-      value: http://api.sugarengine.org/v1/
-      objectReference: {fileID: 0}
-    - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _allowAutoLogin
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _blockerClickClose
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114229209033879260, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _useBlocker
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114597521308858716, guid: 991ef3e1f70851f458b55f5f7eae55a2,
-        type: 2}
-      propertyPath: _allowRegister
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 991ef3e1f70851f458b55f5f7eae55a2, type: 2}
   m_IsPrefabParent: 0

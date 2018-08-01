@@ -213,5 +213,10 @@ namespace PlayGen.SUGAR.Unity
 			_landscapeAchievementPopup?.Notification(notification);
 			_portraitAchievementPopup?.Notification(notification);
 		}
+
+		internal void ResetClient()
+		{
+			Progress = null;
+		}
 	}
 }

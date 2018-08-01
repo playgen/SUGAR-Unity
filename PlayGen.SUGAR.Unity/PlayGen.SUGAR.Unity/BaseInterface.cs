@@ -102,7 +102,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (!loadingSuccess)
 			{
-				if (SUGARManager.CurrentUser == null)
+				if (!SUGARManager.UserSignedIn)
 				{
 					if (_errorText)
 					{
@@ -135,7 +135,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void AttemptSignIn()
 		{
-			SUGARManager.account.DisplayPanel(success =>
+			SUGARManager.account.DisplayLogInPanel(success =>
 			{
 				if (success)
 				{

@@ -38,19 +38,24 @@ namespace PlayGen.SUGAR.Unity
 		public static int GameId { get; internal set; }
 
 		/// <summary>
-		/// Currently signed in user. WARNING: Only set this value if completely necessary.
+		/// Currently signed in user.
 		/// </summary>
-		public static ActorResponse CurrentUser { get; set; }
+		public static ActorResponse CurrentUser { get; private set; }
 
 		/// <summary>
-		/// Currently signed in user's group. WARNING: Only set this value if completely necessary.
+		/// Is there a user currently signed in.
 		/// </summary>
-		public static ActorResponse CurrentGroup { get; set; }
+		public static bool UserSignedIn => CurrentUser != null;
 
 		/// <summary>
-		/// Group name gathered from auto sign in. WARNING: Only set this value if completely necessary.
+		/// Currently signed in user's primary group.
 		/// </summary>
-		public static string ClassId { get; set; }
+		public static ActorResponse CurrentGroup { get; private set; }
+
+		/// <summary>
+		/// Group name gathered from auto sign in.
+		/// </summary>
+		public static string ClassId { get; private set; }
 
 	    /// <summary>
 	    /// Unity client for calls related to accounts
@@ -110,6 +115,27 @@ namespace PlayGen.SUGAR.Unity
 		internal static bool Register(SUGARUnityManager unityManager)
 		{
 			return client == null;
+		}
+
+		internal static void SetCurrentUser(ActorResponse user)
+		{
+			CurrentUser = user;
+		}
+
+		/// <summary>
+		/// Set the 'primary' group for the currently signed in user
+		/// </summary>
+		public static void SetCurrentGroup(ActorResponse group)
+		{
+			CurrentGroup = group;
+		}
+
+		/// <summary>
+		/// Set the ClassId for the currently signed in user
+		/// </summary>
+		public static void SetClassId(string classid)
+		{
+			ClassId = classid;
 		}
 	}
 }

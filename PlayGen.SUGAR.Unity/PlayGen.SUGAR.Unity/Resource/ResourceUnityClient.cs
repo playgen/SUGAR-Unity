@@ -79,7 +79,7 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void Get(Action<List<ResourceResponse>> result, string[] keys = null, bool globalResource = false)
 		{
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var gameId = SUGARManager.GameId;
 				if (globalResource)
@@ -106,7 +106,7 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void Transfer(int recipientId, string key, long amount, Action<bool> success, bool globalResource = false)
 		{
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var request = new ResourceTransferRequest
 				{
@@ -137,7 +137,7 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void TryTake(int senderId, string key, long amount, Action<bool> success, bool globalResource = false)
 		{
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var request = new ResourceTransferRequest
 				{
@@ -168,7 +168,7 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void Add(string key, long amount, Action<bool> success, bool globalResource = false)
 		{
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var request = new ResourceAddRequest {
 					ActorId = SUGARManager.CurrentUser.Id,
@@ -189,6 +189,12 @@ namespace PlayGen.SUGAR.Unity
 					success(false);
 				});
 			}
+		}
+
+		internal void ResetClient()
+		{
+			UserGameResources.Clear();
+			GlobalUserResources.Clear();
 		}
 	}
 }

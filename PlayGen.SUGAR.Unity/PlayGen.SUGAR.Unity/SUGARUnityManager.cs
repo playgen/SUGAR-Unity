@@ -279,6 +279,17 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.groupMember = null;
 		}
 
+		internal void ResetClients()
+		{
+			SUGARManager.evaluation.ResetClient();
+			SUGARManager.leaderboard.ResetClient();
+			SUGARManager.gameLeaderboard.ResetClient();
+			SUGARManager.userFriend.ResetClient();
+			SUGARManager.userGroup.ResetClient();
+			SUGARManager.groupMember.ResetClient();
+			SUGARManager.resource.ResetClient();
+		}
+
 		/// <summary>
 		/// Set if the blocker should be used and if it should close objects when clicked
 		/// </summary>

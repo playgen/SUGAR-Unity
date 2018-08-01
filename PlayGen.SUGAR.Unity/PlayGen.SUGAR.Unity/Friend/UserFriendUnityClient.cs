@@ -123,7 +123,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			Friends.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.UserFriend.GetFriendsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -151,7 +151,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingSent.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.UserFriend.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -179,7 +179,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingReceived.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.UserFriend.GetFriendRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
@@ -213,7 +213,7 @@ namespace PlayGen.SUGAR.Unity
 				return;
 			}
 			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.User.GetAsync(searchString,
 				response =>
@@ -254,13 +254,13 @@ namespace PlayGen.SUGAR.Unity
 		internal void Add(int id, Action<bool> success, bool autoAccept = true)
 		{
 			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var relationship = new RelationshipRequest
 				{
 					RequestorId = SUGARManager.CurrentUser.Id,
 					AcceptorId = id,
-                    AutoAccept = autoAccept
+					AutoAccept = autoAccept
 				};
 				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
 				response =>
@@ -285,7 +285,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void UpdateRequest(int id, bool accept, bool reverse, Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var relationship = new RelationshipStatusUpdate
 				{
@@ -321,7 +321,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void Remove(int id, Action<bool> success)
 		{
 			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				var relationship = new RelationshipStatusUpdate
 				{
@@ -347,6 +347,15 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.unity.StopSpinner();
 				success(false);
 			}
+		}
+
+		internal void ResetClient()
+		{
+			Friends.Clear();
+			PendingReceived.Clear();
+			PendingSent.Clear();
+			SearchResults.Clear();
+			_lastSearch = null;
 		}
 	}
 }
