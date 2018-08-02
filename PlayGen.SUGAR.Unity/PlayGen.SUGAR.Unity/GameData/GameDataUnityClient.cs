@@ -116,9 +116,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The String value that'll be recorded.</param>
-		public void Send(string key, string value)
+		/// <param name="success">Optional callback which will return if the data was sent successfully</param>
+		public void Send(string key, string value, Action<bool> success = null)
 		{
-			Send(key, value, EvaluationDataType.String);
+			Send(key, value, EvaluationDataType.String, success);
 		}
 
 		/// <summary>
@@ -126,9 +127,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Long value that'll be recorded.</param>
-		public void Send(string key, long value)
+		/// <param name="success">Optional callback which will return if the data was sent successfully</param>
+		public void Send(string key, long value, Action<bool> success = null)
 		{
-			Send(key, value.ToString(), EvaluationDataType.Long);
+			Send(key, value.ToString(), EvaluationDataType.Long, success);
 		}
 
 		/// <summary>
@@ -136,9 +138,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Float value that'll be recorded.</param>
-		public void Send(string key, float value)
+		/// <param name="success">Optional callback which will return if the data was sent successfully</param>
+		public void Send(string key, float value, Action<bool> success = null)
 		{
-			Send(key, value.ToString(CultureInfo.InvariantCulture), EvaluationDataType.Float);
+			Send(key, value.ToString(CultureInfo.InvariantCulture), EvaluationDataType.Float, success);
 		}
 
 		/// <summary>
@@ -146,12 +149,13 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Bool value that'll be recorded.</param>
-		public void Send(string key, bool value)
+		/// <param name="success">Optional callback which will return if the data was sent successfully</param>
+		public void Send(string key, bool value, Action<bool> success = null)
 		{
-			Send(key, value.ToString(), EvaluationDataType.Boolean);
+			Send(key, value.ToString(), EvaluationDataType.Boolean, success);
 		}
 
-		private void Send(string key, string value, EvaluationDataType dataType)
+		private void Send(string key, string value, EvaluationDataType dataType, Action<bool> success = null)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -168,10 +172,12 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					Debug.Log("GameData Sending Success: True");
+					success?.Invoke(true);
 				},
 				exception =>
 				{
 					Debug.LogError("GameData Sending Success: False. Exception: " + exception);
+					success?.Invoke(false);
 				});
 			}
 		}
