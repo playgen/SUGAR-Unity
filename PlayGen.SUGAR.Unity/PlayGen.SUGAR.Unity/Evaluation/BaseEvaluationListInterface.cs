@@ -3,12 +3,12 @@
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to evaluation lists.
+	/// Base abstract class for controlling the interface related to evaluation lists.
 	/// </summary>
 	public abstract class BaseEvaluationListInterface : BaseInterface
 	{
 		/// <summary>
-		/// Hides Account, GameLeaderboard, Leaderboard, UserFriend, GroupMember and UserGroup UI objects.
+		/// Hides Account, GameLeaderboard, Leaderboard, UserFriend, GroupMember and UserGroup interfaces.
 		/// </summary>
 		protected override void HideInterfaces()
 		{

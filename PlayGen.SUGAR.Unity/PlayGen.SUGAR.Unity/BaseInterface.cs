@@ -25,9 +25,9 @@ namespace PlayGen.SUGAR.Unity
 		protected Button _closeButton;
 
 		/// <summary>
-		/// Button used to display account UI object (if available) if no user is signed in. Can be left null.
+		/// Button used to display account interface (if available) if no user is signed in. Can be left null.
 		/// </summary>
-		[Tooltip("Button used to disable this object. Can be left null.")]
+		[Tooltip("Button used to display account interface (if available) if no user is signed in. Can be left null.")]
 		[SerializeField]
 		protected Button _signinButton;
 
@@ -38,7 +38,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (_closeButton)
 			{
-				_closeButton.onClick.AddListener(delegate { SUGARManager.unity.DisableObject(gameObject); });
+				_closeButton.onClick.AddListener(() => SUGARManager.unity.DisableObject(gameObject));
 			}
 			if (_signinButton)
 			{

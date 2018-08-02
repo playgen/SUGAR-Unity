@@ -1783,6 +1783,7 @@ MonoBehaviour:
   _errorText: {fileID: 114000012128800644}
   _closeButton: {fileID: 114000010590860348}
   _signinButton: {fileID: 114453271462255628}
+  _titleText: {fileID: 114000013008114804}
   _evaluationItems:
   - {fileID: 114000014157671362}
   - {fileID: 114000013656032612}

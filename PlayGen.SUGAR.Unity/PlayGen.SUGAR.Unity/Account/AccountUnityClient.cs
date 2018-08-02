@@ -15,50 +15,29 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class AccountUnityClient : MonoBehaviour
 	{
-		/// <summary>
-		/// Landscape interface for this area of functionality. Can be left null if not required.
-		/// </summary>
 		[Tooltip("Landscape interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
-		protected BaseAccountInterface _landscapeInterface;
+		private BaseAccountInterface _landscapeInterface;
 
-		/// <summary>
-		/// Portrait interface for this area of functionality. Can be left null if not required.
-		/// </summary>
 		[Tooltip("Portrait interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
-		protected BaseAccountInterface _portraitInterface;
+		private BaseAccountInterface _portraitInterface;
 
-		/// <summary>
-		/// The interface that is used for the current aspect ratio.
-		/// </summary>
-		protected BaseAccountInterface _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
+		private BaseAccountInterface _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
 
-		/// <summary>
-		/// Should the application attempt to sign in users using information provided at start-up?
-		/// </summary>
 		[Tooltip("Should the application attempt to sign in users using information provided at start-up?")]
 		[SerializeField]
-		protected bool _allowAutoLogin;
+		private bool _allowAutoLogin;
 
-		/// <summary>
-		/// Should the application show a registration button on the interface?
-		/// </summary>
 		[Tooltip("Should the application show a registration button on the interface?")]
 		[SerializeField]
-		protected bool _allowRegister;
+		private bool _allowRegister;
 
-		/// <summary>
-		/// The default account source token used when signing in and registering via the interface
-		/// </summary>
 		[Tooltip("The default account source token used when signing in and registering via the interface")]
 		[SerializeField]
-		protected string _defaultSourceToken = "SUGAR";
+		private string _defaultSourceToken = "SUGAR";
 
-		/// <summary>
-		/// Callback for when a sign in or register attempt succeeds or fails
-		/// </summary>
-		protected Action<bool> _signInCallback;
+		private Action<bool> _signInCallback;
 
 		internal CommandLineOptions options;
 
@@ -76,30 +55,23 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string autoLoginCustomArgs;
 
-		/// <summary>
-		/// SavedPrefsHandler used for storing user details
-		/// </summary>
-		protected readonly ISavedPrefsHandler _savedPrefsHandler = new SavedPrefsHandler();
+		private readonly ISavedPrefsHandler _savedPrefsHandler = new SavedPrefsHandler();
 
 		internal string savedLoginToken;
 
 		internal string savedUsername;
 
 		/// <summary>
-		/// Has a UI object been provided for this Unity Client?
+		/// Has an interface been provided for this Unity Client?
 		/// </summary>
 		public bool HasInterface => _interface;
 
 		/// <summary>
-		/// Is there a UI object and if so is it currently active?
+		/// Is there an interface and if so is it currently active?
 		/// </summary>
 		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
-		/// <summary>
-		/// Saving prefs to local variables so that we don't have to rely on Unity to update PlayerPrefs efficiently
-		/// PlayerPrefs don't appear to return updated values unless a new scene is loaded
-		/// </summary>
-		protected virtual void Awake()
+		private void Awake()
 		{
 			savedLoginToken = _savedPrefsHandler.Get<string>("token");
 			savedUsername = _savedPrefsHandler.Get<string>("username");
@@ -130,11 +102,7 @@ namespace PlayGen.SUGAR.Unity
 			return popupInterface;
 		}
 
-		/// <summary>
-		/// Change the used interface if the aspect ratio changes.
-		/// If interface is active, set if the register button and password placeholder should be shown
-		/// </summary>
-		protected virtual void Update()
+		private void Update()
 		{
 			if (_landscapeInterface && _landscapeInterface != _interface && _landscapeInterface.gameObject.activeInHierarchy)
 			{
@@ -159,6 +127,7 @@ namespace PlayGen.SUGAR.Unity
 		/// Displays interface if provided and allowAutoLogin is false. Attempts automatic sign in using provided details if allowAutoLogin is true.
 		/// Note: allowAutoLogin is made false after automatic sign in is first attempted.
 		/// </summary>
+		/// <param name="success">Callback which will result whether the user successfully signed in.</param>
 		public virtual void DisplayLogInPanel(Action<bool> success)
 		{
 			_signInCallback = success;
@@ -192,6 +161,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Sign out the currently signed in user
 		/// </summary>
+		/// <param name="success">Callback which will result whether the user successfully signed out.</param>
 		public virtual void Logout(Action<bool> success)
 		{
 			if (SUGARManager.UserSignedIn)
@@ -304,8 +274,8 @@ namespace PlayGen.SUGAR.Unity
 					SUGARManager.unity.StopSpinner();
 				});
 			}
-
 		}
+
 		internal void LoginToken(string token)
 		{
 			SUGARManager.unity.StartSpinner();

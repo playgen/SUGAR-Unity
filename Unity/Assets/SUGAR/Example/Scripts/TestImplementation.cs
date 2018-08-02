@@ -23,6 +23,10 @@ public class TestImplementation : MonoBehaviour {
 			{
 				SUGARManager.Evaluation.DisplayAchievementList();
 			}
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				SUGARManager.Evaluation.DisplaySkillList();
+			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
 				SUGARManager.Evaluation.ForceNotification();
