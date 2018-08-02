@@ -7,9 +7,17 @@ using UnityEngine.UI;
 
 using PlayGen.Unity.Utilities.Text;
 using PlayGen.Unity.Utilities.Localization;
+using PlayGen.SUGAR.Common;
 
 public class EvaluationListInterface : BaseEvaluationListInterface
 {
+	/// <summary>
+	/// Text which displays the current information being displayed.
+	/// </summary>
+	[Tooltip("Text which displays the current information being displayed.")]
+	[SerializeField]
+	private Text _titleText;
+
 	/// <summary>
 	/// An array of the EvaluationItemInterfaces on this GameObject, set in the Inspector.
 	/// </summary>
@@ -85,6 +93,8 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	/// </summary>
 	protected override void Draw()
 	{
+		var evaluationType = SUGARManager.Evaluation.Progress.FirstOrDefault()?.Type;
+		_titleText.text = evaluationType == null ? string.Empty : Localization.Get(evaluationType == EvaluationType.Achievement ? "ACHIEVEMENTS" : "SKILLS");
 		var evaluationList = SUGARManager.Evaluation.Progress.Skip(_pageNumber * _evaluationItems.Length).Take(_evaluationItems.Length).ToList();
 		if (!evaluationList.Any() && _pageNumber > 0)
 		{

@@ -68,7 +68,7 @@ namespace PlayGen.SUGAR.Unity
 		private void GetGlobalLeaderboards(Action<bool> success)
 		{
 			Leaderboards.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.Leaderboard.GetGlobalAsync(
 				response =>
@@ -105,7 +105,7 @@ namespace PlayGen.SUGAR.Unity
 		private void GetLeaderboards(Action<bool> success)
 		{
 			Leaderboards.Clear();
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
 				response =>
@@ -137,6 +137,11 @@ namespace PlayGen.SUGAR.Unity
 				}
 				success(false);
 			}
+		}
+
+		internal void ResetClient()
+		{
+			Leaderboards.Clear();
 		}
 	}
 }

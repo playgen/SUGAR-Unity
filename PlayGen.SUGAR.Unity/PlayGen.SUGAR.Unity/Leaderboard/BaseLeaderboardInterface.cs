@@ -108,7 +108,7 @@ namespace PlayGen.SUGAR.Unity
 		protected override void ErrorDraw(bool loadingSuccess)
 		{
 			base.ErrorDraw(loadingSuccess);
-			if (SUGARManager.CurrentUser != null && SUGARManager.leaderboard.CurrentLeaderboard == null)
+			if (SUGARManager.UserSignedIn && SUGARManager.leaderboard.CurrentLeaderboard == null)
 			{
 				_errorText.text = Localization.Get("LEADERBOARD_LOAD_ERROR");
 				loadingSuccess = false;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to evaluation notifications.
+	/// Base abstract class for controlling the interface related to evaluation notifications.
 	/// </summary>
 	public abstract class BaseEvaluationPopupInterface : MonoBehaviour
 	{

@@ -1,8 +1,10 @@
 - name: Tutorials
   href: tutorials/  
   topicHref: tutorials/index.md
-- name: Api
-  href: api/
 - name: Development
   href: development/
+- name: Features
+  href: features/
+- name: Api
+  href: api/
   topicHref: development/index.md

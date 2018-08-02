@@ -5,7 +5,7 @@ public class TestImplementation : MonoBehaviour {
 
 	// Use this for initialization
 	private void Start () {
-		SUGARManager.Account.DisplayPanel(success =>
+		SUGARManager.Account.DisplayLogInPanel(success =>
 		{
 
 		});
@@ -22,6 +22,10 @@ public class TestImplementation : MonoBehaviour {
 			if (Input.GetKeyDown(KeyCode.K))
 			{
 				SUGARManager.Evaluation.DisplayAchievementList();
+			}
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				SUGARManager.Evaluation.DisplaySkillList();
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
@@ -50,7 +54,15 @@ public class TestImplementation : MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.Delete))
 		{
-			SUGARManager.Account.Logout(delegate(bool b) { SUGARManager.Account.DisplayPanel(delegate(bool b1) {  }); });
+			SUGARManager.Account.Logout(
+			success => 
+			{
+				SUGARManager.Account.DisplayLogInPanel(
+				signIn => 
+				{
+
+				});
+			});
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace PlayGen.SUGAR.Unity
 	[DisallowMultipleComponent]
 	public class EvaluationUnityClient : BaseUnityClient<BaseEvaluationListInterface>
 	{
-		[Tooltip("Landscape UI object used for evaluation completion notifications. Can be left null if not needed.")]
+		[Tooltip("Landscape interface used for evaluation completion notifications. Can be left null if not needed.")]
 		[SerializeField]
 		private BaseEvaluationPopupInterface _landscapeAchievementPopup;
 
@@ -38,11 +38,6 @@ namespace PlayGen.SUGAR.Unity
 		internal override void CreateInterface(Canvas canvas)
 		{
 			base.CreateInterface(canvas);
-			if (_interface)
-			{
-				SUGARManager.client.Achievement.EnableNotifications(true);
-				SUGARManager.client.Skill.EnableNotifications(true);
-			}
 			_landscapeAchievementPopup = SetInterface(_landscapeAchievementPopup, canvas);
 			_landscapeAchievementPopup?.gameObject.SetActive(true);
 
@@ -51,25 +46,31 @@ namespace PlayGen.SUGAR.Unity
 
 			if (_landscapeAchievementPopup || _portraitAchievementPopup)
 			{
+				SUGARManager.client.Achievement.EnableNotifications(true);
+				SUGARManager.client.Skill.EnableNotifications(true);
 				InvokeRepeating("NotificatonCheck", _notificationCheckRate, _notificationCheckRate);
 			}
 		}
 
-		protected BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string extension = "")
+		internal BaseEvaluationPopupInterface SetInterface(BaseEvaluationPopupInterface popupInterface, Canvas canvas, string extension = "")
 		{
 			if (!popupInterface)
+			{
 				return null;
-
+			}
 			var inScenePopUp = popupInterface.gameObject.scene == SceneManager.GetActiveScene() || popupInterface.gameObject.scene.name == "DontDestroyOnLoad";
 			if (!inScenePopUp)
 			{
-				var newPopUp = Instantiate(popupInterface.gameObject, canvas.transform, false);
+				var newPopUp = Instantiate(popupInterface, canvas.transform, false);
 				newPopUp.name = popupInterface.name + extension;
-				popupInterface = newPopUp.GetComponent<BaseEvaluationPopupInterface>();
+				popupInterface = newPopUp;
 			}
 			return popupInterface;
 		}
 
+		/// <summary>
+		/// Change the used interfaces if the aspect ratio changes.
+		/// </summary>
 		protected override void Update()
 		{
 			base.Update();
@@ -86,7 +87,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current evaluation completion status and displays UI object if provided.
+		/// Gathers current user achievement completion status and displays interface if provided.
 		/// </summary>
 		public void DisplayAchievementList()
 		{
@@ -94,12 +95,12 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(SUGARManager.CurrentUser, success =>
 			{
 				SUGARManager.unity.StopSpinner();
-					_interface?.Display(success);
+				_interface?.Display(success);
 			});
 		}
 
 		/// <summary>
-		/// Gathers current evaluation completion status and displays UI object if provided.
+		/// Gathers current group achievement completion status and displays interface if provided.
 		/// </summary>
 		public void DisplayGroupAchievementList()
 		{
@@ -136,7 +137,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current skill completion status and displays UI object if provided.
+		/// Gathers current user skill completion status and displays interface if provided.
 		/// </summary>
 		public void DisplaySkillList()
 		{
@@ -149,7 +150,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current skill completion status and displays UI object if provided.
+		/// Gathers current group skill completion status and displays interface if provided.
 		/// </summary>
 		public void DisplayGroupSkillList()
 		{
@@ -188,6 +189,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Force an evaluation notification to be displayed with the provided text.
 		/// </summary>
+		/// <param name="notification">String which will be used in the notification.</param>
 		public void ForceNotification(string notification = "Test Notification")
 		{
 			HandleNotification(new EvaluationNotification
@@ -212,6 +214,11 @@ namespace PlayGen.SUGAR.Unity
 		{
 			_landscapeAchievementPopup?.Notification(notification);
 			_portraitAchievementPopup?.Notification(notification);
+		}
+
+		internal void ResetClient()
+		{
+			Progress = null;
 		}
 	}
 }

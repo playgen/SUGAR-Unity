@@ -68,7 +68,7 @@ namespace PlayGen.SUGAR.Unity
 		private void GetLeaderboard(string token, bool globalLeaderboard, Action<bool> success)
 		{
 			CurrentLeaderboard = null;
-			if (SUGARManager.CurrentUser != null)
+			if (SUGARManager.UserSignedIn)
 			{
 				if (globalLeaderboard)
 				{
@@ -189,6 +189,12 @@ namespace PlayGen.SUGAR.Unity
 		public void SetPositionCount(int count)
 		{
 			_positionCount = count;
+		}
+
+		internal void ResetClient()
+		{
+			CurrentLeaderboard = null;
+			CurrentStandings = null;
 		}
 	}
 }

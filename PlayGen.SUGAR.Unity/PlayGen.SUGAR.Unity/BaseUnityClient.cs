@@ -4,33 +4,36 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base class for UnityClient classes
+	/// Base abstract class for UnityClient classes
 	/// </summary>
-	public class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
+	public abstract class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
 	{
 		/// <summary>
-		/// Landscape UI object for this unity client. Can be left null if not required.
+		/// Landscape interface for this area of functionality. Can be left null if not required.
 		/// </summary>
-		[Tooltip("Landscape UI object for this unity client. Can be left null if not required.")]
+		[Tooltip("Landscape interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
 		protected T _landscapeInterface;
 
 		/// <summary>
-		/// Portrait UI object for this unity client. Can be left null if not required.
+		/// Portrait interface for this area of functionality. Can be left null if not required.
 		/// </summary>
-		[Tooltip("Portrait UI object for this unity client. Can be left null if not required.")]
+		[Tooltip("Portrait interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
 		protected T _portraitInterface;
 
+		/// <summary>
+		/// The interface that is used for the current aspect ratio.
+		/// </summary>
 		protected T _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
 
 		/// <summary>
-		/// Has a UI object been provided for this Unity Client?
+		/// Has an interface been provided for this Unity Client?
 		/// </summary>
 		public bool HasInterface => _interface;
 
 		/// <summary>
-		/// Is there a UI object and if so is it currently active?
+		/// Is there an interface and if so is it currently active?
 		/// </summary>
 		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
@@ -43,20 +46,25 @@ namespace PlayGen.SUGAR.Unity
 			_portraitInterface?.gameObject.SetActive(false);
 		}
 
-		protected T SetInterface<T>(T panelInterface, Canvas canvas, string extension = "") where T : BaseInterface
+		internal T SetInterface(T panelInterface, Canvas canvas, string extension = "")
 		{
 			if (!panelInterface)
+			{
 				return null;
+			}
 			var inScene = panelInterface.gameObject.scene == SceneManager.GetActiveScene() || panelInterface.gameObject.scene.name == "DontDestroyOnLoad";
 			if (!inScene)
 			{
-				var newInterface = Instantiate(panelInterface.gameObject, canvas.transform, false);
+				var newInterface = Instantiate(panelInterface, canvas.transform, false);
 				newInterface.name = panelInterface.name + extension;
-				panelInterface = newInterface.GetComponent<T>();
+				panelInterface = newInterface;
 			}
 			return panelInterface;
 		}
 
+		/// <summary>
+		/// Change the used interface if the aspect ratio changes.
+		/// </summary>
 		protected virtual void Update()
 		{
 			if (_landscapeInterface && _landscapeInterface != _interface && _landscapeInterface.gameObject.activeInHierarchy)
