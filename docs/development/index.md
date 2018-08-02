@@ -1,3 +1,3 @@
 # Development
 
-This section covers various aspects of the SUGAR Unity Client development.
+This section covers various aspects to do with developing the SUGAR Unity Client.
