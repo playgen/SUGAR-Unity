@@ -5,6 +5,7 @@
   href: development/
 - name: Features
   href: features/
+  topicHref: features/index.md
 - name: Api
   href: api/
   topicHref: development/index.md
