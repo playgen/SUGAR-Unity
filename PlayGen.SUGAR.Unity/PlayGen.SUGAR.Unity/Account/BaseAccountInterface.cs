@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to user accounts.
+	/// Base abstract class for controlling the interface related to Account functionality.
 	/// </summary>
 	public abstract class BaseAccountInterface : MonoBehaviour
 	{

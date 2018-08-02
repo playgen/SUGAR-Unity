@@ -53,7 +53,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Functionality triggered before displaying the UI object.
+		/// Functionality triggered before displaying the interface.
 		/// </summary>
 		protected abstract void PreDisplay();
 
@@ -64,6 +64,7 @@ namespace PlayGen.SUGAR.Unity
 		/// Draw - abstract method where creation and placement of the UI should be performed.
 		/// ErrorDraw - where error text is determined and set, if required.
 		/// </summary>
+		/// <param name="loadingSuccess">Was the data successfully loaded?</param>
 		protected void Show(bool loadingSuccess)
 		{
 			HideInterfaces();
@@ -98,6 +99,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Should be used to set error text and disable UI objects due to errors, if required. By default sets error text in case of no user being signed in or loading issues.
 		/// </summary>
+		/// <param name="loadingSuccess">Was the data successfully loaded?</param>
 		protected virtual void ErrorDraw(bool loadingSuccess)
 		{
 			if (!loadingSuccess)
@@ -145,7 +147,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Triggered by successful sign-in via this UI object. 
+		/// Triggered by successful sign-in via this interface. 
 		/// </summary>
 		protected abstract void OnSignIn();
 	}

@@ -38,22 +38,22 @@ public class GroupListItemInterface : MonoBehaviour
 		_addButton.gameObject.SetActive(actor.CanAdd);
 		if (actor.CanAdd)
 		{
-			_addButton.onClick.AddListener(delegate { SUGARManager.UserGroup.AddGroup(actor.Actor.Id); });
+			_addButton.onClick.AddListener(() => SUGARManager.UserGroup.AddGroup(actor.Actor.Id));
 		}
 		_removeButton.gameObject.SetActive(actor.CanRemove);
 		if (actor.CanRemove)
 		{
 			if (pending)
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.UserGroup.ManageGroupRequest(actor.Actor.Id, false); });
+				_removeButton.onClick.AddListener(() => SUGARManager.UserGroup.ManageGroupRequest(actor.Actor.Id, false));
 			}
 			else
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.UserGroup.RemoveGroup(actor.Actor.Id); });
+				_removeButton.onClick.AddListener(() => SUGARManager.UserGroup.RemoveGroup(actor.Actor.Id));
 			}
 		}
 		GetComponent<Button>().onClick.RemoveAllListeners();
-		GetComponent<Button>().onClick.AddListener(delegate { SUGARManager.GroupMember.Display(actor.Actor); });
+		GetComponent<Button>().onClick.AddListener(() => SUGARManager.GroupMember.Display(actor.Actor));
 	}
 
 	/// <summary>

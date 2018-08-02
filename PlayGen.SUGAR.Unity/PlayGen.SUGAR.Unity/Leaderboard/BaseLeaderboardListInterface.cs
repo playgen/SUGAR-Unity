@@ -6,7 +6,7 @@ using PlayGen.Unity.Utilities.Localization;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the UI object related to getting all leaderboards for a game
+	/// Base abstract class for controlling the interface related to displaying a list of leaderboards.
 	/// </summary>
 	public abstract class BaseLeaderboardListInterface : BaseInterface
 	{
@@ -46,20 +46,20 @@ namespace PlayGen.SUGAR.Unity
 			base.Awake();
 			if (_userButton)
 			{
-				_userButton.onClick.AddListener(delegate { UpdateFilter(1); });
+				_userButton.onClick.AddListener(() => UpdateFilter(ActorType.User));
 			}
 			if (_groupButton)
 			{
-				_groupButton.onClick.AddListener(delegate { UpdateFilter(2); });
+				_groupButton.onClick.AddListener(() => UpdateFilter(ActorType.Group));
 			}
 			if (_combinedButton)
 			{
-				_combinedButton.onClick.AddListener(delegate { UpdateFilter(0); });
+				_combinedButton.onClick.AddListener(() => UpdateFilter(ActorType.Undefined));
 			}
 		}
 
 		/// <summary>
-		/// Hides Account, Evaluation, UserFriend, GroupMember and UserGroup UI objects. Makes filter buttons interactable.
+		/// Hides Account, Evaluation, UserFriend, GroupMember and UserGroup UI objects. Makes filter buttons interactable. Set leaderboard type related text.
 		/// </summary>
 		protected override void HideInterfaces()
 		{
@@ -79,6 +79,11 @@ namespace PlayGen.SUGAR.Unity
 			if (_combinedButton)
 			{
 				_combinedButton.interactable = true;
+			}
+
+			if (_leaderboardType)
+			{
+				_leaderboardType.text = SUGARManager.GameLeaderboard.CurrentActorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(SUGARManager.GameLeaderboard.CurrentActorType.ToString());
 			}
 		}
 
@@ -129,9 +134,13 @@ namespace PlayGen.SUGAR.Unity
 			return Localization.Get("NO_LEADERBOARD_LIST_ERROR");
 		}
 
-		private void UpdateFilter(int filter)
+		/// <summary>
+		/// Chnage the filter currently being used to get leaderboard for a particular type of actor
+		/// </summary>
+		/// <param name="filter">The filter to use for display leaderboard standings</param>
+		protected void UpdateFilter(ActorType filter)
 		{
-			SUGARManager.gameLeaderboard.SetFilter((ActorType)filter);
+			SUGARManager.gameLeaderboard.SetFilter(filter);
 			Display();
 		}
 	}

@@ -3,7 +3,7 @@
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Base abstract class for controlling the interface related to evaluation lists.
+	/// Base abstract class for controlling the interface related to displaying evaluation progress.
 	/// </summary>
 	public abstract class BaseEvaluationListInterface : BaseInterface
 	{
@@ -23,6 +23,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Used to set error text in case of no user being signed in, loading issues or if no results are available.
 		/// </summary>
+		/// <param name="loadingSuccess">Was the data successfully loaded?</param>
 		protected override void ErrorDraw(bool loadingSuccess)
 		{
 			base.ErrorDraw(loadingSuccess);

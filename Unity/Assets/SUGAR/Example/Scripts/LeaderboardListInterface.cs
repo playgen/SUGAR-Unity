@@ -42,13 +42,27 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 	private int _pageNumber;
 
 	/// <summary>
+	/// Filter that is used when opening leaderboards via this interface
+	/// </summary>
+	[Tooltip("Filter that is used when opening leaderboards via this interface")]
+	[SerializeField]
+	private LeaderboardFilterType _defaultLeaderboardFilter;
+
+	/// <summary>
+	/// Setting for determining if actors can appear on a leaderboard multiple times (actors will only ever appear once when filter is set to Near)
+	/// </summary>
+	[Tooltip("Setting for determining if actors can appear on a leaderboard multiple times (actors will only ever appear once when filter is set to Near)")]
+	[SerializeField]
+	private bool _defaultMultiplePerActor;
+
+	/// <summary>
 	/// In addition to base onclick adding, adds listeners for the previous and next buttons.
 	/// </summary>
 	protected override void Awake()
 	{
 		base.Awake();
-		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
-		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
+		_previousButton.onClick.AddListener(() => UpdatePageNumber(-1));
+		_nextButton.onClick.AddListener(() => UpdatePageNumber(1));
 	}
 
 	/// <summary>
@@ -107,11 +121,10 @@ public class LeaderboardListInterface : BaseLeaderboardListInterface
 				_leaderboardButtons[i].onClick.RemoveAllListeners();
 				_leaderboardButtons[i].GetComponentInChildren<Text>().text = leaderboardList[i].Name;
 				var token = leaderboardList[i].Token;
-				_leaderboardButtons[i].onClick.AddListener(delegate { SUGARManager.Leaderboard.Display(token, SUGARManager.Leaderboard.CurrentFilter); });
+				_leaderboardButtons[i].onClick.AddListener(() => SUGARManager.Leaderboard.Display(token, _defaultLeaderboardFilter, _defaultMultiplePerActor));
 				_leaderboardButtons[i].gameObject.SetActive(true);
 			}
 		}
-		_leaderboardType.text = SUGARManager.GameLeaderboard.CurrentActorType == ActorType.Undefined ? Localization.Get("COMBINED") : Localization.Get(SUGARManager.GameLeaderboard.CurrentActorType.ToString());
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
 		DoBestFit();

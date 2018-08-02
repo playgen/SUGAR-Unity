@@ -30,7 +30,7 @@ public class GroupMemberItemInterface : MonoBehaviour
 		_addButton.gameObject.SetActive(actor.CanAdd);
 		if (actor.CanAdd)
 		{
-			_addButton.onClick.AddListener(delegate { SUGARManager.GroupMember.AddFriend(actor.Actor.Id); });
+			_addButton.onClick.AddListener(() => SUGARManager.GroupMember.AddFriend(actor.Actor.Id));
 		}
 	}
 

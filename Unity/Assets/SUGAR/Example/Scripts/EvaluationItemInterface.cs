@@ -20,9 +20,9 @@ public class EvaluationItemInterface : MonoBehaviour
 	private Text _evaluationDescription;
 
 	/// <summary>
-	/// Text for showing evaluation image. In this case, a tick showing if the evaluation has been completed or not.
+	/// Image related to the evaluation. In this case, a tick showing if the evaluation has been completed or not.
 	/// </summary>
-	[Tooltip("Text for showing evaluation image. In this case, a tick showing if the evaluation has been completed or not")]
+	[Tooltip("Image related to the evaluation. In this case, a tick showing if the evaluation has been completed or not")]
 	[SerializeField]
 	private Image _evaluationImage;
 
@@ -40,10 +40,7 @@ public class EvaluationItemInterface : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 		_evaluationName.text = evaluation.Name;
-		if (_evaluationDescription)
-		{
-			_evaluationDescription.text = evaluation.Description;
-		}
+		_evaluationDescription.text = evaluation.Description;
 		_evaluationImage.enabled = completed;
 		_evaluationProgress.text = completed ? string.Empty : (Mathf.Round(evaluation.Progress * 100)) + "%";
 	}

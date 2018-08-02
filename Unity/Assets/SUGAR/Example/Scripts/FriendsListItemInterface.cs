@@ -39,11 +39,11 @@ public class FriendsListItemInterface : MonoBehaviour {
 		{
 			if (pending)
 			{
-				_addButton.onClick.AddListener(delegate { SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, true); });
+				_addButton.onClick.AddListener(() => SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, true));
 			}
 			else
 			{
-				_addButton.onClick.AddListener(delegate { SUGARManager.UserFriend.AddFriend(actor.Actor.Id); });
+				_addButton.onClick.AddListener(() => SUGARManager.UserFriend.AddFriend(actor.Actor.Id));
 			}
 		} 
 		_removeButton.gameObject.SetActive(actor.CanRemove);
@@ -51,11 +51,11 @@ public class FriendsListItemInterface : MonoBehaviour {
 		{
 			if (pending)
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, false, own); });
+				_removeButton.onClick.AddListener(() => SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, false, own));
 			}
 			else
 			{
-				_removeButton.onClick.AddListener(delegate { SUGARManager.UserFriend.RemoveFriend(actor.Actor.Id); });
+				_removeButton.onClick.AddListener(() => SUGARManager.UserFriend.RemoveFriend(actor.Actor.Id));
 			}
 		}
 	}

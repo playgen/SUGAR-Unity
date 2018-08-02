@@ -10,17 +10,15 @@ using PlayGen.SUGAR.Contracts;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to leaderboards for an application.
+	/// Unity client for functionality related to getting all leaderboards either related to the current game or for the system as a whole.
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : BaseUnityClient<BaseLeaderboardListInterface>
 	{
-		[Tooltip("Currently used ActorType filter.")]
-		[SerializeField]
 		private ActorType _currentActorType = ActorType.User;
 
 		/// <summary>
-		/// List of leaderboards for this application for each ActorType filter.
+		/// Dictionary of leaderboards for this application for each ActorType filter.
 		/// </summary>
 		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards { get; } = new Dictionary<ActorType, List<LeaderboardResponse>>();
 
@@ -30,7 +28,7 @@ namespace PlayGen.SUGAR.Unity
 		public ActorType CurrentActorType => _currentActorType;
 
 		/// <summary>
-		/// Gathers leaderboards for this application and displays list for current ActorType if UI object if provided.
+		/// Gathers all leaderboards not attached to a game and displays list for current ActorType if interface if provided.
 		/// </summary>
 		public void DisplayGlobalList(ActorType filter = ActorType.User)
 		{
@@ -44,7 +42,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers leaderboards for this application and displays list for current ActorType if UI object if provided.
+		/// Gathers leaderboards for this application and displays list for current ActorType if interface if provided.
 		/// </summary>
 		public void DisplayGameList(ActorType filter = ActorType.User)
 		{
@@ -60,7 +58,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Set the ActorType filter to use.
 		/// </summary>
-		public void SetFilter(ActorType filter)
+		internal void SetFilter(ActorType filter)
 		{
 			_currentActorType = filter;
 		}
@@ -73,11 +71,9 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Leaderboard.GetGlobalAsync(
 				response =>
 				{
-					var result = response.ToList();
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
-						var at = actorType;
-						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
+						Leaderboards.Add(actorType, response.Where(lb => lb.ActorType == actorType).ToList());
 					}
 					success(true);
 				},
@@ -110,11 +106,9 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.Leaderboard.GetAsync(SUGARManager.GameId,
 				response =>
 				{
-					var result = response.ToList();
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
-						var at = actorType;
-						Leaderboards.Add(actorType, result.Where(lb => lb.ActorType == at).ToList());
+						Leaderboards.Add(actorType, response.Where(lb => lb.ActorType == actorType).ToList());
 					}
 					success(true);
 				},

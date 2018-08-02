@@ -103,14 +103,14 @@ public class UserGroupInterface : BaseUserGroupInterface
 	protected override void Awake()
 	{
 		base.Awake();
-		_groupsButton.onClick.AddListener(delegate { SetListType(0); });
-		_sentButton.onClick.AddListener(delegate { SetListType(1); });
-		_searchButton.onClick.AddListener(delegate { SetListType(2); });
+		_groupsButton.onClick.AddListener(() => SetListType(0));
+		_sentButton.onClick.AddListener(() => SetListType(1));
+		_searchButton.onClick.AddListener(() => SetListType(2));
 		_groupsButton.onClick.AddListener(GetGroups);
 		_sentButton.onClick.AddListener(GetPendingSent);
-		_searchTextButton.onClick.AddListener(delegate { GetSearchResults(_searchInput.text); });
-		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
-		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
+		_searchTextButton.onClick.AddListener(() => GetSearchResults(_searchInput.text));
+		_previousButton.onClick.AddListener(() => UpdatePageNumber(-1));
+		_nextButton.onClick.AddListener(() => UpdatePageNumber(1));
 	}
 
 	/// <summary>

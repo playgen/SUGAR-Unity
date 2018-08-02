@@ -10,7 +10,7 @@ using PlayGen.SUGAR.Common;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to leaderboard standings.
+	/// Unity client for functionality related to getting information on a leaderboard and gathering the latest standings for that leaderboard.
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class LeaderboardUnityClient : BaseUnityClient<BaseLeaderboardInterface>
@@ -19,14 +19,19 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		private int _positionCount;
 
-		[Tooltip("Current filter to use for gathering leaderboard standings.")]
-		[SerializeField]
-		private LeaderboardFilterType _currentFilter = LeaderboardFilterType.Top;
+		private LeaderboardFilterType _currentFilter;
 
 		/// <summary>
 		/// Current filter to use for gathering leaderboard standings.
 		/// </summary>
 		public LeaderboardFilterType CurrentFilter => _currentFilter;
+
+		private bool _multiplePerActor;
+
+		/// <summary>
+		/// Current setting for whether actors can appear on leaderboards multiple times.
+		/// </summary>
+		public bool MultiplePerActor => _multiplePerActor;
 
 		/// <summary>
 		/// Current leaderboard to use for gathering leaderboard standings from.
@@ -44,16 +49,19 @@ namespace PlayGen.SUGAR.Unity
 		public int PositionCount => _positionCount;
 
 		/// <summary>
-		/// Gathers information on the leaderboard with the token provided and gets current standings based on the filter and page number provided, with the UI object displayed if provided.
+		/// Gathers information on the leaderboard with the token provided and gets current standings based on the filter, multiple per actor option and page number provided, with the interface displayed if provided.
 		/// </summary>
-		public void Display(string token, LeaderboardFilterType filter, int pageNumber = 0, bool globalLeaderboard = false)
+		public void Display(string token, LeaderboardFilterType filter, bool multiplePerActor, int pageNumber = 0, bool globalLeaderboard = false)
 		{
 			_currentFilter = filter;
-			GetLeaderboard(token, globalLeaderboard, success =>
+			_multiplePerActor = multiplePerActor;
+			GetLeaderboard(token, globalLeaderboard,
+			success =>
 			{
 				if (success)
 				{
-					GetLeaderboardStandings(pageNumber, result =>
+					GetLeaderboardStandings(pageNumber,
+					result =>
 					{
 						_interface?.Display(result);
 					});
@@ -117,18 +125,18 @@ namespace PlayGen.SUGAR.Unity
 			{
 				CurrentStandings.Clear();
 			}
-			var actor = CurrentLeaderboard == null ? null : CurrentLeaderboard.ActorType == ActorType.Group || _currentFilter == LeaderboardFilterType.GroupMembers ? SUGARManager.CurrentGroup : SUGARManager.CurrentUser;
+			var actor = CurrentLeaderboard == null ? null : CurrentLeaderboard.ActorType == ActorType.Group || _currentFilter == LeaderboardFilterType.GroupMembers || _currentFilter == LeaderboardFilterType.Alliances ? SUGARManager.CurrentGroup : SUGARManager.CurrentUser;
 			if (actor != null && CurrentLeaderboard != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{
 					LeaderboardToken = CurrentLeaderboard.Token,
-					GameId = SUGARManager.GameId,
+					GameId = CurrentLeaderboard.GameId,
 					ActorId = actor.Id,
 					LeaderboardFilterType = _currentFilter,
 					PageLimit = _positionCount,
 					PageOffset = pageNumber,
-					MultiplePerActor = false
+					MultiplePerActor = _currentFilter != LeaderboardFilterType.Near ? _multiplePerActor : false
 				};
 
 				SUGARManager.client.Leaderboard.CreateGetLeaderboardStandingsAsync(request,
@@ -147,39 +155,27 @@ namespace PlayGen.SUGAR.Unity
 					if (result == null)
 					{
 						CurrentStandings = response.ToList();
-						success(true);
 					}
 					else
 					{
 						result(response.ToList());
 					}
+					success(true);
 				},
 				exception =>
 				{
 					SUGARManager.unity.StopSpinner();
 					var error = "Failed to get leaderboard standings. " + exception.Message;
 					Debug.LogError(error);
-					if (result == null)
-					{
-						success(false);
-					}
-					else
-					{
-						result(new List<LeaderboardStandingsResponse>());
-					}
+					result?.Invoke(new List<LeaderboardStandingsResponse>());
+					success(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				if (result == null)
-				{
-					success(false);
-				}
-				else
-				{
-					result(new List<LeaderboardStandingsResponse>());
-				}
+				result?.Invoke(new List<LeaderboardStandingsResponse>());
+				success(false);
 			}
 		}
 

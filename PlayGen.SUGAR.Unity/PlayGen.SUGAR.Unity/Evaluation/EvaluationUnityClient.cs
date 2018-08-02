@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to evaluations.
+	/// Unity client for functionality related to gathering evaluation progress and notifications when an evaluation is completed.
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class EvaluationUnityClient : BaseUnityClient<BaseEvaluationListInterface>

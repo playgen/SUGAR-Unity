@@ -12,9 +12,9 @@ using PlayGen.SUGAR.Common;
 public class EvaluationListInterface : BaseEvaluationListInterface
 {
 	/// <summary>
-	/// Text which displays the current information being displayed.
+	/// Text which describes the current information being displayed.
 	/// </summary>
-	[Tooltip("Text which displays the current information being displayed.")]
+	[Tooltip("Text which describes the current information being displayed.")]
 	[SerializeField]
 	private Text _titleText;
 
@@ -57,8 +57,8 @@ public class EvaluationListInterface : BaseEvaluationListInterface
 	protected override void Awake()
 	{
 		base.Awake();
-		_previousButton.onClick.AddListener(delegate { UpdatePageNumber(-1); });
-		_nextButton.onClick.AddListener(delegate { UpdatePageNumber(1); });
+		_previousButton.onClick.AddListener(() => UpdatePageNumber(-1));
+		_nextButton.onClick.AddListener(() => UpdatePageNumber(1));
 	}
 
 	/// <summary>
