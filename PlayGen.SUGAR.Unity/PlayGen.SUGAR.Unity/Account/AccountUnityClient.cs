@@ -331,20 +331,20 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.userGroup.GetGroups(groups => SUGARManager.SetCurrentGroup(SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor));
 				_signInCallback(true);
 			}
-			if (string.IsNullOrEmpty(savedLoginToken))
+			if ((_interface?.RememberLogin() ?? false))
 			{
-				if ((_interface?.RememberLogin() ?? false))
+				if (string.IsNullOrEmpty(savedLoginToken))
 				{
 					SavePrefs(response.LoginToken, response.User.Name);
 				}
-				else
+			}
+			else
+			{
+				DeletePrefs();
+				// Clear text in the account panel
+				if (HasInterface)
 				{
-					DeletePrefs();
-					// Clear text in the account panel
-					if (HasInterface)
-					{
-						_interface.ResetText();
-					}
+					_interface.ResetText();
 				}
 			}
 			Hide();
