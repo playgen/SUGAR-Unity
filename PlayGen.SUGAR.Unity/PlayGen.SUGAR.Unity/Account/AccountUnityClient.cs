@@ -10,7 +10,7 @@ using PlayGen.SUGAR.Client;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for functionality related to signing in, registering and signing out.
+	/// Use this to Sign In, Register, Logout and manage other account functionality
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class AccountUnityClient : MonoBehaviour
@@ -61,14 +61,14 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string savedUsername;
 
-		/// <summary>
-		/// Has an interface been provided for this Unity Client?
-		/// </summary>
+		/// <value>
+		/// Has an interface been provided for this Unity Client in the current orientation
+		/// </value>
 		public bool HasInterface => _interface;
 
-		/// <summary>
-		/// Is there an interface and if so is it currently active?
-		/// </summary>
+		/// <value>
+		/// Is there an interface and if so is it currently active
+		/// </value>
 		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
 		private void Awake()
@@ -125,9 +125,12 @@ namespace PlayGen.SUGAR.Unity
 
 		/// <summary>
 		/// Displays interface if provided and allowAutoLogin is false. Attempts automatic sign in using provided details if allowAutoLogin is true.
-		/// Note: allowAutoLogin is made false after automatic sign in is first attempted.
 		/// </summary>
-		/// <param name="success">Callback which will result whether the user successfully signed in.</param>
+		/// <remarks>
+		/// - allowAutoLogin is set to false after automatic sign in is first attempted.
+		/// - If there is no interface provided callback will return false
+		/// </remarks>
+		/// <param name="success">Whether the user successfully signed in.</param>
 		public virtual void DisplayLogInPanel(Action<bool> success)
 		{
 			_signInCallback = success;
@@ -148,7 +151,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Hide the UI object if it is currently active.
+		/// Hide the AccountPanel game object
 		/// </summary>
 		public virtual void Hide()
 		{
@@ -159,9 +162,12 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Sign out the currently signed in user
+		/// Sign out the currently signed in user.
 		/// </summary>
-		/// <param name="success">Callback which will result whether the user successfully signed out.</param>
+		/// <remarks>
+		/// - If no user is currently signed in, callback returns false
+		/// </remarks>
+		/// <param name="success">Whether the currently signed in user successfully signed out.</param>
 		public virtual void Logout(Action<bool> success)
 		{
 			if (SUGARManager.UserSignedIn)

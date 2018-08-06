@@ -10,7 +10,7 @@ using PlayGen.SUGAR.Common;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for functionality related to getting information on a leaderboard and gathering the latest standings for that leaderboard.
+	/// Use this to get the current standings for a leaderboard
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class LeaderboardUnityClient : BaseUnityClient<BaseLeaderboardInterface>
@@ -21,36 +21,41 @@ namespace PlayGen.SUGAR.Unity
 
 		private LeaderboardFilterType _currentFilter;
 
-		/// <summary>
+		/// <value>
 		/// Current filter to use for gathering leaderboard standings.
-		/// </summary>
+		/// </value>
 		public LeaderboardFilterType CurrentFilter => _currentFilter;
 
 		private bool _multiplePerActor;
 
-		/// <summary>
+		/// <value>
 		/// Current setting for whether actors can appear on leaderboards multiple times.
-		/// </summary>
+		/// </value>
 		public bool MultiplePerActor => _multiplePerActor;
 
-		/// <summary>
+		/// <value>
 		/// Current leaderboard to use for gathering leaderboard standings from.
-		/// </summary>
+		/// </value>
 		public LeaderboardResponse CurrentLeaderboard { get; private set; }
 
-		/// <summary>
+		/// <value>
 		/// Last set of standings gathered.
-		/// </summary>
+		/// </value>
 		public List<LeaderboardStandingsResponse> CurrentStandings { get; private set; } = new List<LeaderboardStandingsResponse>();
 
-		/// <summary>
+		/// <value>
 		/// Number of results that should be gathered per call.
-		/// </summary>
+		/// </value>
 		public int PositionCount => _positionCount;
 
 		/// <summary>
-		/// Gathers information on the leaderboard with the token provided and gets current standings based on the filter, multiple per actor option and page number provided, with the interface displayed if provided.
+		/// Gathers information for leaderboard and displays the interface if it has been provided.
 		/// </summary>
+		/// <param name="token">The unique identifier for the Leaderboard</param>
+		/// <param name="filter">The Filter type to order standings by</param>
+		/// <param name="multiplePerActor">If the leaderboard allows for actors to appeard multiple times</param>
+		/// <param name="pageNumber">**Optional** The page number to start from (default: 0)</param>
+		/// <param name="globalLeaderboard">**Optional** Whether the leaderboard is global or in game scope. (default: false)</param>
 		public void Display(string token, LeaderboardFilterType filter, bool multiplePerActor, int pageNumber = 0, bool globalLeaderboard = false)
 		{
 			_currentFilter = filter;
@@ -116,8 +121,11 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get standings for the current leaderboard. A request for results to be returned means that the standings gotten will not be stored. Otherwise, they will be saved into CurrentStandings.
+		/// Get standings for the current leaderboard. 
 		/// </summary>
+		/// <param name="pageNumber">The page number to retrieve</param>
+		/// <param name="success">Whether the standings were retrieved successfully</param>
+		/// <param name="result">**Optional** the results for the leaderboard standings, null value will save results to CurrentStandings (default: null)</param>
 		public void GetLeaderboardStandings(int pageNumber, Action<bool> success, Action<List<LeaderboardStandingsResponse>> result = null)
 		{
 			SUGARManager.unity.StartSpinner();
@@ -180,8 +188,9 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Set the number of results to get at most per call.
+		/// Set the maximum number of results to get per call.
 		/// </summary>
+		/// <param name="count">The Maximum number of results</param>
 		public void SetPositionCount(int count)
 		{
 			_positionCount = count;

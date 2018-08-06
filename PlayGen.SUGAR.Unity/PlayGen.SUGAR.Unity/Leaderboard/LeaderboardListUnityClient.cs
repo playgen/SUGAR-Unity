@@ -10,26 +10,27 @@ using PlayGen.SUGAR.Contracts;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for functionality related to getting all leaderboards either related to the current game or for the system as a whole.
+	/// Use this to get a list of leaderboards for this game
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class LeaderboardListUnityClient : BaseUnityClient<BaseLeaderboardListInterface>
 	{
 		private ActorType _currentActorType = ActorType.User;
 
-		/// <summary>
-		/// Dictionary of leaderboards for this application for each ActorType filter.
-		/// </summary>
+		/// <value>
+		/// Each ActorType and list of leaderboard responses for this application.
+		/// </value>
 		public Dictionary<ActorType, List<LeaderboardResponse>> Leaderboards { get; } = new Dictionary<ActorType, List<LeaderboardResponse>>();
 
-		/// <summary>
+		/// <value>
 		/// Currently used ActorType filter.
-		/// </summary>
+		/// </value>
 		public ActorType CurrentActorType => _currentActorType;
 
 		/// <summary>
 		/// Gathers all leaderboards not attached to a game and displays list for current ActorType if interface if provided.
 		/// </summary>
+		/// <param name="filter">**Optional** The filter type to use (default: ActorType.User)</param>
 		public void DisplayGlobalList(ActorType filter = ActorType.User)
 		{
 			SetFilter(filter);
@@ -44,6 +45,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Gathers leaderboards for this application and displays list for current ActorType if interface if provided.
 		/// </summary>
+		/// <param name="filter">**Optional** The filter type to use (default: ActorType.User)</param>
 		public void DisplayGameList(ActorType filter = ActorType.User)
 		{
 			SetFilter(filter);
@@ -58,6 +60,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Set the ActorType filter to use.
 		/// </summary>
+		/// <param name="filter">The new ActorType to filter by</param>
 		internal void SetFilter(ActorType filter)
 		{
 			_currentActorType = filter;

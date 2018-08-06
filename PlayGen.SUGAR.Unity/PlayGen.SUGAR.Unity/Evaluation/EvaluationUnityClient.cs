@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for functionality related to gathering evaluation progress and notifications when an evaluation is completed.
+	/// Use this for gathering evaluation progress and notifications when an evaluation is completed.
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class EvaluationUnityClient : BaseUnityClient<BaseEvaluationListInterface>
@@ -30,9 +30,9 @@ namespace PlayGen.SUGAR.Unity
 		[Tooltip("How often (in seconds) checks are made for if any evaluations have been completed.")]
 		private float _notificationCheckRate = 2.5f;
 
-		/// <summary>
-		/// Current completion status for evaluations in this application for this user.
-		/// </summary>
+		/// <value>
+		/// Current completion status for evaluations in this application for the currently signed in user.
+		/// </value>
 		public List<EvaluationProgressResponse> Progress { get; private set; } = new List<EvaluationProgressResponse>();
 
 		internal override void CreateInterface(Canvas canvas)
@@ -69,7 +69,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Change the used interfaces if the aspect ratio changes.
+		/// Update the interface to be used when the aspect ration changes
 		/// </summary>
 		protected override void Update()
 		{
@@ -87,7 +87,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current user achievement completion status and displays interface if provided.
+		/// Gathers current user achievement completion status and display the interface if it is provided and the GET Achievements request was successful.
 		/// </summary>
 		public void DisplayAchievementList()
 		{
@@ -100,7 +100,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current group achievement completion status and displays interface if provided.
+		/// Gathers current group achievement completion status and displays interface if it is provided and the GET Achievements request was successful.
 		/// </summary>
 		public void DisplayGroupAchievementList()
 		{
@@ -137,7 +137,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current user skill completion status and displays interface if provided.
+		/// Gathers current user skill completion status and display the interface if it is provided and the GET Skill request was successful.
 		/// </summary>
 		public void DisplaySkillList()
 		{
@@ -150,7 +150,7 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current group skill completion status and displays interface if provided.
+		/// Gathers current group skill completion status and display the interface if it is provided and the GET Skill request was successful.
 		/// </summary>
 		public void DisplayGroupSkillList()
 		{
@@ -187,8 +187,11 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Force an evaluation notification to be displayed with the provided text.
+		/// Force a notification to be displayed with the provided notification text.
 		/// </summary>
+		/// <remarks>
+		/// - This uses the EvaluationPopupInterface to display the text in the application
+		/// </remarks>
 		/// <param name="notification">String which will be used in the notification.</param>
 		public void ForceNotification(string notification = "Test Notification")
 		{
