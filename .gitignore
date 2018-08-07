@@ -12,6 +12,8 @@ packages/
 # Build output
 **/net46/**/*
 !**/net46/**/*.dll.meta
+*.mdb
+*.mdb.meta
 
 #
 # Unity
