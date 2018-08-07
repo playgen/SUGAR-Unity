@@ -9,6 +9,6 @@
 - name: Development
   href: ../development/toc.yml
   topicHref: ../development/index.md
-- name: Api
+- name: API
   href: ../api/toc.yml
   topicHref: ../api/index.md

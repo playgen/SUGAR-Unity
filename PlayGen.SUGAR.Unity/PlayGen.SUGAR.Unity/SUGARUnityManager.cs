@@ -88,9 +88,9 @@ namespace PlayGen.SUGAR.Unity
 
 		private bool _validCheck;
 
-		/// <summary>
+		/// <value>
 		/// Is any piece of SUGAR UI currently active?
-		/// </summary>
+		/// </value>
 		public bool AnyActiveUI => (SUGARManager.account && SUGARManager.account.IsActive) ||
 									(SUGARManager.evaluation && SUGARManager.evaluation.IsActive) ||
 									(SUGARManager.userFriend && SUGARManager.userFriend.IsActive) ||
@@ -100,6 +100,9 @@ namespace PlayGen.SUGAR.Unity
 									(SUGARManager.leaderboard && SUGARManager.leaderboard.IsActive) ||
 									CustomInterfaces.Values.Any(go => go.activeSelf);
 
+		/// <value>
+		/// Whether the spinner UI is currently active
+		/// </value>
 		public bool SpinnerActive => _uiSpinner && _uiSpinner.IsActive;
 
 		private void Awake()
@@ -235,11 +238,20 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Create a SUGAR Client from a string 
+		/// </summary>
+		/// <param name="baseAddress">uri to create SUGAR Client from</param>
+		/// <returns>new SUGARClient</returns>
 		protected virtual SUGARClient CreateSUGARClient(string baseAddress)
 		{
 		    return new SUGARClient(baseAddress);
 		}
 
+		/// <summary>
+		/// Check if the current game is valid by the current gameToken
+		/// </summary>
+		/// <returns>Whether the _gameToken returns a valid game</returns>
 		public bool GameValidityCheck()
 		{
 			if (!_validCheck)
@@ -291,8 +303,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Set if the blocker should be used and if it should close objects when clicked
+		/// Setup for blocker
 		/// </summary>
+		/// <param name="use">Whether the blocker should be used</param>
+		/// <param name="block">Whether clicking on the blocker should close the current UI</param>
 		public void SetBlocker(bool use, bool block)
 		{
 			_useBlocker = use;
@@ -301,8 +315,11 @@ namespace PlayGen.SUGAR.Unity
 
 		/// <summary>
 		/// Enable a piece of SUGAR UI.
-		/// This should be used instead of SetActive to ensure UI and blocker ordering is correct.
 		/// </summary>
+		/// <remarks>
+		/// - This should be used instead of SetActive to ensure UI and blocker ordering is correct.
+		/// </remarks>
+		/// <param name="activeObject">The object that should be enabled</param>
 		public void EnableObject(GameObject activeObject)
 		{
 			if (_uiBlocker && _useBlocker)
@@ -331,8 +348,11 @@ namespace PlayGen.SUGAR.Unity
 
 		/// <summary>
 		/// Disable a piece of SUGAR UI.
-		/// This should be used instead of SetActive to ensure UI and blocker ordering is correct.
 		/// </summary>
+		/// <remarks>
+		/// - This should be used instead of SetActive to ensure UI and blocker ordering is correct.
+		/// </remarks>
+		/// <param name="activeObject">The object that should be disabled</param>
 		public void DisableObject(GameObject activeObject)
 		{
 			if (_uiBlocker)
@@ -355,8 +375,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Set the direction and speed of the loading spinner
+		/// Setup the spinner
 		/// </summary>
+		/// <param name="clockwise">Whether the spinner should rotate clockwise or not</param>
+		/// <param name="speed">The speed of the rotation</param>
 		public void SetSpinner(bool clockwise, int speed)
 		{
 			Loading.Set(speed, clockwise);
@@ -364,8 +386,11 @@ namespace PlayGen.SUGAR.Unity
 
 		/// <summary>
 		/// Start the loading spinner.
-		/// This method should be used instead of directly calling Loading.Start to ensure UI and blocker ordering is correct.
 		/// </summary>
+		/// <remarks>
+		/// - This method should be used instead of directly calling Loading.Start to ensure UI and blocker ordering is correct.
+		/// </remarks>
+		/// <param name="text">**Optional** Text to display with the spinner. (default: "")</param>
 		public void StartSpinner(string text = "")
 		{
 			Loading.Start(text);
@@ -374,8 +399,12 @@ namespace PlayGen.SUGAR.Unity
 
 		/// <summary>
 		/// Stop the loading spinner.
-		/// This method should be used instead of directly calling Loading.Stop to ensure UI and blocker ordering is correct.
 		/// </summary>
+		/// <remarks>
+		/// - This method should be used instead of directly calling Loading.Start to ensure UI and blocker ordering is correct.
+		/// </remarks>
+		/// <param name="text">**Optional** Text to display when the spinner stops. (default: "")</param>
+		/// <param name="stopDelay">**Optional** The time, in seconds, the text should be displayed for before disabling (default: 0)</param>
 		public void StopSpinner(string text = "", float stopDelay = 0f)
 		{
 			Loading.Stop(text, stopDelay);

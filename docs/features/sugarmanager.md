@@ -17,7 +17,7 @@ SUGAR Manager Property | Functionality | Unity Client Class
 Account | Sign in, register and sign out | [AccountUnityClient](../api/PlayGen.SUGAR.Unity.AccountUnityClient.yml)
 Evaluation | Get list of achievements and skills and user/group progress in each, with an event triggered when one is completed | [EvaluationUnityClient](../api/PlayGen.SUGAR.Unity.EvaluationUnityClient.yml)
 GameData | Get and send data related to the game | [GameDataUnityClient](../api/PlayGen.SUGAR.Unity.GameDataUnityClient.yml)
-Resource | Get current resources, add resources and send resources to other users | [ResourceUnityClient](../api/PlayGen.SUGAR.Unity.Resource.yml)
+Resource | Get current resources, add resources and send resources to other users | [ResourceUnityClient](../api/PlayGen.SUGAR.Unity.ResourceUnityClient.yml)
 GameLeaderboard | Get leaderboards for this game | [LeaderboardListUnityClient](../api/PlayGen.SUGAR.Unity.LeaderboardListUnityClient.yml)
 Leaderboard | Get the current standings for a leaderboard | [LeaderboardUnityClient](../api/PlayGen.SUGAR.Unity.LeaderboardUnityClient.yml)
 UserFriend | Get current user's list of friends and send and handle friend requests | [UserFriendUnityClient](../api/PlayGen.SUGAR.Unity.UserFriendUnityClient.yml)

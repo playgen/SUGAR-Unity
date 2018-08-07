@@ -7,30 +7,30 @@ using UnityEngine;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to group lists.
+	/// Use this to get current user's list of groups and send and handle group requests
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
-		/// <summary>
-		/// List of groups that the currently signed in user is a member of.
-		/// </summary>
+		/// <value>
+		/// Groups that the currently signed in user is a member of.
+		/// </value>
 		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
 
-		/// <summary>
-		/// List of groups that the currently signed in user has applied to join.
-		/// </summary>
+		/// <value>
+		/// Groups that the currently signed in user has requested to join.
+		/// </value>
 		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
 
-		/// <summary>
-		/// List of groups that matched the last search string.
-		/// </summary>
+		/// <value>
+		/// Groups that matched the last search string.
+		/// </value>
 		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		private string _lastSearch;
 
 		/// <summary>
-		/// Gathers updated versions of each list and displays UI object if provided.
+		/// Gathers updated versions of each list and displays interface UI object if it has been provided.
 		/// </summary>
 		public void Display()
 		{
@@ -58,8 +58,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Send group membership request to group with id provided. If reload is true, UI is also redrawn.
+		/// Send group membership request to group.
 		/// </summary>
+		/// <param name="id">The id of the group</param>
+		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
 		public void AddGroup(int id, bool reload = true)
 		{
 			Add(id, result =>
@@ -72,8 +74,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Cancel sent membership request to group with id provided. If reload is true, UI is also redrawn.
+		/// Cancel sent membership request to group
 		/// </summary>
+		/// <param name="id">The id of the group</param>
+		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
 		public void ManageGroupRequest(int id, bool reload = true)
 		{
 			UpdateRequest(id, result =>
@@ -86,8 +90,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Leave group with id provided. If reload is true, UI is also redrawn.
+		/// Leave a group the currently signed in user is a member of.
 		/// </summary>
+		/// <param name="id">The id of the group</param>
+		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
 		public void RemoveGroup(int id, bool reload = true)
 		{
 			Remove(id, result =>
@@ -100,8 +106,9 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Get group list for the currently signed in user.
+		/// Get list of groups the currently signed in user is a memer of.
 		/// </summary>
+		/// <param name="success">Callback whether request was successful</param>
 		public void GetGroupsList(Action<bool> success)
 		{
 			GetGroups(success);

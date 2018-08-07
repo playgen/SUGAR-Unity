@@ -8,24 +8,25 @@ using UnityEngine;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to group member lists.
+	/// Use this for actions related to group member lists.
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class GroupMemberUnityClient : BaseUnityClient<BaseGroupMemberInterface>
 	{
-		/// <summary>
+		/// <value>
 		/// Currently selected/displayed group.
-		/// </summary>
+		/// </value>
 		public ActorResponse CurrentGroup { get; private set; }
 
-		/// <summary>
-		/// Member list for the current group.
-		/// </summary>
+		/// <value>
+		/// Members for the current group.
+		/// </value>
 		public List<ActorResponseAllowableActions> Members { get; } = new List<ActorResponseAllowableActions>();
 
 		/// <summary>
-		/// Sets current group and gathers member list for that group. Displays UI object if provided.
+		/// Sets current group and gathers member list for that group. Displays UI interface if provided.
 		/// </summary>
+		/// <param name="group">The group which should be set to CurrentGroup</param>
 		public void Display(ActorResponse group)
 		{
 			CurrentGroup = group;
@@ -39,8 +40,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Send friend request to user with id provided. If reload is true, UI is also redrawn.
+		/// Send group request to user with id provided. 
 		/// </summary>
+		/// <param name="id">The group id</param>
+		/// <param name="reload">Whether the UI should reload on complete</param>
 		public void AddFriend(int id, bool reload = true)
 		{
 			SUGARManager.userFriend.Add(id, result =>

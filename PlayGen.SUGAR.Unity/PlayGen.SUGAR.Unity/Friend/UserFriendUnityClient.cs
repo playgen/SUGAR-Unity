@@ -7,35 +7,35 @@ using UnityEngine;
 namespace PlayGen.SUGAR.Unity
 {
 	/// <summary>
-	/// Unity client for calls related to user friends.
+	/// Use this to get current user's list of friends and send and handle friend requests and other friend related actions
 	/// </summary>
 	[DisallowMultipleComponent]
 	public class UserFriendUnityClient : BaseUnityClient<BaseUserFriendInterface>
 	{
-		/// <summary>
-		/// Friends list for currently signed in user.
-		/// </summary>
+		/// <value>
+		/// Friends of the currently signed in user.
+		/// </value>
 		public List<ActorResponseAllowableActions> Friends { get; private set; } = new List<ActorResponseAllowableActions>();
 
-		/// <summary>
+		/// <value>
 		/// Pending sent friend requests for currently signed in user.
-		/// </summary>
+		/// </value>
 		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
 
-		/// <summary>
-		/// Pending received friend requests for currently signed in user.
-		/// </summary>
+		/// <value>
+		/// Received friend requests for currently signed in user.
+		/// </value>
 		public List<ActorResponseAllowableActions> PendingReceived { get; private set; } = new List<ActorResponseAllowableActions>();
 
-		/// <summary>
-		/// Last set of search results.
-		/// </summary>
+		/// <value>
+		/// Search results for the last search made.
+		/// </value>
 		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
 
 		private string _lastSearch;
 
 		/// <summary>
-		/// Updates lists and displays UI object if provided.
+		/// Updates lists and displays UI interface if it has been provided.
 		/// </summary>
 		public void Display()
 		{
@@ -49,8 +49,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Send friend request to user with id provided. If reload is true, UI is also redrawn.
+		/// Send friend request to another user
 		/// </summary>
+		/// <param name="id">The id of the user to add</param>
+		/// <param name="reload">**Optional** Whether the interface should reload after the Friend is Added (default: true)</param>
 		public void AddFriend(int id, bool reload = true)
 		{
 			Add(id, result =>
@@ -63,9 +65,15 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Resolve friend request to user with id provided. If reload is true, UI is also redrawn.
-		/// Reverse should be true if cancelling sent request. Accept and reverse cannot both be true.
+		/// Resolve friend requests sent to and from the current user
 		/// </summary>
+		/// <param name="id">The Id of the user who sent/received the request</param>
+		/// <param name="accept">Whether the request has been accepted</param>
+		/// <param name="reverse">Whether the request is cancelled (default: false)</param>
+		/// <param name="reload">**Optional** Whether the interface should reload after the Friend is Added (default: true)</param>
+		/// <remarks>
+		/// - reverse and accept cannot both be set to true, if reverse = true, then the request is cancelled.
+		/// </remarks>
 		public void ManageFriendRequest(int id, bool accept, bool reverse = false, bool reload = true)
 		{
 			if (!(accept && reverse))
@@ -81,8 +89,10 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Remove user with id provided from friends list. If reload is true, UI is also redrawn.
+		/// Remove a relationship between the currently signed in user and another user.
 		/// </summary>
+		/// <param name="id">The Id for the user which the current signed in user wishes to remove</param>
+		/// <param name="reload">**Optional** Whether the UI should be redrawn upon Friend removal (default: true)</param>
 		public void RemoveFriend(int id, bool reload = true)
 		{
 			Remove(id, result =>
@@ -94,9 +104,14 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		// TODO Verify Remark
 		/// <summary>
 		/// Get friends list for the currently signed in user.
 		/// </summary>
+		/// <param name="success">Callback which contains Whether the list was successfully returned</param>
+		/// <remarks>,
+		/// - If the retrieved list is empty, returns true
+		/// </remarks>
 		public void GetFriendsList(Action<bool> success)
 		{
 			GetFriends(success);
