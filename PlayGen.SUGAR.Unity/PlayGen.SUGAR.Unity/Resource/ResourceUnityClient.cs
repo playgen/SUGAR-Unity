@@ -22,22 +22,43 @@ namespace PlayGen.SUGAR.Unity
 		/// <value>
 		/// Resources for the currently signed in user for this game.
 		/// </value>
-		private Dictionary<string, long> _userGameResources { get; } = new Dictionary<string, long>();
+		private Dictionary<string, long> UserGameResources { get; } = new Dictionary<string, long>();
 
 		/// <value>
 		/// Resources for the user not tied to any game.
 		/// </value>
-		private Dictionary<string, long> _globalUserResources { get; } = new Dictionary<string, long>();
+		private Dictionary<string, long> GlobalUserResources { get; } = new Dictionary<string, long>();
 
-		internal void StartCheck()
+		internal void StartCheck(Action callback)
 		{
-			InvokeRepeating(nameof(UpdateResources), 0, _resourceCheckRate);
-		}
+		    InvokeRepeating(nameof(UpdateResources), _resourceCheckRate, _resourceCheckRate);
+		    UpdateResources(callback);
+        }
 
-		private void UpdateResources()
+		private void UpdateResources(Action callback = null)
 		{
-			GetFromServer((result, values) => {});
-			GetFromServer((result, values) => {}, null, true);
+		    var didGetGlobal = false;
+		    var didGetGame = false;
+
+            // Game
+            GetFromServer((result, values) =>
+			{
+                didGetGame = true;
+			    if (didGetGame && didGetGlobal)
+			    {
+                    callback?.Invoke();
+			    }
+			});
+
+            // Global
+            GetFromServer((result, values) =>
+			{
+			    didGetGlobal = true;
+			    if (didGetGame && didGetGlobal)
+			    {
+			        callback?.Invoke();
+                }
+            }, null, true);
 		}
 
 		/// <summary>
@@ -52,12 +73,12 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (globalResource)
 			{
-				_globalUserResources.TryGetValue(key, out var value);
+				GlobalUserResources.TryGetValue(key, out var value);
 				return value;
 			}
 			else
 			{
-				_userGameResources.TryGetValue(key, out var value);
+				UserGameResources.TryGetValue(key, out var value);
 				return value;
 			}
 		}
@@ -227,24 +248,24 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (response.GameId == Platform.GlobalId)
 				{
-					if (_globalUserResources.ContainsKey(response.Key))
+					if (GlobalUserResources.ContainsKey(response.Key))
 					{
-						_globalUserResources[response.Key] = response.Quantity;
+						GlobalUserResources[response.Key] = response.Quantity;
 					}
 					else
 					{
-						_globalUserResources.Add(response.Key, response.Quantity);
+						GlobalUserResources.Add(response.Key, response.Quantity);
 					}
 				}
 				else
 				{
-					if (_userGameResources.ContainsKey(response.Key))
+					if (UserGameResources.ContainsKey(response.Key))
 					{
-						_userGameResources[response.Key] = response.Quantity;
+						UserGameResources[response.Key] = response.Quantity;
 					}
 					else
 					{
-						_userGameResources.Add(response.Key, response.Quantity);
+						UserGameResources.Add(response.Key, response.Quantity);
 					}
 				}
 			}
@@ -252,8 +273,8 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void ResetClient()
 		{
-			_userGameResources.Clear();
-			_globalUserResources.Clear();
+			UserGameResources.Clear();
+			GlobalUserResources.Clear();
 		}
 	}
 }

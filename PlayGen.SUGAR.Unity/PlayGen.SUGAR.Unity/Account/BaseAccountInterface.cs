@@ -57,22 +57,35 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		protected Text _errorText;
 
-		/// <summary>
-		/// Base Awake method adds onClick listeners for the login, register and close buttons.
-		/// </summary>
-		protected virtual void Awake()
-		{
-			if (!_name || !_password)
+	    internal bool RememberLogin => gameObject.activeInHierarchy && _rememberMeToggle != null && _rememberMeToggle.isOn;
+
+        /// <summary>
+        /// Base Awake method adds onClick listeners for the login, register and close buttons.
+        /// </summary>
+        protected virtual void Awake()
+        {
+            if (!_name || !_password)
 			{
 				Debug.LogError("You must provide input fields for username and password.");
 			}
 			else
 			{
-				_loginButton?.onClick.AddListener(() => SUGARManager.account.LoginUser(_name.text, _password.text));
-				_registerButton?.onClick.AddListener(() => SUGARManager.account.RegisterUser(_name.text, _password.text));
+			    if (_loginButton != null)
+			    {
+			        _loginButton.onClick.AddListener(() => SUGARManager.account.LoginUser(_name.text, _password.text));
+			    }
+
+			    if (_registerButton != null)
+			    {
+			        _registerButton.onClick.AddListener(() =>SUGARManager.account.RegisterUser(_name.text, _password.text));
+			    }
 			}
-			_closeButton?.onClick.AddListener(() => SUGARManager.unity.DisableObject(gameObject));
-		}
+
+            if (_closeButton != null)
+            {
+                _closeButton.onClick.AddListener(() => SUGARManager.unity.DisableObject(gameObject));
+            }
+        }
 
 		internal void Display()
 		{
@@ -82,12 +95,10 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void RegisterButtonDisplay(bool display)
 		{
-			_registerButton?.gameObject.SetActive(display);
-		}
-
-		internal bool RememberLogin()
-		{
-			return gameObject.activeInHierarchy && (_rememberMeToggle?.isOn ?? false);
+		    if (_registerButton != null)
+		    {
+		        _registerButton.gameObject.SetActive(display);
+		    }
 		}
 
 		internal void SetStatus(string text)
@@ -110,7 +121,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal string[] GetText()
 		{
-			return new[] { _name.text, _password.text, _errorText?.text ?? string.Empty };
+			return new[] { _name.text, _password.text, _errorText != null ? _errorText.text : string.Empty };
 		}
 
 		internal void SetText(string[] text)
@@ -134,15 +145,15 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void SetPasswordPlaceholder(string username)
 		{
-			if ((_password.placeholder?.enabled ?? false) && (_password.isFocused || _name.text != username || string.IsNullOrEmpty(_name.text)))
+			if (_password.placeholder != null && _password.placeholder.enabled && (_password.isFocused || _name.text != username || string.IsNullOrEmpty(_name.text)))
 			{
 				_password.placeholder.enabled = false;
 			}
 		}
 
-		internal bool UseToken(string username)
+		internal bool ShouldUseToken(string username)
 		{
-			return _name.text == username && (_password.placeholder?.enabled ?? false);
+			return _name.text == username && _password.placeholder != null && _password.placeholder.enabled;
 		}
 	}
 }

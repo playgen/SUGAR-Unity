@@ -258,19 +258,21 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_validCheck = true;
 				var game = SUGARManager.client.Game.Get(_gameToken).FirstOrDefault();
+
 				if (game == null)
 				{
 					ResetManager();
 					Debug.LogError("Game token does not exist");
 					return false;
 				}
+
 				if (_gameId != game.Id)
 				{
 					ResetManager();
 					Debug.LogError("Game ID provided does not match game ID for provided token");
 					return false;
 				}
-				SUGARManager.Resource.StartCheck();
+
 				return true;
 			}
 			return gameObject.activeSelf;
