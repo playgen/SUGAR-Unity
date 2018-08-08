@@ -110,7 +110,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 						{
 							if (stringValue.Value == string.Empty)
 							{
-								Debug.LogError("Auto Log-in Tool Error: " + stringValue.Label + " not provided");
+								Debug.LogError($"Auto Log-in Tool Error: {stringValue.Label} not provided");
 							}
 						}
 					}

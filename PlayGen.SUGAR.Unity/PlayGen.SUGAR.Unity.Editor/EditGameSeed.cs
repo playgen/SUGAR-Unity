@@ -70,7 +70,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					catch (Exception ex)
 					{
 						_gameSeed = null;
-						var error = "Invalid game seed file. " + ex.Message;
+						var error = $"Invalid game seed file. {ex}";
 						Debug.LogError(error);
 						EditorUtility.DisplayDialog("Edit Game Seed", error, "OK");
 						return;
@@ -420,7 +420,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 						}
 						catch (Exception ex)
 						{
-							message = "Failed: Could not save seed to file. " + ex.Message;
+							message = $"Failed: Could not save seed to file. {ex}";
 							Debug.LogError($"Edit Game Seed Save: {message}");
 						}
 

@@ -149,8 +149,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get friends list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get friends list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -177,8 +176,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -205,8 +203,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -253,8 +250,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -284,8 +280,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to create friend request. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to create friend request. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -320,8 +315,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to update friend request. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to update friend request. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -351,8 +345,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to update friend status. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to update friend status. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});

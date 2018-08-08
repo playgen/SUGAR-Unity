@@ -12,11 +12,11 @@ namespace PlayGen.SUGAR.Unity
 	    [MenuItem("Tools/Build SUGAR Package")]
 		public static void Build()
 		{
-	        var versionPath = "Assets/SUGAR/Version.txt";
-            var packageVersion = File.ReadAllText(versionPath);
-            
-			var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;
+	        var versionPath = "Assets/SUGAR/Version.txt";            
+			var packageVersion = File.ReadAllText(versionPath);            
+			var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;			
 			var packageFile = $"{rootDir}/Build/SUGAR_{packageVersion}.unitypackage";
+
 			var directory = new[]
 			{
 				"Assets/Editor/SUGAR",
@@ -24,12 +24,18 @@ namespace PlayGen.SUGAR.Unity
 				"Assets/SUGAR"
 			};
 
+			var ignoreExtensions = new[] 
+			{
+				".mdb"
+			};
+
 			var packageAssetPaths = new List<string>();
 
 			foreach (var assetPath in AssetDatabase.GetAllAssetPaths())
 			{
 				if (directory.Any(dir => assetPath.StartsWith(dir))
-					&& File.Exists(assetPath))   // is file?
+					&& File.Exists(assetPath)
+					&& !ignoreExtensions.Contains(Path.GetExtension(assetPath)))   // is file?
 					
 				{
 					packageAssetPaths.Add(assetPath);

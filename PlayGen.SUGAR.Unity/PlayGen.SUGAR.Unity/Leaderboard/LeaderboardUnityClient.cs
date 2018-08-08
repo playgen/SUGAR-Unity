@@ -93,8 +93,7 @@ namespace PlayGen.SUGAR.Unity
 					},
 					exception =>
 					{
-						var error = "Failed to get leaderboard. " + exception.Message;
-						Debug.LogError(error);
+						Debug.LogError($"Failed to get leaderboard. {exception}");
 						success(false);
 					});
 				}
@@ -108,8 +107,7 @@ namespace PlayGen.SUGAR.Unity
 					},
 					exception =>
 					{
-						var error = "Failed to get leaderboard. " + exception.Message;
-						Debug.LogError(error);
+						Debug.LogError($"Failed to get leaderboard. {exception}");
 						success(false);
 					});
 				}
@@ -173,8 +171,7 @@ namespace PlayGen.SUGAR.Unity
 				exception =>
 				{
 					SUGARManager.unity.StopSpinner();
-					var error = "Failed to get leaderboard standings. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get leaderboard standings. {exception}");
 					result?.Invoke(new List<LeaderboardStandingsResponse>());
 					success(false);
 				});

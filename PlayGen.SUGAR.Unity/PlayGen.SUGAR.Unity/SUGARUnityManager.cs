@@ -122,7 +122,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (CustomInterfaces.ContainsKey(ci.Name))
 				{
-					Debug.LogError("Custom Interface names must be unique. Name " + ci.Name + " is reused.");
+					Debug.LogError($"Custom Interface names must be unique. Name {ci.Name} is reused.");
 				}
 				else
 				{

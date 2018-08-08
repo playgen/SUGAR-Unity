@@ -38,7 +38,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 			catch (Exception ex)
 			{
-				errors.Add("Invalid game seed file. " + ex.Message);
+				errors.Add($"Invalid game seed file. {ex}");
 				return false;
 			}
 
@@ -56,9 +56,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 
 			var baseAddress = string.Empty;
-			if (File.Exists(Application.streamingAssetsPath + "/SUGAR.config.json"))
+			if (File.Exists($"{Application.streamingAssetsPath}/SUGAR.config.json"))
 			{
-				var filePath = "file:///" + Application.streamingAssetsPath + "/SUGAR.config.json";
+				var filePath = $"file:///{Application.streamingAssetsPath}/SUGAR.config.json";
 				var www = new WWW(filePath);
 				while (!www.isDone) { }
 				baseAddress = JsonConvert.DeserializeObject<Config>(www.text).BaseUri;
@@ -84,13 +84,13 @@ namespace PlayGen.SUGAR.Unity.Editor
 				var game = devClient.Game.Get(gameSeed.game).FirstOrDefault();
 				if (game != null)
 				{
-					Debug.Log(gameSeed.game + " Game Found");
+					Debug.Log($"{gameSeed.game} Game Found");
 				    SetGame(unityManager, gameSeed.game, game.Id);
 				}
 				else
 				{
-					Debug.Log("Creating Game " + gameSeed.game);
-					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding " + gameSeed.game, 0);
+					Debug.Log($"Creating Game {gameSeed.game}");
+					EditorUtility.DisplayProgressBar("SUGAR Seeding", $"Seeding {gameSeed.game}", 0);
 					try
 					{
 						var gameResponse = devClient.Development.CreateGame(new GameRequest
@@ -111,7 +111,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					}
 					catch (Exception e)
 					{
-						errors.Add("Unable to create game." + e.Message);
+						errors.Add($"Unable to create game.{e}");
 						EditorUtility.ClearProgressBar();
 						return false;
 					}
@@ -171,7 +171,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				}
 				catch (Exception ex)
 				{
-					errors.Add("Unable to create achievement " + achieve.Name + ". " + ex.Message);
+					errors.Add($"Unable to create achievement {achieve.Name}. {ex}");
 				}
 			}
 
@@ -192,7 +192,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				}
 				catch (Exception ex)
 				{
-					errors.Add("Unable to create skill " + skill.Name + ". " + ex.Message);
+					errors.Add($"Unable to create skill {skill.Name}. {ex}");
 				}
 			}
 
@@ -213,7 +213,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				}
 				catch (Exception ex)
 				{
-					errors.Add("Unable to create leaderboard " + leader.Name + ". " + ex.Message);
+					errors.Add($"Unable to create leaderboard {leader.Name}. {ex}");
 				}
 			}
 
@@ -236,7 +236,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 			catch (Exception ex)
 			{
-				error = "Error Logging in Admin. " + ex.Message;
+				error = $"Error Logging in Admin. {ex}";
 				return false;
 			}
 		}

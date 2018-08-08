@@ -25,7 +25,7 @@ namespace PlayGen.SUGAR.Unity
 				success,
 				exception =>
 				{
-					Debug.LogError(exception.Message);
+					Debug.LogError(exception);
 					success(null);
 				});
 			}
@@ -108,7 +108,7 @@ namespace PlayGen.SUGAR.Unity
 				success,
 				exception =>
 				{
-					Debug.LogError(exception.Message);
+					Debug.LogError(exception);
 					success(null);
 				});
 			}
@@ -179,7 +179,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					Debug.LogError("GameData Sending Success: False. Exception: " + exception);
+					Debug.LogError($"GameData Sending Success: False. Exception: {exception}");
 					success?.Invoke(false);
 				});
 			}

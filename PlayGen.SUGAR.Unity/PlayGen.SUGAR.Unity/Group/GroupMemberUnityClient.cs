@@ -87,8 +87,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get friends list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get friends list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});

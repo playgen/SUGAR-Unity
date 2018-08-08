@@ -82,8 +82,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get leaderboard list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get leaderboard list. {exception}");
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
@@ -117,8 +116,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get leaderboard list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get leaderboard list. {exception}");
 					foreach (var actorType in (ActorType[])Enum.GetValues(typeof(ActorType)))
 					{
 						Leaderboards.Add(actorType, new List<LeaderboardResponse>());

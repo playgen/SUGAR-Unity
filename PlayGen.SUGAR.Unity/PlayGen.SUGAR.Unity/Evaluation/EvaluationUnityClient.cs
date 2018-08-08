@@ -125,8 +125,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get achievements list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get achievements list. {exception}");
 					success(false);
 				});
 			}
@@ -175,8 +174,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get skills list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get skills list. {exception}");
 					success(false);
 				});
 			}

@@ -91,8 +91,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to gather resources. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to gather resources. {exception}");
 					result(false, keys.ToDictionary(k => k, k => (long)0));
 				});
 			}
@@ -130,8 +129,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to transfer resources. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to transfer resources. {exception}");
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
@@ -173,8 +171,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to transfer resources. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to transfer resources. {exception}");
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
@@ -214,8 +211,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to add resources. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to add resources. {exception}");
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
