@@ -6,7 +6,6 @@ The following will be available in the next version of SUGAR Unity
 
 ### 1.2.0
 - More detailed exception logging.
-- More detailed exception logging.
 - User groups set on user group client before login callback is fired.
 - User resources set on resource client before login callback is fired.
 - Fixed: Saved login credentials not reset when logging in with a different account.
