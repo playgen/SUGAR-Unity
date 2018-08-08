@@ -1,21 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using Debug = UnityEngine.Debug;
 
 namespace PlayGen.SUGAR.Unity
 {
 	public static class BuildSUGARPackage
 	{
-	    [MenuItem("Tools/Build SUGAR Package")]
-		public static void Build()
+	    private static string RootDir => Directory.GetParent(Application.dataPath).Parent.FullName;
+
+        [MenuItem("Tools/Build/Docs and SUGAR Package")]
+	    public static void BuildDocsAndSUGARPackage()
+	    {
+	        BuildDocs();
+	        BuildSUGAR();
+
+	    }
+
+        [MenuItem("Tools/Build/Docs")]
+	    public static void BuildDocs()
+        {
+            EditorUtility.DisplayProgressBar("Building docs", "...", 0);
+
+	        Process.Start(new ProcessStartInfo
+	        {
+                WorkingDirectory = $"{RootDir}\\docs\\tools",
+                FileName = "CMD.exe",
+                Arguments = "/c START /WAIT all_and_copy.bat"
+	        }).WaitForExit();
+
+            AssetDatabase.Refresh();
+            EditorUtility.ClearProgressBar();
+        }
+
+	    [MenuItem("Tools/Build/SUGAR Package")]
+		public static void BuildSUGAR()
 		{
-	        var versionPath = "Assets/SUGAR/Version.txt";            
+		    EditorUtility.DisplayProgressBar("Building SUGAR Package", "...", 0);
+
+            var versionPath = "Assets/SUGAR/Version.txt";            
 			var packageVersion = File.ReadAllText(versionPath);            
-			var rootDir = Directory.GetParent(Application.dataPath).Parent.FullName;			
-			var packageFile = $"{rootDir}/Build/SUGAR_{packageVersion}.unitypackage";
+			var packageFile = $"{RootDir}/Build/SUGAR_{packageVersion}.unitypackage";
 
 			var directory = new[]
 			{
@@ -51,6 +80,8 @@ namespace PlayGen.SUGAR.Unity
 			AssetDatabase.ExportPackage(packageAssetPaths.ToArray(), packageFile);
 
 			Debug.Log($"Exported package to: \"{packageFile}\"");
-		}
+
+		    EditorUtility.ClearProgressBar();
+        }
 	}
 } 
