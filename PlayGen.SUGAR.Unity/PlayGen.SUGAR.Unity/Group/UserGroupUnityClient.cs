@@ -57,19 +57,34 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		/// <summary>
-		/// Send group membership request to group.
-		/// </summary>
+        /// <summary>
+		/// Send group membership request to group with id provided. If reload is true, UI is also redrawn.
+        /// </summary>
 		/// <param name="id">The id of the group</param>
 		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
-		public void AddGroup(int id, bool reload = true)
+        /// <param name="trySetAsCurrentGroup">Will set this group as the current group if the user sucesfully joins the group.</param>
+        /// <param name="callback">Callback with a variable indicating success or failure.</param>
+        public void AddGroup(int id, bool reload = true, bool trySetAsCurrentGroup = false, Action<bool> callback = null)
 		{
 			Add(id, result =>
 			{
-				if (reload)
+			    var didSetAsCurrentGroup = false;
+			    if (trySetAsCurrentGroup)
+			    {
+			        var group = Groups.FirstOrDefault(g => g.Actor.Id == id);
+			        if (group != default(ActorResponseAllowableActions))
+			        {
+                        SUGARManager.SetCurrentGroup(group.Actor);
+			            didSetAsCurrentGroup = true;
+                    }
+			    }
+                
+			    if (reload)
 				{
 					_interface.Reload(result);
 				}
+
+			    callback?.Invoke(reload && (!trySetAsCurrentGroup || didSetAsCurrentGroup));
 			});
 		}
 
@@ -129,8 +144,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get groups list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get groups list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -157,8 +171,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -202,8 +215,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to get list. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -226,18 +238,18 @@ namespace PlayGen.SUGAR.Unity
 					AcceptorId = id,
 					AutoAccept = true
 				};
-				SUGARManager.client.GroupMember.CreateMemberRequestAsync(relationship,
-				response =>
-				{
-					RefreshLists(success);
-				},	
-				exception =>
-				{
-					var error = "Failed to create group request. " + exception.Message;
-					Debug.LogError(error);
-					SUGARManager.unity.StopSpinner();
-					success(false);
-				});
+				SUGARManager.client.GroupMember.CreateMemberRequestAsync(
+				    relationship,
+				    response =>
+				    {
+					    RefreshLists(success);
+				    },	
+				    exception =>
+				    {
+				        Debug.LogError($"Failed to create group request: {exception}");
+					    SUGARManager.unity.StopSpinner();
+					    success(false);
+				    });
 			}
 			else
 			{
@@ -264,8 +276,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to update group request. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to update group request. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
@@ -295,8 +306,7 @@ namespace PlayGen.SUGAR.Unity
 				},
 				exception =>
 				{
-					var error = "Failed to update group status. " + exception.Message;
-					Debug.LogError(error);
+					Debug.LogError($"Failed to update group status. {exception}");
 					SUGARManager.unity.StopSpinner();
 					success(false);
 				});
