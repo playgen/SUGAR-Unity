@@ -1,2 +1,4 @@
-﻿- name: Documentation
+﻿- name: Build Instructions
+  href: build-instructions.md
+- name: Documentation
   href: documentation.md
