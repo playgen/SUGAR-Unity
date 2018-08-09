@@ -6,7 +6,7 @@ uid: client-prefabs
 
 There are a number of prefabs included within the Unity package. Example usage can be viewed in the demo scene which can be found at: Assets/SUGAR/Example/Scene.unity
 
-After setting up a game using the [quick start guide](quick-start.md), all prefabs can be seen working by running the demo scene and entering the shortcuts to display each.
+After setting up a game using the [quick start guide](../tutorials/quick-start.md), all prefabs can be seen working by running the demo scene and entering the shortcuts to display each.
 
 Each of the prefabs can be activated using the SUGAR prefab provided (which must be added to the scene to use SUGAR). The SUGAR prefab has its own canvas which is rendered above the main Canvas which contains each of the panel prefabs. Each panel can be activated using their display functions, examples of which can be seen in: Assets/SUGAR/Example/Scripts/TestImplemtation.cs 
 

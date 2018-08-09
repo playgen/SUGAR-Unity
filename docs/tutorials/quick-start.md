@@ -15,7 +15,7 @@ If you don't already have one, you can create a SUGAR account [here](https://adm
 2. Create a new game seed by clicking the 'Create Game Seed' button.  
 3. Fill in the 'Name' field with the name of the game you wish to seed.  
 4. Save this basic Seed file by clicking the 'Save' button. If you do not change the selected file, this will overwrite the provided 'GameSeed' file.
-5. If you wish to set up the achievements, leaderboards and skills for your game now, go to the guide on [Seeding](seeding.md) for further details.  
+5. If you wish to set up the achievements, leaderboards and skills for your game now, go to the guide on [Seeding](../features/seeding.md) for further details.  
 
 ### Seed Game  
 1. Open the 'Seed Game' tool by clicking Tools/SUGAR/Seed Game.  
