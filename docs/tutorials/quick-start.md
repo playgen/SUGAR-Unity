@@ -4,8 +4,10 @@
 
 If you don't already have one, you can create a SUGAR account [here](https://admindemo.sugarengine.org/).
 
-### Build the SUGAR Unity Client
-1. Open and build the PlayGen.SUGAR.Unity project.
+### Import the SUGAR Unity Client
+1. Downlaod the SUGAR Unity package from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/network/sugar-social-gamification-107078).  
+OR  
+If you have downloaded the source code, follow the [build instructions](../development/build-instructions.md).
 
 ### Add SUGAR
 1. Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs/Landscape.   
