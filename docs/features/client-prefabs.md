@@ -24,6 +24,12 @@ Panel Prefabs provided
 
 There are 2 variations provided for each of the panels, one for landscape and one for portrait. To switch the orientation used, change the Interface references in the SUGAR prefab to the required orientation prefabs.
 
+### Changing SUGAR Panels
+The example prefabs provided are all flexible and can be changed to better suit your game. The Interface classes found at Assets/SUGAR/Example/Scripts control how the data is handled and shown in the panel, these may need to be edited to work for any changes made to the layout. (eg. removal of text elements will require code references to be removed).
+
+### Creating your own SUGAR Panel
+If you wish to create your own SUGAR panels, or want to adapt current UI in your game to now work with SUGAR, simply add the corresponding Interface class found in Assets/SUGAR/Example/Scripts and change the reference GameObject in your SUGAR prefab to the prefab.
+
 ## Panel Overview 
 * **AccountPanel**
 

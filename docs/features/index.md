@@ -1,3 +1,3 @@
 # Features
 
-This section covers various features of the SUGAR Unity Client.
+This section covers the core features available in the SUGAR Unity Client.

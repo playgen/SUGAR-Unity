@@ -10,7 +10,12 @@ OR
 If you have downloaded the source code, follow the [build instructions](../development/build-instructions.md).
 
 ### Add SUGAR
-1. Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs/Landscape.   
+Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs/Landscape. 
+
+The SUGAR Unity Manager script component on the prefab holds universal information required by other SUGAR components. Configuring this component is necessary to connect to SUGAR.
+- Base Address - web address of SUGAR server (e.g. ``http://localhost:59400/`` or ``http://www.mysugarserver.com``). This is overwritten by the value set inside the config.json file (found in "Assets/StreamingAssets").
+- Game Token - name of the <xref:game> used for database lookup.
+- Game Id - database row Id of the <xref:game>, returned from token lookup.
 
 ### Create Game Seed File  
 1. Open the 'Edit Game Seed' tool by clicking Tools/SUGAR/Edit Game Seed.  

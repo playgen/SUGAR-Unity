@@ -28,7 +28,7 @@ Unity | Create client, enable and disable SUGAR objects, start and stop the load
 ## Client
 All functionality within SUGAR Unity goes through this SUGAR Client. It is created within the 'CreateSUGARClient' method and set within the 'CreateSUGARClient' method of [SUGARUnityManager](../api/PlayGen.SUGAR.Unity.SUGARUnityManager.yml), both of which are triggered from its 'Awake' method.
 
-Any player-facing SUGAR functionality can be accessed using the Client directly instead. Please note that the Client does not make the same checks as SUGAR Unity to ensure that functionality can only be called once a user is signed in and that only functionality that the user has access to is available, so additional care should be taken when using the Client directly to avoid calls failing.
+Any player-facing SUGAR functionality can be accessed using the Client directly instead. **Important**; the Client does not make the same checks as SUGAR Unity to ensure that functionality can only be called once a user is signed in and that only functionality that the user has access to is available, so additional care should be taken when using the Client directly to avoid calls failing.
 
 ## UserSignedIn
 Boolean used to confirm if a user is signed in. If no user is signed in, most functionality will not be accessible.
