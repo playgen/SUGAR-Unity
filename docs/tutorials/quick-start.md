@@ -2,8 +2,6 @@
 
 **Note: Please ensure you have created a SUGAR account before going through the following steps.**
 
-If you don't already have one, you can create a SUGAR account [here](https://admindemo.sugarengine.org/).
-
 ### Import the SUGAR Unity Client
 1. Downlaod the SUGAR Unity package from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/network/sugar-social-gamification-107078).  
 OR  
