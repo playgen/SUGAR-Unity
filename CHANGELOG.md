@@ -4,6 +4,9 @@ See below details for each release of SUGAR Unity and the notable changes made.
 ### Next Version
 The following will be available in the next version of SUGAR Unity  
 
+### 1.2.2
+- Updated SUGAR url
+
 ### 1.2.1
 - .meta files updated so duplicate .dlls don't cause build failure.
 

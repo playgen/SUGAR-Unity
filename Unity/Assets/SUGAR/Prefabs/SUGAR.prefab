@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfc4a8441065e54e819044af11f5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseAddress: http://api.sugarengine.org/v1/
+  _baseAddress: http://demo.sugarengine.org/v1/
   _gameToken: 
   _gameId: 0
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}
@@ -204,7 +204,6 @@ MonoBehaviour:
   _portraitInterface: {fileID: 114033351558301050, guid: 362117e88b6d6c542b47831f219e5e46,
     type: 2}
   _positionCount: 10
-  _currentFilter: 0
 --- !u!114 &114419658720830504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,7 +234,6 @@ MonoBehaviour:
     type: 2}
   _portraitInterface: {fileID: 114000012229610962, guid: eb10b05a4c7df1342a4a9c3375046cf1,
     type: 2}
-  _currentActorType: 1
 --- !u!114 &114597521308858716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,7 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourceCheckRate: 2.5
-  _checkGlobalUserResources: 0
 --- !u!114 &114938960575845522
 MonoBehaviour:
   m_ObjectHideFlags: 1
