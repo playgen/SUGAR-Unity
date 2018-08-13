@@ -14,6 +14,7 @@ The SUGAR Unity Manager script component on the prefab holds universal informati
 - Base Address - web address of SUGAR server (e.g. ``http://localhost:59400/`` or ``http://www.mysugarserver.com``). This is overwritten by the value set inside the config.json file (found in "Assets/StreamingAssets").
 - Game Token - name of the <xref:game> used for database lookup.
 - Game Id - database row Id of the <xref:game>, returned from token lookup.
+- Source - [Account Source](../features/accountsources.md) to log in to. Use "SUGAR" as default to get started quickly or if you don't need your own account source.
 
 ### Create Game Seed File  
 1. Open the 'Edit Game Seed' tool by clicking Tools/SUGAR/Edit Game Seed.  
