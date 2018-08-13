@@ -1,2 +1,4 @@
-﻿- name: Quick Start
+﻿- name: Creating An Account
+  href: creating-accounts.md
+- name: Quick Start
   href: quick-start.md
