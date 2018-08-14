@@ -31,34 +31,34 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void StartCheck(Action callback)
 		{
-		    InvokeRepeating(nameof(UpdateResources), _resourceCheckRate, _resourceCheckRate);
-		    UpdateResources(callback);
-        }
+			InvokeRepeating(nameof(UpdateResources), _resourceCheckRate, _resourceCheckRate);
+			UpdateResources(callback);
+		}
 
 		private void UpdateResources(Action callback = null)
 		{
-		    var didGetGlobal = false;
-		    var didGetGame = false;
+			var didGetGlobal = false;
+			var didGetGame = false;
 
-            // Game
-            GetFromServer((result, values) =>
+			// Game
+			GetFromServer((result, values) =>
 			{
-                didGetGame = true;
-			    if (didGetGame && didGetGlobal)
-			    {
-                    callback?.Invoke();
-			    }
+				didGetGame = true;
+				if (didGetGame && didGetGlobal)
+				{
+					callback?.Invoke();
+				}
 			});
 
-            // Global
-            GetFromServer((result, values) =>
+			// Global
+			GetFromServer((result, values) =>
 			{
-			    didGetGlobal = true;
-			    if (didGetGame && didGetGlobal)
-			    {
-			        callback?.Invoke();
-                }
-            }, null, true);
+				didGetGlobal = true;
+				if (didGetGame && didGetGlobal)
+				{
+					callback?.Invoke();
+				}
+			}, null, true);
 		}
 
 		/// <summary>
@@ -124,12 +124,12 @@ namespace PlayGen.SUGAR.Unity
 		/// <param name="recipientId">Id of the actor who will receive the resource</param>
 		/// <param name="key">Name of the resource being transferred</param>
 		/// <param name="amount">The amount being transferred</param>
-		/// <param name="success">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
+		/// <param name="onComplete">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
 		/// <param name="globalResource">**Optional** Setting for if the resource is global rather than for this game. (default: false)</param>
 		/// <remarks>
 		/// If globalResource is true, resource transferred will be global rather than for the game.
 		/// </remarks>
-		public void Transfer(int recipientId, string key, long amount, Action<bool, long> success, bool globalResource = false)
+		public void Transfer(int recipientId, string key, long amount, Action<bool, long> onComplete, bool globalResource = false)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -146,7 +146,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					UpdateResource(response.FromResource);
 					UpdateResource(response.ToResource);
-					success(true, GetFromCache(key, globalResource));
+					onComplete(true, GetFromCache(key, globalResource));
 				},
 				exception =>
 				{
@@ -154,7 +154,7 @@ namespace PlayGen.SUGAR.Unity
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
-						success(false, GetFromCache(key, globalResource));
+						onComplete(false, GetFromCache(key, globalResource));
 					}, new[] { key }, globalResource);
 				});
 			}
@@ -166,12 +166,12 @@ namespace PlayGen.SUGAR.Unity
 		/// <param name="senderId">Id of the actor who will send the resource</param>
 		/// <param name="key">Name of the resource being transferred</param>
 		/// <param name="amount">The amount being transferred</param>
-		/// <param name="success">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
+		/// <param name="onComplete">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
 		/// <param name="globalResource">**Optional** Setting for if the resource is global rather than for this game. (default: false)</param>
 		/// <remarks>
 		/// If globalResource is true, resource transferred will be global rather than for the game.
 		/// </remarks>
-		public void TryTake(int senderId, string key, long amount, Action<bool, long> success, bool globalResource = false)
+		public void TryTake(int senderId, string key, long amount, Action<bool, long> onComplete, bool globalResource = false)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -188,7 +188,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					UpdateResource(response.FromResource);
 					UpdateResource(response.ToResource);
-					success(true, GetFromCache(key, globalResource));
+					onComplete(true, GetFromCache(key, globalResource));
 				},
 				exception =>
 				{
@@ -196,7 +196,7 @@ namespace PlayGen.SUGAR.Unity
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
-						success(false, GetFromCache(key, globalResource));
+						onComplete(false, GetFromCache(key, globalResource));
 					}, new[] { key }, globalResource);
 				});
 			}
@@ -208,12 +208,12 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the resource being transferred</param>
 		/// <param name="amount">The amount being transferred</param>
-		/// <param name="success">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
+		/// <param name="onComplete">Callback which returns whether the transfer was a success and the current value of the resource that was transferred</param>
 		/// <param name="globalResource">**Optional** Setting for if the resource is global rather than for this game. (default: false)</param>
 		/// <remarks>
 		/// If globalResource is true, resource transferred will be global rather than for the game.
 		/// </remarks>
-		public void Add(string key, long amount, Action<bool, long> success, bool globalResource = false)
+		public void Add(string key, long amount, Action<bool, long> onComplete, bool globalResource = false)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -228,7 +228,7 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					UpdateResource(response);
-					success(true, GetFromCache(key, globalResource));
+					onComplete(true, GetFromCache(key, globalResource));
 				},
 				exception =>
 				{
@@ -236,7 +236,7 @@ namespace PlayGen.SUGAR.Unity
 					GetFromServer(
 					(getSuccess, getValues) =>
 					{
-						success(false, GetFromCache(key, globalResource));
+						onComplete(false, GetFromCache(key, globalResource));
 					}, new[] { key }, globalResource);
 				});
 			}

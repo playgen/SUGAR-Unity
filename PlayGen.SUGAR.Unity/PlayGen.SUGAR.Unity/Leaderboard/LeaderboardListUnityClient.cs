@@ -35,10 +35,10 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SetFilter(filter);
 			SUGARManager.unity.StartSpinner();
-			GetGlobalLeaderboards(success =>
+			GetGlobalLeaderboards(onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
@@ -50,10 +50,10 @@ namespace PlayGen.SUGAR.Unity
 		{
 			SetFilter(filter);
 			SUGARManager.unity.StartSpinner();
-			GetLeaderboards(success =>
+			GetLeaderboards(onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
@@ -66,7 +66,7 @@ namespace PlayGen.SUGAR.Unity
 			_currentActorType = filter;
 		}
 
-		private void GetGlobalLeaderboards(Action<bool> success)
+		private void GetGlobalLeaderboards(Action<bool> onComplete)
 		{
 			Leaderboards.Clear();
 			if (SUGARManager.UserSignedIn)
@@ -78,7 +78,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						Leaderboards.Add(actorType, response.Where(lb => lb.ActorType == actorType).ToList());
 					}
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
@@ -87,7 +87,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 					}
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
@@ -96,11 +96,11 @@ namespace PlayGen.SUGAR.Unity
 				{
 					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 				}
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		private void GetLeaderboards(Action<bool> success)
+		private void GetLeaderboards(Action<bool> onComplete)
 		{
 			Leaderboards.Clear();
 			if (SUGARManager.UserSignedIn)
@@ -112,7 +112,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						Leaderboards.Add(actorType, response.Where(lb => lb.ActorType == actorType).ToList());
 					}
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
@@ -121,7 +121,7 @@ namespace PlayGen.SUGAR.Unity
 					{
 						Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 					}
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
@@ -130,7 +130,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					Leaderboards.Add(actorType, new List<LeaderboardResponse>());
 				}
-				success(false);
+				onComplete(false);
 			}
 		}
 

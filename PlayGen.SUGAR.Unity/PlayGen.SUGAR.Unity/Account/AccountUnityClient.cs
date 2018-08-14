@@ -66,15 +66,15 @@ namespace PlayGen.SUGAR.Unity
 		/// </value>
 		public bool HasInterface => _interface != null;
 
-        /// <value>
-        /// Whether there are login details that were saved by a previously using "remember me".
-        /// </value>
-	    public bool HasSavedLogin => !string.IsNullOrEmpty(savedLoginToken);
+		/// <value>
+		/// Whether there are login details that were saved by a previously using "remember me".
+		/// </value>
+		public bool HasSavedLogin => !string.IsNullOrEmpty(savedLoginToken);
 
-        /// <value>
-        /// Is there an interface and if so is it currently active
-        /// </value>
-        public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
+		/// <value>
+		/// Is there an interface and if so is it currently active
+		/// </value>
+		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
 		private void Awake()
 		{
@@ -135,10 +135,10 @@ namespace PlayGen.SUGAR.Unity
 		/// - allowAutoLogin is set to false after automatic sign in is first attempted.
 		/// - If there is no interface provided callback will return false
 		/// </remarks>
-		/// <param name="success">Whether the user successfully signed in.</param>
-		public virtual void DisplayLogInPanel(Action<bool> success)
+		/// <param name="onComplete">Whether the user successfully signed in.</param>
+		public virtual void DisplayLogInPanel(Action<bool> onComplete)
 		{
-			_signInCallback = success;
+			_signInCallback = onComplete;
 
 			if (SUGARManager.UserSignedIn)
 			{
@@ -172,8 +172,8 @@ namespace PlayGen.SUGAR.Unity
 		/// <remarks>
 		/// - If no user is currently signed in, callback returns false
 		/// </remarks>
-		/// <param name="success">Whether the currently signed in user successfully signed out.</param>
-		public virtual void Logout(Action<bool> success)
+		/// <param name="onComplete">Whether the currently signed in user successfully signed out.</param>
+		public virtual void Logout(Action<bool> onComplete)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -186,18 +186,18 @@ namespace PlayGen.SUGAR.Unity
 					SUGARManager.SetCurrentGroup(null);
 					SUGARManager.unity.ResetClients();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError(exception);
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
-				success(false);
+				onComplete(false);
 			}
 		}
 
@@ -256,7 +256,7 @@ namespace PlayGen.SUGAR.Unity
 			{
 				_signInCallback(false);
 			}
-            else if (HasSavedLogin && _interface != null && _interface.ShouldUseToken(savedUsername))
+			else if (HasSavedLogin && _interface != null && _interface.ShouldUseToken(savedUsername))
 			{
 				LoginToken(savedLoginToken);
 			}
@@ -269,28 +269,28 @@ namespace PlayGen.SUGAR.Unity
 
 				SUGARManager.unity.StartSpinner();
 
-			    var issueLoginToken = _interface != null && _interface.RememberLogin;
-			    if (issueLoginToken)
-			    {
-                    ClearSavedLogin();
-			    }
+				var issueLoginToken = _interface != null && _interface.RememberLogin;
+				if (issueLoginToken)
+				{
+					ClearSavedLogin();
+				}
 
-                var accountRequest = CreateAccountRequest(user, pass, sourceToken, issueLoginToken);
+				var accountRequest = CreateAccountRequest(user, pass, sourceToken, issueLoginToken);
 
-			    SUGARManager.client.Session.LoginAsync(
-				    SUGARManager.GameId, 
-				    accountRequest,
-				    PostSignIn,
-				    exception =>
-				    {
-					    Debug.LogError(exception);
-					    if (HasInterface)
-					    {
-						    _interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception));
-					    }
-					    _signInCallback(false);
-					    SUGARManager.unity.StopSpinner();
-				    });
+				SUGARManager.client.Session.LoginAsync(
+					SUGARManager.GameId, 
+					accountRequest,
+					PostSignIn,
+					exception =>
+					{
+						Debug.LogError(exception);
+						if (HasInterface)
+						{
+							_interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception));
+						}
+						_signInCallback(false);
+						SUGARManager.unity.StopSpinner();
+					});
 			}
 		}
 
@@ -299,18 +299,18 @@ namespace PlayGen.SUGAR.Unity
 			SUGARManager.unity.StartSpinner();
 
 			SUGARManager.Client.Session.LoginAsync(
-			    token,
-			    PostSignIn,
-			    exception =>
-			    {
-				    Debug.LogError(exception);
-				    if (HasInterface)
-				    {
-					    _interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception));
-				    }
-				    _signInCallback(false);
-				    SUGARManager.unity.StopSpinner();
-			    });
+				token,
+				PostSignIn,
+				exception =>
+				{
+					Debug.LogError(exception);
+					if (HasInterface)
+					{
+						_interface.SetStatus(Localization.GetAndFormat("LOGIN_ERROR", false, exception));
+					}
+					_signInCallback(false);
+					SUGARManager.unity.StopSpinner();
+				});
 		}
 
 		internal void RegisterUser(string user, string pass)
@@ -322,74 +322,74 @@ namespace PlayGen.SUGAR.Unity
 			}
 			SUGARManager.unity.StartSpinner();
 
-		    ClearSavedLogin();
-		    var issueLoginToken = _interface != null && _interface.RememberLogin;
-            var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken, issueLoginToken);
+			ClearSavedLogin();
+			var issueLoginToken = _interface != null && _interface.RememberLogin;
+			var accountRequest = CreateAccountRequest(user, pass, _defaultSourceToken, issueLoginToken);
 
 			SUGARManager.client.Session.CreateAndLoginAsync(
-			    SUGARManager.GameId, 
-			    accountRequest,
-			    PostSignIn,
-			    exception =>
-			    {
-				    if (HasInterface)
-				    {
-					    _interface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception));
-				    }
-				    _signInCallback(false);
-				    SUGARManager.unity.StopSpinner();
-			    });
+				SUGARManager.GameId, 
+				accountRequest,
+				PostSignIn,
+				exception =>
+				{
+					if (HasInterface)
+					{
+						_interface.SetStatus(Localization.GetAndFormat("REGISTER_ERROR", false, exception));
+					}
+					_signInCallback(false);
+					SUGARManager.unity.StopSpinner();
+				});
 		}
 
 		private void PostSignIn(AccountResponse response)
 		{
 			SUGARManager.unity.StopSpinner();
 
-		    if (HasInterface && _interface.RememberLogin)
-		    {
-		        if (!string.IsNullOrEmpty(response.LoginToken))
-		        {
-		            SaveLogin(response.LoginToken, response.User.Name);
-		        }
-		    }
-		    else
-		    {
-		        ClearSavedLogin();
-		        // Clear text in the account panel
-		        if (HasInterface)
-		        {
-		            _interface.ResetText();
-		        }
-		    }
+			if (HasInterface && _interface.RememberLogin)
+			{
+				if (!string.IsNullOrEmpty(response.LoginToken))
+				{
+					SaveLogin(response.LoginToken, response.User.Name);
+				}
+			}
+			else
+			{
+				ClearSavedLogin();
+				// Clear text in the account panel
+				if (HasInterface)
+				{
+					_interface.ResetText();
+				}
+			}
 
-            if (SUGARManager.unity.GameValidityCheck())
+			if (SUGARManager.unity.GameValidityCheck())
 			{
 				SUGARManager.SetCurrentUser(response.User);
 
-			    var didGetResources = false;
-			    var didGetGroups = false;
+				var didGetResources = false;
+				var didGetGroups = false;
 
-			    SUGARManager.Resource.StartCheck(
-			        () =>
-			        {
-			            didGetResources = true;
-			            if (didGetGroups && didGetResources)
-			            {
-			                _signInCallback(true);
-                        }
-			        });
+				SUGARManager.Resource.StartCheck(
+					() =>
+					{
+						didGetResources = true;
+						if (didGetGroups && didGetResources)
+						{
+							_signInCallback(true);
+						}
+					});
 
-                SUGARManager.userGroup.GetGroups(
-                    groups =>
-                    {
-                        SUGARManager.SetCurrentGroup(SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
+				SUGARManager.userGroup.GetGroups(
+					groups =>
+					{
+						SUGARManager.SetCurrentGroup(SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
 
-                        didGetGroups = true;
-                        if (didGetGroups && didGetResources)
-                        {
-                            _signInCallback(true);
-                        }
-                    });
+						didGetGroups = true;
+						if (didGetGroups && didGetResources)
+						{
+							_signInCallback(true);
+						}
+					});
 			}
 			
 			Hide();

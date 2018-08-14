@@ -14,6 +14,8 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static AccountUnityClient account { get; set; }
 
+		internal static ActorUnityClient actor = new ActorUnityClient();
+
 		internal static EvaluationUnityClient evaluation { get; set; }
 
 		internal static GroupMemberUnityClient groupMember { get; set; }
@@ -61,6 +63,11 @@ namespace PlayGen.SUGAR.Unity
 	    /// Unity client for calls related to accounts
 	    /// </summary>
 	    public static AccountUnityClient Account => account;
+
+		/// <summary>
+		/// Unity client for calls related to groups and users
+		/// </summary>
+		public static ActorUnityClient Actor => actor;
 
 		/// <summary>
 		/// Unity client for calls related to evaluations

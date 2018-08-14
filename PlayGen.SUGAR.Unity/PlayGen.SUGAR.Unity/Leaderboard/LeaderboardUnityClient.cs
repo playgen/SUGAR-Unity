@@ -61,9 +61,9 @@ namespace PlayGen.SUGAR.Unity
 			_currentFilter = filter;
 			_multiplePerActor = multiplePerActor;
 			GetLeaderboard(token, globalLeaderboard,
-			success =>
+			onComplete =>
 			{
-				if (success)
+				if (onComplete)
 				{
 					GetLeaderboardStandings(pageNumber,
 					result =>
@@ -78,7 +78,7 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		private void GetLeaderboard(string token, bool globalLeaderboard, Action<bool> success)
+		private void GetLeaderboard(string token, bool globalLeaderboard, Action<bool> onComplete)
 		{
 			CurrentLeaderboard = null;
 			if (SUGARManager.UserSignedIn)
@@ -89,12 +89,12 @@ namespace PlayGen.SUGAR.Unity
 					response =>
 					{
 						CurrentLeaderboard = response;
-						success(true);
+						onComplete(true);
 					},
 					exception =>
 					{
 						Debug.LogError($"Failed to get leaderboard. {exception}");
-						success(false);
+						onComplete(false);
 					});
 				}
 				else
@@ -103,18 +103,18 @@ namespace PlayGen.SUGAR.Unity
 					response =>
 					{
 						CurrentLeaderboard = response;
-						success(true);
+						onComplete(true);
 					},
 					exception =>
 					{
 						Debug.LogError($"Failed to get leaderboard. {exception}");
-						success(false);
+						onComplete(false);
 					});
 				}
 			}
 			else
 			{
-				success(false);
+				onComplete(false);
 			}
 		}
 
@@ -122,9 +122,9 @@ namespace PlayGen.SUGAR.Unity
 		/// Get standings for the current leaderboard. 
 		/// </summary>
 		/// <param name="pageNumber">The page number to retrieve</param>
-		/// <param name="success">Whether the standings were retrieved successfully</param>
+		/// <param name="onComplete">Whether the standings were retrieved successfully</param>
 		/// <param name="result">**Optional** the results for the leaderboard standings, null value will save results to CurrentStandings (default: null)</param>
-		public void GetLeaderboardStandings(int pageNumber, Action<bool> success, Action<List<LeaderboardStandingsResponse>> result = null)
+		public void GetLeaderboardStandings(int pageNumber, Action<bool> onComplete, Action<List<LeaderboardStandingsResponse>> result = null)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (result == null)
@@ -166,21 +166,21 @@ namespace PlayGen.SUGAR.Unity
 					{
 						result(response.ToList());
 					}
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					SUGARManager.unity.StopSpinner();
 					Debug.LogError($"Failed to get leaderboard standings. {exception}");
 					result?.Invoke(new List<LeaderboardStandingsResponse>());
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
 				result?.Invoke(new List<LeaderboardStandingsResponse>());
-				success(false);
+				onComplete(false);
 			}
 		}
 

@@ -15,18 +15,18 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Get GameData for the currently signed in user for this game.
 		/// </summary>
-		/// <param name="success">Callback with a list of gathered EvaluationDataResponse results.</param>
+		/// <param name="onComplete">Callback with a list of gathered EvaluationDataResponse results.</param>
 		/// <param name="keys">**Optional** Keys to search and return values for. (default: null)</param>
-		public void Get(Action<IEnumerable<EvaluationDataResponse>> success, string[] keys = null)
+		public void Get(Action<IEnumerable<EvaluationDataResponse>> onComplete, string[] keys = null)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.GameData.GetAsync(SUGARManager.CurrentUser.Id, SUGARManager.GameId, keys,
-				success,
+				onComplete,
 				exception =>
 				{
 					Debug.LogError(exception);
-					success(null);
+					onComplete(null);
 				});
 			}
 		}
@@ -36,10 +36,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetHighest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetHighest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Highest, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Highest, onComplete);
 		}
 
 		/// <summary>
@@ -47,10 +47,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetLowest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetLowest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Lowest, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Lowest, onComplete);
 		}
 
 		/// <summary>
@@ -61,10 +61,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </remarks>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetCumulative(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetCumulative(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Cumulative, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Cumulative, onComplete);
 		}
 
 		/// <summary>
@@ -72,10 +72,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetCount(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetCount(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Count, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Count, onComplete);
 		}
 
 		/// <summary>
@@ -83,10 +83,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetEarliest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetEarliest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Earliest, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Earliest, onComplete);
 		}
 
 		/// <summary>
@@ -94,22 +94,22 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="dataType">EvaluationDataType of the GameData.</param>
-		/// <param name="success">Callback which contains the gathered result.</param>
-		public void GetLatest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> success)
+		/// <param name="onComplete">Callback which contains the gathered result.</param>
+		public void GetLatest(string key, EvaluationDataType dataType, Action<EvaluationDataResponse> onComplete)
 		{
-			GetByLeaderboardType(key, dataType, LeaderboardType.Latest, success);
+			GetByLeaderboardType(key, dataType, LeaderboardType.Latest, onComplete);
 		}
 
-		private void GetByLeaderboardType(string key, EvaluationDataType dataType, LeaderboardType type, Action<EvaluationDataResponse> success)
+		private void GetByLeaderboardType(string key, EvaluationDataType dataType, LeaderboardType type, Action<EvaluationDataResponse> onComplete)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.GameData.GetByLeaderboardTypeAsync(SUGARManager.CurrentUser.Id, SUGARManager.GameId, key, dataType, type,
-				success,
+				onComplete,
 				exception =>
 				{
 					Debug.LogError(exception);
-					success(null);
+					onComplete(null);
 				});
 			}
 		}
@@ -119,10 +119,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The String value that'll be recorded.</param>
-		/// <param name="success">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
-		public void Send(string key, string value, Action<bool> success = null)
+		/// <param name="onComplete">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
+		public void Send(string key, string value, Action<bool> onComplete = null)
 		{
-			Send(key, value, EvaluationDataType.String, success);
+			Send(key, value, EvaluationDataType.String, onComplete);
 		}
 
 		/// <summary>
@@ -130,10 +130,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Long value that'll be recorded.</param>
-		/// <param name="success">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
-		public void Send(string key, long value, Action<bool> success = null)
+		/// <param name="onComplete">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
+		public void Send(string key, long value, Action<bool> onComplete = null)
 		{
-			Send(key, value.ToString(), EvaluationDataType.Long, success);
+			Send(key, value.ToString(), EvaluationDataType.Long, onComplete);
 		}
 
 		/// <summary>
@@ -141,10 +141,10 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Float value that'll be recorded.</param>
-		/// <param name="success">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
-		public void Send(string key, float value, Action<bool> success = null)
+		/// <param name="onComplete">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
+		public void Send(string key, float value, Action<bool> onComplete = null)
 		{
-			Send(key, value.ToString(CultureInfo.InvariantCulture), EvaluationDataType.Float, success);
+			Send(key, value.ToString(CultureInfo.InvariantCulture), EvaluationDataType.Float, onComplete);
 		}
 
 		/// <summary>
@@ -152,13 +152,13 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		/// <param name="key">Name of the GameData key.</param>
 		/// <param name="value">The Bool value that'll be recorded.</param>
-		/// <param name="success">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
-		public void Send(string key, bool value, Action<bool> success = null)
+		/// <param name="onComplete">**Optional** Callback returns whther the data was sent successfully (default: null)</param>
+		public void Send(string key, bool value, Action<bool> onComplete = null)
 		{
-			Send(key, value.ToString(), EvaluationDataType.Boolean, success);
+			Send(key, value.ToString(), EvaluationDataType.Boolean, onComplete);
 		}
 
-		private void Send(string key, string value, EvaluationDataType dataType, Action<bool> success = null)
+		private void Send(string key, string value, EvaluationDataType dataType, Action<bool> onComplete = null)
 		{
 			if (SUGARManager.UserSignedIn)
 			{
@@ -175,12 +175,12 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					Debug.Log("GameData Sending Success: True");
-					success?.Invoke(true);
+					onComplete?.Invoke(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"GameData Sending Success: False. Exception: {exception}");
-					success?.Invoke(false);
+					onComplete?.Invoke(false);
 				});
 			}
 		}

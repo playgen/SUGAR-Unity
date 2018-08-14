@@ -137,9 +137,9 @@ namespace PlayGen.SUGAR.Unity
 
 		private void AttemptSignIn()
 		{
-			SUGARManager.account.DisplayLogInPanel(success =>
+			SUGARManager.account.DisplayLogInPanel(onComplete =>
 			{
-				if (success)
+				if (onComplete)
 				{
 					OnSignIn();
 				}

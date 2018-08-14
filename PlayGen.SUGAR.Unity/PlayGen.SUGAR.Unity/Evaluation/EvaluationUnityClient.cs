@@ -92,10 +92,10 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplayAchievementList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetAchievements(SUGARManager.CurrentUser, success =>
+			GetAchievements(SUGARManager.CurrentUser, onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
@@ -105,14 +105,14 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplayGroupAchievementList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetAchievements(SUGARManager.CurrentGroup, success =>
+			GetAchievements(SUGARManager.CurrentGroup, onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
-		private void GetAchievements(ActorResponse actor, Action<bool> success)
+		private void GetAchievements(ActorResponse actor, Action<bool> onComplete)
 		{
 			Progress.Clear();
 			if (actor != null)
@@ -121,17 +121,17 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					Progress = response.ToList();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get achievements list. {exception}");
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
-				success(false);
+				onComplete(false);
 			}
 		}
 
@@ -141,10 +141,10 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplaySkillList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetSkills(SUGARManager.CurrentUser, success =>
+			GetSkills(SUGARManager.CurrentUser, onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
@@ -154,14 +154,14 @@ namespace PlayGen.SUGAR.Unity
 		public void DisplayGroupSkillList()
 		{
 			SUGARManager.unity.StartSpinner();
-			GetSkills(SUGARManager.CurrentGroup, success =>
+			GetSkills(SUGARManager.CurrentGroup, onComplete =>
 			{
 				SUGARManager.unity.StopSpinner();
-				_interface?.Display(success);
+				_interface?.Display(onComplete);
 			});
 		}
 
-		private void GetSkills(ActorResponse actor, Action<bool> success)
+		private void GetSkills(ActorResponse actor, Action<bool> onComplete)
 		{
 			Progress.Clear();
 			if (actor != null)
@@ -170,17 +170,17 @@ namespace PlayGen.SUGAR.Unity
 				response =>
 				{
 					Progress = response.ToList();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get skills list. {exception}");
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
-				success(false);
+				onComplete(false);
 			}
 		}
 

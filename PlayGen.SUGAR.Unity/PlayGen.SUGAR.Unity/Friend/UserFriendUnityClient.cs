@@ -39,11 +39,11 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void Display()
 		{
-			RefreshLists(success =>
+			RefreshLists(onComplete =>
 			{
 				if (_interface)
 				{
-					_interface.Display(success);
+					_interface.Display(onComplete);
 				}
 			});
 		}
@@ -108,16 +108,16 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Get friends list for the currently signed in user.
 		/// </summary>
-		/// <param name="success">Callback which contains Whether the list was successfully returned</param>
+		/// <param name="onComplete">Callback which contains Whether the list was successfully returned</param>
 		/// <remarks>,
 		/// - If the retrieved list is empty, returns true
 		/// </remarks>
-		public void GetFriendsList(Action<bool> success)
+		public void GetFriendsList(Action<bool> onComplete)
 		{
-			GetFriends(success);
+			GetFriends(onComplete);
 		}
 
-		internal void RefreshLists(Action<bool> success)
+		internal void RefreshLists(Action<bool> onComplete)
 		{
 			GetFriends(result =>
 			{
@@ -127,14 +127,14 @@ namespace PlayGen.SUGAR.Unity
 					{
 						GetSearchResults(_lastSearch, result4 =>
 						{
-							success(result && result2 && result3 && result4);
+							onComplete(result && result2 && result3 && result4);
 						});
 					});
 				});
 			});
 		}
 
-		internal void GetFriends(Action<bool> success)
+		internal void GetFriends(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			Friends.Clear();
@@ -145,23 +145,23 @@ namespace PlayGen.SUGAR.Unity
 				{
 					Friends = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get friends list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void GetPendingSent(Action<bool> success)
+		internal void GetPendingSent(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingSent.Clear();
@@ -172,23 +172,23 @@ namespace PlayGen.SUGAR.Unity
 				{
 					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void GetPendingReceived(Action<bool> success)
+		internal void GetPendingReceived(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingReceived.Clear();
@@ -199,37 +199,44 @@ namespace PlayGen.SUGAR.Unity
 				{
 					PendingReceived = response.Select(r => new ActorResponseAllowableActions(r, true, true)).ToList();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void GetSearchResults(string searchString, Action<bool> success)
+		internal void GetSearchResults(string searchString, Action<bool> onComplete)
 		{
 			_lastSearch = searchString;
 			SearchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
-				success(true);
+				onComplete(true);
 				return;
 			}
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.client.User.GetAsync(searchString,
+				SUGARManager.actor.SearchUsersByName(searchString,
 				response =>
 				{
+					if (response == null)
+					{
+						Debug.LogError($"Failed to get list of users.");
+						SUGARManager.unity.StopSpinner();
+						onComplete(false);
+						return;
+					}
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
@@ -246,23 +253,17 @@ namespace PlayGen.SUGAR.Unity
 						}
 					}
 					SUGARManager.unity.StopSpinner();
-					success(true);
-				},
-				exception =>
-				{
-					Debug.LogError($"Failed to get list. {exception}");
-					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(true);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void Add(int id, Action<bool> success, bool autoAccept = true)
+		internal void Add(int id, Action<bool> onComplete, bool autoAccept = true)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -276,23 +277,23 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.CreateFriendRequestAsync(relationship,
 				response =>
 				{
-					RefreshLists(success);
+					RefreshLists(onComplete);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to create friend request. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void UpdateRequest(int id, bool accept, bool reverse, Action<bool> success)
+		internal void UpdateRequest(int id, bool accept, bool reverse, Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -311,23 +312,23 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.UpdateFriendRequestAsync(relationship,
 				() =>
 				{
-					RefreshLists(success);
+					RefreshLists(onComplete);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to update friend request. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void Remove(int id, Action<bool> success)
+		internal void Remove(int id, Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -341,19 +342,19 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.UserFriend.UpdateFriendAsync(relationship,
 				() =>
 				{
-					RefreshLists(success);
+					RefreshLists(onComplete);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to update friend status. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 

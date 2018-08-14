@@ -70,13 +70,11 @@ namespace PlayGen.SUGAR.Unity
 			if (_landscapeInterface && _landscapeInterface != _interface && _landscapeInterface.gameObject.activeInHierarchy)
 			{
 				SUGARManager.unity.DisableObject(_landscapeInterface.gameObject);
-				SUGARManager.unity.EnableObject(_interface.gameObject);
 				_interface.Display();
 			}
 			if (_portraitInterface && _portraitInterface != _interface && _portraitInterface.gameObject.activeInHierarchy)
 			{
 				SUGARManager.unity.DisableObject(_portraitInterface.gameObject);
-				SUGARManager.unity.EnableObject(_interface.gameObject);
 				_interface.Display();
 			}
 		}

@@ -57,35 +57,35 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		protected Text _errorText;
 
-	    internal bool RememberLogin => gameObject.activeInHierarchy && _rememberMeToggle != null && _rememberMeToggle.isOn;
+		internal bool RememberLogin => gameObject.activeInHierarchy && _rememberMeToggle != null && _rememberMeToggle.isOn;
 
-        /// <summary>
-        /// Base Awake method adds onClick listeners for the login, register and close buttons.
-        /// </summary>
-        protected virtual void Awake()
-        {
-            if (!_name || !_password)
+		/// <summary>
+		/// Base Awake method adds onClick listeners for the login, register and close buttons.
+		/// </summary>
+		protected virtual void Awake()
+		{
+			if (!_name || !_password)
 			{
 				Debug.LogError("You must provide input fields for username and password.");
 			}
 			else
 			{
-			    if (_loginButton != null)
-			    {
-			        _loginButton.onClick.AddListener(() => SUGARManager.account.LoginUser(_name.text, _password.text));
-			    }
+				if (_loginButton != null)
+				{
+					_loginButton.onClick.AddListener(() => SUGARManager.account.LoginUser(_name.text, _password.text));
+				}
 
-			    if (_registerButton != null)
-			    {
-			        _registerButton.onClick.AddListener(() =>SUGARManager.account.RegisterUser(_name.text, _password.text));
-			    }
+				if (_registerButton != null)
+				{
+					_registerButton.onClick.AddListener(() =>SUGARManager.account.RegisterUser(_name.text, _password.text));
+				}
 			}
 
-            if (_closeButton != null)
-            {
-                _closeButton.onClick.AddListener(() => SUGARManager.unity.DisableObject(gameObject));
-            }
-        }
+			if (_closeButton != null)
+			{
+				_closeButton.onClick.AddListener(() => SUGARManager.unity.DisableObject(gameObject));
+			}
+		}
 
 		internal void Display()
 		{
@@ -95,10 +95,10 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void RegisterButtonDisplay(bool display)
 		{
-		    if (_registerButton != null)
-		    {
-		        _registerButton.gameObject.SetActive(display);
-		    }
+			if (_registerButton != null)
+			{
+				_registerButton.gameObject.SetActive(display);
+			}
 		}
 
 		internal void SetStatus(string text)

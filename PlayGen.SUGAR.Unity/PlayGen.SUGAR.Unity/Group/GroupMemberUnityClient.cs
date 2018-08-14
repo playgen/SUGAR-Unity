@@ -30,11 +30,11 @@ namespace PlayGen.SUGAR.Unity
 		public void Display(ActorResponse group)
 		{
 			CurrentGroup = group;
-			GetMembers(success =>
+			GetMembers(onComplete =>
 			{
 				if (_interface)
 				{
-					_interface.Display(success);
+					_interface.Display(onComplete);
 				}
 			});
 		}
@@ -50,15 +50,15 @@ namespace PlayGen.SUGAR.Unity
 			{
 				if (reload)
 				{
-					GetMembers(success =>
+					GetMembers(onComplete =>
 					{
-						_interface.Reload(success && result);
+						_interface.Reload(onComplete && result);
 					});
 				}
 			});
 		}
 
-		internal void GetMembers(Action<bool> success)
+		internal void GetMembers(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			Members.Clear();
@@ -82,20 +82,20 @@ namespace PlayGen.SUGAR.Unity
 							}
 						}
 						SUGARManager.unity.StopSpinner();
-						success(true);
+						onComplete(true);
 					});
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get friends list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 

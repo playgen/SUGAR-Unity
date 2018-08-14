@@ -34,16 +34,16 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public void Display()
 		{
-			RefreshLists(success =>
+			RefreshLists(onComplete =>
 			{
 				if (_interface)
 				{
-					_interface.Display(success);
+					_interface.Display(onComplete);
 				}
 			});
 		}
 
-		private void RefreshLists(Action<bool> success)
+		private void RefreshLists(Action<bool> onComplete)
 		{
 			GetGroups(result =>
 			{
@@ -51,40 +51,40 @@ namespace PlayGen.SUGAR.Unity
 				{
 					GetSearchResults(_lastSearch, result3 =>
 					{
-						success(result && result2 && result3);
+						onComplete(result && result2 && result3);
 					});
 				});
 			});
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Send group membership request to group with id provided. If reload is true, UI is also redrawn.
-        /// </summary>
+		/// </summary>
 		/// <param name="id">The id of the group</param>
 		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
-        /// <param name="trySetAsCurrentGroup">Will set this group as the current group if the user sucesfully joins the group.</param>
-        /// <param name="callback">Callback with a variable indicating success or failure.</param>
-        public void AddGroup(int id, bool reload = true, bool trySetAsCurrentGroup = false, Action<bool> callback = null)
+		/// <param name="trySetAsCurrentGroup">Will set this group as the current group if the user sucesfully joins the group.</param>
+		/// <param name="onComplete">Callback with a variable indicating success or failure.</param>
+		public void AddGroup(int id, bool reload = true, bool trySetAsCurrentGroup = false, Action<bool> onComplete = null)
 		{
 			Add(id, result =>
 			{
-			    var didSetAsCurrentGroup = false;
-			    if (trySetAsCurrentGroup)
-			    {
-			        var group = Groups.FirstOrDefault(g => g.Actor.Id == id);
-			        if (group != default(ActorResponseAllowableActions))
-			        {
-                        SUGARManager.SetCurrentGroup(group.Actor);
-			            didSetAsCurrentGroup = true;
-                    }
-			    }
-                
-			    if (reload)
+				var didSetAsCurrentGroup = false;
+				if (trySetAsCurrentGroup)
+				{
+					var group = Groups.FirstOrDefault(g => g.Actor.Id == id);
+					if (group != default(ActorResponseAllowableActions))
+					{
+						SUGARManager.SetCurrentGroup(group.Actor);
+						didSetAsCurrentGroup = true;
+					}
+				}
+				
+				if (reload)
 				{
 					_interface.Reload(result);
 				}
 
-			    callback?.Invoke(reload && (!trySetAsCurrentGroup || didSetAsCurrentGroup));
+				onComplete?.Invoke(reload && (!trySetAsCurrentGroup || didSetAsCurrentGroup));
 			});
 		}
 
@@ -123,13 +123,13 @@ namespace PlayGen.SUGAR.Unity
 		/// <summary>
 		/// Get list of groups the currently signed in user is a memer of.
 		/// </summary>
-		/// <param name="success">Callback whether request was successful</param>
-		public void GetGroupsList(Action<bool> success)
+		/// <param name="onComplete">Callback whether request was successful</param>
+		public void GetGroupsList(Action<bool> onComplete)
 		{
-			GetGroups(success);
+			GetGroups(onComplete);
 		}
 
-		internal void GetGroups(Action<bool> success)
+		internal void GetGroups(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			Groups.Clear();
@@ -140,23 +140,23 @@ namespace PlayGen.SUGAR.Unity
 				{
 					Groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get groups list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void GetPendingSent(Action<bool> success)
+		internal void GetPendingSent(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			PendingSent.Clear();
@@ -167,37 +167,44 @@ namespace PlayGen.SUGAR.Unity
 				{
 					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
 					SUGARManager.unity.StopSpinner();
-					success(true);
+					onComplete(true);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void GetSearchResults(string searchString, Action<bool> success)
+		internal void GetSearchResults(string searchString, Action<bool> onComplete)
 		{
 			_lastSearch = searchString;
 			SearchResults.Clear();
 			if (string.IsNullOrEmpty(searchString))
 			{
-				success(true);
+				onComplete(true);
 				return;
 			}
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.client.Group.GetAsync(searchString,
+				SUGARManager.Actor.SearchGroupsByName(searchString,
 				response =>
 				{
+					if (response == null)
+					{
+						Debug.LogError($"Failed to get list of groups.");
+						SUGARManager.unity.StopSpinner();
+						onComplete(false);
+						return;
+					}
 					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
 					foreach (var r in results)
 					{
@@ -211,23 +218,17 @@ namespace PlayGen.SUGAR.Unity
 						}
 					}
 					SUGARManager.unity.StopSpinner();
-					success(true);
-				},
-				exception =>
-				{
-					Debug.LogError($"Failed to get list. {exception}");
-					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(true);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		private void Add(int id, Action<bool> success)
+		private void Add(int id, Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -239,26 +240,26 @@ namespace PlayGen.SUGAR.Unity
 					AutoAccept = true
 				};
 				SUGARManager.client.GroupMember.CreateMemberRequestAsync(
-				    relationship,
-				    response =>
-				    {
-					    RefreshLists(success);
-				    },	
-				    exception =>
-				    {
-				        Debug.LogError($"Failed to create group request: {exception}");
-					    SUGARManager.unity.StopSpinner();
-					    success(false);
-				    });
+					relationship,
+					response =>
+					{
+						RefreshLists(onComplete);
+					},	
+					exception =>
+					{
+						Debug.LogError($"Failed to create group request: {exception}");
+						SUGARManager.unity.StopSpinner();
+						onComplete(false);
+					});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void UpdateRequest(int id, Action<bool> success)
+		internal void UpdateRequest(int id, Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -272,23 +273,23 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.UpdateMemberRequestAsync(relationship,
 				() =>
 				{
-					RefreshLists(success);
+					RefreshLists(onComplete);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to update group request. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
-		internal void Remove(int id, Action<bool> success)
+		internal void Remove(int id, Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
 			if (SUGARManager.UserSignedIn)
@@ -302,19 +303,19 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.UpdateMemberAsync(relationship,
 				() =>
 				{
-					RefreshLists(success);
+					RefreshLists(onComplete);
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to update group status. {exception}");
 					SUGARManager.unity.StopSpinner();
-					success(false);
+					onComplete(false);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				success(false);
+				onComplete(false);
 			}
 		}
 
