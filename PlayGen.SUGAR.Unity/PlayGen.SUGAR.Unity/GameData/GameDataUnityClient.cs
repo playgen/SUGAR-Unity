@@ -29,6 +29,10 @@ namespace PlayGen.SUGAR.Unity
 					onComplete(null);
 				});
 			}
+			else
+			{
+				onComplete(null);
+			}
 		}
 
 		/// <summary>
@@ -112,6 +116,10 @@ namespace PlayGen.SUGAR.Unity
 					onComplete(null);
 				});
 			}
+			else
+			{
+				onComplete(null);
+			}
 		}
 
 		/// <summary>
@@ -182,6 +190,10 @@ namespace PlayGen.SUGAR.Unity
 					Debug.LogError($"GameData Sending Success: False. Exception: {exception}");
 					onComplete?.Invoke(false);
 				});
+			}
+			else
+			{
+				onComplete?.Invoke(false);
 			}
 		}
 	}
