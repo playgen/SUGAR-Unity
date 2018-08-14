@@ -93,7 +93,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					if (autoLoginOption.GetType() == typeof(BoolValue))
 					{
 						var boolValue = (BoolValue)autoLoginOption;
-						boolValue.Value = !EditorPrefs.HasKey(boolValue.Key) || EditorPrefs.GetBool(boolValue.Key);
+						boolValue.Value = !EditorPrefs.HasKey($"{Application.productName}_{boolValue.Key}") || EditorPrefs.GetBool($"{Application.productName}_{boolValue.Key}");
 
 						var prop = sugarAccount.GetType().GetField(boolValue.SugarRefName, BindingFlags.Instance | BindingFlags.NonPublic);
 						prop?.SetValue(sugarAccount, boolValue.Value);
@@ -101,7 +101,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					if (autoLoginOption.GetType() == typeof(StringValue))
 					{
 						var stringValue = (StringValue)autoLoginOption;
-						stringValue.Value = EditorPrefs.HasKey(stringValue.Key) ? EditorPrefs.GetString(stringValue.Key) : string.Empty;
+						stringValue.Value = EditorPrefs.HasKey($"{Application.productName}_{stringValue.Key}") ? EditorPrefs.GetString($"{Application.productName}_{stringValue.Key}") : string.Empty;
 
 						var prop = sugarAccount.GetType().GetField(stringValue.SugarRefName, BindingFlags.Instance | BindingFlags.NonPublic);
 						prop?.SetValue(sugarAccount, stringValue.Value);
@@ -181,12 +181,12 @@ namespace PlayGen.SUGAR.Unity.Editor
 				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.BoolValue))
 				{
 					var boolValue = (SetEditorAutoLogin.BoolValue)autoLoginOption;
-					boolValue.Value = !EditorPrefs.HasKey(boolValue.Key) || EditorPrefs.GetBool(boolValue.Key);
+					boolValue.Value = !EditorPrefs.HasKey($"{Application.productName}_{boolValue.Key}") || EditorPrefs.GetBool($"{Application.productName}_{boolValue.Key}");
 				}
 				if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.StringValue))
 				{
 					var stringValue = (SetEditorAutoLogin.StringValue)autoLoginOption;
-					stringValue.Value = EditorPrefs.HasKey(stringValue.Key) ? EditorPrefs.GetString(stringValue.Key) : string.Empty;
+					stringValue.Value = EditorPrefs.HasKey($"{Application.productName}_{stringValue.Key}") ? EditorPrefs.GetString($"{Application.productName}_{stringValue.Key}") : string.Empty;
 				}
 			}
 		}
@@ -224,12 +224,12 @@ namespace PlayGen.SUGAR.Unity.Editor
 					if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.BoolValue))
 					{
 						var boolValue = (SetEditorAutoLogin.BoolValue)autoLoginOption;
-						EditorPrefs.SetBool(boolValue.Key, boolValue.Value);
+						EditorPrefs.SetBool($"{Application.productName}_{boolValue.Key}", boolValue.Value);
 					}
 					if (autoLoginOption.GetType() == typeof(SetEditorAutoLogin.StringValue))
 					{
 						var stringValue = (SetEditorAutoLogin.StringValue)autoLoginOption;
-						EditorPrefs.SetString(stringValue.Key, stringValue.Value);
+						EditorPrefs.SetString($"{Application.productName}_{stringValue.Key}", stringValue.Value);
 					}
 				}
 				Close();
