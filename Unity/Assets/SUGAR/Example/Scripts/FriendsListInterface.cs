@@ -49,6 +49,8 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	[SerializeField]
 	protected Button _sentButton;
 
+	private List<UserResponseRelationshipStatus> _searchResults = new List<UserResponseRelationshipStatus>();
+
 	/// <summary>
 	/// Button used to change display to show the results of a search by username.
 	/// </summary>
@@ -113,10 +115,11 @@ public class FriendsListInterface : BaseUserFriendInterface {
 		_requestButton.onClick.AddListener(() => SetListType(1));
 		_sentButton.onClick.AddListener(() => SetListType(2));
 		_searchButton.onClick.AddListener(() => SetListType(3));
+		_searchButton.onClick.AddListener(GetSearchResults);
 		_friendsButton.onClick.AddListener(GetFriends);
 		_requestButton.onClick.AddListener(GetPendingReceived);
 		_sentButton.onClick.AddListener(GetPendingSent);
-		_searchTextButton.onClick.AddListener(() => GetSearchResults(_searchInput.text));
+		_searchTextButton.onClick.AddListener(GetSearchResults);
 		_previousButton.onClick.AddListener(() => UpdatePageNumber(-1));
 		_nextButton.onClick.AddListener(() => UpdatePageNumber(1));
 	}
@@ -155,26 +158,30 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	/// </summary>
 	protected override void Draw()
 	{
-		var actorList = new List<ActorResponseAllowableActions>();
+		_friendsButton.interactable = SUGARManager.UserSignedIn;
+		_requestButton.interactable = SUGARManager.UserSignedIn;
+		_sentButton.interactable = SUGARManager.UserSignedIn;
+		_searchButton.interactable = SUGARManager.UserSignedIn;
+		var actorList = new List<UserResponseRelationshipStatus>();
 		_searchArea.SetActive(false);
 		switch (_listType)
 		{
 			case 0:
-				actorList = SUGARManager.UserFriend.Friends;
+				actorList = SUGARManager.UserFriend.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.ExistingRelationship).ToList();
 				_listTypeText.text = Localization.Get("FRIENDS_LIST");
 				break;
 			case 1:
-				actorList = SUGARManager.UserFriend.PendingReceived;
+				actorList = SUGARManager.UserFriend.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingReceivedRequest).ToList();
 				_listTypeText.text = Localization.Get("FRIENDS_PENDING_REQUESTS");
 				break;
 			case 2:
-				actorList = SUGARManager.UserFriend.PendingSent;
+				actorList = SUGARManager.UserFriend.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingSentRequest).ToList();
 				_listTypeText.text = Localization.Get("FRIENDS_PENDING_SENT");
 				break;
 			case 3:
-				actorList = SUGARManager.UserFriend.SearchResults;
+				actorList = _searchResults;
 				_listTypeText.text = Localization.Get("SEARCH");
-				_searchArea.SetActive(true);
+				_searchArea.SetActive(SUGARManager.UserSignedIn);
 				_friendItems[0].gameObject.SetActive(false);
 				break;
 		}
@@ -199,19 +206,24 @@ public class FriendsListInterface : BaseUserFriendInterface {
 			}
 			else
 			{
-				_friendItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], _listType == 1 || _listType == 2, _listType == 2);
+				_friendItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], Reload);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		if (!actorList.Any())
+		DoBestFit();
+	}
+
+	protected override void ErrorDraw(bool loadingSuccess)
+	{
+		base.ErrorDraw(loadingSuccess);
+		if (SUGARManager.UserSignedIn && loadingSuccess)
 		{
-			if (_errorText)
+			if (!_friendItems[_listType == 3 ? 1 : 0].gameObject.activeSelf)
 			{
 				_errorText.text = NoResultsErrorText();
 			}
 		}
-		DoBestFit();
 	}
 
 	/// <summary>
@@ -219,7 +231,7 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	/// </summary>
 	protected override void OnSignIn()
 	{
-		UpdatePageNumber(0);
+		Reload();
 	}
 
 	/// <summary>
@@ -228,7 +240,6 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	private void SetListType(int type)
 	{
 		_listType = type;
-		Show(true);
 	}
 
 	/// <summary>
@@ -253,6 +264,49 @@ public class FriendsListInterface : BaseUserFriendInterface {
 	/// </summary>
 	private void OnLanguageChange()
 	{
+		Reload();
+	}
+
+	protected override void Reload()
+	{
 		UpdatePageNumber(0);
+	}
+
+	private void GetSearchResults()
+	{
+		_searchResults.Clear();
+		if (string.IsNullOrEmpty(_searchInput.text))
+		{
+			Show(true);
+			return;
+		}
+		SUGARManager.Unity.StartSpinner();
+		if (SUGARManager.UserSignedIn)
+		{
+			SUGARManager.Actor.SearchUsersByName(_searchInput.text,
+			response =>
+			{
+				if (response == null)
+				{
+					Debug.LogError("Failed to get list of users.");
+					SUGARManager.Unity.StopSpinner();
+					Show(false);
+					return;
+				}
+				response = response.OrderBy(r => r.Name).ToList();
+				foreach (var r in response)
+				{
+					var relationship = SUGARManager.UserFriend.Relationships.FirstOrDefault(a => r.Id == a.Actor.Id)?.RelationshipStatus ?? RelationshipStatus.NoRelationship;
+					_searchResults.Add(new UserResponseRelationshipStatus(r, relationship));
+				}
+				SUGARManager.Unity.StopSpinner();
+				Show(true);
+			});
+		}
+		else
+		{
+			SUGARManager.Unity.StopSpinner();
+			Show(false);
+		}
 	}
 }

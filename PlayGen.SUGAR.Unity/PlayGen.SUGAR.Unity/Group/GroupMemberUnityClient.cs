@@ -21,7 +21,7 @@ namespace PlayGen.SUGAR.Unity
 		/// <value>
 		/// Members for the current group.
 		/// </value>
-		public List<ActorResponseAllowableActions> Members { get; } = new List<ActorResponseAllowableActions>();
+		public List<UserResponseRelationshipStatus> Members { get; } = new List<UserResponseRelationshipStatus>();
 
 		/// <summary>
 		/// Sets current group and gathers member list for that group. Displays UI interface if provided.
@@ -39,25 +39,6 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		/// <summary>
-		/// Send group request to user with id provided. 
-		/// </summary>
-		/// <param name="id">The group id</param>
-		/// <param name="reload">Whether the UI should reload on complete</param>
-		public void AddFriend(int id, bool reload = true)
-		{
-			SUGARManager.userFriend.Add(id, result =>
-			{
-				if (reload)
-				{
-					GetMembers(onComplete =>
-					{
-						_interface.Reload(onComplete && result);
-					});
-				}
-			});
-		}
-
 		internal void GetMembers(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
@@ -67,18 +48,15 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
 				response =>
 				{
-					SUGARManager.userFriend.RefreshLists(result =>
+					SUGARManager.userFriend.RefreshRelationships(result =>
 					{
 						if (result)
 						{
+							response = response.OrderBy(r => r.Name);
 							foreach (var r in response)
 							{
-								var canAdd = !(SUGARManager.userFriend.Friends.Any(p => p.Actor.Id == r.Id) 
-									|| SUGARManager.userFriend.PendingReceived.Any(p => p.Actor.Id == r.Id) 
-									|| SUGARManager.userFriend.PendingSent.Any(p => p.Actor.Id == r.Id) 
-									|| r.Id == SUGARManager.CurrentUser.Id);
-
-								Members.Add(new ActorResponseAllowableActions(r, canAdd, false));
+								var relationship = SUGARManager.userFriend.Relationships.FirstOrDefault(a => r.Id == a.Actor.Id)?.RelationshipStatus ?? RelationshipStatus.NoRelationship;
+								Members.Add(new UserResponseRelationshipStatus(r, relationship));
 							}
 						}
 						SUGARManager.unity.StopSpinner();

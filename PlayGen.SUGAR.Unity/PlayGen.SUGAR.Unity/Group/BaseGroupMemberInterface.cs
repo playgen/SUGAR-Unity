@@ -17,11 +17,6 @@ namespace PlayGen.SUGAR.Unity
 		[SerializeField]
 		protected Text _groupName;
 
-		internal void Reload(bool loadingSuccess = true)
-		{
-			Show(loadingSuccess);
-		}
-
 		/// <summary>
 		/// Hides Account, Evaluation, Leaderboard, GameLeaderboard and UserFriend UI objects. Set groupName text to match name of CurrentGroup.
 		/// </summary>

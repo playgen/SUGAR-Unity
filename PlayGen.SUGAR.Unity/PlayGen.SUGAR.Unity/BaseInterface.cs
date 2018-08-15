@@ -102,25 +102,22 @@ namespace PlayGen.SUGAR.Unity
 		/// <param name="loadingSuccess">Was the data successfully loaded?</param>
 		protected virtual void ErrorDraw(bool loadingSuccess)
 		{
-			if (!loadingSuccess)
+			if (!SUGARManager.UserSignedIn)
 			{
-				if (!SUGARManager.UserSignedIn)
+				if (_errorText)
 				{
-					if (_errorText)
-					{
-						_errorText.text = Localization.Get("NO_USER_ERROR");
-					}
-					if (SUGARManager.Account.HasInterface && _signinButton)
-					{
-						_signinButton.gameObject.SetActive(true);
-					}
+					_errorText.text = Localization.Get("NO_USER_ERROR");
 				}
-				else
+				if (SUGARManager.Account.HasInterface && _signinButton)
 				{
-					if (_errorText)
-					{
-						_errorText.text = LoadErrorText();
-					}
+					_signinButton.gameObject.SetActive(true);
+				}
+			}
+			else if (!loadingSuccess)
+			{
+				if (_errorText)
+				{
+					_errorText.text = LoadErrorText();
 				}
 			}
 		}
@@ -150,5 +147,10 @@ namespace PlayGen.SUGAR.Unity
 		/// Triggered by successful sign-in via this interface. 
 		/// </summary>
 		protected abstract void OnSignIn();
+
+		/// <summary>
+		/// Logic to perform when the UI is reloaded.
+		/// </summary>
+		protected abstract void Reload();
 	}
 }

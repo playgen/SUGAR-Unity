@@ -196,7 +196,7 @@ namespace PlayGen.SUGAR.Unity
 		internal void ResetClient()
 		{
 			CurrentLeaderboard = null;
-			CurrentStandings = null;
+			CurrentStandings.Clear();
 		}
 	}
 }

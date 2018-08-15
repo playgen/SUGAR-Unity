@@ -7,7 +7,9 @@ The following will be available in the next version of SUGAR Unity:
 - Fix for being locked into UI when changing aspect ratio from landscape to portrait and vice versa.
 - ActorUnityClient created so make functionality for getting groups and users more easily accessible.
 - Callbacks now triggered when calling GameData methods with no signed in user.
-- Auto Log-in Editor tool values now saved per project (according to the Product Name) on the same machine. 
+- Auto Log-in Editor tool values now saved per project (according to the Product Name) on the same machine.
+- Revamp of interfaces and unity clients related to relationships in order to better fit expected functionality and to make them more consistent with the rest of the project.
+- Reload abstract method added into BaseInterface.
 
 ### 1.2.2
 - Updated SUGAR url.

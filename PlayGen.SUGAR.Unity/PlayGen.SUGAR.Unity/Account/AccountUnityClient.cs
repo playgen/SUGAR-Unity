@@ -379,10 +379,10 @@ namespace PlayGen.SUGAR.Unity
 						}
 					});
 
-				SUGARManager.userGroup.GetGroups(
+				SUGARManager.userGroup.GetGroupsList(
 					groups =>
 					{
-						SUGARManager.SetCurrentGroup(SUGARManager.userGroup.Groups.FirstOrDefault()?.Actor);
+						SUGARManager.SetCurrentGroup(groups.FirstOrDefault());
 
 						didGetGroups = true;
 						if (didGetGroups && didGetResources)

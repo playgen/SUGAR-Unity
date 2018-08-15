@@ -7,11 +7,6 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseUserGroupInterface : BaseInterface
 	{
-		internal void Reload(bool loadingSuccess = true)
-		{
-			Show(loadingSuccess);
-		}
-
 		/// <summary>
 		/// Hides Account, Evaluation, Leaderboard, GameLeaderboard and UserFriend UI objects.
 		/// </summary>
@@ -49,19 +44,19 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
+		/// Get and display the list of groups the currently signed in user has been asked to join.
+		/// </summary>
+		protected void GetPendingReceived()
+		{
+			SUGARManager.userGroup.GetPendingReceived(Show);
+		}
+
+		/// <summary>
 		/// Get and display the list of groups the currently signed in user has applied to join.
 		/// </summary>
 		protected void GetPendingSent()
 		{
 			SUGARManager.userGroup.GetPendingSent(Show);
-		}
-
-		/// <summary>
-		/// Get and display the list of groups that match the search string provided.
-		/// </summary>
-		protected void GetSearchResults(string search)
-		{
-			SUGARManager.userGroup.GetSearchResults(search, Show);
 		}
 	}
 }

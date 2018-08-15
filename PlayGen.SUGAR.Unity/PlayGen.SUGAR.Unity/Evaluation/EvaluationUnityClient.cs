@@ -219,7 +219,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void ResetClient()
 		{
-			Progress = null;
+			Progress.Clear();
 		}
 	}
 }

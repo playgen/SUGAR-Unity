@@ -105,7 +105,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 			}
 			else
 			{
-				_memberItems[i].SetText(actorList[i]);
+				_memberItems[i].SetText(actorList[i], Reload);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
@@ -125,7 +125,7 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 	/// </summary>
 	protected override void OnSignIn()
 	{
-		UpdatePageNumber(0);
+		Reload();
 	}
 
 	/// <summary>
@@ -149,6 +149,11 @@ public class GroupMemberInterface : BaseGroupMemberInterface
 	/// Refresh the current page to ensure any text set in code is also translated.
 	/// </summary>
 	private void OnLanguageChange()
+	{
+		Reload();
+	}
+
+	protected override void Reload()
 	{
 		UpdatePageNumber(0);
 	}

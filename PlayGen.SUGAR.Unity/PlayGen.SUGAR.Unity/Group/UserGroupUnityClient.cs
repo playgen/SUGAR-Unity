@@ -13,28 +13,16 @@ namespace PlayGen.SUGAR.Unity
 	public class UserGroupUnityClient : BaseUnityClient<BaseUserGroupInterface>
 	{
 		/// <value>
-		/// Groups that the currently signed in user is a member of.
+		/// Groups with some sort of relationship with the currently signed in user.
 		/// </value>
-		public List<ActorResponseAllowableActions> Groups { get; private set; } = new List<ActorResponseAllowableActions>();
-
-		/// <value>
-		/// Groups that the currently signed in user has requested to join.
-		/// </value>
-		public List<ActorResponseAllowableActions> PendingSent { get; private set; } = new List<ActorResponseAllowableActions>();
-
-		/// <value>
-		/// Groups that matched the last search string.
-		/// </value>
-		public List<ActorResponseAllowableActions> SearchResults { get; } = new List<ActorResponseAllowableActions>();
-
-		private string _lastSearch;
+		public List<GroupResponseRelationshipStatus> Relationships { get; private set; } = new List<GroupResponseRelationshipStatus>();
 
 		/// <summary>
 		/// Gathers updated versions of each list and displays interface UI object if it has been provided.
 		/// </summary>
 		public void Display()
 		{
-			RefreshLists(onComplete =>
+			RefreshRelationships(onComplete =>
 			{
 				if (_interface)
 				{
@@ -43,13 +31,93 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		private void RefreshLists(Action<bool> onComplete)
+		/// <summary>
+		/// Send group membership request to a group
+		/// </summary>
+		/// <param name="id">The id of the group to send the request to</param>
+		/// <param name="onComplete">**Optional** Callback for if the request was successfully performed</param>
+		public void AddGroup(int id, Action<bool> onComplete = null)
+		{
+			GroupResponseRelationshipStatus.Add(id, result =>
+			{
+				RefreshRelationships(refresh =>
+				{
+					onComplete?.Invoke(result && result);
+				});
+			});
+		}
+
+		/// <summary>
+		/// Resolve a group membership request sent to the current user
+		/// </summary>
+		/// <param name="id">The Id of the group that sent the request</param>
+		/// <param name="accept">Whether the request has been accepted</param>
+		/// <param name="onComplete">**Optional** Callback for if the request was successfully resolved</param>
+		public void ManageGroupRequest(int id, bool accept, Action<bool> onComplete = null)
+		{
+			GroupResponseRelationshipStatus.UpdateRequest(id, accept, result =>
+			{
+				RefreshRelationships(refresh =>
+				{
+					onComplete?.Invoke(result && result);
+				});
+			});
+		}
+
+		/// <summary>
+		/// Cancel a group membership request sent by the current user
+		/// </summary>
+		/// <param name="id">The Id of the group that received the request</param>
+		/// <param name="onComplete">**Optional** Callback for if the request was successfully cancelled</param>
+		public void CancelSentGroupRequest(int id, Action<bool> onComplete = null)
+		{
+			GroupResponseRelationshipStatus.CancelSentRequest(id, result =>
+			{
+				RefreshRelationships(refresh =>
+				{
+					onComplete?.Invoke(result && result);
+				});
+			});
+		}
+
+		/// <summary>
+		/// Leave a group the current user is a member of
+		/// </summary>
+		/// <param name="id">The Id for the group which the current signed in user wishes to leave</param>
+		/// <param name="onComplete">**Optional** Callback for if the group membership was successfully cancelled</param>
+		public void LeaveGroup(int id, Action<bool> onComplete = null)
+		{
+			GroupResponseRelationshipStatus.Remove(id, result =>
+			{
+				RefreshRelationships(refresh =>
+				{
+					onComplete?.Invoke(result && result);
+				});
+			});
+		}
+
+		/// <summary>
+		/// Get list of groups the currently signed in user is a member of.
+		/// </summary>
+		/// <param name="onComplete">Callback which contains the list of groups for the current user</param>
+		public void GetGroupsList(Action<List<ActorResponse>> onComplete)
 		{
 			GetGroups(result =>
 			{
-				GetPendingSent(result2 =>
+				if (result)
 				{
-					GetSearchResults(_lastSearch, result3 =>
+					onComplete(Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.ExistingRelationship).Select(r => r.Actor).ToList());
+				}
+			});
+		}
+
+		public void RefreshRelationships(Action<bool> onComplete)
+		{
+			GetGroups(result =>
+			{
+				GetPendingReceived(result2 =>
+				{
+					GetPendingSent(result3 =>
 					{
 						onComplete(result && result2 && result3);
 					});
@@ -57,88 +125,17 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
-		/// <summary>
-		/// Send group membership request to group with id provided. If reload is true, UI is also redrawn.
-		/// </summary>
-		/// <param name="id">The id of the group</param>
-		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
-		/// <param name="trySetAsCurrentGroup">Will set this group as the current group if the user sucesfully joins the group.</param>
-		/// <param name="onComplete">Callback with a variable indicating success or failure.</param>
-		public void AddGroup(int id, bool reload = true, bool trySetAsCurrentGroup = false, Action<bool> onComplete = null)
-		{
-			Add(id, result =>
-			{
-				var didSetAsCurrentGroup = false;
-				if (trySetAsCurrentGroup)
-				{
-					var group = Groups.FirstOrDefault(g => g.Actor.Id == id);
-					if (group != default(ActorResponseAllowableActions))
-					{
-						SUGARManager.SetCurrentGroup(group.Actor);
-						didSetAsCurrentGroup = true;
-					}
-				}
-				
-				if (reload)
-				{
-					_interface.Reload(result);
-				}
-
-				onComplete?.Invoke(reload && (!trySetAsCurrentGroup || didSetAsCurrentGroup));
-			});
-		}
-
-		/// <summary>
-		/// Cancel sent membership request to group
-		/// </summary>
-		/// <param name="id">The id of the group</param>
-		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
-		public void ManageGroupRequest(int id, bool reload = true)
-		{
-			UpdateRequest(id, result =>
-			{
-				if (reload)
-				{
-					_interface.Reload(result);
-				}
-			});
-		}
-
-		/// <summary>
-		/// Leave a group the currently signed in user is a member of.
-		/// </summary>
-		/// <param name="id">The id of the group</param>
-		/// <param name="reload">**Optional** Whether the interface should reload on completion. (default: true)</param>
-		public void RemoveGroup(int id, bool reload = true)
-		{
-			Remove(id, result =>
-			{
-				if (reload)
-				{
-					_interface.Reload(result);
-				}
-			});
-		}
-
-		/// <summary>
-		/// Get list of groups the currently signed in user is a memer of.
-		/// </summary>
-		/// <param name="onComplete">Callback whether request was successful</param>
-		public void GetGroupsList(Action<bool> onComplete)
-		{
-			GetGroups(onComplete);
-		}
-
 		internal void GetGroups(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
-			Groups.Clear();
+			Relationships = Relationships.Where(r => r.RelationshipStatus != RelationshipStatus.ExistingRelationship).ToList();
 			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					Groups = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.ExistingRelationship)).ToList());
+					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();
 					onComplete(true);
 				},
@@ -159,13 +156,14 @@ namespace PlayGen.SUGAR.Unity
 		internal void GetPendingSent(Action<bool> onComplete)
 		{
 			SUGARManager.unity.StartSpinner();
-			PendingSent.Clear();
+			Relationships = Relationships.Where(r => r.RelationshipStatus != RelationshipStatus.PendingSentRequest).ToList();
 			if (SUGARManager.UserSignedIn)
 			{
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					PendingSent = response.Select(r => new ActorResponseAllowableActions(r, false, true)).ToList();
+					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.PendingSentRequest)).ToList());
+					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();
 					onComplete(true);
 				},
@@ -183,131 +181,23 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
-		internal void GetSearchResults(string searchString, Action<bool> onComplete)
+		internal void GetPendingReceived(Action<bool> onComplete)
 		{
-			_lastSearch = searchString;
-			SearchResults.Clear();
-			if (string.IsNullOrEmpty(searchString))
-			{
-				onComplete(true);
-				return;
-			}
 			SUGARManager.unity.StartSpinner();
+			Relationships = Relationships.Where(r => r.RelationshipStatus != RelationshipStatus.PendingReceivedRequest).ToList();
 			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.Actor.SearchGroupsByName(searchString,
+				SUGARManager.client.GroupMember.GetMemberRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
-					if (response == null)
-					{
-						Debug.LogError($"Failed to get list of groups.");
-						SUGARManager.unity.StopSpinner();
-						onComplete(false);
-						return;
-					}
-					var results = response.Select(r => (ActorResponse)r).Take(100).ToList();
-					foreach (var r in results)
-					{
-						if (Groups.Any(p => p.Actor.Id == r.Id) || PendingSent.Any(p => p.Actor.Id == r.Id))
-						{
-							SearchResults.Add(new ActorResponseAllowableActions(r, false, false));
-						}
-						else
-						{
-							SearchResults.Add(new ActorResponseAllowableActions(r, true, false));
-						}
-					}
+					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.PendingReceivedRequest)).ToList());
+					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();
 					onComplete(true);
-				});
-			}
-			else
-			{
-				SUGARManager.unity.StopSpinner();
-				onComplete(false);
-			}
-		}
-
-		private void Add(int id, Action<bool> onComplete)
-		{
-			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.UserSignedIn)
-			{
-				var relationship = new RelationshipRequest
-				{
-					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id,
-					AutoAccept = true
-				};
-				SUGARManager.client.GroupMember.CreateMemberRequestAsync(
-					relationship,
-					response =>
-					{
-						RefreshLists(onComplete);
-					},	
-					exception =>
-					{
-						Debug.LogError($"Failed to create group request: {exception}");
-						SUGARManager.unity.StopSpinner();
-						onComplete(false);
-					});
-			}
-			else
-			{
-				SUGARManager.unity.StopSpinner();
-				onComplete(false);
-			}
-		}
-
-		internal void UpdateRequest(int id, Action<bool> onComplete)
-		{
-			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.UserSignedIn)
-			{
-				var relationship = new RelationshipStatusUpdate
-				{
-					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id,
-					Accepted = false
-				};
-				SUGARManager.client.GroupMember.UpdateMemberRequestAsync(relationship,
-				() =>
-				{
-					RefreshLists(onComplete);
 				},
 				exception =>
 				{
-					Debug.LogError($"Failed to update group request. {exception}");
-					SUGARManager.unity.StopSpinner();
-					onComplete(false);
-				});
-			}
-			else
-			{
-				SUGARManager.unity.StopSpinner();
-				onComplete(false);
-			}
-		}
-
-		internal void Remove(int id, Action<bool> onComplete)
-		{
-			SUGARManager.unity.StartSpinner();
-			if (SUGARManager.UserSignedIn)
-			{
-				var relationship = new RelationshipStatusUpdate
-				{
-					RequestorId = SUGARManager.CurrentUser.Id,
-					AcceptorId = id,
-					Accepted = false
-				};
-				SUGARManager.client.GroupMember.UpdateMemberAsync(relationship,
-				() =>
-				{
-					RefreshLists(onComplete);
-				},
-				exception =>
-				{
-					Debug.LogError($"Failed to update group status. {exception}");
+					Debug.LogError($"Failed to get list. {exception}");
 					SUGARManager.unity.StopSpinner();
 					onComplete(false);
 				});
@@ -321,10 +211,7 @@ namespace PlayGen.SUGAR.Unity
 
 		internal void ResetClient()
 		{
-			Groups.Clear();
-			PendingSent.Clear();
-			SearchResults.Clear();
-			_lastSearch = null;
+			Relationships.Clear();
 		}
 	}
 }

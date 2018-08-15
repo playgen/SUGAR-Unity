@@ -119,7 +119,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	/// </summary>
 	protected override void OnSignIn()
 	{
-		UpdatePageNumber(0);
+		Reload();
 	}
 
 	/// <summary>
@@ -144,6 +144,11 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	/// Refresh the current page to ensure any text set in code is also translated.
 	/// </summary>
 	private void OnLanguageChange()
+	{
+		Reload();
+	}
+
+	protected override void Reload()
 	{
 		UpdatePageNumber(0);
 	}

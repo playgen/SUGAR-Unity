@@ -1,5 +1,5 @@
 ﻿using PlayGen.SUGAR.Unity;
-
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,28 +29,63 @@ public class GroupListItemInterface : MonoBehaviour
 	/// <summary>
 	/// Enable the GameObject, set the text and set up the buttons to work in the context they are in.
 	/// </summary>
-	internal void SetText(ActorResponseAllowableActions actor, bool pending, bool member)
+	internal void SetText(GroupResponseRelationshipStatus actor, Action reload)
 	{
 		gameObject.SetActive(true);
 		_actorName.text = actor.Actor.Name;
 		_addButton.onClick.RemoveAllListeners();
 		_removeButton.onClick.RemoveAllListeners();
-		_addButton.gameObject.SetActive(actor.CanAdd);
-		if (actor.CanAdd)
+		_addButton.gameObject.SetActive(actor.RelationshipStatus == RelationshipStatus.NoRelationship || actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest);
+		if (actor.RelationshipStatus == RelationshipStatus.NoRelationship)
 		{
-			_addButton.onClick.AddListener(() => SUGARManager.UserGroup.AddGroup(actor.Actor.Id));
+			_addButton.onClick.AddListener(() => actor.Add(onComplete =>
+			{
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
 		}
-		_removeButton.gameObject.SetActive(actor.CanRemove);
-		if (actor.CanRemove)
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest)
 		{
-			if (pending)
+			_addButton.onClick.AddListener(() => actor.UpdateRequest(true, onComplete =>
 			{
-				_removeButton.onClick.AddListener(() => SUGARManager.UserGroup.ManageGroupRequest(actor.Actor.Id, false));
-			}
-			else
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		_removeButton.gameObject.SetActive(actor.RelationshipStatus != RelationshipStatus.NoRelationship);
+		if (actor.RelationshipStatus == RelationshipStatus.ExistingRelationship)
+		{
+			_removeButton.onClick.AddListener(() => actor.Remove(onComplete =>
 			{
-				_removeButton.onClick.AddListener(() => SUGARManager.UserGroup.RemoveGroup(actor.Actor.Id));
-			}
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingSentRequest)
+		{
+			_removeButton.onClick.AddListener(() => actor.CancelSentRequest(onComplete =>
+			{
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest)
+		{
+			_removeButton.onClick.AddListener(() => actor.UpdateRequest(false, onComplete =>
+			{
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
 		}
 		GetComponent<Button>().onClick.RemoveAllListeners();
 		GetComponent<Button>().onClick.AddListener(() => SUGARManager.GroupMember.Display(actor.Actor));

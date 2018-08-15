@@ -1,4 +1,5 @@
 ﻿using PlayGen.SUGAR.Unity;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,35 +29,63 @@ public class FriendsListItemInterface : MonoBehaviour {
 	/// <summary>
 	/// Enable the GameObject, set the text and set up the buttons to work in the context they are in.
 	/// </summary>
-	internal void SetText(ActorResponseAllowableActions actor, bool pending, bool own = false)
+	internal void SetText(UserResponseRelationshipStatus actor, Action reload)
 	{
 		gameObject.SetActive(true);
 		_actorName.text = actor.Actor.Name;
 		_addButton.onClick.RemoveAllListeners();
 		_removeButton.onClick.RemoveAllListeners();
-		_addButton.gameObject.SetActive(actor.CanAdd);
-		if (actor.CanAdd)
+		_addButton.gameObject.SetActive(actor.RelationshipStatus == RelationshipStatus.NoRelationship || actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest);
+		if (actor.RelationshipStatus == RelationshipStatus.NoRelationship)
 		{
-			if (pending)
+			_addButton.onClick.AddListener(() => actor.Add(onComplete =>
 			{
-				_addButton.onClick.AddListener(() => SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, true));
-			}
-			else
-			{
-				_addButton.onClick.AddListener(() => SUGARManager.UserFriend.AddFriend(actor.Actor.Id));
-			}
-		} 
-		_removeButton.gameObject.SetActive(actor.CanRemove);
-		if (actor.CanRemove)
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest)
 		{
-			if (pending)
+			_addButton.onClick.AddListener(() => actor.UpdateRequest(true, onComplete =>
 			{
-				_removeButton.onClick.AddListener(() => SUGARManager.UserFriend.ManageFriendRequest(actor.Actor.Id, false, own));
-			}
-			else
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		_removeButton.gameObject.SetActive(actor.RelationshipStatus != RelationshipStatus.NoRelationship);
+		if (actor.RelationshipStatus == RelationshipStatus.ExistingRelationship)
+		{
+			_removeButton.onClick.AddListener(() => actor.Remove(onComplete =>
 			{
-				_removeButton.onClick.AddListener(() => SUGARManager.UserFriend.RemoveFriend(actor.Actor.Id));
-			}
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingSentRequest)
+		{
+			_removeButton.onClick.AddListener(() => actor.CancelSentRequest(onComplete =>
+			{
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
+		}
+		else if (actor.RelationshipStatus == RelationshipStatus.PendingReceivedRequest)
+		{
+			_removeButton.onClick.AddListener(() => actor.UpdateRequest(false, onComplete =>
+			{
+				if (onComplete)
+				{
+					reload?.Invoke();
+				}
+			}));
 		}
 	}
 

@@ -99,7 +99,7 @@
 		<type fullname="PlayGen.SUGAR.Unity.LeaderboardUnityClient" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Unity.BaseLeaderboardInterface" preserve="all"/>
 
-		<type fullname="PlayGen.SUGAR.Unity.ActorResponseAllowableActions" preserve="all"/>
+		<type fullname="PlayGen.SUGAR.Unity.ActorResponseRelationshipStatus" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Unity.BaseInterface" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Unity.BaseUnityClient" preserve="all"/>
 		<type fullname="PlayGen.SUGAR.Unity.CommandLineUtility" preserve="all"/>

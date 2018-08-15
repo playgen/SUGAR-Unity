@@ -37,11 +37,20 @@ public class UserGroupInterface : BaseUserGroupInterface
 	protected Button _groupsButton;
 
 	/// <summary>
+	/// Button used to change display to show user pending received requests.
+	/// </summary>
+	[Tooltip("Button used to change display to show user pending received requests")]
+	[SerializeField]
+	protected Button _requestButton;
+
+	/// <summary>
 	/// Button used to change display to show user pending sent requests.
 	/// </summary>
 	[Tooltip("Button used to change display to show user pending sent requests")]
 	[SerializeField]
 	protected Button _sentButton;
+
+	private List<GroupResponseRelationshipStatus> _searchResults = new List<GroupResponseRelationshipStatus>();
 
 	/// <summary>
 	/// Button used to change display to show the results of a search by group name.
@@ -104,11 +113,14 @@ public class UserGroupInterface : BaseUserGroupInterface
 	{
 		base.Awake();
 		_groupsButton.onClick.AddListener(() => SetListType(0));
-		_sentButton.onClick.AddListener(() => SetListType(1));
-		_searchButton.onClick.AddListener(() => SetListType(2));
+		_requestButton.onClick.AddListener(() => SetListType(1));
+		_sentButton.onClick.AddListener(() => SetListType(2));
+		_searchButton.onClick.AddListener(() => SetListType(3));
+		_searchButton.onClick.AddListener(GetSearchResults);
 		_groupsButton.onClick.AddListener(GetGroups);
+		_requestButton.onClick.AddListener(GetPendingReceived);
 		_sentButton.onClick.AddListener(GetPendingSent);
-		_searchTextButton.onClick.AddListener(() => GetSearchResults(_searchInput.text));
+		_searchTextButton.onClick.AddListener(GetSearchResults);
 		_previousButton.onClick.AddListener(() => UpdatePageNumber(-1));
 		_nextButton.onClick.AddListener(() => UpdatePageNumber(1));
 	}
@@ -147,26 +159,34 @@ public class UserGroupInterface : BaseUserGroupInterface
 	/// </summary>
 	protected override void Draw()
 	{
-		var actorList = new List<ActorResponseAllowableActions>();
+		_groupsButton.interactable = SUGARManager.UserSignedIn;
+		_requestButton.interactable = SUGARManager.UserSignedIn;
+		_sentButton.interactable = SUGARManager.UserSignedIn;
+		_searchButton.interactable = SUGARManager.UserSignedIn;
+		var actorList = new List<GroupResponseRelationshipStatus>();
 		_searchArea.SetActive(false);
 		switch (_listType)
 		{
 			case 0:
-				actorList = SUGARManager.UserGroup.Groups;
+				actorList = SUGARManager.UserGroup.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.ExistingRelationship).ToList();
 				_listTypeText.text = Localization.Get("GROUP_LIST");
 				break;
 			case 1:
-				actorList = SUGARManager.UserGroup.PendingSent;
-				_listTypeText.text = Localization.Get("PENDING_SENT");
+				actorList = SUGARManager.UserGroup.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingReceivedRequest).ToList();
+				_listTypeText.text = Localization.Get("PENDING_RECEIVED");
 				break;
 			case 2:
-				actorList = SUGARManager.UserGroup.SearchResults;
+				actorList = SUGARManager.UserGroup.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingSentRequest).ToList();
+				_listTypeText.text = Localization.Get("PENDING_SENT");
+				break;
+			case 3:
+				actorList = _searchResults;
 				_listTypeText.text = Localization.Get("SEARCH");
-				_searchArea.SetActive(true);
+				_searchArea.SetActive(SUGARManager.UserSignedIn);
 				_groupItems[0].gameObject.SetActive(false);
 				break;
 		}
-		var length = _listType == 2 ? _groupItems.Length - 1 : _groupItems.Length;
+		var length = _listType == 3 ? _groupItems.Length - 1 : _groupItems.Length;
 		_nextButton.interactable = actorList.Count > (_pageNumber + 1) * length;
 		actorList = actorList.Skip(_pageNumber * length).Take(length).ToList();
 		if (!actorList.Any() && _pageNumber > 0)
@@ -179,27 +199,32 @@ public class UserGroupInterface : BaseUserGroupInterface
 			UpdatePageNumber(1);
 			return;
 		}
-		for (var i = _listType == 2 ? 1 : 0; i < _groupItems.Length; i++)
+		for (var i = _listType == 3 ? 1 : 0; i < _groupItems.Length; i++)
 		{
-			if (i - (_listType == 2 ? 1 : 0) >= actorList.Count)
+			if (i - (_listType == 3 ? 1 : 0) >= actorList.Count)
 			{
 				_groupItems[i].gameObject.SetActive(false);
 			}
 			else
 			{
-				_groupItems[i].SetText(actorList[i - (_listType == 2 ? 1 : 0)], _listType == 1, _listType == 0);
+				_groupItems[i].SetText(actorList[i - (_listType == 3 ? 1 : 0)], Reload);
 			}
 		}
 		_pageNumberText.text = Localization.GetAndFormat("PAGE", false, _pageNumber + 1);
 		_previousButton.interactable = _pageNumber > 0;
-		if (!actorList.Any())
+		DoBestFit();
+	}
+
+	protected override void ErrorDraw(bool loadingSuccess)
+	{
+		base.ErrorDraw(loadingSuccess);
+		if (SUGARManager.UserSignedIn && loadingSuccess)
 		{
-			if (_errorText)
+			if (!_groupItems[_listType == 3 ? 1 : 0].gameObject.activeSelf)
 			{
 				_errorText.text = NoResultsErrorText();
 			}
 		}
-		DoBestFit();
 	}
 
 	/// <summary>
@@ -207,7 +232,7 @@ public class UserGroupInterface : BaseUserGroupInterface
 	/// </summary>
 	protected override void OnSignIn()
 	{
-		UpdatePageNumber(0);
+		Reload();
 	}
 
 	/// <summary>
@@ -216,7 +241,6 @@ public class UserGroupInterface : BaseUserGroupInterface
 	private void SetListType(int type)
 	{
 		_listType = type;
-		Show(true);
 	}
 
 	/// <summary>
@@ -241,6 +265,49 @@ public class UserGroupInterface : BaseUserGroupInterface
 	/// </summary>
 	private void OnLanguageChange()
 	{
+		Reload();
+	}
+
+	protected override void Reload()
+	{
 		UpdatePageNumber(0);
+	}
+
+	private void GetSearchResults()
+	{
+		_searchResults.Clear();
+		if (string.IsNullOrEmpty(_searchInput.text))
+		{
+			Show(true);
+			return;
+		}
+		SUGARManager.Unity.StartSpinner();
+		if (SUGARManager.UserSignedIn)
+		{
+			SUGARManager.Actor.SearchGroupsByName(_searchInput.text,
+			response =>
+			{
+				if (response == null)
+				{
+					Debug.LogError("Failed to get list of groups.");
+					SUGARManager.Unity.StopSpinner();
+					Show(false);
+					return;
+				}
+				response = response.OrderBy(r => r.Name).ToList();
+				foreach (var r in response)
+				{
+					var relationship = SUGARManager.UserGroup.Relationships.FirstOrDefault(a => r.Id == a.Actor.Id)?.RelationshipStatus ?? RelationshipStatus.NoRelationship;
+					_searchResults.Add(new GroupResponseRelationshipStatus(r, relationship));
+				}
+				SUGARManager.Unity.StopSpinner();
+				Show(true);
+			});
+		}
+		else
+		{
+			SUGARManager.Unity.StopSpinner();
+			Show(false);
+		}
 	}
 }

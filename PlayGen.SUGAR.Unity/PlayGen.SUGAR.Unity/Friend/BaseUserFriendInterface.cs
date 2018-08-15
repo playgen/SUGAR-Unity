@@ -7,11 +7,6 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseUserFriendInterface : BaseInterface
 	{
-		internal void Reload(bool loadingSuccess = true)
-		{
-			Show(loadingSuccess);
-		}
-
 		/// <summary>
 		/// Hides Account, GameLeaderboard, Leaderboard, Evaluation, GroupMember and UserGroup UI objects.
 		/// </summary>
@@ -63,14 +58,6 @@ namespace PlayGen.SUGAR.Unity
 		protected void GetPendingReceived()
 		{
 			SUGARManager.userFriend.GetPendingReceived(Show);
-		}
-
-		/// <summary>
-		/// Get and display the search results for the provided string.
-		/// </summary>
-		protected void GetSearchResults(string search)
-		{
-			SUGARManager.userFriend.GetSearchResults(search, Show);
 		}
 	}
 }
