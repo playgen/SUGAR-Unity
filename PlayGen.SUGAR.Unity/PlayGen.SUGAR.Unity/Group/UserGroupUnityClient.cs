@@ -18,7 +18,7 @@ namespace PlayGen.SUGAR.Unity
 		public List<GroupResponseRelationshipStatus> Relationships { get; private set; } = new List<GroupResponseRelationshipStatus>();
 
 		/// <summary>
-		/// Gathers updated versions of each list and displays interface UI object if it has been provided.
+		/// Gathers updated versions of each type of relationship and displays interface UI object if it has been provided.
 		/// </summary>
 		public void Display()
 		{
@@ -111,6 +111,10 @@ namespace PlayGen.SUGAR.Unity
 			});
 		}
 
+		/// <summary>
+		/// Refresh the Relationship list with up to date information
+		/// </summary>
+		/// <param name="onComplete">Callback for if the update was successfully performed</param>
 		public void RefreshRelationships(Action<bool> onComplete)
 		{
 			GetGroups(result =>
@@ -134,6 +138,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetUserGroupsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
+					var responseIds = response.Select(r => r.Id).ToList();
+					Relationships = Relationships.Where(r => !responseIds.Contains(r.Actor.Id)).ToList();
 					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.ExistingRelationship)).ToList());
 					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();
@@ -162,6 +168,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetSentRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
+					var responseIds = response.Select(r => r.Id).ToList();
+					Relationships = Relationships.Where(r => !responseIds.Contains(r.Actor.Id)).ToList();
 					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.PendingSentRequest)).ToList());
 					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();
@@ -190,6 +198,8 @@ namespace PlayGen.SUGAR.Unity
 				SUGARManager.client.GroupMember.GetMemberRequestsAsync(SUGARManager.CurrentUser.Id,
 				response =>
 				{
+					var responseIds = response.Select(r => r.Id).ToList();
+					Relationships = Relationships.Where(r => !responseIds.Contains(r.Actor.Id)).ToList();
 					Relationships.AddRange(response.Select(r => new GroupResponseRelationshipStatus(r, RelationshipStatus.PendingReceivedRequest)).ToList());
 					Relationships = Relationships.OrderBy(r => r.Actor.Name).ToList();
 					SUGARManager.unity.StopSpinner();

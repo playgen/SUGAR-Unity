@@ -269,6 +269,10 @@ public class FriendsListInterface : BaseUserFriendInterface {
 
 	protected override void Reload()
 	{
+		if (_listType == 3)
+		{
+			GetSearchResults();
+		}
 		UpdatePageNumber(0);
 	}
 

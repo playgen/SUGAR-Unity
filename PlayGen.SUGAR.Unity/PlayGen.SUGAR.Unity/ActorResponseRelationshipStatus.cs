@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayGen.SUGAR.Unity
 {
+	/// <summary>
+	/// The different relationship states two actors can be in related to each other
+	/// </summary>
 	public enum RelationshipStatus
 	{
 		NoRelationship,
@@ -13,7 +16,7 @@ namespace PlayGen.SUGAR.Unity
 	}
 
 	/// <summary>
-	/// ActorResponse with additional information on if the current user can add and remove them.
+	/// ActorResponse with additional information on the relationship between the current user and the actor.
 	/// </summary>
 	public abstract class ActorResponseRelationshipStatus<T> where T : ActorResponse
 	{
@@ -26,6 +29,9 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		public RelationshipStatus RelationshipStatus { get; set; }
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public ActorResponseRelationshipStatus(T actor, RelationshipStatus status)
 		{
 			Actor = actor;
@@ -33,12 +39,23 @@ namespace PlayGen.SUGAR.Unity
 		}
 	}
 
+	/// <summary>
+	/// ActorResponse with additional information on the relationship between the current user and the actor.
+	/// </summary>
 	public class UserResponseRelationshipStatus : ActorResponseRelationshipStatus<ActorResponse>
 	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public UserResponseRelationshipStatus(ActorResponse actor, RelationshipStatus status) : base(actor, status)
 		{
 		}
 
+		/// <summary>
+		/// Send a relationship request to this User.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the request was successfully created</param>
+		/// <param name="autoAccept">**Optional** Should the request be automatically accepted</param>
 		public void Add(Action<bool> onComplete, bool autoAccept = true)
 		{
 			Add(Actor.Id, onComplete, autoAccept);
@@ -74,6 +91,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Accept or decline a received relationship request from this User.
+		/// </summary>
+		/// <param name="accept">Accept or decline the request</param>
+		/// <param name="onComplete">Callback for if the relationship was successfully updated</param>
 		public void UpdateRequest(bool accept, Action<bool> onComplete)
 		{
 			UpdateRequest(Actor.Id, accept, onComplete);
@@ -109,6 +131,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Cancel a relationship request to this User.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the relationship request was successfully cancelled</param>
 		public void CancelSentRequest(Action<bool> onComplete)
 		{
 			CancelSentRequest(Actor.Id, onComplete);
@@ -144,6 +170,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Cancel the relationship with this User.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the relationship request was successfully cancelled</param>
 		public void Remove(Action<bool> onComplete)
 		{
 			Remove(Actor.Id, onComplete);
@@ -180,12 +210,23 @@ namespace PlayGen.SUGAR.Unity
 		}
 	}
 
+	/// <summary>
+	/// ActorResponse with additional information on the relationship between the current user and the actor.
+	/// </summary>
 	public class GroupResponseRelationshipStatus : ActorResponseRelationshipStatus<ActorResponse>
 	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public GroupResponseRelationshipStatus(ActorResponse actor, RelationshipStatus status) : base(actor, status)
 		{
 		}
 
+		/// <summary>
+		/// Send a relationship request to this Group.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the request was successfully created</param>
+		/// <param name="autoAccept">**Optional** Should the request be automatically accepted</param>
 		public void Add(Action<bool> onComplete, bool autoAccept = true)
 		{
 			Add(Actor.Id, onComplete, autoAccept);
@@ -221,6 +262,11 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Accept or decline a received relationship request from this Group.
+		/// </summary>
+		/// <param name="accept">Accept or decline the request</param>
+		/// <param name="onComplete">Callback for if the relationship was successfully updated</param>
 		public void UpdateRequest(bool accept, Action<bool> onComplete)
 		{
 			UpdateRequest(Actor.Id, accept, onComplete);
@@ -256,6 +302,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Cancel a relationship request to this Group.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the relationship request was successfully cancelled</param>
 		public void CancelSentRequest(Action<bool> onComplete)
 		{
 			CancelSentRequest(Actor.Id, onComplete);
@@ -291,6 +341,10 @@ namespace PlayGen.SUGAR.Unity
 			}
 		}
 
+		/// <summary>
+		/// Cancel the relationship with this Group.
+		/// </summary>
+		/// <param name="onComplete">Callback for if the relationship request was successfully cancelled</param>
 		public void Remove(Action<bool> onComplete)
 		{
 			Remove(Actor.Id, onComplete);

@@ -270,6 +270,10 @@ public class UserGroupInterface : BaseUserGroupInterface
 
 	protected override void Reload()
 	{
+		if (_listType == 3)
+		{
+			GetSearchResults();
+		}
 		UpdatePageNumber(0);
 	}
 
