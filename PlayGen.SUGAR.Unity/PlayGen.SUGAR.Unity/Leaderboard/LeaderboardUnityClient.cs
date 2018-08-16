@@ -132,7 +132,7 @@ namespace PlayGen.SUGAR.Unity
 				CurrentStandings.Clear();
 			}
 			var actor = CurrentLeaderboard == null ? null : CurrentLeaderboard.ActorType == ActorType.Group || _currentFilter == LeaderboardFilterType.GroupMembers || _currentFilter == LeaderboardFilterType.Alliances ? SUGARManager.CurrentGroup : SUGARManager.CurrentUser;
-			if (actor != null && CurrentLeaderboard != null)
+			if (SUGARManager.UserSignedIn && actor != null && CurrentLeaderboard != null)
 			{
 				var request = new LeaderboardStandingsRequest
 				{

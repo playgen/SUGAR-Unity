@@ -228,12 +228,12 @@ namespace PlayGen.SUGAR.Unity
 			GetAchievements(id, progress);
 		}
 
-		private void GetAchievements(int? id, Action<List<EvaluationProgressResponse>> progress)
+		private void GetAchievements(int id, Action<List<EvaluationProgressResponse>> progress)
 		{
 			SUGARManager.unity.StartSpinner();
-			if (id.HasValue)
+			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, id.Value,
+				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, id,
 				response =>
 				{
 					SUGARManager.unity.StopSpinner();
@@ -312,12 +312,12 @@ namespace PlayGen.SUGAR.Unity
 			GetSkills(id, progress);
 		}
 
-		private void GetSkills(int? id, Action<List<EvaluationProgressResponse>> progress)
+		private void GetSkills(int id, Action<List<EvaluationProgressResponse>> progress)
 		{
 			SUGARManager.unity.StartSpinner();
-			if (id.HasValue)
+			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, id.Value,
+				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, id,
 				response =>
 				{
 					SUGARManager.unity.StopSpinner();

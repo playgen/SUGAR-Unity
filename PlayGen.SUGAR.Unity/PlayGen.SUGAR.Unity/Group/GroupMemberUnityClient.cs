@@ -30,50 +30,82 @@ namespace PlayGen.SUGAR.Unity
 		public void Display(ActorResponse group)
 		{
 			CurrentGroup = group;
-			GetMembers(onComplete =>
+			Members.Clear();
+			GetGroupMembers(CurrentGroup, members =>
 			{
+				if (members != null)
+				{
+					Members.AddRange(members);
+				}
 				if (_interface)
 				{
-					_interface.Display(onComplete);
+					_interface.Display(members != null);
 				}
 			});
 		}
 
-		internal void GetMembers(Action<bool> onComplete)
+		/// <summary>
+		/// Gather member list for the provided group.
+		/// </summary>
+		/// <param name="group">The group for which members will be gathered</param>
+		/// <param name="members">Callback which will return the list of group members and their current relationship with the signed in user.</param>
+		public void GetGroupMembers(ActorResponse group, Action<List<UserResponseRelationshipStatus>> members)
+		{
+			if (group != null)
+			{
+				GetGroupMembers(group.Id, members);
+			}
+			else
+			{
+				members(null);
+			}
+		}
+
+		/// <summary>
+		/// Gather member list for the group with the provided id.
+		/// </summary>
+		/// <param name="groupId">The id of the group for which members will be gathered</param>
+		/// <param name="members">Callback which will return the list of group members and their current relationship with the signed in user.</param>
+		public void GetGroupMembers(int groupId, Action<List<UserResponseRelationshipStatus>> members)
+		{
+			GetMembers(groupId, members);
+		}
+
+		internal void GetMembers(int groupId, Action<List<UserResponseRelationshipStatus>> members)
 		{
 			SUGARManager.unity.StartSpinner();
-			Members.Clear();
 			if (SUGARManager.UserSignedIn)
 			{
-				SUGARManager.client.GroupMember.GetMembersAsync(CurrentGroup.Id,
+				SUGARManager.client.GroupMember.GetMembersAsync(groupId,
 				response =>
 				{
 					SUGARManager.userFriend.RefreshRelationships(result =>
 					{
+						var memberList = new List<UserResponseRelationshipStatus>();
 						if (result)
 						{
 							response = response.OrderBy(r => r.Name);
 							foreach (var r in response)
 							{
 								var relationship = SUGARManager.userFriend.Relationships.FirstOrDefault(a => r.Id == a.Actor.Id)?.RelationshipStatus ?? RelationshipStatus.NoRelationship;
-								Members.Add(new UserResponseRelationshipStatus(r, relationship));
+								memberList.Add(new UserResponseRelationshipStatus(r, relationship));
 							}
 						}
 						SUGARManager.unity.StopSpinner();
-						onComplete(true);
+						members(memberList);
 					});
 				},
 				exception =>
 				{
 					Debug.LogError($"Failed to get friends list. {exception}");
 					SUGARManager.unity.StopSpinner();
-					onComplete(false);
+					members(null);
 				});
 			}
 			else
 			{
 				SUGARManager.unity.StopSpinner();
-				onComplete(false);
+				members(null);
 			}
 		}
 
