@@ -2942,7 +2942,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.96
-  m_Text: Nearby
+  m_Text: Show Me
 --- !u!114 &114000013324203170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3571,7 +3571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LanguageOverride: 
-  Key: GROUP_MEMBERS
+  Key: GROUPMEMBERS
   ToUpper: 0
 --- !u!114 &114231795950057498
 MonoBehaviour:
@@ -3962,7 +3962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LanguageOverride: 
-  Key: NEARBY
+  Key: SHOW_ME
   ToUpper: 0
 --- !u!114 &114977583857764104
 MonoBehaviour:

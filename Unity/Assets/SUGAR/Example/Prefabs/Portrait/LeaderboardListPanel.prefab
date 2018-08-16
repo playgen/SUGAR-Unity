@@ -1553,6 +1553,8 @@ MonoBehaviour:
   _previousButton: {fileID: 114000011298906396}
   _nextButton: {fileID: 114000010134271410}
   _pageNumberText: {fileID: 114000010864099014}
+  _defaultLeaderboardFilter: 0
+  _defaultMultiplePerActor: 0
 --- !u!114 &114000012239915126
 MonoBehaviour:
   m_ObjectHideFlags: 1

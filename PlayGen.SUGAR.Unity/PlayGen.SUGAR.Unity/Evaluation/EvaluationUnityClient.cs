@@ -87,100 +87,253 @@ namespace PlayGen.SUGAR.Unity
 		}
 
 		/// <summary>
-		/// Gathers current user achievement completion status and display the interface if it is provided and the GET Achievements request was successful.
+		/// Gathers current user achievement and skill completion status and displays the interface if it is provided.
+		/// </summary>
+		public void DisplayEvaluationList()
+		{
+			Progress.Clear();
+			GetEvaluationProgress(SUGARManager.CurrentUser, progress =>
+			{
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
+			});
+		}
+
+		/// <summary>
+		/// Gathers current group achievement and skill completion status and displays the interface if it is provided.
+		/// </summary>
+		public void DisplayGroupEvaluationList()
+		{
+			Progress.Clear();
+			GetEvaluationProgress(SUGARManager.CurrentGroup, progress =>
+			{
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
+			});
+		}
+
+		/// <summary>
+		/// Gathers achievement and skill completion status for the actor provided.
+		/// </summary>
+		/// <param name="actor">The user or group the achievement and skill progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the achievement and skill progress for the actor provided.</param>
+		public void GetEvaluationProgress(ActorResponse actor, Action<List<EvaluationProgressResponse>> progress)
+		{
+			if (actor != null)
+			{
+				GetEvaluationProgress(actor.Id, progress);
+			}
+			else
+			{
+				progress(null);
+			}
+		}
+
+		/// <summary>
+		/// Gathers achievement and skill completion status for the actor id provided.
+		/// </summary>
+		/// <param name="id">The id of the user or group the achievement and skill progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the achievement and skill progress for the actor provided.</param>
+		public void GetEvaluationProgress(int id, Action<List<EvaluationProgressResponse>> progress)
+		{
+			GetAchievements(id,
+			achievementProgress =>
+			{
+				GetSkills(id,
+				skillProgress =>
+				{
+					if (achievementProgress == null && skillProgress == null)
+					{
+						progress(null);
+					}
+					else
+					{
+						var progressList = new List<EvaluationProgressResponse>();
+						if (achievementProgress != null)
+						{
+							progressList.AddRange(achievementProgress);
+						}
+						if (skillProgress != null)
+						{
+							progressList.AddRange(skillProgress);
+						}
+						progress(progressList);
+					}
+				});
+			});
+		}
+
+		/// <summary>
+		/// Gathers current user achievement completion status and displays the interface if it is provided.
 		/// </summary>
 		public void DisplayAchievementList()
 		{
-			SUGARManager.unity.StartSpinner();
-			GetAchievements(SUGARManager.CurrentUser, onComplete =>
+			Progress.Clear();
+			GetAchievementProgress(SUGARManager.CurrentUser, progress =>
 			{
-				SUGARManager.unity.StopSpinner();
-				_interface?.Display(onComplete);
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
 			});
 		}
 
 		/// <summary>
-		/// Gathers current group achievement completion status and displays interface if it is provided and the GET Achievements request was successful.
+		/// Gathers current group achievement completion status and displays the interface if it is provided.
 		/// </summary>
 		public void DisplayGroupAchievementList()
 		{
-			SUGARManager.unity.StartSpinner();
-			GetAchievements(SUGARManager.CurrentGroup, onComplete =>
+			Progress.Clear();
+			GetAchievementProgress(SUGARManager.CurrentGroup, progress =>
 			{
-				SUGARManager.unity.StopSpinner();
-				_interface?.Display(onComplete);
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
 			});
 		}
 
-		private void GetAchievements(ActorResponse actor, Action<bool> onComplete)
+		/// <summary>
+		/// Gathers achievement completion status for the actor provided.
+		/// </summary>
+		/// <param name="actor">The user or group the achievement progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the achievement progress for the actor provided.</param>
+		public void GetAchievementProgress(ActorResponse actor, Action<List<EvaluationProgressResponse>> progress)
 		{
-			Progress.Clear();
 			if (actor != null)
 			{
-				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, actor.Id,
-				response =>
-				{
-					Progress = response.ToList();
-					onComplete(true);
-				},
-				exception =>
-				{
-					Debug.LogError($"Failed to get achievements list. {exception}");
-					onComplete(false);
-				});
+				GetAchievementProgress(actor.Id, progress);
 			}
 			else
 			{
-				onComplete(false);
+				progress(null);
 			}
 		}
 
 		/// <summary>
-		/// Gathers current user skill completion status and display the interface if it is provided and the GET Skill request was successful.
+		/// Gathers achievement completion status for the actor id provided.
+		/// </summary>
+		/// <param name="id">The id of the user or group the achievement progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the achievement progress for the actor provided.</param>
+		public void GetAchievementProgress(int id, Action<List<EvaluationProgressResponse>> progress)
+		{
+			GetAchievements(id, progress);
+		}
+
+		private void GetAchievements(int? id, Action<List<EvaluationProgressResponse>> progress)
+		{
+			SUGARManager.unity.StartSpinner();
+			if (id.HasValue)
+			{
+				SUGARManager.client.Achievement.GetGameProgressAsync(SUGARManager.GameId, id.Value,
+				response =>
+				{
+					SUGARManager.unity.StopSpinner();
+					progress(response.ToList());
+				},
+				exception =>
+				{
+					SUGARManager.unity.StopSpinner();
+					Debug.LogError($"Failed to get achievements list. {exception}");
+					progress(null);
+				});
+			}
+			else
+			{
+				SUGARManager.unity.StopSpinner();
+				progress(null);
+			}
+		}
+
+		/// <summary>
+		/// Gathers current user skill completion status and displays the interface if it is provided.
 		/// </summary>
 		public void DisplaySkillList()
 		{
-			SUGARManager.unity.StartSpinner();
-			GetSkills(SUGARManager.CurrentUser, onComplete =>
+			Progress.Clear();
+			GetSkillProgress(SUGARManager.CurrentUser, progress =>
 			{
-				SUGARManager.unity.StopSpinner();
-				_interface?.Display(onComplete);
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
 			});
 		}
 
 		/// <summary>
-		/// Gathers current group skill completion status and display the interface if it is provided and the GET Skill request was successful.
+		/// Gathers current group skill completion status and displays the interface if it is provided.
 		/// </summary>
 		public void DisplayGroupSkillList()
 		{
-			SUGARManager.unity.StartSpinner();
-			GetSkills(SUGARManager.CurrentGroup, onComplete =>
+			Progress.Clear();
+			GetSkillProgress(SUGARManager.CurrentGroup, progress =>
 			{
-				SUGARManager.unity.StopSpinner();
-				_interface?.Display(onComplete);
+				if (progress != null)
+				{
+					Progress = progress;
+				}
+				_interface?.Display(progress != null);
 			});
 		}
 
-		private void GetSkills(ActorResponse actor, Action<bool> onComplete)
+		/// <summary>
+		/// Gathers skill completion status for the actor provided.
+		/// </summary>
+		/// <param name="actor">The user or group the skill progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the skill progress for the actor provided.</param>
+		public void GetSkillProgress(ActorResponse actor, Action<List<EvaluationProgressResponse>> progress)
 		{
-			Progress.Clear();
 			if (actor != null)
 			{
-				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, actor.Id,
+				GetSkillProgress(actor.Id, progress);
+			}
+			else
+			{
+				progress(null);
+			}
+		}
+
+		/// <summary>
+		/// Gathers skill completion status for the actor id provided.
+		/// </summary>
+		/// <param name="id">The id of the user or group the skill progress will be gathered for.</param>
+		/// <param name="progress">Callback which will return the skill progress for the actor provided.</param>
+		public void GetSkillProgress(int id, Action<List<EvaluationProgressResponse>> progress)
+		{
+			GetSkills(id, progress);
+		}
+
+		private void GetSkills(int? id, Action<List<EvaluationProgressResponse>> progress)
+		{
+			SUGARManager.unity.StartSpinner();
+			if (id.HasValue)
+			{
+				SUGARManager.client.Skill.GetGameProgressAsync(SUGARManager.GameId, id.Value,
 				response =>
 				{
-					Progress = response.ToList();
-					onComplete(true);
+					SUGARManager.unity.StopSpinner();
+					progress(response.ToList());
 				},
 				exception =>
 				{
+					SUGARManager.unity.StopSpinner();
 					Debug.LogError($"Failed to get skills list. {exception}");
-					onComplete(false);
+					progress(null);
 				});
 			}
 			else
 			{
-				onComplete(false);
+				SUGARManager.unity.StopSpinner();
+				progress(null);
 			}
 		}
 

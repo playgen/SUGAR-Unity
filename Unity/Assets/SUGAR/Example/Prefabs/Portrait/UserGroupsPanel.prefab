@@ -1872,7 +1872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LanguageOverride: 
-  Key: PENDING_SENT
+  Key: GROUPS_PENDING_SENT
   ToUpper: 0
 --- !u!114 &114112898398695552
 MonoBehaviour:
@@ -2689,7 +2689,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.96
-  m_Text: Sent Requests
+  m_Text: Sent Group Requests
 --- !u!114 &114268018791085396
 MonoBehaviour:
   m_ObjectHideFlags: 1
