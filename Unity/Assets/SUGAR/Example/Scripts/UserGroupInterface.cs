@@ -173,11 +173,11 @@ public class UserGroupInterface : BaseUserGroupInterface
 				break;
 			case 1:
 				actorList = SUGARManager.UserGroup.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingReceivedRequest).ToList();
-				_listTypeText.text = Localization.Get("PENDING_RECEIVED");
+				_listTypeText.text = Localization.Get("GROUPS_PENDING_REQUESTS");
 				break;
 			case 2:
 				actorList = SUGARManager.UserGroup.Relationships.Where(r => r.RelationshipStatus == RelationshipStatus.PendingSentRequest).ToList();
-				_listTypeText.text = Localization.Get("PENDING_SENT");
+				_listTypeText.text = Localization.Get("GROUPS_PENDING_SENT");
 				break;
 			case 3:
 				actorList = _searchResults;

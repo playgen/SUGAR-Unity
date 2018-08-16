@@ -1,178 +1,44 @@
-[
-  {
-    "Key": "ACHIEVEMENT_LOAD_ERROR",
-    "en": "Error: Unable to gather current achievement progress."
-  },
-  {
-    "Key": "ACHIEVEMENTS",
-    "en": "Achievements"
-  },
-  {
-    "Key": "CLOSE",
-    "en": "Close"
-  },
-  {
-    "Key": "COMBINED",
-    "en": "Combined"
-  },
-  {
-    "Key": "FRIENDS",
-    "en": "Friends"
-  },
-  {
-    "Key": "FRIENDS_LIST",
-    "en": "Friends List"
-  },
-  {
-    "Key": "FRIENDS_LOAD_ERROR",
-    "en": "Error: Unable to gather list of users."
-  },
-  {
-    "Key": "FRIENDS_PENDING_REQUESTS",
-    "en": "Friend Requests"
-  },
-  {
-    "Key": "FRIENDS_PENDING_SENT",
-    "en": "Sent Friend Requests"
-  },
-  {
-    "Key": "GROUP",
-    "en": "Group"
-  },
-  {
-    "Key": "GROUP_LIST",
-    "en": "Group List"
-  },
-  {
-    "Key": "GROUPS",
-    "en": "Groups"
-  },
-  {
-    "Key": "GROUPS_LOAD_ERROR",
-    "en": "Error: Unable to gather list of groups."
-  },
-  {
-    "Key": "GROUPS_PENDING_REQUESTS",
-    "en": "Group Requests"
-  },
-  {
-    "Key": "PENDING_SENT",
-    "en": "Sent Requests"
-  },
-  {
-    "Key": "LEADERBOARD_LIST_LOAD_ERROR",
-    "en": "Error: Unable to gather leaderboards for this game."
-  },
-  {
-    "Key": "LEADERBOARD_LOAD_ERROR",
-    "en": "Error: Unable to gather standings for this leaderboard."
-  },
-  {
-    "Key": "LEADERBOARDS",
-    "en": "Leaderboards"
-  },
-  {
-    "Key": "LOGIN_ERROR",
-    "en": "Login Error: {0}"
-  },
-  {
-    "Key": "NEAR",
-    "en": "Near"
-  },
-  {
-    "Key": "NEARBY",
-    "en": "Nearby"
-  },
-  {
-    "Key": "NEXT",
-    "en": "Next"
-  },
-  {
-    "Key": "NO_ACHIEVEMENT_ERROR",
-    "en": "No achievements are currently available for this game."
-  },
-  {
-    "Key": "NO_LEADERBOARD_ERROR",
-    "en": "No standings are currently available for this leaderboard for this filter."
-  },
-  {
-    "Key": "NO_LEADERBOARD_LIST_ERROR",
-    "en": "No leaderboards are currently available for this game for this filter."
-  },
-  {
-    "Key": "NO_RESULTS_ERROR",
-    "en": "No results found."
-  },
-  {
-    "Key": "NO_USER_ERROR",
-    "en": "Error: No user currently signed in."
-  },
-  {
-    "Key": "PAGE",
-    "en": "Page {0}"
-  },
-  {
-    "Key": "PASSWORD",
-    "en": "Password:"
-  },
-  {
-    "Key": "POSITION",
-    "en": "#"
-  },
-  {
-    "Key": "PREVIOUS",
-    "en": "Previous"
-  },
-  {
-    "Key": "REGISTER",
-    "en": "Register"
-  },
-  {
-    "Key": "REGISTER",
-    "en": "Register"
-  },
-  {
-    "Key": "REGISTER_ERROR",
-    "en": "Registration Error: {0}"
-  },
-  {
-    "Key": "REMEMBER",
-    "en": "Remember Me"
-  },
-  {
-    "Key": "SEARCH",
-    "en": "Search"
-  },
-  {
-    "Key": "SIGN_IN",
-    "en": "Sign-in"
-  },
-  {
-    "Key": "TOP",
-    "en": "Top"
-  },
-  {
-    "Key": "USER",
-    "en": "User"
-  },
-  {
-    "Key": "USERNAME",
-    "en": "Username:"
-  },
-  {
-    "Key": "VALUE",
-    "en": "Score"
-  },
-  {
-    "Key": "GROUPS_LOAD_ERROR",
-    "en": "Error: Unable to gather list of group members."
-  },
-  {
-    "Key": "GROUP_MEMBERS",
-    "en": "Group Members"
-  },
-  {
-    "Key": "ALLIANCES",
-    "en": "Alliances"
-  }
-]
+[{"Key":"ACHIEVEMENTS","en":"Achievements"},
+{"Key":"ALLIANCES","en":"Alliances"},
+{"Key":"CLOSE","en":"Close"},
+{"Key":"COMBINED","en":"Combined"},
+{"Key":"EVALUATION_LOAD_ERROR","en":"Error: Unable to gather current progress."},
+{"Key":"FRIENDS","en":"Friends"},
+{"Key":"FRIENDS_LIST","en":"Friends List"},
+{"Key":"FRIENDS_LOAD_ERROR","en":"Error: Unable to gather friend data."},
+{"Key":"FRIENDS_PENDING_REQUESTS","en":"Received Friend Requests"},
+{"Key":"FRIENDS_PENDING_SENT","en":"Sent Friend Requests"},
+{"Key":"GROUP","en":"Group"},
+{"Key":"GROUP_LIST","en":"Group List"},
+{"Key":"GROUPMEMBERS","en":"Group Members"},
+{"Key":"GROUPS","en":"Groups"},
+{"Key":"GROUPS_MEMBER_LOAD_ERROR","en":"Error: Unable to gather list of group members."},
+{"Key":"GROUPS_PENDING_REQUESTS","en":"Received Group Requests"},
+{"Key":"GROUPS_PENDING_SENT","en":"Sent Group Requests"},
+{"Key":"LEADERBOARD_LIST_LOAD_ERROR","en":"Error: Unable to gather leaderboards for this game."},
+{"Key":"LEADERBOARD_LOAD_ERROR","en":"Error: Unable to gather standings for this leaderboard."},
+{"Key":"LEADERBOARDS","en":"Leaderboards"},
+{"Key":"LOGIN_ERROR","en":"Login Error: {0}"},
+{"Key":"NEAR","en":"Near"},
+{"Key":"SHOW_ME","en":"Show Me"},
+{"Key":"NEXT","en":"Next"},
+{"Key":"NO_EVALUATION_ERROR","en":"No progress is currently tracked for this game."},
+{"Key":"NO_LEADERBOARD_ERROR","en":"No standings are currently available for this leaderboard for this filter."},
+{"Key":"NO_LEADERBOARD_LIST_ERROR","en":"No leaderboards are currently available for this game for this filter."},
+{"Key":"NO_RESULTS_ERROR","en":"No results found."},
+{"Key":"NO_USER_ERROR","en":"Error: No user currently signed in."},
+{"Key":"PAGE","en":"Page {0}"},
+{"Key":"PASSWORD","en":"Password:"},
+{"Key":"POSITION","en":"#"},
+{"Key":"PREVIOUS","en":"Previous"},
+{"Key":"REGISTER","en":"Register"},
+{"Key":"REGISTER_ERROR","en":"Registration Error: {0}"},
+{"Key":"REMEMBER","en":"Remember Me"},
+{"Key":"SEARCH","en":"Search"},
+{"Key":"SIGN_IN","en":"Sign-in"},
+{"Key":"SKILLS","en":"Skills"},
+{"Key":"TOP","en":"Top"},
+{"Key":"USER","en":"User"},
+{"Key":"USER_GROUPS_LOAD_ERROR","en":"Error: Unable to gather group data for this user."},
+{"Key":"USERNAME","en":"Username:"},
+{"Key":"VALUE","en":"Score"}]

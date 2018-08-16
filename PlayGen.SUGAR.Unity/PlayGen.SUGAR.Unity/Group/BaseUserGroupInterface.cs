@@ -24,7 +24,7 @@ namespace PlayGen.SUGAR.Unity
 		/// </summary>
 		protected override string LoadErrorText()
 		{
-			return Localization.Get("GROUPS_LOAD_ERROR");
+			return Localization.Get("USER_GROUPS_LOAD_ERROR");
 		}
 
 		/// <summary>

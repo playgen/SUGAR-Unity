@@ -55,7 +55,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 				return;
 			}
 
-			var baseAddress = string.Empty;
+			var baseAddress = unityManager.baseAddress;
 			if (File.Exists($"{Application.streamingAssetsPath}/SUGAR.config.json"))
 			{
 				var filePath = $"file:///{Application.streamingAssetsPath}/SUGAR.config.json";
@@ -65,11 +65,8 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 			if (string.IsNullOrEmpty(baseAddress))
 			{
-				if (string.IsNullOrEmpty(unityManager.baseAddress))
-				{
-					messages.Add("A base address must be provided via the Config file in StreamingAssets or via the SUGAR Unity Manager");
-					return;
-				}
+				messages.Add("A base address must be provided via the Config file in StreamingAssets or via the SUGAR Unity Manager");
+				return;
 			}
 			Debug.Log(baseAddress);
 			var devClient = new SUGARDevelopmentClient(baseAddress);
