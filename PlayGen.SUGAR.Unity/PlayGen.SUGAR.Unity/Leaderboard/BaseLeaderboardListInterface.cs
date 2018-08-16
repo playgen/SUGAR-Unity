@@ -10,37 +10,37 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseLeaderboardListInterface : BaseInterface
 	{
-		/// <summary>
+		/// <value>
 		/// Text used for displaying current leaderboard type. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text used for displaying current leaderboard type. Can be left null.")]
 		[SerializeField]
 		protected Text _leaderboardType;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current actor type filter to 'User'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current actor type filter to 'User'. Can be left null.")]
 		[SerializeField]
 		protected Button _userButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current actor type filter to 'Group'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current actor type filter to 'Group'. Can be left null.")]
 		[SerializeField]
 		protected Button _groupButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current actor type filter to 'Combined'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current actor type filter to 'Combined'. Can be left null.")]
 		[SerializeField]
 		protected Button _combinedButton;
 
-		/// <summary>
+		/// <value>
 		/// Base Awake method adds onClick listeners for the close, signin, user, group and combined filter buttons.
-		/// </summary>
+		/// </value>
 		protected override void Awake()
 		{
 			base.Awake();

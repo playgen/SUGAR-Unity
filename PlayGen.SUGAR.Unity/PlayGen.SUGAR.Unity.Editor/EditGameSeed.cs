@@ -46,6 +46,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 		private bool _showLeaderboards;
 		private readonly List<bool> _showLeaderboardList = new List<bool>();
 
+		private bool _showGroups;
+		private readonly List<bool> _showGroupList = new List<bool>();
+
 		public void SetGameSeed(TextAsset gameSeedText)
 		{
 			_gameSeedLoadText = gameSeedText;
@@ -403,6 +406,47 @@ namespace PlayGen.SUGAR.Unity.Editor
 					EditorGUI.indentLevel--;
 					EditorGUILayout.EndVertical();
 				}
+				_showGroups = EditorGUILayout.Foldout(_showGroups, "Groups");
+				if (_showGroups)
+				{
+					EditorGUI.indentLevel++;
+					EditorGUILayout.BeginVertical();
+					for (var i = 0; i < _gameSeed.groups.Length; i++)
+					{
+						EditorGUI.indentLevel++;
+						EditorGUILayout.BeginVertical();
+						_showGroupList[i] = EditorGUILayout.Foldout(_showGroupList[i], _gameSeed.groups[i].Name);
+						if (_showGroupList[i])
+						{
+							_gameSeed.groups[i].Name = EditorGUILayout.TextField("Name", _gameSeed.groups[i].Name ?? string.Empty, EditorStyles.textField);
+							_gameSeed.groups[i].Description = EditorGUILayout.TextField("Description", _gameSeed.groups[i].Description ?? string.Empty, EditorStyles.textField);
+
+							EditorGUILayout.HelpBox(CreateSummary(_gameSeed.groups[i]), MessageType.Info);
+
+							EditorGUILayout.BeginHorizontal();
+							GUILayout.Space((EditorGUI.indentLevel - 1) * 35);
+							if (GUILayout.Button("Remove Group", GUILayout.ExpandWidth(false)))
+							{
+								var list = _gameSeed.groups.ToList();
+								list.RemoveAt(i);
+								_showGroupList.RemoveAt(i);
+								_gameSeed.groups = list.ToArray();
+							}
+							EditorGUILayout.EndHorizontal();
+						}
+						EditorGUI.indentLevel--;
+						EditorGUILayout.EndVertical();
+					}
+					if (GUILayout.Button("Add Group", GUILayout.ExpandWidth(false)))
+					{
+						var list = _gameSeed.groups.ToList();
+						list.Add(new GroupRequest());
+						_showGroupList.Add(false);
+						_gameSeed.groups = list.ToArray();
+					}
+					EditorGUI.indentLevel--;
+					EditorGUILayout.EndVertical();
+				}
 				EditorGUILayout.BeginHorizontal();
 				_gameSeedSaveText = (TextAsset)EditorGUILayout.ObjectField("Save File", _gameSeedSaveText, typeof(TextAsset), false);
 				if (_gameSeedSaveText != null)
@@ -454,7 +498,13 @@ namespace PlayGen.SUGAR.Unity.Editor
                    $" of {leaderboardRequest.CriteriaScope}";
         }
 
-        private string CreateSummary(List<RewardCreateRequest> rewards)
+		private string CreateSummary(GroupRequest groupRequest)
+		{
+			return $"Group with a name of {groupRequest.Name}" +
+				   $" and description of {groupRequest.Description}";
+		}
+
+		private string CreateSummary(List<RewardCreateRequest> rewards)
 	    {
 	        var summary = rewards
 	            .Select(r =>
@@ -551,6 +601,11 @@ namespace PlayGen.SUGAR.Unity.Editor
 			foreach (var leader in _gameSeed.leaderboards)
 			{
 				_showLeaderboardList.Add(false);
+			}
+			_showGroupList.Clear();
+			foreach (var leader in _gameSeed.groups)
+			{
+				_showGroupList.Add(false);
 			}
 		}
 	}

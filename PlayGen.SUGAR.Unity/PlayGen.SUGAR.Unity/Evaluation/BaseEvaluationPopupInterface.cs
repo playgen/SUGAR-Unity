@@ -11,23 +11,23 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseEvaluationPopupInterface : MonoBehaviour
 	{
-		/// <summary>
+		/// <value>
 		/// Text used for display notification string (usually evaluation name). Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text used for display notification string (usually evaluation name). Can be left null.")]
 		[SerializeField]
 		protected Text _name;
 
-		/// <summary>
+		/// <value>
 		/// Image displayed alongside notification. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Image displayed alongside notification. Can be left null.")]
 		[SerializeField]
 		protected Image _image;
 
-		/// <summary>
+		/// <value>
 		/// Queue of notifications to be displayed.
-		/// </summary>
+		/// </value>
 		protected readonly List<EvaluationNotification> _evaluationQueue = new List<EvaluationNotification>();
 
 		internal void Notification(EvaluationNotification notification)

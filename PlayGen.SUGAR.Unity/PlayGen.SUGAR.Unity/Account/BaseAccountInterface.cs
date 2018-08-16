@@ -8,51 +8,51 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseAccountInterface : MonoBehaviour
 	{
-		/// <summary>
+		/// <value>
 		/// Input field used for providing usernames. Required.
-		/// </summary>
+		/// </value>
 		[Tooltip("Input field used for providing usernames. Required.")]
 		[SerializeField]
 		protected InputField _name;
 
-		/// <summary>
+		/// <value>
 		/// Input field used for providing passwords. Required.
-		/// </summary>
+		/// </value>
 		[Tooltip("Input field used for providing passwords. Required.")]
 		[SerializeField]
 		protected InputField _password;
 
-		/// <summary>
+		/// <value>
 		/// Button used to trigger attempting to sign in. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to trigger attempting to sign in. Can be left null.")]
 		[SerializeField]
 		protected Button _loginButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to trigger attempting to register a new account. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to trigger attempting to register a new account. Can be left null.")]
 		[SerializeField]
 		protected Button _registerButton;
 
-		/// <summary>
+		/// <value>
 		/// Toggle used to enable/disable remembering the next signed in user's details for future sessions. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Toggle used to enable/disable remembering the next signed in user's details for future sessions. Can be left null.")]
 		[SerializeField]
 		protected Toggle _rememberMeToggle;
 
-		/// <summary>
+		/// <value>
 		/// Button used to disable this object. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to disable this object. Can be left null.")]
 		[SerializeField]
 		protected Button _closeButton;
 
-		/// <summary>
+		/// <value>
 		/// Text object which displays errors if/when they occur. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text object which displays errors if/when they occur. Can be left null.")]
 		[SerializeField]
 		protected Text _errorText;

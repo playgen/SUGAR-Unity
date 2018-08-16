@@ -20,13 +20,14 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class ActorResponseRelationshipStatus<T> where T : ActorResponse
 	{
-		/// <summary>
+		/// <value>
 		/// ActorResponse contains the actor ID and Name.
-		/// </summary>
+		/// </value>
 		public T Actor { get; set; }
-		/// <summary>
+
+		/// <value>
 		/// Current status of the relationship between this actor and the current user
-		/// </summary>
+		/// </value>
 		public RelationshipStatus RelationshipStatus { get; set; }
 
 		/// <summary>

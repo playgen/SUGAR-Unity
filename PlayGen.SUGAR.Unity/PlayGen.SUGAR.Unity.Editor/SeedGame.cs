@@ -27,9 +27,9 @@ namespace PlayGen.SUGAR.Unity.Editor
 			window.Show();
 		}
 
-		public static bool TryApplySeed(string username, string password, TextAsset gameSeedText, out List<string> errors)
+		public static void TryApplySeed(string username, string password, TextAsset gameSeedText, out List<string> messages)
 		{
-			errors = new List<string>();
+			messages = new List<string>();
 
 			GameSeed gameSeed;
 			try
@@ -38,21 +38,21 @@ namespace PlayGen.SUGAR.Unity.Editor
 			}
 			catch (Exception ex)
 			{
-				errors.Add($"Invalid game seed file. {ex}");
-				return false;
+				messages.Add($"Invalid game seed file. {ex}");
+				return;
 			}
 
 			if (string.IsNullOrEmpty(gameSeed.game))
 			{
-				errors.Add("A game token must be provided in the seeding json");
-				return false;
+				messages.Add("A game token must be provided in the seeding json");
+				return;
 			}
 
 			var unityManager = Object.FindObjectsOfType(typeof(SUGARUnityManager)).FirstOrDefault() as SUGARUnityManager;
 			if (unityManager == null)
 			{
-				errors.Add("The SUGAR prefab must be in the currently open scene.");
-				return false;
+				messages.Add("The SUGAR prefab must be in the currently open scene.");
+				return;
 			}
 
 			var baseAddress = string.Empty;
@@ -67,8 +67,8 @@ namespace PlayGen.SUGAR.Unity.Editor
 			{
 				if (string.IsNullOrEmpty(unityManager.baseAddress))
 				{
-					errors.Add("A base address must be provided via the Config file in StreamingAssets or via the SUGAR Unity Manager");
-					return false;
+					messages.Add("A base address must be provided via the Config file in StreamingAssets or via the SUGAR Unity Manager");
+					return;
 				}
 			}
 			Debug.Log(baseAddress);
@@ -76,7 +76,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 
 			if (!TryLoginAdmin(devClient, username, password, out var response, out var loginError))
 			{
-				errors.Add(loginError);
+				messages.Add(loginError);
 			}
 			else
 			{
@@ -85,7 +85,8 @@ namespace PlayGen.SUGAR.Unity.Editor
 				if (game != null)
 				{
 					Debug.Log($"{gameSeed.game} Game Found");
-				    SetGame(unityManager, gameSeed.game, game.Id);
+					messages.Add($"Existing game with name {gameSeed.game} found.");
+					SetGame(unityManager, gameSeed.game, game.Id);
 				}
 				else
 				{
@@ -99,67 +100,69 @@ namespace PlayGen.SUGAR.Unity.Editor
 						});
 						if (gameResponse != null)
 						{
-						    SetGame(unityManager, gameSeed.game, game.Id);
-                        }
+							messages.Add($"Game with name {gameSeed.game} created.");
+							SetGame(unityManager, gameSeed.game, gameResponse.Id);
+						}
 						else
 						{
-							errors.Add("Unable to create game.");
+							messages.Add("Unable to create game.");
 							EditorUtility.ClearProgressBar();
-							return false;
+							return;
 						}
 						EditorUtility.ClearProgressBar();
 					}
 					catch (Exception e)
 					{
-						errors.Add($"Unable to create game.{e}");
+						messages.Add($"Unable to create game.{e}");
 						EditorUtility.ClearProgressBar();
-						return false;
+						return;
 					}
 				}
 				if (gameSeed.achievements != null)
 				{
 					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding achievements", 0);
-					if (!TryCreateAchievements(devClient, gameSeed.achievements, out var achievementErrors))
-					{
-						errors.AddRange(achievementErrors);
-					}
+					TryCreateAchievements(devClient, gameSeed.achievements, out var achievementMessages);
+					messages.AddRange(achievementMessages);
 					EditorUtility.ClearProgressBar();
 				}
 				if (gameSeed.skills != null)
 				{
 					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding skills", 0);
-					if (!TryCreateSkills(devClient, gameSeed.skills, out var skillsErrors))
-					{
-						errors.AddRange(skillsErrors);
-					}
+					TryCreateSkills(devClient, gameSeed.skills, out var skillsMessages);
+					messages.AddRange(skillsMessages);
 					EditorUtility.ClearProgressBar();
 				}
 				if (gameSeed.leaderboards != null)
 				{
 					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding leaderboards", 0);
-					if (!TryCreateLeaderboards(devClient, gameSeed.leaderboards, out var leaderboardErrors))
-					{
-						errors.AddRange(leaderboardErrors);
-					}
+					TryCreateLeaderboards(devClient, gameSeed.leaderboards, out var leaderboardMessages);
+					messages.AddRange(leaderboardMessages);
+					EditorUtility.ClearProgressBar();
+				}
+				if (gameSeed.groups != null)
+				{
+					EditorUtility.DisplayProgressBar("SUGAR Seeding", "Seeding groups", 0);
+					TryCreateGroups(devClient, gameSeed.groups, out var groupMessages);
+					messages.AddRange(groupMessages);
 					EditorUtility.ClearProgressBar();
 				}
 				devClient.Session.Logout();
 			}
 
-			return !errors.Any();
+			return;
 		}
 
-	    private static void SetGame(SUGARUnityManager unityManager, string gameToken, int gameId)
-	    {
-	        unityManager.gameToken = gameToken;
-	        unityManager.gameId = gameId;
-            EditorUtility.SetDirty(unityManager);
-	        SUGARManager.GameId = gameId;
-        }
-
-	    private static bool TryCreateAchievements(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] achievements, out List<string> errors)
+		private static void SetGame(SUGARUnityManager unityManager, string gameToken, int gameId)
 		{
-			errors = new List<string>();
+			unityManager.gameToken = gameToken;
+			unityManager.gameId = gameId;
+			EditorUtility.SetDirty(unityManager);
+			SUGARManager.GameId = gameId;
+		}
+
+		private static void TryCreateAchievements(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] achievements, out List<string> messages)
+		{
+			messages = new List<string>();
 			var gameId = SUGARManager.GameId;
 
 			foreach (var achieve in achievements)
@@ -168,19 +171,20 @@ namespace PlayGen.SUGAR.Unity.Editor
 				try
 				{
 					devClient.Development.CreateAchievement(achieve);
+					messages.Add($"{achieve.Name} Achievement successfully created");
 				}
 				catch (Exception ex)
 				{
-					errors.Add($"Unable to create achievement {achieve.Name}. {ex}");
+					messages.Add($"Unable to create achievement {achieve.Name}. {ex}");
 				}
 			}
 
-			return !errors.Any();
+			return;
 		}
 
-		private static bool TryCreateSkills(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] skills, out List<string> errors)
+		private static void TryCreateSkills(SUGARDevelopmentClient devClient, EvaluationCreateRequest[] skills, out List<string> messages)
 		{
-			errors = new List<string>();
+			messages = new List<string>();
 			var gameId = SUGARManager.GameId;
 
 			foreach (var skill in skills)
@@ -189,19 +193,20 @@ namespace PlayGen.SUGAR.Unity.Editor
 				try
 				{
 					devClient.Development.CreateSkill(skill);
+					messages.Add($"{skill.Name} Skill successfully created");
 				}
 				catch (Exception ex)
 				{
-					errors.Add($"Unable to create skill {skill.Name}. {ex}");
+					messages.Add($"Unable to create skill {skill.Name}. {ex}");
 				}
 			}
 
-			return !errors.Any();
+			return;
 		}
 
-		private static bool TryCreateLeaderboards(SUGARDevelopmentClient devClient, LeaderboardRequest[] leaderboards, out List<string> errors)
+		private static void TryCreateLeaderboards(SUGARDevelopmentClient devClient, LeaderboardRequest[] leaderboards, out List<string> messages)
 		{
-			errors = new List<string>();
+			messages = new List<string>();
 			var gameId = SUGARManager.GameId;
 
 			foreach (var leader in leaderboards)
@@ -210,14 +215,36 @@ namespace PlayGen.SUGAR.Unity.Editor
 				try
 				{
 					devClient.Development.CreateLeaderboard(leader);
+					messages.Add($"{leader.Name} Leaderboard successfully created");
 				}
 				catch (Exception ex)
 				{
-					errors.Add($"Unable to create leaderboard {leader.Name}. {ex}");
+					messages.Add($"Unable to create leaderboard {leader.Name}. {ex}");
 				}
 			}
 
-			return !errors.Any();
+			return;
+		}
+
+		private static void TryCreateGroups(SUGARDevelopmentClient devClient, GroupRequest[] groups, out List<string> messages)
+		{
+			messages = new List<string>();
+			var gameId = SUGARManager.GameId;
+
+			foreach (var group in groups)
+			{
+				try
+				{
+					devClient.Group.Create(group);
+					messages.Add($"{group.Name} Group successfully created");
+				}
+				catch (Exception ex)
+				{
+					messages.Add($"Unable to create group {group.Name}. {ex}");
+				}
+			}
+
+			return;
 		}
 
 		private static bool TryLoginAdmin(SUGARDevelopmentClient devClient, string username, string password, out AccountResponse response, out string error)
@@ -264,15 +291,10 @@ namespace PlayGen.SUGAR.Unity.Editor
 				if (GUILayout.Button("Sign-in and Seed"))
 				{
 					string message;
-					if (SeedGame.TryApplySeed(_username, _password, _gameSeed, out var errors))
-					{
-						message = "Success!";
-					}
-					else
-					{
-						message = $"Failed: \n\n{string.Join("\n", errors.ToArray())}";
-						Debug.LogError($"Game Seed {message}");
-					}
+					SeedGame.TryApplySeed(_username, _password, _gameSeed, out var messages);
+					messages.Add("End of Seeding");
+					message = string.Join("\n", messages.ToArray());
+					Debug.LogError($"Game Seed\n{message}");
 
 					EditorUtility.DisplayDialog("Seed Game", message, "OK");
 				}
@@ -282,9 +304,10 @@ namespace PlayGen.SUGAR.Unity.Editor
 
 	internal class GameSeed
 	{
-		public string game;
-		public EvaluationCreateRequest[] achievements;
-		public EvaluationCreateRequest[] skills;
-		public LeaderboardRequest[] leaderboards;
+		public string game = string.Empty;
+		public EvaluationCreateRequest[] achievements = new EvaluationCreateRequest[0];
+		public EvaluationCreateRequest[] skills = new EvaluationCreateRequest[0];
+		public LeaderboardRequest[] leaderboards = new LeaderboardRequest[0];
+		public GroupRequest[] groups = new GroupRequest[0];
 	}
 }

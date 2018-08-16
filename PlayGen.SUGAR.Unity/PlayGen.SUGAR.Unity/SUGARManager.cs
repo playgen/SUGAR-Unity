@@ -34,29 +34,29 @@ namespace PlayGen.SUGAR.Unity
 
 		internal static Config config { get; set; }
 
-		/// <summary>
+		/// <value>
 		/// GameId for this application.
-		/// </summary>
+		/// </value>
 		public static int GameId { get; internal set; }
 
-		/// <summary>
+		/// <value>
 		/// Currently signed in user.
-		/// </summary>
+		/// </value>
 		public static ActorResponse CurrentUser { get; private set; }
 
-		/// <summary>
+		/// <value>
 		/// Is there a user currently signed in.
-		/// </summary>
+		/// </value>
 		public static bool UserSignedIn => CurrentUser != null;
 
-		/// <summary>
+		/// <value>
 		/// Currently signed in user's primary group.
-		/// </summary>
+		/// </value>
 		public static ActorResponse CurrentGroup { get; private set; }
 
-		/// <summary>
+		/// <value>
 		/// Group name gathered from auto sign in.
-		/// </summary>
+		/// </value>
 		public static string ClassId { get; private set; }
 
 	    /// <summary>
@@ -64,59 +64,59 @@ namespace PlayGen.SUGAR.Unity
 	    /// </summary>
 	    public static AccountUnityClient Account => account;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to groups and users
-		/// </summary>
+		/// </value>
 		public static ActorUnityClient Actor => actor;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to evaluations
-		/// </summary>
+		/// </value>
 		public static EvaluationUnityClient Evaluation => evaluation;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to friend lists
-		/// </summary>
+		/// </value>
 		public static UserFriendUnityClient UserFriend => userFriend;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to gamedata
-		/// </summary>
+		/// </value>
 		public static GameDataUnityClient GameData => gameData;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to group members
-		/// </summary>
+		/// </value>
 		public static GroupMemberUnityClient GroupMember => groupMember;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to leaderboard lists
-		/// </summary>
+		/// </value>
 		public static LeaderboardListUnityClient GameLeaderboard => gameLeaderboard;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to leaderboard standings
-		/// </summary>
+		/// </value>
 		public static LeaderboardUnityClient Leaderboard => leaderboard;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to resources
-		/// </summary>
+		/// </value>
 		public static ResourceUnityClient Resource => resource;
 
-		/// <summary>
+		/// <value>
 		/// Unity client for calls related to user groups
-		/// </summary>
+		/// </value>
 		public static UserGroupUnityClient UserGroup => userGroup;
 
-		/// <summary>
+		/// <value>
 		/// Class for managing Unity elements of the asset
-		/// </summary>
+		/// </value>
 		public static SUGARUnityManager Unity => unity;
 
-		/// <summary>
+		/// <value>
 		/// Class for contacting SUGAR client functionality
-		/// </summary>
+		/// </value>
 		public static SUGARClient Client => client;
 
 		internal static bool Register(SUGARUnityManager unityManager)

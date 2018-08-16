@@ -10,9 +10,9 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseGroupMemberInterface : BaseInterface
 	{
-		/// <summary>
+		/// <value>
 		/// Text used for providing the group name for this list. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Input field used for providing usernames. Required.")]
 		[SerializeField]
 		protected Text _groupName;

@@ -13,58 +13,58 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseLeaderboardInterface : BaseInterface
 	{
-		/// <summary>
+		/// <value>
 		/// Text used for displaying leaderboard name. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text used for displaying leaderboard name. Can be left null.")]
 		[SerializeField]
 		protected Text _leaderboardName;
 
-		/// <summary>
+		/// <value>
 		/// Text used for displaying current leaderboard filter. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text used for displaying current leaderboard filter. Can be left null.")]
 		[SerializeField]
 		protected Text _leaderboardType;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current leaderboard filter to 'Top'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current leaderboard filter to 'Top'. Can be left null.")]
 		[SerializeField]
 		protected Button _topButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current leaderboard filter to 'Near'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current leaderboard filter to 'Near'. Can be left null.")]
 		[SerializeField]
 		protected Button _nearButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current leaderboard filter to 'Friends'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current leaderboard filter to 'Friends'. Can be left null.")]
 		[SerializeField]
 		protected Button _friendsButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current leaderboard filter to 'Group Members'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current leaderboard filter to 'Group Members'. Can be left null.")]
 		[SerializeField]
 		protected Button _membersButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to change the current leaderboard filter to 'Alliances'. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to change the current leaderboard filter to 'Alliances'. Can be left null.")]
 		[SerializeField]
 		protected Button _alliancesButton;
 
-		/// <summary>
+		/// <value>
 		/// Base Awake method adds onClick listeners for the close, signin, top, near, friends, group member and alliance filter buttons.
-		/// </summary>
+		/// </value>
 		protected override void Awake()
 		{
 			base.Awake();

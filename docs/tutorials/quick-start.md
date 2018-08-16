@@ -5,14 +5,14 @@
 See [creating accounts](creating-accounts.md) for more details.
 
 ## Import the SUGAR Unity Client
-1. Downlaod the SUGAR Unity package from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/network/sugar-social-gamification-107078).  
+Downlaod the SUGAR Unity package from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/network/sugar-social-gamification-107078).  
 OR  
 If you have downloaded the source code, follow the [build instructions](../development/build-instructions.md).
 
 ## Add SUGAR to your game
-Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs/Landscape. 
+Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs. 
 
-The SUGAR Unity Manager script component on the prefab holds universal information required by other SUGAR components. Configuring this component is necessary to connect to SUGAR.
+The SUGAR Unity Manager script component on the SUGAR prefab holds universal information required by other SUGAR components. Configuring this component is necessary to connect to SUGAR.
 - Base Address - web address of SUGAR server (e.g. ``http://localhost:59400/`` or ``http://www.mysugarserver.com``). This is overwritten by the value set inside the config.json file (found in "Assets/StreamingAssets").
 - Game Token - name of the <xref:game> used for database lookup.
 - Game Id - database row Id of the <xref:game>, returned from token lookup.
@@ -55,6 +55,7 @@ Shortcut | Test
 --- | ---
 T + L | GameLeaderboard.DisplayGameList
 T + K | Evaluation.DisplayAchievementList
+T + J | Evaluation.DisplaySkillList
 T + A | Evaluation.ForceNotification
 T + S | Unity.StartSpinner
 T + H | Unity.StopSpinner

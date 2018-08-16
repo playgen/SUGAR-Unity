@@ -2,7 +2,7 @@
 Interaction with SUGAR in the SUGAR Unity Package is handled through SUGARManager.
 
 ## CurrentUser
-The currently signed in user, set when a user signs in or registers using the 'SetCurrentUser' method in [AccountUnityClient](../api/PlayGen.SUGAR.Unity.AccountUnityClient.yml).
+The currently signed in user, set when a user signs in or registers using the [AccountUnityClient](../api/PlayGen.SUGAR.Unity.AccountUnityClient.yml).
 
 The [ActorResponse](http://api.sugarengine.org/v1/api/PlayGen.SUGAR.Contracts.ActorResponse.html) object contains the user's Id, Name and Description.
 
@@ -15,6 +15,7 @@ The [ActorResponse](http://api.sugarengine.org/v1/api/PlayGen.SUGAR.Contracts.Ac
 SUGAR Manager Property | Functionality | Unity Client Class
 --- | --- | ---
 Account | Sign in, register and sign out | [AccountUnityClient](../api/PlayGen.SUGAR.Unity.AccountUnityClient.yml)
+Actor | Get, create, update and delete groups. Get and update users | [ActorUnityClient](../api/PlayGen.SUGAR.Unity.ActorUnityClient.yml)
 Evaluation | Get list of achievements and skills and user/group progress in each, with an event triggered when one is completed | [EvaluationUnityClient](../api/PlayGen.SUGAR.Unity.EvaluationUnityClient.yml)
 GameData | Get and send data related to the game | [GameDataUnityClient](../api/PlayGen.SUGAR.Unity.GameDataUnityClient.yml)
 Resource | Get current resources, add resources and send resources to other users | [ResourceUnityClient](../api/PlayGen.SUGAR.Unity.ResourceUnityClient.yml)
@@ -30,7 +31,7 @@ All functionality within SUGAR Unity goes through this SUGAR Client. It is creat
 
 Any player-facing SUGAR functionality can be accessed using the Client directly instead. 
 
-**Important**; the Client does not make the same checks as SUGAR Unity to ensure that functionality can only be called once a user is signed in and that only functionality that the user has access to is available, so additional care should be taken when using the Client directly to avoid calls failing.
+**Important**: the Client does not make the same checks as SUGAR Unity to ensure that functionality can only be called once a user is signed in and that only functionality that the user has access to is available, so additional care should be taken when using the Client directly to avoid calls failing.
 
 ## UserSignedIn
 Boolean used to confirm if a user is signed in. If no user is signed in, most functionality will not be accessible.

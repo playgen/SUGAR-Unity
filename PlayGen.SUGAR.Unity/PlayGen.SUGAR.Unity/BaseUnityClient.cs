@@ -8,33 +8,33 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseUnityClient<T> : MonoBehaviour where T : BaseInterface
 	{
-		/// <summary>
+		/// <value>
 		/// Landscape interface for this area of functionality. Can be left null if not required.
-		/// </summary>
+		/// </value>
 		[Tooltip("Landscape interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
 		protected T _landscapeInterface;
 
-		/// <summary>
+		/// <value>
 		/// Portrait interface for this area of functionality. Can be left null if not required.
-		/// </summary>
+		/// </value>
 		[Tooltip("Portrait interface for this area of functionality. Can be left null if not required.")]
 		[SerializeField]
 		protected T _portraitInterface;
 
-		/// <summary>
+		/// <value>
 		/// The interface that is used for the current aspect ratio.
-		/// </summary>
+		/// </value>
 		protected T _interface => Screen.width > Screen.height ? _landscapeInterface ?? _portraitInterface : _portraitInterface ?? _landscapeInterface;
 
-		/// <summary>
+		/// <value>
 		/// Has an interface been provided for this Unity Client?
-		/// </summary>
+		/// </value>
 		public bool HasInterface => _interface;
 
-		/// <summary>
+		/// <value>
 		/// Is there an interface and if so is it currently active?
-		/// </summary>
+		/// </value>
 		public bool IsActive => HasInterface && _interface.gameObject.activeInHierarchy;
 
 		internal virtual void CreateInterface(Canvas canvas)

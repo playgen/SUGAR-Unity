@@ -37,6 +37,11 @@
 * **[CriteriaScope](#criteriascope)**: The range of actors from which the data will be collected.
 * **[LeaderboardType](#leaderboardtype)**: How collected data will be sorted for this leaderboard.
 
+## Groups
+
+* **Name**: The name of the group you are adding to the SUGAR system. Please note that this name must be unique to the host.
+* **Description**: The description of the group.
+
 ## Enums
 
 #### ActorType

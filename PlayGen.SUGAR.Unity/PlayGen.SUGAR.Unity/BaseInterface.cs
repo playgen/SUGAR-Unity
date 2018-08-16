@@ -10,23 +10,23 @@ namespace PlayGen.SUGAR.Unity
 	/// </summary>
 	public abstract class BaseInterface : MonoBehaviour
 	{
-		/// <summary>
+		/// <value>
 		/// Text object which displays errors if/when they occur. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Text object which displays errors if/when they occur. Can be left null.")]
 		[SerializeField]
 		protected Text _errorText;
 
-		/// <summary>
+		/// <value>
 		/// Button used to disable this object. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to disable this object. Can be left null.")]
 		[SerializeField]
 		protected Button _closeButton;
 
-		/// <summary>
+		/// <value>
 		/// Button used to display account interface (if available) if no user is signed in. Can be left null.
-		/// </summary>
+		/// </value>
 		[Tooltip("Button used to display account interface (if available) if no user is signed in. Can be left null.")]
 		[SerializeField]
 		protected Button _signinButton;
