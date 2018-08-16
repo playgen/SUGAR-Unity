@@ -6,6 +6,9 @@ The following will be available in the next version of SUGAR Unity:
 - Add Reload abstract method for BaseInterface.
 - Add ActorUnityClient so make functionality for getting groups and users more easily accessible.
 - Add ability to seed Groups.
+- Add functionality to display Achievement and Skill progress at the same time.
+- Add methods that allows evaluation progress to be gathered for any actor or actor id.
+- Add methods that allows the member list to be gathered for any group or group id.
 - Update 'success' callbacks renamed to 'onComplete'.
 - Update Callbacks now triggered when calling GameData methods with no signed in user.
 - Update Auto Log-in Editor tool values now saved per project (according to the Product Name) on the same machine.
