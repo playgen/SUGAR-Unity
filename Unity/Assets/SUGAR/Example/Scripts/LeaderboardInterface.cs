@@ -103,10 +103,10 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 		_previousButton.gameObject.SetActive(SUGARManager.Leaderboard.CurrentLeaderboard != null);
 		_nextButton.interactable = false;
 		_nextButton.gameObject.SetActive(SUGARManager.Leaderboard.CurrentLeaderboard != null);
-		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber - 1, success => { }, resultDown =>
+		SUGARManager.Leaderboard.GetLeaderboardStandings(SUGARManager.Leaderboard.CurrentLeaderboard, SUGARManager.Leaderboard.CurrentFilter, SUGARManager.Leaderboard.MultiplePerActor, (_pageNumber * _leaderboardPositions.Length) - 1, 1, resultDown =>
 		{
 			_previousButton.interactable = resultDown.ToList().Count > 0 && resultDown.First().Ranking != SUGARManager.Leaderboard.CurrentStandings.First().Ranking;
-			SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber + 1, success => { }, resultUp =>
+			SUGARManager.Leaderboard.GetLeaderboardStandings(SUGARManager.Leaderboard.CurrentLeaderboard, SUGARManager.Leaderboard.CurrentFilter, SUGARManager.Leaderboard.MultiplePerActor, (_pageNumber + 1) * _leaderboardPositions.Length, 1, resultUp =>
 			{
 				_nextButton.interactable = resultUp.ToList().Count > 0 && resultUp.First().Ranking != SUGARManager.Leaderboard.CurrentStandings.First().Ranking;
 			});
@@ -128,7 +128,7 @@ public class LeaderboardInterface : BaseLeaderboardInterface
 	private void UpdatePageNumber(int changeAmount)
 	{
 		_pageNumber += changeAmount;
-		SUGARManager.Leaderboard.GetLeaderboardStandings(_pageNumber, Show);
+		SUGARManager.Leaderboard.GetCurrentLeaderboardStandings(_pageNumber, Show);
 	}
 
 	/// <summary>

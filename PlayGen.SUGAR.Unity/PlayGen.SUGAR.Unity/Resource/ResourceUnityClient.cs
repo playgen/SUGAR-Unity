@@ -35,6 +35,11 @@ namespace PlayGen.SUGAR.Unity
 			UpdateResources(callback);
 		}
 
+		private void UpdateResources()
+		{
+			UpdateResources(null);
+		}
+
 		private void UpdateResources(Action callback = null)
 		{
 			var didGetGlobal = false;

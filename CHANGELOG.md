@@ -9,6 +9,8 @@ The following will be available in the next version of SUGAR Unity:
 - Add functionality to display Achievement and Skill progress at the same time.
 - Add methods that allows evaluation progress to be gathered for any actor or actor id.
 - Add methods that allows the member list to be gathered for any group or group id.
+- Add public method of getting details for a leaderboard by token.
+- Add public methods of getting leaderboard standings.
 - Update 'success' callbacks renamed to 'onComplete'.
 - Update Callbacks now triggered when calling GameData methods with no signed in user.
 - Update Auto Log-in Editor tool values now saved per project (according to the Product Name) on the same machine.
@@ -16,6 +18,7 @@ The following will be available in the next version of SUGAR Unity:
 - Update to provided localization resource.
 - Fix for being locked into UI when changing aspect ratio from landscape to portrait and vice versa.
 - Fix for streaming assets config file being required in order to use the seeding functionality.
+- Fix for invoke in ResourceUnityClient resulting in debug messages.
 
 ### 1.2.2
 - Update SUGAR url.
