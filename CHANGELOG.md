@@ -2,7 +2,9 @@
 See below details for each release of SUGAR Unity and the notable changes made.
 
 ### Next Version
-The following will be available in the next version of SUGAR Unity:
+The following will be available in the next version of SUGAR Unity
+
+### 1.3.0
 - Add Reload abstract method for BaseInterface.
 - Add ActorUnityClient so make functionality for getting groups and users more easily accessible.
 - Add ability to seed Groups.
