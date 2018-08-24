@@ -10,6 +10,8 @@ OR
 If you have downloaded the source code, follow the [build instructions](../development/build-instructions.md).
 
 ## Add SUGAR to your game
+**Important - Your Unity project's Scripting Runtime Version must be set to .NET 4.6 Equivalent, otherwise SUGAR Unity and the provided example scripts will not compile. This can be set by going to the Player Settings and is found under the 'Other Settings' tab.**
+
 Add the 'SUGAR' prefab, found at SUGAR/Prefabs/SUGAR, into your starting scene. All of the interfaces referenced on the Unity Clients on this object can be found at SUGAR/Example/Prefabs. 
 
 The SUGAR Unity Manager script component on the SUGAR prefab holds universal information required by other SUGAR components. Configuring this component is necessary to connect to SUGAR.
