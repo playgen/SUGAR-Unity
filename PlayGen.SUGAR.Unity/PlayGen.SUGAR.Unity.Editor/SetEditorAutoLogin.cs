@@ -82,10 +82,16 @@ namespace PlayGen.SUGAR.Unity.Editor
 		{
 			EditorApplication.update += Update;
 		}
+		private static bool UseAutoLogin()
+		{
+			var autoLogin = AutoLoginOptions.Find(l => l.Label == "Auto Login");
+			var boolValue = (BoolValue)autoLogin;
+			return boolValue.Value;
+		}
 
 		private static void Update()
 		{
-			if (SUGARManager.client != null && SUGARManager.account != null && !_accountSet)
+			if (SUGARManager.client != null && SUGARManager.account != null && !_accountSet && UseAutoLogin())
 			{
 				var sugarAccount = SUGARManager.account;
 				foreach (var autoLoginOption in AutoLoginOptions)

@@ -143,7 +143,23 @@ namespace PlayGen.SUGAR.Unity
 			if (SUGARManager.UserSignedIn)
 			{
 				_signInCallback(true);
+
 				return;
+			}
+			if (!_allowAutoLogin)
+			{
+				if (HasInterface)
+				{
+					_interface.Display();
+					if (HasSavedLogin)
+					{
+						_interface.SetTokenText(savedUsername);
+					}
+				}
+				else
+				{
+					_signInCallback(false);
+				}
 			}
 			if (SUGARManager.client != null && ((Application.isEditor && options != null) || !Application.isEditor))
 			{
@@ -204,6 +220,7 @@ namespace PlayGen.SUGAR.Unity
 		private IEnumerator CheckConfigLoad()
 		{
 			var wait = new WaitForFixedUpdate();
+
 			while (SUGARManager.client == null || (Application.isEditor && options == null))
 			{
 				yield return wait;
@@ -213,6 +230,7 @@ namespace PlayGen.SUGAR.Unity
 
 		private void SignIn()
 		{
+
 			if (!Application.isEditor)
 			{
 				options = CommandLineUtility.ParseArgs(Environment.GetCommandLineArgs());
@@ -229,6 +247,7 @@ namespace PlayGen.SUGAR.Unity
 			}
 			else
 			{
+				Debug.Log("Check interface " + HasInterface);
 				if (HasInterface)
 				{
 					_interface.Display();
