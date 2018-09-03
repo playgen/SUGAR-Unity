@@ -104,7 +104,7 @@ namespace PlayGen.SUGAR.Unity
 				var gameId = SUGARManager.GameId;
 				if (globalResource)
 				{
-					gameId = Platform.GlobalId;
+					gameId = Platform.GlobalGameId;
 				}
 				SUGARManager.client.Resource.GetAsync(gameId, SUGARManager.CurrentUser.Id, keys,
 				response =>
@@ -142,7 +142,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					SenderActorId = SUGARManager.CurrentUser.Id,
 					RecipientActorId = recipientId,
-					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					GameId = globalResource ? Platform.GlobalGameId : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
@@ -184,7 +184,7 @@ namespace PlayGen.SUGAR.Unity
 				{
 					RecipientActorId = SUGARManager.CurrentUser.Id,
 					SenderActorId = senderId,
-					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					GameId = globalResource ? Platform.GlobalGameId : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
@@ -225,7 +225,7 @@ namespace PlayGen.SUGAR.Unity
 				var request = new ResourceAddRequest
 				{
 					ActorId = SUGARManager.CurrentUser.Id,
-					GameId = globalResource ? Platform.GlobalId : SUGARManager.GameId,
+					GameId = globalResource ? Platform.GlobalGameId : SUGARManager.GameId,
 					Key = key,
 					Quantity = amount
 				};
@@ -251,7 +251,7 @@ namespace PlayGen.SUGAR.Unity
 		{
 			if (response.ActorId == SUGARManager.CurrentUser?.Id)
 			{
-				if (response.GameId == Platform.GlobalId)
+				if (response.GameId == Platform.GlobalGameId)
 				{
 					if (GlobalUserResources.ContainsKey(response.Key))
 					{
