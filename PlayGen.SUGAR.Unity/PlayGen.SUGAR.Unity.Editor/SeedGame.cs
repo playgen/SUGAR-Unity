@@ -271,7 +271,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					else
 					{
 						message = $"Failed: \n\n{string.Join("\n", errors.ToArray())}";
-						Debug.LogError($"Game Seed {message}");
+						Debug.Log($"Game Seed {message}");
 					}
 
 					EditorUtility.DisplayDialog("Seed Game", message, "OK");
