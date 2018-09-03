@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfc4a8441065e54e819044af11f5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseAddress: http://demo.sugarengine.org/v1/
+  _baseAddress: http://demo.sugarengine.org/v2/
   _gameToken: 
   _gameId: 0
   _uiBlocker: {fileID: 1823420820520756, guid: 32aeda71493f8f843ac0595a41de113d, type: 2}

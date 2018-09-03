@@ -226,7 +226,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 			response = null;
 			try
 			{
-				response = devClient.Session.Login(Platform.GlobalId, new AccountRequest
+				response = devClient.Session.Login(Platform.GlobalGameId, new AccountRequest
 				{
 					Name = username,
 					Password = password,
