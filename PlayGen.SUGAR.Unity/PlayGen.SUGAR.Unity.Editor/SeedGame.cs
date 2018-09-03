@@ -291,7 +291,7 @@ namespace PlayGen.SUGAR.Unity.Editor
 					SeedGame.TryApplySeed(_username, _password, _gameSeed, out var messages);
 					messages.Add("End of Seeding");
 					message = string.Join("\n", messages.ToArray());
-					Debug.LogError($"Game Seed\n{message}");
+					Debug.Log($"Game Seed\n{message}");
 
 					EditorUtility.DisplayDialog("Seed Game", message, "OK");
 				}
