@@ -17,10 +17,28 @@ namespace PlayGen.SUGAR.Unity
 		/// </value>
 		public List<UserResponseRelationshipStatus> Relationships { get; private set; } = new List<UserResponseRelationshipStatus>();
 
-		/// <summary>
-		/// Gathers updated versions of each type of relationship and displays interface UI object if it has been provided.
-		/// </summary>
-		public void Display()
+	    /// <summary>
+	    /// Current friends
+	    /// </summary>
+	    public List<UserResponseRelationshipStatus> Friends => Relationships
+	        .Where(r => r.RelationshipStatus == RelationshipStatus.ExistingRelationship).ToList();
+
+	    /// <summary>
+	    /// Friendship requests sent by this user to other Users.
+	    /// </summary>
+	    public List<UserResponseRelationshipStatus> PendingSentRequests => Relationships
+	        .Where(r => r.RelationshipStatus == RelationshipStatus.PendingSentRequest).ToList();
+
+	    /// <summary>
+	    /// Friendship invitations sent by other users to this user.
+	    /// </summary>
+	    public List<UserResponseRelationshipStatus> PendingReceivedRequests => Relationships
+	        .Where(r => r.RelationshipStatus == RelationshipStatus.PendingReceivedRequest).ToList();
+
+        /// <summary>
+        /// Gathers updated versions of each type of relationship and displays interface UI object if it has been provided.
+        /// </summary>
+        public void Display()
 		{
 			RefreshRelationships(onComplete =>
 			{
